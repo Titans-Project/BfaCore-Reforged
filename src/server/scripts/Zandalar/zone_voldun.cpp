@@ -17,6 +17,45 @@
 
  //Missing scripts
 
+#include "Creature.h"
+#include "GameObject.h"
+#include "MotionMaster.h"
+#include "ObjectAccessor.h"
+#include "Player.h"
+#include "QuestPackets.h"
+#include "ScenePackets.h"
+#include "SceneMgr.h"
+#include "ScriptMgr.h"
+#include "ScriptedCreature.h"
+#include "SpellAuras.h"
+#include "SpellScript.h"
+#include "ScriptedCreature.h"
+#include "ScriptedGossip.h"
+#include "TemporarySummon.h"
+#include "WorldSession.h"
+#include "PhasingHandler.h"
+#include "Conversation.h"
+#include "GameObjectAI.h"
+
+enum MardumQuests
+{
+    QUEST_SEARCHING_THE_RUINS = 47716
+};
+
+struct npc_voldun_julwaba : public ScriptedAI
+{
+    npc_voldun_julwaba(Creature* creature) : ScriptedAI(creature) { }
+
+    void MoveInLineOfSight(Unit* unit) override
+    {
+        if (Player* player = unit->ToPlayer())
+            if (player->GetDistance(me) < 5.0f)
+                if (!player->GetQuestObjectiveData(QUEST_SEARCHING_THE_RUINS, 0))
+                    player->KilledMonsterCredit(me->GetEntry());
+    }
+};
+
 void AddSC_zone_voldun()
 {
+    RegisterCreatureAI(npc_voldun_julwaba);
 }
