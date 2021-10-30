@@ -349,7 +349,7 @@ enum eAuchindounCreatures
     CreatureSargereiMagus = 76263,
     CreatureSargeriRitualist = 77130,
     CreatureSargeriMagus = 77694,
-    CreatureSargeriZealot = 77950,
+    CreatureSargeriZealot = 77132,
     CreatureSargeriWarden = 77935,
     CreatureSargereiDefender = 77042,
     CreatureSargereiAssasinating = 87073,
