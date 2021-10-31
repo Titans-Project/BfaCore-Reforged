@@ -32,7 +32,7 @@ void Trinity::Banner::Show(char const* applicationName, void(*log)(char const* t
     log("| #######| ##    | ######|  ######|  ######| ##     |  #######                         ");
     log("|_______/|__/    \\_______/\\______/ \\______/|__/      \\_______/                     ");
 	log("																						");
-	log("	   World of Warcarft Emulator | Battle for Azeroth 8.3.7                            ");
+	log("	   World of Warcraft Emulator | Battle for Azeroth 8.3.7                            ");
     log("	https://discord.gg/hTtSYh7WbQ | bfacore.reforged@gmail.com \n                        ");
 
     if (logExtraInfo)
