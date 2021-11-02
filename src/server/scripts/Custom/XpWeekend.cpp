@@ -15,8 +15,7 @@
             {
                 boost::gregorian::date date(boost::gregorian::day_clock::local_day());
                 auto day = date.day_of_week();
-                if (day == boost::date_time::Friday ||
-                    day == boost::date_time::Saturday ||
+                if  (day == boost::date_time::Saturday ||
                     day == boost::date_time::Sunday) {
 
                     amount = amount * 2;
@@ -29,11 +28,10 @@
             {
                 boost::gregorian::date date(boost::gregorian::day_clock::local_day());
                 auto day = date.day_of_week();
-                if (day == boost::date_time::Friday ||
-                    day == boost::date_time::Saturday ||
+                if  (day == boost::date_time::Saturday ||
                     day == boost::date_time::Sunday) {
 
-                    ChatHandler(player->GetSession()).PSendSysMessage("Double XP is going on now !");
+                    ChatHandler(player->GetSession()).PSendSysMessage("Double XP has started now! Call your friends and keep leveling faster!");
                 }
             }
         }
