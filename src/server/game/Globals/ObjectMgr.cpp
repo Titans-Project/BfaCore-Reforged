@@ -9146,57 +9146,6 @@ void ObjectMgr::LoadTrainers()
     TC_LOG_INFO("server.loading", ">> Loaded " SZFMTD " Trainers in %u ms", _trainers.size(), GetMSTimeDiffToNow(oldMSTime));
 }
 
-void ObjectMgr::LoadCreatureTrainers()
-{
-    uint32 oldMSTime = getMSTime();
-
-    _creatureDefaultTrainers.clear();
-
-    if (QueryResult result = WorldDatabase.Query("SELECT CreatureId, TrainerId, MenuId, OptionIndex FROM creature_trainer"))
-    {
-        do
-        {
-            Field* fields = result->Fetch();
-            uint32 creatureId = fields[0].GetUInt32();
-            uint32 trainerId = fields[1].GetUInt32();
-            uint32 gossipMenuId = fields[2].GetUInt32();
-            uint32 gossipOptionIndex = fields[3].GetUInt32();
-
-            if (!GetCreatureTemplate(creatureId))
-            {
-                TC_LOG_ERROR("sql.sql", "Table `creature_trainer` references non-existing creature template (CreatureId: %u), ignoring", creatureId);
-                continue;
-            }
-
-            if (!GetTrainer(trainerId))
-            {
-                TC_LOG_ERROR("sql.sql", "Table `creature_trainer` references non-existing trainer (TrainerId: %u) for CreatureId %u MenuId %u OptionIndex %u, ignoring",
-                    trainerId, creatureId, gossipMenuId, gossipOptionIndex);
-                continue;
-            }
-
-            if (gossipMenuId || gossipOptionIndex)
-            {
-                Trinity::IteratorPair<GossipMenuItemsContainer::const_iterator> gossipMenuItems = GetGossipMenuItemsMapBounds(gossipMenuId);
-                auto gossipOptionItr = std::find_if(gossipMenuItems.begin(), gossipMenuItems.end(), [gossipOptionIndex](std::pair<uint32 const, GossipMenuItems> const& entry)
-                {
-                    return entry.second.OptionIndex == gossipOptionIndex;
-                });
-                if (gossipOptionItr == gossipMenuItems.end())
-                {
-                    TC_LOG_ERROR("sql.sql", "Table `creature_trainer` references non-existing gossip menu option (MenuId %u OptionIndex %u) for CreatureId %u and TrainerId %u, ignoring",
-                        gossipMenuId, gossipOptionIndex, creatureId, trainerId);
-                    continue;
-                }
-            }
-
-            _creatureDefaultTrainers[std::make_tuple(creatureId, gossipMenuId, gossipOptionIndex)] = trainerId;
-        } while (result->NextRow());
-    }
-
-    TC_LOG_INFO("server.loading", ">> Loaded " SZFMTD " default trainers in %u ms", _creatureDefaultTrainers.size(), GetMSTimeDiffToNow(oldMSTime));
-}
-
 void ObjectMgr::LoadCreatureSummonerEntry()
 {
     uint32 oldMSTime = getMSTime();

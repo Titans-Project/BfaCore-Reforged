@@ -1362,7 +1362,6 @@ class TC_GAME_API ObjectMgr
 
 
         void LoadTrainers();
-        void LoadCreatureTrainers();
 
         void LoadCreatureSummonerEntry();
 
