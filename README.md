@@ -40,6 +40,7 @@ If you want to contribute to the project feel free to join us on our Discord ser
 ## Requirement
 * CMake : ≥ 3.20
 * Boost : 1.72.0
+* MySQL : 5.7
 * OpenSSL : 1.1.1L
 * Visual Studio 2019
 
