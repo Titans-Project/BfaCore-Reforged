@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021 BfaCore Reforged
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation; either version 2 of the License, or (at your
+ * option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "AreaTrigger.h"
 #include "AreaTriggerAI.h"
 #include "PlayerAI.h"
@@ -277,14 +294,14 @@ public:
     }
 };
 
-class bfa_spell_discipline_of_the_volzih : public SpellScriptLoader
+class bfa_spell_disciple_of_the_volzith : public SpellScriptLoader
 {
 public:
-    bfa_spell_discipline_of_the_volzih() : SpellScriptLoader("bfa_spell_discipline_of_the_volzih") { }
+    bfa_spell_disciple_of_the_volzith() : SpellScriptLoader("bfa_spell_disciple_of_the_volzith") { }
 
-    class bfa_spell_discipline_of_the_volzih_AuraScript : public AuraScript
+    class bfa_spell_disciple_of_the_volzith_AuraScript : public AuraScript
     {
-        PrepareAuraScript(bfa_spell_discipline_of_the_volzih_AuraScript);
+        PrepareAuraScript(bfa_spell_disciple_of_the_volzith_AuraScript);
 
         void OnPeriodic(AuraEffect const* aurEff)
         {
@@ -304,13 +321,13 @@ public:
 
         void Register()
         {
-            OnEffectPeriodic += AuraEffectPeriodicFn(bfa_spell_discipline_of_the_volzih_AuraScript::OnPeriodic, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY);
+            OnEffectPeriodic += AuraEffectPeriodicFn(bfa_spell_disciple_of_the_volzith_AuraScript::OnPeriodic, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY);
         }
     };
 
     AuraScript* GetAuraScript() const
     {
-        return new bfa_spell_discipline_of_the_volzih_AuraScript();
+        return new bfa_spell_disciple_of_the_volzith_AuraScript();
     }
 };
 
@@ -464,5 +481,5 @@ void AddSC_boss_lord_stormsong()
 
     new bfa_spell_ancient_mindbender();
     new bfa_spell_surrender_to_the_void();
-    new bfa_spell_discipline_of_the_volzih();
+    new bfa_spell_disciple_of_the_volzith();
 }
