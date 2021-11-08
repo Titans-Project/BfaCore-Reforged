@@ -133,9 +133,9 @@ private:
 };
 
 // 256038 - Deadeye
-class spell_generic_deadeye : public AuraScript
+class bfa_spell_generic_deadeye : public AuraScript
 {
-    PrepareAuraScript(spell_generic_deadeye);
+    PrepareAuraScript(bfa_spell_generic_deadeye);
 
     void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
     {
@@ -152,14 +152,14 @@ class spell_generic_deadeye : public AuraScript
 
     void Register() override
     {
-        AfterEffectRemove += AuraEffectRemoveFn(spell_generic_deadeye::OnRemove, EFFECT_0, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
+        AfterEffectRemove += AuraEffectRemoveFn(bfa_spell_generic_deadeye::OnRemove, EFFECT_0, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
     }
 };
 
 // 256105 - Explosive Burst
-class spell_explosive_burst : public AuraScript
+class bfa_spell_explosive_burst : public AuraScript
 {
-    PrepareAuraScript(spell_explosive_burst);
+    PrepareAuraScript(bfa_spell_explosive_burst);
 
     void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
     {
@@ -176,13 +176,13 @@ class spell_explosive_burst : public AuraScript
 
     void Register() override
     {
-        AfterEffectRemove += AuraEffectRemoveFn(spell_explosive_burst::OnRemove, EFFECT_0, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
+        AfterEffectRemove += AuraEffectRemoveFn(bfa_spell_explosive_burst::OnRemove, EFFECT_0, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
     }
 };
 
 void AddSC_boss_overseer_korgus()
 {
     RegisterCreatureAI(boss_overseer_korgus);
-    RegisterAuraScript(spell_generic_deadeye);
-    RegisterAuraScript(spell_explosive_burst);
+    RegisterAuraScript(bfa_spell_generic_deadeye);
+    RegisterAuraScript(bfa_spell_explosive_burst);
 }

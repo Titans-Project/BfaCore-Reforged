@@ -123,9 +123,9 @@ struct areatrigger_sand_trap : AreaTriggerAI
 };
 
 //257092
-class spell_sand_trap : public SpellScript
+class bfa_spell_sand_trap : public SpellScript
 {
-    PrepareSpellScript(spell_sand_trap);
+    PrepareSpellScript(bfa_spell_sand_trap);
 
     void HandleDummy(SpellEffIndex /*effIndex*/)
     {
@@ -140,14 +140,14 @@ class spell_sand_trap : public SpellScript
 
     void Register() override
     {
-        OnEffectHitTarget += SpellEffectFn(spell_sand_trap::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
+        OnEffectHitTarget += SpellEffectFn(bfa_spell_sand_trap::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
     }
 };
 
 //257612
-class spell_upheaval_target_selector : public SpellScript
+class bfa_spell_upheaval_target_selector : public SpellScript
 {
-    PrepareSpellScript(spell_upheaval_target_selector);
+    PrepareSpellScript(bfa_spell_upheaval_target_selector);
 
     void HandleDummy(SpellEffIndex /*effIndex*/)
     {
@@ -162,14 +162,14 @@ class spell_upheaval_target_selector : public SpellScript
 
     void Register() override
     {
-        OnEffectHitTarget += SpellEffectFn(spell_upheaval_target_selector::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
+        OnEffectHitTarget += SpellEffectFn(bfa_spell_upheaval_target_selector::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
     }
 };
 
 //257608
-class spell_upheaval : public AuraScript
+class bfa_spell_upheaval : public AuraScript
 {
-    PrepareAuraScript(spell_upheaval);
+    PrepareAuraScript(bfa_spell_upheaval);
 
     void HandleEffectRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
@@ -182,7 +182,7 @@ class spell_upheaval : public AuraScript
 
     void Register() override
     {
-        AfterEffectRemove += AuraEffectRemoveFn(spell_upheaval::HandleEffectRemove, EFFECT_0, SPELL_AURA_TRANSFORM, AURA_EFFECT_HANDLE_REAL);
+        AfterEffectRemove += AuraEffectRemoveFn(bfa_spell_upheaval::HandleEffectRemove, EFFECT_0, SPELL_AURA_TRANSFORM, AURA_EFFECT_HANDLE_REAL);
     }
 };
 
@@ -190,7 +190,7 @@ void AddSC_boss_the_sand_queen()
 {
     RegisterCreatureAI(boss_sand_queen);
     RegisterAreaTriggerAI(areatrigger_sand_trap);
-    RegisterSpellScript(spell_sand_trap);
-    RegisterSpellScript(spell_upheaval_target_selector);
-    RegisterAuraScript(spell_upheaval);
+    RegisterSpellScript(bfa_spell_sand_trap);
+    RegisterSpellScript(bfa_spell_upheaval_target_selector);
+    RegisterAuraScript(bfa_spell_upheaval);
 }

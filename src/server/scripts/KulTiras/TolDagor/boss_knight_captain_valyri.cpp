@@ -244,9 +244,9 @@ class spell_ignition : public SpellScript
 };
 
 //257028 todo fix
-class spell_fuselighter : public AuraScript
+class bfa_spell_fuselighter : public AuraScript
 {
-    PrepareAuraScript(spell_fuselighter);
+    PrepareAuraScript(bfa_spell_fuselighter);
 
     void AfterApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
@@ -260,7 +260,7 @@ class spell_fuselighter : public AuraScript
 
     void Register() override
     {
-        AfterEffectApply += AuraEffectApplyFn(spell_fuselighter::AfterApply, EFFECT_0, SPELL_AURA_PERIODIC_TRIGGER_SPELL, AURA_EFFECT_HANDLE_REAL);
+        AfterEffectApply += AuraEffectApplyFn(bfa_spell_fuselighter::AfterApply, EFFECT_0, SPELL_AURA_PERIODIC_TRIGGER_SPELL, AURA_EFFECT_HANDLE_REAL);
     }
 };
 
@@ -270,5 +270,5 @@ void AddSC_boss_knight_captain_valyri()
     RegisterCreatureAI(npc_tol_dagor_ashavane_quartermaster);
     RegisterCreatureAI(npc_tol_dagor_munitions_barrel);
     RegisterSpellScript(spell_ignition);
-    RegisterAuraScript(spell_fuselighter);
+    RegisterAuraScript(bfa_spell_fuselighter);
 }
