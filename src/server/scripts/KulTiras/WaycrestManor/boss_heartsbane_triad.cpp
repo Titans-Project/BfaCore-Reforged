@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021 BfaCore Reforged
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation; either version 2 of the License, or (at your
+ * option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "ScriptMgr.h"
 #include "waycrest_manor.h"
 #include "SpellAuras.h"
@@ -384,9 +401,9 @@ struct boss_heartsbane_triad : public BossAI
 };
 
 // 260703
-class spell_unstable_runic_mark : public AuraScript
+class bfa_spell_unstable_runic_mark : public AuraScript
 {
-	PrepareAuraScript(spell_unstable_runic_mark);
+	PrepareAuraScript(bfa_spell_unstable_runic_mark);
 
 	void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
 	{
@@ -397,14 +414,14 @@ class spell_unstable_runic_mark : public AuraScript
 
 	void Register() override
 	{
-		OnEffectRemove += AuraEffectRemoveFn(spell_unstable_runic_mark::HandleRemove, EFFECT_0, SPELL_AURA_PERIODIC_DAMAGE, AURA_EFFECT_HANDLE_REAL);
+		OnEffectRemove += AuraEffectRemoveFn(bfa_spell_unstable_runic_mark::HandleRemove, EFFECT_0, SPELL_AURA_PERIODIC_DAMAGE, AURA_EFFECT_HANDLE_REAL);
 	}
 };
 
 // 268086
-class spell_aura_of_dread : public AuraScript
+class bfa_spell_aura_of_dread : public AuraScript
 {
-	PrepareAuraScript(spell_aura_of_dread);
+	PrepareAuraScript(bfa_spell_aura_of_dread);
 
 	void HandlePeriodic(AuraEffect const*)
 	{
@@ -416,13 +433,13 @@ class spell_aura_of_dread : public AuraScript
 
 	void Register() override
 	{
-		OnEffectPeriodic += AuraEffectPeriodicFn(spell_aura_of_dread::HandlePeriodic, EFFECT_0, SPELL_AURA_PERIODIC_DAMAGE);
+		OnEffectPeriodic += AuraEffectPeriodicFn(bfa_spell_aura_of_dread::HandlePeriodic, EFFECT_0, SPELL_AURA_PERIODIC_DAMAGE);
 	}
 };
 
 void AddSC_boss_heartsbane_triad()
 {
 	RegisterCreatureAI(boss_heartsbane_triad);
-	RegisterAuraScript(spell_unstable_runic_mark);
-	RegisterAuraScript(spell_aura_of_dread);
+	RegisterAuraScript(bfa_spell_unstable_runic_mark);
+	RegisterAuraScript(bfa_spell_aura_of_dread);
 }

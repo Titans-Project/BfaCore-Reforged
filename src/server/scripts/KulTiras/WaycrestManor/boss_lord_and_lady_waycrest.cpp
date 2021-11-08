@@ -1,4 +1,21 @@
-#include "ScriptMgr.h"
+/*
+ * Copyright (C) 2021 BfaCore Reforged
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation; either version 2 of the License, or (at your
+ * option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+ 
+ #include "ScriptMgr.h"
 #include "waycrest_manor.h"
 #include "GameObject.h"
 
@@ -256,9 +273,9 @@ private:
 };
 
 //261440
-class spell_virulent_pathogen_aura : public AuraScript
+class bfa_spell_virulent_pathogen_aura : public AuraScript
 {
-	PrepareAuraScript(spell_virulent_pathogen_aura);
+	PrepareAuraScript(bfa_spell_virulent_pathogen_aura);
 
 	void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
 	{
@@ -274,12 +291,12 @@ class spell_virulent_pathogen_aura : public AuraScript
 
 	void Register() override
 	{
-		OnEffectRemove += AuraEffectRemoveFn(spell_virulent_pathogen_aura::HandleRemove, EFFECT_0, SPELL_AURA_PERIODIC_DAMAGE, AURA_EFFECT_HANDLE_REAL);
+		OnEffectRemove += AuraEffectRemoveFn(bfa_spell_virulent_pathogen_aura::HandleRemove, EFFECT_0, SPELL_AURA_PERIODIC_DAMAGE, AURA_EFFECT_HANDLE_REAL);
 	}
 };
 
 void AddSC_boss_lord_and_lady_waycrest()
 {
 	RegisterCreatureAI(boss_lord_and_lady_waycrest);
-	RegisterAuraScript(spell_virulent_pathogen_aura);
+	RegisterAuraScript(bfa_spell_virulent_pathogen_aura);
 }
