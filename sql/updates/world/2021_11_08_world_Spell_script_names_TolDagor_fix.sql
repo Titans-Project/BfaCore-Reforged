@@ -21,4 +21,4 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES ('256105', 'b
 /* boss_the_sand_queen.cpp */
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES ('257092', 'bfa_spell_sand_trap');
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES ('257612', 'bfa_spell_upheaval_target_selector');
-INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES ('257608', 'bfa_spell_upheaval');
+INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES ('257608', 'bfa_spell_upheaval_2');

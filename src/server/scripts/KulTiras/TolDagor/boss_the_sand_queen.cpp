@@ -167,9 +167,9 @@ class bfa_spell_upheaval_target_selector : public SpellScript
 };
 
 //257608
-class bfa_spell_upheaval : public AuraScript
+class bfa_spell_upheaval_2 : public AuraScript
 {
-    PrepareAuraScript(bfa_spell_upheaval);
+    PrepareAuraScript(bfa_spell_upheaval_2);
 
     void HandleEffectRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
@@ -182,7 +182,7 @@ class bfa_spell_upheaval : public AuraScript
 
     void Register() override
     {
-        AfterEffectRemove += AuraEffectRemoveFn(bfa_spell_upheaval::HandleEffectRemove, EFFECT_0, SPELL_AURA_TRANSFORM, AURA_EFFECT_HANDLE_REAL);
+        AfterEffectRemove += AuraEffectRemoveFn(bfa_spell_upheaval_2::HandleEffectRemove, EFFECT_0, SPELL_AURA_TRANSFORM, AURA_EFFECT_HANDLE_REAL);
     }
 };
 
@@ -192,5 +192,5 @@ void AddSC_boss_the_sand_queen()
     RegisterAreaTriggerAI(areatrigger_sand_trap);
     RegisterSpellScript(bfa_spell_sand_trap);
     RegisterSpellScript(bfa_spell_upheaval_target_selector);
-    RegisterAuraScript(bfa_spell_upheaval);
+    RegisterAuraScript(bfa_spell_upheaval_2);
 }
