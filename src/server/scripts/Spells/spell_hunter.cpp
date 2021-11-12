@@ -1073,7 +1073,7 @@ public:
 
             // (1.5 * (rap * 3) * bmMastery * lowNerf * (1 + versability))
             int32 dmg = 4.5f * owner->m_unitData->RangedAttackPower;
-            int32 lowNerf = std::min(int32(owner->getLevel()), 20) * 0.05f;
+            float lowNerf = float(std::min(int32(owner->getLevel()), 20) * 0.05f);
 
             if (Player const* ownerPlayer = owner->ToPlayer())
                 dmg = AddPct(dmg, ownerPlayer->m_activePlayerData->Mastery);
