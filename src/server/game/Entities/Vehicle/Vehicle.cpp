@@ -787,6 +787,15 @@ bool VehicleJoinEvent::Execute(uint64, uint32)
     Target->RemovePendingEventsForSeat(Seat->first);
     Target->RemovePendingEventsForPassenger(Passenger);
 
+    if (!Passenger->IsAlive())
+    {
+        Abort(0);
+        return true;
+    }
+
+    if (Passenger->GetVehicle())
+        Passenger->ExitVehicle();
+    
     Passenger->SetVehicle(Target);
     Seat->second.Passenger.Guid = Passenger->GetGUID();
     Seat->second.Passenger.IsUnselectable = Passenger->HasUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
