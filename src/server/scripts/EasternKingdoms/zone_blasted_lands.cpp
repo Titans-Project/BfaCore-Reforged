@@ -85,7 +85,7 @@ enum eSpells
     SPELL_TIME_TRAVELLING = 176111
 };
 
-// Zone 4
+// Blasted lands : Zone 4
 class zone_blasted_lands : public ZoneScript
 {
 public:
@@ -93,18 +93,19 @@ public:
 
     void OnPlayerEnter(Player* player) override
     {
-        if (player->getLevel() >= 90 && !player->HasAura(SPELL_TIME_TRAVELLING))
-            player->SeamlessTeleportToMap(MAP_WOD_BLASTED_LANDS_PHASE);
+        if (player->getLevel() <= 90)
+            player->SeamlessTeleportToMap(1945);
     }
 
     void OnPlayerExit(Player* player) override
     {
-        if (player->GetMapId() == MAP_WOD_BLASTED_LANDS_PHASE)
-            player->SeamlessTeleportToMap(MAP_EASTERN_KINGDOMS);
+        if (player->GetMapId() == 1945)
+            player->SeamlessTeleportToMap(0);
+            player->RemoveAurasDueToSpell(SPELL_TIME_TRAVELLING);
     }
 };
 
-// PNJ Permettant un passage entre nouveau/anciennes terres foudroyes
+// Zidormi Travel Time
 class npc_zidormi : public CreatureScript
 {
 public:
@@ -115,11 +116,11 @@ public:
         if (player->getLevel() < 90)
             return true;
 
-        if (player->GetMapId() == 1190)
+        if (player->GetMapId() == 0)
         {
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, "I would like to visit the past", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 0);
         }
-        else if (player->GetMapId() == 0)
+        else if (player->GetMapId() == 1945)
         {
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Return to the present", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
         }
@@ -135,12 +136,12 @@ public:
         if (action == GOSSIP_ACTION_INFO_DEF + 0)
         {
             player->CastSpell(player, SPELL_TIME_TRAVELLING, true);
-            player->SeamlessTeleportToMap(MAP_EASTERN_KINGDOMS);
+            player->SeamlessTeleportToMap(1945);
         }
         else if (action == GOSSIP_ACTION_INFO_DEF + 1)
         {
             player->RemoveAurasDueToSpell(SPELL_TIME_TRAVELLING);
-            player->SeamlessTeleportToMap(MAP_WOD_BLASTED_LANDS_PHASE);
+            player->SeamlessTeleportToMap(0);
         }
 
         CloseGossipMenuFor(player);
