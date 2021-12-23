@@ -619,7 +619,7 @@ enum PlayerSlots
 };
 
 #define INVENTORY_SLOT_BAG_0    255
-#define INVENTORY_DEFAULT_SIZE  16
+#define INVENTORY_DEFAULT_SIZE  20
 
 enum EquipmentSlots : uint8                                 // 19 slots
 {
@@ -1435,8 +1435,8 @@ class TC_GAME_API Player : public Unit, public GridObject<Player>
         bool AddItem(uint32 itemId, uint32 count);
         bool AddChallengeKey(uint32 challengeId, uint32 challengeLevel = 2);
         void UpdateChallengeKey(Item* item);
-		bool InitChallengeKey(Item* item);
-		void CreateChallengeKey(Item* item);
+        bool InitChallengeKey(Item* item);
+        void CreateChallengeKey(Item* item);
         void ChallengeKeyCharded(Item* item, uint32 challengeLevel, bool runRand = true);
         ChallengeKeyInfo m_challengeKeyInfo;
 
