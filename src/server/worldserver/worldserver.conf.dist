@@ -2133,10 +2133,10 @@ Rate.Skill.Discovery = 1
 Rate.Drop.Item.Poor             = 1
 Rate.Drop.Item.Normal           = 1
 Rate.Drop.Item.Uncommon         = 1
-Rate.Drop.Item.Rare             = 10
-Rate.Drop.Item.Epic             = 10
-Rate.Drop.Item.Legendary        = 10
-Rate.Drop.Item.Artifact         = 10
+Rate.Drop.Item.Rare             = 1
+Rate.Drop.Item.Epic             = 1
+Rate.Drop.Item.Legendary        = 1
+Rate.Drop.Item.Artifact         = 1
 Rate.Drop.Item.Referenced       = 1
 Rate.Drop.Money                 = 1
 
@@ -2156,9 +2156,9 @@ Rate.Drop.Item.ReferencedAmount = 1
 #                     1 - (Rate.XP.Quest)
 #                     1 - (Rate.XP.Explore)
 
-Rate.XP.Kill    = 3
-Rate.XP.Quest   = 3
-Rate.XP.Explore = 3
+Rate.XP.Kill    = 1
+Rate.XP.Quest   = 1
+Rate.XP.Explore = 1
 
 #
 #    Rate.XP.BattlegroundKill
@@ -2166,7 +2166,7 @@ Rate.XP.Explore = 3
 #                     it works when Battleground.GiveXPForKills = 1
 #        Default:     1
 
-Rate.XP.BattlegroundKill = 3
+Rate.XP.BattlegroundKill = 1
 
 #
 #    Rate.Quest.Money.Reward
