@@ -4331,10 +4331,10 @@ public:
         if (player->getLevel() >= 20 && !player->HasSpell(SPELL_DRUID_RIP))
             player->LearnSpell(SPELL_DRUID_RIP, false, true);
 
-        if (player->getLevel() >= 24 && !player->HasSpell(SPELL_DRUID_RAKE))
+        if (player->getLevel() >= 12 && !player->HasSpell(SPELL_DRUID_RAKE))
             player->LearnSpell(SPELL_DRUID_RAKE, false, true);
 
-        if (player->getLevel() >= 32 && !player->HasSpell(SPELL_DRUID_FEROCIOUS_BITE))
+        if (player->getLevel() >= 7 && !player->HasSpell(SPELL_DRUID_FEROCIOUS_BITE))
             player->LearnSpell(SPELL_DRUID_FEROCIOUS_BITE, false, true);
     }
 };
