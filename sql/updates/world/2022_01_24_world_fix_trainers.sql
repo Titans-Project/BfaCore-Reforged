@@ -34,7 +34,13 @@ UPDATE `trainer_spell` SET `ReqSkillLine`=2540 WHERE  `TrainerId`=117 AND `ReqSk
 
 
 
--- Fix `trainer_spell` 'trainerId's for classic professions
+-- Fix `trainer_spell` tables for classic/cataclysm trainers
+-- Alchemy
+UPDATE `world_bfa`.`trainer_spell` SET `ReqSkillLine`=2485 WHERE  `TrainerId`=122 AND `SpellId`=264244;
+
+-- Skinning
+UPDATE `world_bfa`.`trainer_spell` SET `ReqSkillLine`=2564 WHERE  `TrainerId`=989 AND `SpellId`=265862;
+
 -- Tailoring
 DELETE FROM `trainer_spell` WHERE `trainerId`=163 AND `ReqSkillLine` = 197;
 DELETE FROM `trainer_spell` WHERE `TrainerId`=163 AND `SpellId`=264623;
@@ -73,7 +79,7 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 -- Engineering ReqSkillRank
 DELETE FROM `trainer_spell` WHERE `TrainerId`= 993 AND `SpellId` IN (3922,3923,3925,3929,3977,7430,3929,3931,3932,3973,8334,3934,3936,3937,3938,3978,3939,3949,6458,3955,3956);
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`, `VerifiedBuild`) VALUES    
-	(993,3922,115,2506,30,0,0,0,0,0),
+    (993,3922,115,2506,30,0,0,0,0,0),
     (993,3923,115,2506,30,0,0,0,0,0),
     (993,3925,200,2506,50,0,0,0,0,0),
     (993,3929,275,2506,65,0,0,0,0,0),
@@ -94,7 +100,8 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
     (993,7430,200,2506,50,0,0,0,0,0),
     (993,8334,1000,2506,100,0,0,0,0,0);
 
--- Enchanting spells
+-- Enchanting
+UPDATE `trainer_spell` SET `ReqSkillLine`=2494 WHERE  `TrainerId`=125 AND `ReqSkillLine`=333;
 DELETE FROM `trainer_spell` WHERE  `TrainerId`=125 AND `SpellId`=7415;
 DELETE FROM `trainer_spell` WHERE `TrainerId`=125 AND`SpellId` IN (13631,13635,14809,13637,13640,13642,13644,13646,13648,14810,13659,13661,13663,13693,13695,13700,13746,13815,13822,13836,13858,13887,13890,63746,13905,13917,13935,13937,13939,13941,13943,13948,17180,17181,20008,20012,217637,20016,20028,20013,20023);
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`, `VerifiedBuild`) VALUES
@@ -144,7 +151,7 @@ DELETE FROM `trainer_spell` WHERE `TrainerId`=125 AND`SpellId` IN (264466);
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`, `VerifiedBuild`) VALUES
 	(125,264466,10,2494,1,0,0,0,0,35662);
 
--- Inscription spells
+-- Inscription
 DELETE FROM `trainer_spell` WHERE `trainerId`=383 AND `SpellId` IN (50614,50606,50599,58486,57708,58476,59484,59486,59487,57709,59387,60336,50616,50607,50600,58487,57710,58478,59489,59490,59491,50617,57711,50608,50601,58488,58480,57712,59493,59494,59502,50618,57713,50609);
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`, `VerifiedBuild`) VALUES
     (383,50614,7750,2514,155,0,0,0,0,35662),
@@ -181,7 +188,7 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
     (383,50618,560000,2514,290,0,0,0,0,35662),
     (383,57713,560000,2514,290,0,0,0,0,35662),
     (383,50609,610000,2514,295,0,0,0,0,35662);
--- Cataclysm inscription spells
+-- Cataclysm inscription
 DELETE FROM `trainer_spell` WHERE `trainerId`=383 AND`SpellId` IN (69385,85785,86004,86005,86375,86401,86402,86403,86615,86609,86616,86640,86641,86642,86643,86648,86649,86652,86653,86654,89244,89368,89369,89370,89371,89372,89373,264501);
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`, `VerifiedBuild`) VALUES
     (383,86004,10,2511,1,0,0,0,0,35662),
@@ -215,7 +222,6 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 
 -- Jewelcrafting
 UPDATE `trainer_spell` SET `ReqSkillLine`=2524 WHERE `TrainerId`=119 AND `ReqSkillLine`=755;
--- Classic
 DELETE FROM `trainer_spell` WHERE `TrainerId`=119 AND`SpellId` IN (25620,32808,25621,34955,26872,34959,63743,26874,26876,26880,32809,36525,26883,26885,26902,36526,26903,26907,26908,34960,26911,34961);
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`, `VerifiedBuild`) VALUES
     (119,25620,13000,2524,170,0,0,0,0,35662),
@@ -240,7 +246,7 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
     (119,34960,460000,2524,280,0,0,0,0,35662),
     (119,26911,560000,2524,290,0,0,0,0,35662),
     (119,34961,560000,2524,290,0,0,0,0,35662);
--- Cataclysm
+-- Cataclysm jewelcrafting
 DELETE FROM `trainer_spell` WHERE `TrainerId`=119 AND`SpellId` IN (264541);
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`, `VerifiedBuild`) VALUES
     (119,264541,10,2524,1,0,0,0,5,35662);
@@ -357,7 +363,6 @@ DELETE FROM `npc_trainer` WHERE `ID`=1317;
 UPDATE `creature_template` SET `gossip_menu_id`=0 WHERE `entry`=1317;
 UPDATE `creature_template` SET `npcflag`=80 WHERE `entry`=1317;
 UPDATE `creature_template` SET `trainer_type`=2 WHERE `entry`=1317;
-UPDATE `trainer_spell` SET `ReqSkillLine`=2494 WHERE  `TrainerId`=125 AND `ReqSkillLine`=333;
 DELETE FROM `creature_trainer` WHERE `CreatureId`=1317;
 INSERT INTO `creature_trainer` (`CreatureId`, `TrainerId`, `MenuId`, `OptionIndex`) VALUES (1317, 125, 0, 0);
 
