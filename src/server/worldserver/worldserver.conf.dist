@@ -4258,7 +4258,7 @@ DynamicXP.Enable = 0
 #       Default:     0 - (Disabled)
 #                    1 - (Enabled)
 
-DungeonFinder.DebugJoin = 1
+DungeonFinder.DebugJoin = 0
 
 #
 ###################################################################################################
