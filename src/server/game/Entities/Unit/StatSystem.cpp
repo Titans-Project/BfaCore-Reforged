@@ -312,8 +312,16 @@ void Player::UpdateMaxHealth()
     value += GetModifierValue(unitMod, TOTAL_VALUE) + GetHealthBonusFromStamina();
     value *= GetModifierValue(unitMod, TOTAL_PCT);
 
-	SetMaxHealth((uint32)value);
+    if (sConfigMgr->GetBoolDefault("SinglePlayer.HPMOD.Enabled", false))
+    {
+        float hp_mod = sConfigMgr->GetFloatDefault("SinglePlayer.HPMOD", 1.0f);
 
+        SetMaxHealth((uint32)value * hp_mod);
+    }
+    else
+    {
+        SetMaxHealth((uint32)value);
+    }
 
     if (Pet* pet = GetPet())
         pet->UpdateMaxHealth();

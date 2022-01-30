@@ -4263,3 +4263,59 @@ DungeonFinder.DebugJoin = 1
 #
 ###################################################################################################
 
+###################################################################################################
+# SinglePlayer options
+#
+#   SinglePlayer.HPMOD.Enabled
+#       Description: Enable\Disable hp mod of player.
+#                    Mod for singleplayer or low populated servers.
+#       Default:     0 - (Disabled)
+#                    1 - (Enabled)
+
+SinglePlayer.HPMOD.Enabled = 0
+
+#   SinglePlayer.HPMOD
+#       Description: Set amount of hp for player.
+#                    (base_hp * X.X).
+#       Default:     1.0  - 100% hp
+#                    0.5  -  50% hp
+#                    0.01 -   1% hp
+#                    5.0  - 500% hp
+
+SinglePlayer.HPMOD = 5.0
+
+# 
+###################################################################################################
+
+###################################################################################################
+# Solocraft options
+# 
+# 	Solocraft.Enable
+#       Description: Solocraft is a mod that boosts stats of players on dungeons and raids.
+#                    Mod for singleplayer or low populated servers.
+#       Default:     0 (disabled)
+#                    1 (enabled)
+
+Solocraft.Enable = 0
+
+#   Solocraft.Announce
+#       Description: If solocraft is enabled, announce that it is on when entering a dungeon?
+#       Default:     0 (disabled)
+#                    1 (enabled)
+
+Solocraft.Announce = 0
+
+#   Difficulty Multipliers
+#      	Description: Difficulty multipliers for dungeons.
+#       Defaults: 5, 10, 15, 10, 25, 30, 40
+
+Solocraft.Dungeon = 5
+Solocraft.Heroic = 10
+Solocraft.Mythic = 15
+Solocraft.Raid10 = 10
+Solocraft.Raid25 = 25
+Solocraft.Raid30 = 30
+Solocraft.Raid40 = 40
+
+#
+###################################################################################################

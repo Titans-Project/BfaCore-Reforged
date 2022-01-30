@@ -19,6 +19,7 @@
 void AddSC_custom_npcs();
 void AddSC_custom_player_script();
 void AddSC_XpWeekend();
+void AddSC_solocraft();
 
 // ADM declaration begin
 // ADM declaration end
@@ -30,6 +31,7 @@ void AddCustomScripts()
     AddSC_custom_npcs();
     AddSC_custom_player_script();
 	AddSC_XpWeekend();
+    AddSC_solocraft();
 
     // ADM call begin
     // ADM call end
