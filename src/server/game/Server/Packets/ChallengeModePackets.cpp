@@ -160,10 +160,10 @@ WorldPacket const* WorldPackets::ChallengeMode::UpdateDeathCount::Write()
 
 WorldPacket const* WorldPackets::ChallengeMode::Complete::Write()
 {
-    _worldPacket << (uint32)Duration;
-    _worldPacket << (uint32)MapId;
-    _worldPacket << (uint32)ChallengeId;
-    _worldPacket << (uint32)ChallengeLevel;
+    _worldPacket << (int32)Duration;
+    _worldPacket << (int32)MapId;
+    _worldPacket << (int32)ChallengeId;
+    _worldPacket << (int32)ChallengeLevel;
 
     _worldPacket << (uint8)unk;
 
