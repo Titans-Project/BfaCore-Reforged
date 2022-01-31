@@ -188,10 +188,10 @@ namespace WorldPackets
 
             WorldPacket const* Write() override;
 
-            uint32 Duration;
-            uint32 MapId;
-            uint32 ChallengeId;
-            uint32 ChallengeLevel;
+            int32 Duration;
+            int32 MapId;
+            int32 ChallengeId;
+            int32 ChallengeLevel;
             uint8 unk = 128;
         };
 		
