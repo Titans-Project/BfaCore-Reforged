@@ -15,11 +15,11 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Scripts for spells with SPELLFAMILY_MAGE and SPELLFAMILY_GENERIC spells used by mage players.
- * Ordered alphabetically using scriptname.
- * Scriptnames of files in this file should be prefixed with "spell_mage_".
- */
+ /*
+  * Scripts for spells with SPELLFAMILY_MAGE and SPELLFAMILY_GENERIC spells used by mage players.
+  * Ordered alphabetically using scriptname.
+  * Scriptnames of files in this file should be prefixed with "spell_mage_".
+  */
 
 #include "AreaTrigger.h"
 #include "AreaTriggerAI.h"
@@ -41,136 +41,136 @@
 
 enum MageSpells
 {
-    SPELL_MAGE_COLD_SNAP                         = 235219,
-    SPELL_MAGE_FROST_NOVA                        = 122,
-    SPELL_MAGE_CONE_OF_COLD                      = 120,
-    SPELL_MAGE_CONE_OF_COLD_SLOW                 = 212792,
-    SPELL_MAGE_ICE_BARRIER                       = 11426,
-    SPELL_MAGE_ICE_BLOCK                         = 45438,
-    SPELL_MAGE_GLACIAL_INSULATION                = 235297,
-    SPELL_MAGE_BONE_CHILLING                     = 205027,
-    SPELL_MAGE_BONE_CHILLING_BUFF                = 205766,
-    SPELL_MAGE_CHILLED                           = 205708,
-    SPELL_MAGE_ICE_LANCE                         = 30455,
-    SPELL_MAGE_ICE_LANCE_TRIGGER                 = 228598,
-    SPELL_MAGE_THERMAL_VOID                      = 155149,
-    SPELL_MAGE_ICY_VEINS                         = 12472,
-    SPELL_MAGE_GLACIAL_SPIKE                     = 199786,
-    SPELL_MAGE_ICICLE_PERIODIC_TRIGGER           = 148023,
-    SPELL_MAGE_FLURRY_DEBUFF_PROC                = 228354,
-    SPELL_MAGE_FLURRY                            = 44614,
-    SPELL_MAGE_FLURRY_DAMAGE                     = 228672,
-    SPELL_MAGE_FLURRY_CHILL_PROC                 = 228358,
-    SPELL_MAGE_FLURRY_VISUAL                     = 228596,
-    SPELL_MAGE_SHIELD_OF_ALODI                   = 195354,
-    SPELL_MAGE_BRAIN_FREEZE                      = 190447,
-    SPELL_MAGE_BRAIN_FREEZE_AURA                 = 190446,
-    SPELL_MAGE_BRAIN_FREEZE_IMPROVED             = 231584,
-    SPELL_MAGE_EBONBOLT_DAMAGE                   = 257538,
-    SPELL_MAGE_JOUSTER                           = 214626,
-    SPELL_MAGE_CHAIN_REACTION                    = 195419,
-    SPELL_MAGE_CHILLED_TO_THE_CORE               = 195448,
-    SPELL_MAGE_GLARITY_OF_THOUGHT                = 195351,
-    SPELL_MAGE_ICE_NOVA                          = 157997,
-    SPELL_MAGE_FROZEN_TOUCH                      = 205030,
-    SPELL_MAGE_FROZEN_ORB                        = 84714,
-    SPELL_MAGE_FROZEN_ORB_DAMAGE                 = 84721,
-    SPELL_MAGE_BLIZZARD_RANK_2                   = 236662,
-    SPELL_MAGE_UNSTABLE_MAGIC                    = 157976,
-    SPELL_MAGE_UNSTABLE_MAGIC_DAMAGE_FIRE        = 157977,
-    SPELL_MAGE_UNSTABLE_MAGIC_DAMAGE_FROST       = 157978,
-    SPELL_MAGE_UNSTABLE_MAGIC_DAMAGE_ARCANE      = 157979,
-    SPELL_MAGE_FINGERS_OF_FROST                  = 112965,
-    SPELL_MAGE_FINGERS_OF_FROST_AURA             = 44544,
-    SPELL_MAGE_FINGERS_OF_FROST_VISUAL_UI        = 126084,
-    SPELL_MAGE_FROST_BOMB_AURA                   = 112948,
-    SPELL_MAGE_FROST_BOMB_TRIGGERED              = 113092,
-    SPELL_MAGE_FROSTBOLT                         = 116,
-    SPELL_MAGE_FROSTBOLT_TRIGGER                 = 228597,
-    SPELL_MAGE_RAY_OF_FROST                      = 205021,
-    SPELL_MAGE_RAY_OF_FROST_BUFF                 = 208166,
-    SPELL_MAGE_RAY_OF_FROST_DAMAGE_INCREASE      = 208141,
-    SPELL_BLAZING_BARRIER_TRIGGER                = 235314,
-    SPELL_MAGE_SCORCH                            = 2948,
-    SPELL_MAGE_FIREBALL                          = 133,
-    SPELL_MAGE_FIRE_BLAST                        = 108853,
-    SPELL_MAGE_FLAMESTRIKE                       = 2120,
-    SPELL_MAGE_PYROBLAST                         = 11366,
-    SPELL_MAGE_PHOENIX_FLAMES                    = 194466,
-    SPELL_MAGE_DRAGON_BREATH                     = 31661,
-    SPELL_MAGE_PYROMANIAC                        = 205020,
-    SPELL_MAGE_ALEXSTRASZAS_FURY                 = 235870,
-    SPELL_MAGE_LIVING_BOMB_DAMAGE                = 44461,
-    SPELL_MAGE_LIVING_BOMB_DOT                   = 217694,
-    SPELL_MAGE_METEOR_DAMAGE                     = 153564,
-    SPELL_MAGE_METEOR_TIMER                      = 177345,
-    SPELL_MAGE_METEOR_VISUAL                     = 174556,
-    SPELL_MAGE_METEOR_BURN                       = 155158,
-    SPELL_MAGE_COMET_STORM                       = 153595,
-    SPELL_MAGE_COMET_STORM_DAMAGE                = 153596,
-    SPELL_MAGE_COMET_STORM_VISUAL                = 242210,
-    SPELL_MAGE_POLYMORPH_CRITTERMORPH            = 120091,
-    SPELL_MAGE_HEATING_UP                        = 48107,
-    SPELL_MAGE_HOT_STREAK                        = 48108,
-    SPELL_MAGE_ENHANCED_PYROTECHNICS_AURA        = 157644,
-    SPELL_MAGE_INCANTERS_FLOW_BUFF               = 116267,
-    SPELL_MAGE_RUNE_OF_POWER_BUFF                = 116014,
-    SPELL_MAGE_OVERPOWERED                       = 155147,
-    SPELL_MAGE_ARCANE_POWER                      = 12042,
-    SPELL_MAGE_CHRONO_SHIFT                      = 235711,
-    SPELL_MAGE_CHRONO_SHIFT_SLOW                 = 236299,
-    SPELL_MAGE_CHRONO_SHIFT_BUFF                 = 236298,
-    SPELL_MAGE_ARCANE_BLAST                      = 30451,
-    SPELL_MAGE_ARCANE_BARRAGE                    = 44425,
-    SPELL_MAGE_ARCANE_BARRAGE_TRIGGERED          = 241241,
-    SPELL_MAGE_PRESENCE_OF_MIND                  = 205025,
-    SPELL_MAGE_ARCANE_MISSILES_VISUAL_TWO        = 79808,
-    SPELL_MAGE_ARCANE_MISSILES_VISUAL_ONE        = 170571,
-    SPELL_MAGE_ARCANE_MISSILES_VISUAL_THREE      = 170572,
-    SPELL_MAGE_ARCANE_MISSILES_TRIGGER           = 7268,
-    SPELL_MAGE_ARCANE_MISSILES                   = 5143,
-    SPELL_MAGE_ARCANE_MISSILES_POWER             = 208030,
-    SPELL_MAGE_ARCANE_MISSILES_CHARGES           = 79683,
-    SPELL_MAGE_ARCANE_ORB_DAMAGE                 = 153640,
-    SPELL_MAGE_ARCANE_AMPLIFICATION              = 236628,
-    SPELL_MAGE_RING_OF_FROST_FREEZE              = 82691,
-    SPELL_MAGE_RING_OF_FROST_IMMUNE              = 91264,
-    SPELL_MAGE_RING_OF_FROST                     = 113724,
-    SPELL_MAGE_FIRE_MAGE_PASSIVE                 = 137019,
-    SPELL_MAGE_FIRE_ON                           = 205029,
-    SPELL_MAGE_FIRESTARTER                       = 205026,
-    SPELL_MAGE_CAUTERIZE                         = 87023,
-    SPELL_MAGE_MIRROR_IMAGE_LEFT                 = 58834,
-    SPELL_MAGE_MIRROR_IMAGE_RIGHT                = 58833,
-    SPELL_MAGE_MIRROR_IMAGE_FRONT                = 58831,
-    SPELL_MAGE_COMBUSTION                        = 190319,
-    SPELL_MAGE_WATER_JET                         = 135029,
-    SPELL_MAGE_ICE_FLOES                         = 108839,
-    SPELL_MAGE_CONJURE_REFRESHMENT_GROUP         = 167145,
-    SPELL_MAGE_CONJURE_REFRESHMENT_SOLO          = 116136,
-    SPELL_MAGE_HYPOTHERMIA                       = 41425,
-    SPELL_INFERNO                                = 253220,
-    SPELL_MAGE_BLAZING_BARRIER                   = 235313,
-    SPELL_MAGE_BLAZING_SOUL                      = 235365,
-    SPELL_MAGE_CONTROLLED_BURN                   = 205033,
-    SPELL_MAGE_FLAME_PATCH                       = 205037,
-    SPELL_MAGE_FLAME_PATCH_TRIGGER               = 205470,
-    SPELL_MAGE_FLAME_PATCH_AOE_DMG               = 205472,
-    SPELL_MAGE_CINDERSTORM                       = 198929,
-    SPELL_MAGE_CINDERSTORM_DMG                   = 198928,
-    SPELL_MAGE_IGNITE_DOT                        = 12654,
-    SPELL_MAGE_REVERBERATE                       = 281482,
-    SPELL_MAGE_RESONANCE                         = 205028,
-    SPELL_MAGE_CLEARCASTING_BUFF                 = 277726, // Channel quicker
-    SPELL_MAGE_CLEARCASTING_EFFECT               = 263725, // Removing the costs
-    SPELL_MAGE_CLEARCASTING_PVP_STACK_EFFECT     = 276743, // Costs and is stackable
-    SPELL_MAGE_ARCANE_EMPOWERMENT                = 276741,
-    SPELL_MAGE_MANA_SHIELD_TALENT                = 235463,
-    SPELL_MAGE_MANA_SHIELD_BURN                  = 235470,
-    SPELL_MAGE_RULE_OF_THREES                    = 264354,
-    SPELL_MAGE_RULE_OF_THREES_BUFF               = 264774,
-    SPELL_MAGE_SPLITTING_ICE                     = 56377,
-    SPELL_ARCANE_CHARGE                          = 36032,
+    SPELL_MAGE_COLD_SNAP = 235219,
+    SPELL_MAGE_FROST_NOVA = 122,
+    SPELL_MAGE_CONE_OF_COLD = 120,
+    SPELL_MAGE_CONE_OF_COLD_SLOW = 212792,
+    SPELL_MAGE_ICE_BARRIER = 11426,
+    SPELL_MAGE_ICE_BLOCK = 45438,
+    SPELL_MAGE_GLACIAL_INSULATION = 235297,
+    SPELL_MAGE_BONE_CHILLING = 205027,
+    SPELL_MAGE_BONE_CHILLING_BUFF = 205766,
+    SPELL_MAGE_CHILLED = 205708,
+    SPELL_MAGE_ICE_LANCE = 30455,
+    SPELL_MAGE_ICE_LANCE_TRIGGER = 228598,
+    SPELL_MAGE_THERMAL_VOID = 155149,
+    SPELL_MAGE_ICY_VEINS = 12472,
+    SPELL_MAGE_GLACIAL_SPIKE = 199786,
+    SPELL_MAGE_ICICLE_PERIODIC_TRIGGER = 148023,
+    SPELL_MAGE_FLURRY_DEBUFF_PROC = 228354,
+    SPELL_MAGE_FLURRY = 44614,
+    SPELL_MAGE_FLURRY_DAMAGE = 228672,
+    SPELL_MAGE_FLURRY_CHILL_PROC = 228358,
+    SPELL_MAGE_FLURRY_VISUAL = 228596,
+    SPELL_MAGE_SHIELD_OF_ALODI = 195354,
+    SPELL_MAGE_BRAIN_FREEZE = 190447,
+    SPELL_MAGE_BRAIN_FREEZE_AURA = 190446,
+    SPELL_MAGE_BRAIN_FREEZE_IMPROVED = 231584,
+    SPELL_MAGE_EBONBOLT_DAMAGE = 257538,
+    SPELL_MAGE_JOUSTER = 214626,
+    SPELL_MAGE_CHAIN_REACTION = 195419,
+    SPELL_MAGE_CHILLED_TO_THE_CORE = 195448,
+    SPELL_MAGE_GLARITY_OF_THOUGHT = 195351,
+    SPELL_MAGE_ICE_NOVA = 157997,
+    SPELL_MAGE_FROZEN_TOUCH = 205030,
+    SPELL_MAGE_FROZEN_ORB = 84714,
+    SPELL_MAGE_FROZEN_ORB_DAMAGE = 84721,
+    SPELL_MAGE_BLIZZARD_RANK_2 = 236662,
+    SPELL_MAGE_UNSTABLE_MAGIC = 157976,
+    SPELL_MAGE_UNSTABLE_MAGIC_DAMAGE_FIRE = 157977,
+    SPELL_MAGE_UNSTABLE_MAGIC_DAMAGE_FROST = 157978,
+    SPELL_MAGE_UNSTABLE_MAGIC_DAMAGE_ARCANE = 157979,
+    SPELL_MAGE_FINGERS_OF_FROST = 112965,
+    SPELL_MAGE_FINGERS_OF_FROST_AURA = 44544,
+    SPELL_MAGE_FINGERS_OF_FROST_VISUAL_UI = 126084,
+    SPELL_MAGE_FROST_BOMB_AURA = 112948,
+    SPELL_MAGE_FROST_BOMB_TRIGGERED = 113092,
+    SPELL_MAGE_FROSTBOLT = 116,
+    SPELL_MAGE_FROSTBOLT_TRIGGER = 228597,
+    SPELL_MAGE_RAY_OF_FROST = 205021,
+    SPELL_MAGE_RAY_OF_FROST_BUFF = 208166,
+    SPELL_MAGE_RAY_OF_FROST_DAMAGE_INCREASE = 208141,
+    SPELL_BLAZING_BARRIER_TRIGGER = 235314,
+    SPELL_MAGE_SCORCH = 2948,
+    SPELL_MAGE_FIREBALL = 133,
+    SPELL_MAGE_FIRE_BLAST = 108853,
+    SPELL_MAGE_FLAMESTRIKE = 2120,
+    SPELL_MAGE_PYROBLAST = 11366,
+    SPELL_MAGE_PHOENIX_FLAMES = 194466,
+    SPELL_MAGE_DRAGON_BREATH = 31661,
+    SPELL_MAGE_PYROMANIAC = 205020,
+    SPELL_MAGE_ALEXSTRASZAS_FURY = 235870,
+    SPELL_MAGE_LIVING_BOMB_DAMAGE = 44461,
+    SPELL_MAGE_LIVING_BOMB_DOT = 217694,
+    SPELL_MAGE_METEOR_DAMAGE = 153564,
+    SPELL_MAGE_METEOR_TIMER = 177345,
+    SPELL_MAGE_METEOR_VISUAL = 174556,
+    SPELL_MAGE_METEOR_BURN = 155158,
+    SPELL_MAGE_COMET_STORM = 153595,
+    SPELL_MAGE_COMET_STORM_DAMAGE = 153596,
+    SPELL_MAGE_COMET_STORM_VISUAL = 242210,
+    SPELL_MAGE_POLYMORPH_CRITTERMORPH = 120091,
+    SPELL_MAGE_HEATING_UP = 48107,
+    SPELL_MAGE_HOT_STREAK = 48108,
+    SPELL_MAGE_ENHANCED_PYROTECHNICS_AURA = 157644,
+    SPELL_MAGE_INCANTERS_FLOW_BUFF = 116267,
+    SPELL_MAGE_RUNE_OF_POWER_BUFF = 116014,
+    SPELL_MAGE_OVERPOWERED = 155147,
+    SPELL_MAGE_ARCANE_POWER = 12042,
+    SPELL_MAGE_CHRONO_SHIFT = 235711,
+    SPELL_MAGE_CHRONO_SHIFT_SLOW = 236299,
+    SPELL_MAGE_CHRONO_SHIFT_BUFF = 236298,
+    SPELL_MAGE_ARCANE_BLAST = 30451,
+    SPELL_MAGE_ARCANE_BARRAGE = 44425,
+    SPELL_MAGE_ARCANE_BARRAGE_TRIGGERED = 241241,
+    SPELL_MAGE_PRESENCE_OF_MIND = 205025,
+    SPELL_MAGE_ARCANE_MISSILES_VISUAL_TWO = 79808,
+    SPELL_MAGE_ARCANE_MISSILES_VISUAL_ONE = 170571,
+    SPELL_MAGE_ARCANE_MISSILES_VISUAL_THREE = 170572,
+    SPELL_MAGE_ARCANE_MISSILES_TRIGGER = 7268,
+    SPELL_MAGE_ARCANE_MISSILES = 5143,
+    SPELL_MAGE_ARCANE_MISSILES_POWER = 208030,
+    SPELL_MAGE_ARCANE_MISSILES_CHARGES = 79683,
+    SPELL_MAGE_ARCANE_ORB_DAMAGE = 153640,
+    SPELL_MAGE_ARCANE_AMPLIFICATION = 236628,
+    SPELL_MAGE_RING_OF_FROST_FREEZE = 82691,
+    SPELL_MAGE_RING_OF_FROST_IMMUNE = 91264,
+    SPELL_MAGE_RING_OF_FROST = 113724,
+    SPELL_MAGE_FIRE_MAGE_PASSIVE = 137019,
+    SPELL_MAGE_FIRE_ON = 205029,
+    SPELL_MAGE_FIRESTARTER = 205026,
+    SPELL_MAGE_CAUTERIZE = 87023,
+    SPELL_MAGE_MIRROR_IMAGE_LEFT = 58834,
+    SPELL_MAGE_MIRROR_IMAGE_RIGHT = 58833,
+    SPELL_MAGE_MIRROR_IMAGE_FRONT = 58831,
+    SPELL_MAGE_COMBUSTION = 190319,
+    SPELL_MAGE_WATER_JET = 135029,
+    SPELL_MAGE_ICE_FLOES = 108839,
+    SPELL_MAGE_CONJURE_REFRESHMENT_GROUP = 167145,
+    SPELL_MAGE_CONJURE_REFRESHMENT_SOLO = 116136,
+    SPELL_MAGE_HYPOTHERMIA = 41425,
+    SPELL_INFERNO = 253220,
+    SPELL_MAGE_BLAZING_BARRIER = 235313,
+    SPELL_MAGE_BLAZING_SOUL = 235365,
+    SPELL_MAGE_CONTROLLED_BURN = 205033,
+    SPELL_MAGE_FLAME_PATCH = 205037,
+    SPELL_MAGE_FLAME_PATCH_TRIGGER = 205470,
+    SPELL_MAGE_FLAME_PATCH_AOE_DMG = 205472,
+    SPELL_MAGE_CINDERSTORM = 198929,
+    SPELL_MAGE_CINDERSTORM_DMG = 198928,
+    SPELL_MAGE_IGNITE_DOT = 12654,
+    SPELL_MAGE_REVERBERATE = 281482,
+    SPELL_MAGE_RESONANCE = 205028,
+    SPELL_MAGE_CLEARCASTING_BUFF = 277726, // Channel quicker
+    SPELL_MAGE_CLEARCASTING_EFFECT = 263725, // Removing the costs
+    SPELL_MAGE_CLEARCASTING_PVP_STACK_EFFECT = 276743, // Costs and is stackable
+    SPELL_MAGE_ARCANE_EMPOWERMENT = 276741,
+    SPELL_MAGE_MANA_SHIELD_TALENT = 235463,
+    SPELL_MAGE_MANA_SHIELD_BURN = 235470,
+    SPELL_MAGE_RULE_OF_THREES = 264354,
+    SPELL_MAGE_RULE_OF_THREES_BUFF = 264774,
+    SPELL_MAGE_SPLITTING_ICE = 56377,
+    SPELL_ARCANE_CHARGE = 36032,
     SPELL_MAGE_SQUIRREL_FORM = 32813,
     SPELL_MAGE_GIRAFFE_FORM = 32816,
     SPELL_MAGE_SERPENT_FORM = 32817,
@@ -217,12 +217,12 @@ enum MageSpells
 
 enum TemporalDisplacementSpells
 {
-    SPELL_MAGE_TEMPORAL_DISPLACEMENT             = 80354,
-    SPELL_HUNTER_INSANITY                        = 95809,
-    SPELL_PRIEST_SHADOW_WORD_DEATH               = 32409,
-    SPELL_SHAMAN_EXHAUSTION                      = 57723,
-    SPELL_SHAMAN_SATED                           = 57724,
-    SPELL_PET_NETHERWINDS_FATIGUED               = 160455
+    SPELL_MAGE_TEMPORAL_DISPLACEMENT = 80354,
+    SPELL_HUNTER_INSANITY = 95809,
+    SPELL_PRIEST_SHADOW_WORD_DEATH = 32409,
+    SPELL_SHAMAN_EXHAUSTION = 57723,
+    SPELL_SHAMAN_SATED = 57724,
+    SPELL_PET_NETHERWINDS_FATIGUED = 160455
 };
 
 class playerscript_mage_arcane : public PlayerScript
@@ -485,7 +485,7 @@ public:
     }
 
 private:
-    Unit * _caster;
+    Unit* _caster;
     Unit* _mainTarget;
 };
 
@@ -501,7 +501,7 @@ class spell_mage_arcane_barrage : public SpellScript
         return ValidateSpellInfo
         ({
             SPELL_MAGE_RESONANCE
-        });
+            });
     }
 
     void FilterTargets(std::list<WorldObject*>& targets)
@@ -520,7 +520,7 @@ class spell_mage_arcane_barrage : public SpellScript
         SetHitDamage(damage);
 
         if (GetCaster()->HasAura(SPELL_MAGE_CHRONO_SHIFT))
-           GetHitUnit()->AddAura(SPELL_MAGE_CHRONO_SHIFT_SLOW);
+            GetHitUnit()->AddAura(SPELL_MAGE_CHRONO_SHIFT_SLOW);
     }
 
     void RemoveCharges()
@@ -644,47 +644,47 @@ const uint32 icicles[5][3]
 
 enum SilvermoonPolymorph
 {
-    NPC_AUROSALIA   = 18744,
+    NPC_AUROSALIA = 18744,
 };
 // TODO: move out of here and rename - not a mage spell
 class spell_mage_polymorph_cast_visual : public SpellScriptLoader
 {
-    public:
-        spell_mage_polymorph_cast_visual() : SpellScriptLoader("spell_mage_polymorph_visual") { }
+public:
+    spell_mage_polymorph_cast_visual() : SpellScriptLoader("spell_mage_polymorph_visual") { }
 
-        class spell_mage_polymorph_cast_visual_SpellScript : public SpellScript
+    class spell_mage_polymorph_cast_visual_SpellScript : public SpellScript
+    {
+        PrepareSpellScript(spell_mage_polymorph_cast_visual_SpellScript);
+
+        static const uint32 PolymorhForms[6];
+
+        bool Validate(SpellInfo const* /*SpellInfo*/) override
         {
-            PrepareSpellScript(spell_mage_polymorph_cast_visual_SpellScript);
-
-            static const uint32 PolymorhForms[6];
-
-            bool Validate(SpellInfo const* /*SpellInfo*/) override
-            {
-                // check if spell ids exist in dbc
-                for (uint32 i = 0; i < 6; i++)
-                    if (!sSpellMgr->GetSpellInfo(PolymorhForms[i]))
-                        return false;
-                return true;
-            }
-
-            void HandleDummy(SpellEffIndex /*effIndex*/)
-            {
-                if (Unit* target = GetCaster()->FindNearestCreature(NPC_AUROSALIA, 30.0f))
-                    if (target->GetTypeId() == TYPEID_UNIT)
-                        target->CastSpell(target, PolymorhForms[urand(0, 5)], true);
-            }
-
-            void Register() override
-            {
-                // add dummy effect spell handler to Polymorph visual
-                OnEffectHitTarget += SpellEffectFn(spell_mage_polymorph_cast_visual_SpellScript::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
-            }
-        };
-
-        SpellScript* GetSpellScript() const override
-        {
-            return new spell_mage_polymorph_cast_visual_SpellScript();
+            // check if spell ids exist in dbc
+            for (uint32 i = 0; i < 6; i++)
+                if (!sSpellMgr->GetSpellInfo(PolymorhForms[i]))
+                    return false;
+            return true;
         }
+
+        void HandleDummy(SpellEffIndex /*effIndex*/)
+        {
+            if (Unit* target = GetCaster()->FindNearestCreature(NPC_AUROSALIA, 30.0f))
+                if (target->GetTypeId() == TYPEID_UNIT)
+                    target->CastSpell(target, PolymorhForms[urand(0, 5)], true);
+        }
+
+        void Register() override
+        {
+            // add dummy effect spell handler to Polymorph visual
+            OnEffectHitTarget += SpellEffectFn(spell_mage_polymorph_cast_visual_SpellScript::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
+        }
+    };
+
+    SpellScript* GetSpellScript() const override
+    {
+        return new spell_mage_polymorph_cast_visual_SpellScript();
+    }
 };
 
 const uint32 spell_mage_polymorph_cast_visual::spell_mage_polymorph_cast_visual_SpellScript::PolymorhForms[6] =
@@ -716,15 +716,15 @@ class spell_mage_comet_storm : public SpellScript
         for (uint8 i = 0; i < 7; ++i)
         {
             caster->GetScheduler().Schedule(Milliseconds(300 * i), [targetPos](TaskContext context)
-            {
-                GetContextUnit()->CastSpell(targetPos, SPELL_MAGE_COMET_STORM_VISUAL, true);
-
-                // Damage come 1sec after visual
-                context.Schedule(Milliseconds(1000), [targetPos](TaskContext context)
                 {
-                    GetContextUnit()->CastSpell(targetPos, SPELL_MAGE_COMET_STORM_DAMAGE, true);
+                    GetContextUnit()->CastSpell(targetPos, SPELL_MAGE_COMET_STORM_VISUAL, true);
+
+                    // Damage come 1sec after visual
+                    context.Schedule(Milliseconds(1000), [targetPos](TaskContext context)
+                        {
+                            GetContextUnit()->CastSpell(targetPos, SPELL_MAGE_COMET_STORM_DAMAGE, true);
+                        });
                 });
-            });
         }
     }
 
@@ -799,7 +799,7 @@ class spell_mage_living_bomb : public SpellScript
         ({
             SPELL_MAGE_LIVING_BOMB_DAMAGE,
             SPELL_MAGE_LIVING_BOMB_DOT
-        });
+            });
     }
 
     void HandleOnHit(SpellEffIndex /*effIndex*/)
@@ -1107,7 +1107,7 @@ class spell_mage_firestarter : public SpellScript
             SPELL_MAGE_FIREBALL,
             SPELL_MAGE_PYROBLAST,
             SPELL_MAGE_FIRESTARTER
-        });
+            });
     }
 
     void HandleCritChance(Unit* victim, float& chance)
@@ -1397,18 +1397,18 @@ class spell_mage_flurry : public SpellScript
         for (uint8 i = 1; i < GetEffectInfo(EFFECT_0)->BasePoints; ++i)
         {
             caster->GetScheduler().Schedule(Milliseconds(i * 250), [targetGuid, isImproved](TaskContext context)
-            {
-                if (Unit* caster = GetContextUnit())
                 {
-                    if (Unit* target = ObjectAccessor::GetUnit(*caster, targetGuid))
+                    if (Unit* caster = GetContextUnit())
                     {
-                        caster->CastSpell(target, SPELL_MAGE_FLURRY_VISUAL, false);
+                        if (Unit* target = ObjectAccessor::GetUnit(*caster, targetGuid))
+                        {
+                            caster->CastSpell(target, SPELL_MAGE_FLURRY_VISUAL, false);
 
-                        if (isImproved)
-                            caster->CastSpell(target, SPELL_MAGE_FLURRY_CHILL_PROC, false);
+                            if (isImproved)
+                                caster->CastSpell(target, SPELL_MAGE_FLURRY_CHILL_PROC, false);
+                        }
                     }
-                }
-            });
+                });
         }
     }
 
@@ -1783,93 +1783,93 @@ public:
 // Time Warp - 80353
 class spell_mage_time_warp : public SpellScriptLoader
 {
-    public:
-        spell_mage_time_warp() : SpellScriptLoader("spell_mage_time_warp") { }
+public:
+    spell_mage_time_warp() : SpellScriptLoader("spell_mage_time_warp") { }
 
-        class spell_mage_time_warp_SpellScript : public SpellScript
+    class spell_mage_time_warp_SpellScript : public SpellScript
+    {
+        PrepareSpellScript(spell_mage_time_warp_SpellScript);
+
+        std::vector<uint32> spellIds
         {
-            PrepareSpellScript(spell_mage_time_warp_SpellScript);
-
-            std::vector<uint32> spellIds
-            {
-                SPELL_MAGE_TEMPORAL_DISPLACEMENT,
-                SPELL_HUNTER_INSANITY,
-                SPELL_SHAMAN_EXHAUSTION,
-                SPELL_SHAMAN_SATED,
-                SPELL_PET_NETHERWINDS_FATIGUED
-            };
-
-            bool Validate(SpellInfo const* /*spellInfo*/) override
-            {
-                for (uint32 spell : spellIds)
-                {
-                    if (!sSpellMgr->GetSpellInfo(spell))
-                        return false;
-                }
-                return true;
-            }
-
-            SpellCastResult CheckCast()
-            {
-                if (GetCaster()->GetTypeId() != TYPEID_PLAYER)
-                    return SPELL_FAILED_DONT_REPORT;
-                Player* player = GetCaster()->ToPlayer();
-                Group* grp = player->GetGroup();
-                if (!grp)
-                {
-                    return HasSated(player) ? SPELL_FAILED_CANT_DO_THAT_RIGHT_NOW : SPELL_CAST_OK;
-                }
-                for (GroupReference* itr = grp->GetFirstMember(); itr != nullptr; itr = itr->next())
-                {
-                    Player* member = itr->GetSource();
-
-                    if (!member || !member->GetSession())
-                        continue;
-
-                    if (!HasSated(member))
-                    {
-                        return SPELL_CAST_OK; // we have at least one valid target
-                    }
-                }
-                return SPELL_FAILED_CANT_DO_THAT_RIGHT_NOW;
-            }
-
-            bool HasSated(Unit* target)
-            {
-                for (uint32 spell : spellIds)
-                {
-                    if (target->HasAura(spell))
-                        return true;
-                }
-                return false;
-            }
-
-            void RemoveInvalidTargets(std::list<WorldObject*>& targets)
-            {
-                for (uint32 spell : spellIds)
-                {
-                    targets.remove_if(Trinity::UnitAuraCheck(true, spell));
-                }
-            }
-
-            void ApplyDebuff()
-            {
-                if (Unit* target = GetHitUnit())
-                    target->CastSpell(target, SPELL_MAGE_TEMPORAL_DISPLACEMENT, true);
-            }
-
-            void Register() override
-            {
-                OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_mage_time_warp_SpellScript::RemoveInvalidTargets, EFFECT_ALL, TARGET_UNIT_CASTER_AREA_RAID);
-                AfterHit += SpellHitFn(spell_mage_time_warp_SpellScript::ApplyDebuff);
-                OnCheckCast += SpellCheckCastFn(spell_mage_time_warp_SpellScript::CheckCast);
-            }
+            SPELL_MAGE_TEMPORAL_DISPLACEMENT,
+            SPELL_HUNTER_INSANITY,
+            SPELL_SHAMAN_EXHAUSTION,
+            SPELL_SHAMAN_SATED,
+            SPELL_PET_NETHERWINDS_FATIGUED
         };
 
-        SpellScript* GetSpellScript() const override
+        bool Validate(SpellInfo const* /*spellInfo*/) override
         {
-            return new spell_mage_time_warp_SpellScript();
+            for (uint32 spell : spellIds)
+            {
+                if (!sSpellMgr->GetSpellInfo(spell))
+                    return false;
+            }
+            return true;
         }
+
+        SpellCastResult CheckCast()
+        {
+            if (GetCaster()->GetTypeId() != TYPEID_PLAYER)
+                return SPELL_FAILED_DONT_REPORT;
+            Player* player = GetCaster()->ToPlayer();
+            Group* grp = player->GetGroup();
+            if (!grp)
+            {
+                return HasSated(player) ? SPELL_FAILED_CANT_DO_THAT_RIGHT_NOW : SPELL_CAST_OK;
+            }
+            for (GroupReference* itr = grp->GetFirstMember(); itr != nullptr; itr = itr->next())
+            {
+                Player* member = itr->GetSource();
+
+                if (!member || !member->GetSession())
+                    continue;
+
+                if (!HasSated(member))
+                {
+                    return SPELL_CAST_OK; // we have at least one valid target
+                }
+            }
+            return SPELL_FAILED_CANT_DO_THAT_RIGHT_NOW;
+        }
+
+        bool HasSated(Unit* target)
+        {
+            for (uint32 spell : spellIds)
+            {
+                if (target->HasAura(spell))
+                    return true;
+            }
+            return false;
+        }
+
+        void RemoveInvalidTargets(std::list<WorldObject*>& targets)
+        {
+            for (uint32 spell : spellIds)
+            {
+                targets.remove_if(Trinity::UnitAuraCheck(true, spell));
+            }
+        }
+
+        void ApplyDebuff()
+        {
+            if (Unit* target = GetHitUnit())
+                target->CastSpell(target, SPELL_MAGE_TEMPORAL_DISPLACEMENT, true);
+        }
+
+        void Register() override
+        {
+            OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_mage_time_warp_SpellScript::RemoveInvalidTargets, EFFECT_ALL, TARGET_UNIT_CASTER_AREA_RAID);
+            AfterHit += SpellHitFn(spell_mage_time_warp_SpellScript::ApplyDebuff);
+            OnCheckCast += SpellCheckCastFn(spell_mage_time_warp_SpellScript::CheckCast);
+        }
+    };
+
+    SpellScript* GetSpellScript() const override
+    {
+        return new spell_mage_time_warp_SpellScript();
+    }
 };
 
 // Fire mage (passive) - 137019
@@ -2181,16 +2181,16 @@ public:
             // prevent reapply at every 100ms or if it was just removed and immune for 2.5secs, also check inner/outer circle distance
             const SpellInfo* spell = GetSpellInfo();
             targets.remove_if([spell, radiusMin, radiusMax, center](WorldObject* obj) -> bool
-            {
-                if (Unit* unit = obj->ToUnit())
                 {
-                    if (unit->HasAura(spell->Id) || unit->HasAura(SPELL_MAGE_RING_OF_FROST_IMMUNE))
-                        return true;
-                    if (unit->GetPosition().GetExactDist(center->GetPosition()) >= radiusMin && unit->GetPosition().GetExactDist(center->GetPosition()) <= radiusMax)
-                        return false;
-                }
-                return true;
-            });
+                    if (Unit* unit = obj->ToUnit())
+                    {
+                        if (unit->HasAura(spell->Id) || unit->HasAura(SPELL_MAGE_RING_OF_FROST_IMMUNE))
+                            return true;
+                        if (unit->GetPosition().GetExactDist(center->GetPosition()) >= radiusMin && unit->GetPosition().GetExactDist(center->GetPosition()) <= radiusMax)
+                            return false;
+                    }
+                    return true;
+                });
         }
 
         void Register() override
@@ -2246,8 +2246,14 @@ public:
         {
             if (Player* player = GetCaster()->ToPlayer())
             {
-                if (player->GetGroup())
+                if (player->GetGroup()) {
                     player->CastSpell(player, SPELL_MAGE_CONJURE_REFRESHMENT_GROUP, true);
+                    Player* gamer = GetCaster()->ToPlayer();
+                    uint32 spawntm = 180;
+                    // 167145 = https://fr.wowhead.com/spell=167145/invocation-dune-table-de-rafra%C3%AEchissements
+                    uint32 objectId = atoul("167145");
+                    GameObject* tempGob = gamer->SummonGameObject(objectId, *gamer, QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
+                }
                 else
                     player->CastSpell(player, SPELL_MAGE_CONJURE_REFRESHMENT_SOLO, true);
             }
@@ -2537,12 +2543,12 @@ public:
 
     enum eSpells
     {
-        SPELL_MAGE_FROSTBOLT        = 59638,
-        SPELL_MAGE_FIREBALL         = 133,
-        SPELL_MAGE_ARCANE_BLAST     = 30451,
-        SPELL_MAGE_GLYPH            = 63093,
-        SPELL_INITIALIZE_IMAGES     = 102284,
-        SPELL_CLONE_CASTER          = 60352,
+        SPELL_MAGE_FROSTBOLT = 59638,
+        SPELL_MAGE_FIREBALL = 133,
+        SPELL_MAGE_ARCANE_BLAST = 30451,
+        SPELL_MAGE_GLYPH = 63093,
+        SPELL_INITIALIZE_IMAGES = 102284,
+        SPELL_CLONE_CASTER = 60352,
         SPELL_INHERIT_MASTER_THREAT = 58838
     };
 
@@ -2595,14 +2601,14 @@ public:
             eSpells spellId = eSpells::SPELL_MAGE_FROSTBOLT;
             switch (ownerPlayer->GetSpecializationId())
             {
-                case TALENT_SPEC_MAGE_ARCANE:
-                    spellId = eSpells::SPELL_MAGE_ARCANE_BLAST;
-                    break;
-                case TALENT_SPEC_MAGE_FIRE:
-                    spellId = eSpells::SPELL_MAGE_FIREBALL;
-                    break;
-                default:
-                    break;
+            case TALENT_SPEC_MAGE_ARCANE:
+                spellId = eSpells::SPELL_MAGE_ARCANE_BLAST;
+                break;
+            case TALENT_SPEC_MAGE_FIRE:
+                spellId = eSpells::SPELL_MAGE_FIREBALL;
+                break;
+            default:
+                break;
             }
 
             events.ScheduleEvent(spellId, 0); ///< Schedule cast
@@ -2856,7 +2862,7 @@ class spell_mage_firestarter_pvp : public AuraScript
     {
         Unit* caster = GetCaster();
         if (!caster)
-        return;
+            return;
 
         caster->GetSpellHistory()->ModifyCooldown(SPELL_MAGE_COMBUSTION, -aurEff->GetAmount() - 5000);
     }
