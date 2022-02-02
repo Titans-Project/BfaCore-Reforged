@@ -7,7 +7,7 @@
 UPDATE `creature_template` SET `ScriptName`='npc_dark_ranger_thyala_36312' WHERE (`entry`='36312');
 
 
----- Only Alliance Races can see quest
+-- Only Alliance Races can see quest
 -- quest The Speaker's Imperative
 UPDATE `quest_template` SET `AllowableRaces`=2971684173 WHERE id=51403;
 -- quest Tides of War
@@ -28,7 +28,7 @@ UPDATE `quest_template` SET `AllowableRaces`=2971684173 WHERE id=47186;
 UPDATE `quest_template` SET `AllowableRaces`=2971684173 WHERE id=47189;
 
 
----- Only Horde Races can see quest
+-- Only Horde Races can see quest
 -- quest The Speaker's Imperative
 UPDATE `quest_template` SET `AllowableRaces`=1308636082 WHERE id=53031;
 -- quest Battle for Azeroth: Mission Statement
