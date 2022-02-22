@@ -1,3 +1,9 @@
+/*
+**************************
+*    BfaCore Reforged    *
+**************************
+*/
+
 -- Umbranse the Spiritspeaker
 SET @ENTRY := 50325;
 UPDATE `creature_template` SET `AIName`='SmartAI' WHERE `entry`=@ENTRY;
