@@ -22,6 +22,7 @@
  */
 
 #include "Grid.h"
+#include "GridDefines.h"
 #include "GridReference.h"
 #include "Timer.h"
 #include "Util.h"
