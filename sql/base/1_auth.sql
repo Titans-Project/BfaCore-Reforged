@@ -470,20 +470,6 @@ CREATE TABLE IF NOT EXISTS `rbac_account_permissions` (
   CONSTRAINT `fk__rbac_account_roles__rbac_permissions` FOREIGN KEY (`permissionId`) REFERENCES `rbac_permissions`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Account-Permission relation';
 
--- Listage des données de la table auth_bfa.rbac_account_permissions : ~0 rows (environ)
-/*!40000 ALTER TABLE `rbac_account_permissions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `rbac_account_permissions` ENABLE KEYS */;
-
--- Listage de la structure de la table auth_bfa. rbac_default_permissions
-CREATE TABLE IF NOT EXISTS `rbac_default_permissions` (
-  `secId` int(10) unsigned NOT NULL COMMENT 'Security Level id',
-  `permissionId` int(10) unsigned NOT NULL COMMENT 'permission id',
-  `realmId` int(11) NOT NULL DEFAULT '-1' COMMENT 'Realm Id, -1 means all',
-  PRIMARY KEY (`secId`,`permissionId`,`realmId`),
-  KEY `fk__rbac_default_permissions__rbac_permissions` (`permissionId`),
-  CONSTRAINT `fk__rbac_default_permissions__rbac_permissions` FOREIGN KEY (`permissionId`) REFERENCES `rbac_permissions` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Default permission to assign to different account security levels';
-
 -- Listage des données de la table auth_bfa.rbac_default_permissions : ~6 rows (environ)
 /*!40000 ALTER TABLE `rbac_default_permissions` DISABLE KEYS */;
 INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES
@@ -1886,6 +1872,20 @@ INSERT INTO `rbac_permissions` (`id`, `name`) VALUES
 	(2008, 'Commands: ticket addon'),
 	(2009, 'Command: reload spell_script_names');
 /*!40000 ALTER TABLE `rbac_permissions` ENABLE KEYS */;
+
+-- Listage des données de la table auth_bfa.rbac_account_permissions : ~0 rows (environ)
+/*!40000 ALTER TABLE `rbac_account_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `rbac_account_permissions` ENABLE KEYS */;
+
+-- Listage de la structure de la table auth_bfa. rbac_default_permissions
+CREATE TABLE IF NOT EXISTS `rbac_default_permissions` (
+  `secId` int(10) unsigned NOT NULL COMMENT 'Security Level id',
+  `permissionId` int(10) unsigned NOT NULL COMMENT 'permission id',
+  `realmId` int(11) NOT NULL DEFAULT '-1' COMMENT 'Realm Id, -1 means all',
+  PRIMARY KEY (`secId`,`permissionId`,`realmId`),
+  KEY `fk__rbac_default_permissions__rbac_permissions` (`permissionId`),
+  CONSTRAINT `fk__rbac_default_permissions__rbac_permissions` FOREIGN KEY (`permissionId`) REFERENCES `rbac_permissions` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Default permission to assign to different account security levels';
 
 -- Listage de la structure de la table auth_bfa. realmcharacters
 CREATE TABLE IF NOT EXISTS `realmcharacters` (
