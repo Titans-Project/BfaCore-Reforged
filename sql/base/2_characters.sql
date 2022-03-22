@@ -4,10 +4,6 @@
 *********************************************************************
 */
 
-/*!40101 SET NAMES utf8 */;
-
-CREATE DATABASE IF NOT EXISTS `characters_bfa` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
-USE `characters_bfa`;
 
 CREATE TABLE `account_battlepet` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
