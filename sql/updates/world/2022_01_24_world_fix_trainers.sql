@@ -51,7 +51,7 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 (424, 265826, 10, 2556, 1, 0, 0, 0, 5, 0);
 
 -- Alchemy ReqSkillRank
-UPDATE `world_bfa`.`trainer_spell` SET `ReqSkillLine`=2485 WHERE  `TrainerId`=122 AND `SpellId`=264244;
+UPDATE `trainer_spell` SET `ReqSkillLine`=2485 WHERE  `TrainerId`=122 AND `SpellId`=264244;
 DELETE FROM `trainer_spell` WHERE `TrainerId`=122 AND`SpellId` IN (3170,2331,2332,2334,2337,7836,7934,3171,7179,7841,3447,3173,3176,7837,63732,7845,3177,7181,3452,3448,3449,3450,11449,11450,12609,11448,11451,11457,22808,15833,11461,11465,11467,11460,11478,17551,17552,17553,17555,17556,17557,17573,17572);
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`, `VerifiedBuild`) VALUES
     (122,3170,50,2485,15,0,0,0,0,35662),
