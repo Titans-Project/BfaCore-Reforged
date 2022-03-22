@@ -36,7 +36,7 @@ UPDATE `trainer_spell` SET `ReqSkillLine`=2540 WHERE  `TrainerId`=117 AND `ReqSk
 
 -- Fix `trainer_spell` tables for classic/cataclysm trainers
 -- Skinning
-UPDATE `world_bfa`.`trainer_spell` SET `ReqSkillLine`=2564 WHERE  `TrainerId`=989 AND `SpellId`=265862;
+UPDATE `trainer_spell` SET `ReqSkillLine`=2564 WHERE  `TrainerId`=989 AND `SpellId`=265862;
 
 -- Tailoring
 DELETE FROM `trainer_spell` WHERE `trainerId`=163 AND `ReqSkillLine` = 197;
