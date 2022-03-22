@@ -458,16 +458,6 @@ CREATE TABLE IF NOT EXISTS `logs_ip_actions` (
 /*!40000 ALTER TABLE `logs_ip_actions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `logs_ip_actions` ENABLE KEYS */;
 
--- Listage des données de la table auth_bfa.rbac_default_permissions : ~6 rows (environ)
-/*!40000 ALTER TABLE `rbac_default_permissions` DISABLE KEYS */;
-INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES
-	(0, 28, -1),
-	(0, 30, -1),
-	(3, 192, -1),
-	(2, 193, -1),
-	(1, 194, -1),
-	(0, 195, -1);
-/*!40000 ALTER TABLE `rbac_default_permissions` ENABLE KEYS */;
 
 -- Listage des données de la table auth_bfa.rbac_linked_permissions : ~673 rows (environ)
 /*!40000 ALTER TABLE `rbac_linked_permissions` DISABLE KEYS */;
@@ -1886,6 +1876,17 @@ CREATE TABLE IF NOT EXISTS `rbac_default_permissions` (
   KEY `fk__rbac_default_permissions__rbac_permissions` (`permissionId`),
   CONSTRAINT `fk__rbac_default_permissions__rbac_permissions` FOREIGN KEY (`permissionId`) REFERENCES `rbac_permissions` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Default permission to assign to different account security levels';
+
+-- Listage des données de la table auth_bfa.rbac_default_permissions : ~6 rows (environ)
+/*!40000 ALTER TABLE `rbac_default_permissions` DISABLE KEYS */;
+INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES
+	(0, 28, -1),
+	(0, 30, -1),
+	(3, 192, -1),
+	(2, 193, -1),
+	(1, 194, -1),
+	(0, 195, -1);
+/*!40000 ALTER TABLE `rbac_default_permissions` ENABLE KEYS */;
 
 -- Listage de la structure de la table auth_bfa. realmcharacters
 CREATE TABLE IF NOT EXISTS `realmcharacters` (
