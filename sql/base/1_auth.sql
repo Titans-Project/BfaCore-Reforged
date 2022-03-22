@@ -458,18 +458,6 @@ CREATE TABLE IF NOT EXISTS `logs_ip_actions` (
 /*!40000 ALTER TABLE `logs_ip_actions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `logs_ip_actions` ENABLE KEYS */;
 
--- Listage de la structure de la table auth_bfa. rbac_account_permissions
-CREATE TABLE IF NOT EXISTS `rbac_account_permissions` (
-  `accountId` int(10) unsigned NOT NULL COMMENT 'Account id',
-  `permissionId` int(10) unsigned NOT NULL COMMENT 'Permission id',
-  `granted` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Granted = 1, Denied = 0',
-  `realmId` int(11) NOT NULL DEFAULT '-1' COMMENT 'Realm Id, -1 means all',
-  PRIMARY KEY (`accountId`,`permissionId`,`realmId`),
-  KEY `fk__rbac_account_roles__rbac_permissions` (`permissionId`),
-  CONSTRAINT `fk__rbac_account_permissions__account` FOREIGN KEY (`accountId`) REFERENCES `account`(`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk__rbac_account_roles__rbac_permissions` FOREIGN KEY (`permissionId`) REFERENCES `rbac_permissions`(`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Account-Permission relation';
-
 -- Listage des données de la table auth_bfa.rbac_default_permissions : ~6 rows (environ)
 /*!40000 ALTER TABLE `rbac_default_permissions` DISABLE KEYS */;
 INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES
@@ -480,17 +468,6 @@ INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALU
 	(1, 194, -1),
 	(0, 195, -1);
 /*!40000 ALTER TABLE `rbac_default_permissions` ENABLE KEYS */;
-
--- Listage de la structure de la table auth_bfa. rbac_linked_permissions
-CREATE TABLE IF NOT EXISTS `rbac_linked_permissions` (
-  `id` int(10) unsigned NOT NULL COMMENT 'Permission id',
-  `linkedId` int(10) unsigned NOT NULL COMMENT 'Linked Permission id',
-  PRIMARY KEY (`id`,`linkedId`),
-  KEY `fk__rbac_linked_permissions__rbac_permissions1` (`id`),
-  KEY `fk__rbac_linked_permissions__rbac_permissions2` (`linkedId`),
-  CONSTRAINT `fk__rbac_linked_permissions__rbac_permissions1` FOREIGN KEY (`id`) REFERENCES `rbac_permissions` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk__rbac_linked_permissions__rbac_permissions2` FOREIGN KEY (`linkedId`) REFERENCES `rbac_permissions` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Permission - Linked Permission relation';
 
 -- Listage des données de la table auth_bfa.rbac_linked_permissions : ~673 rows (environ)
 /*!40000 ALTER TABLE `rbac_linked_permissions` DISABLE KEYS */;
@@ -1872,6 +1849,29 @@ INSERT INTO `rbac_permissions` (`id`, `name`) VALUES
 	(2008, 'Commands: ticket addon'),
 	(2009, 'Command: reload spell_script_names');
 /*!40000 ALTER TABLE `rbac_permissions` ENABLE KEYS */;
+
+-- Listage de la structure de la table auth_bfa. rbac_account_permissions
+CREATE TABLE IF NOT EXISTS `rbac_account_permissions` (
+  `accountId` int(10) unsigned NOT NULL COMMENT 'Account id',
+  `permissionId` int(10) unsigned NOT NULL COMMENT 'Permission id',
+  `granted` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Granted = 1, Denied = 0',
+  `realmId` int(11) NOT NULL DEFAULT '-1' COMMENT 'Realm Id, -1 means all',
+  PRIMARY KEY (`accountId`,`permissionId`,`realmId`),
+  KEY `fk__rbac_account_roles__rbac_permissions` (`permissionId`),
+  CONSTRAINT `fk__rbac_account_permissions__account` FOREIGN KEY (`accountId`) REFERENCES `account`(`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk__rbac_account_roles__rbac_permissions` FOREIGN KEY (`permissionId`) REFERENCES `rbac_permissions`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Account-Permission relation';
+
+-- Listage de la structure de la table auth_bfa. rbac_linked_permissions
+CREATE TABLE IF NOT EXISTS `rbac_linked_permissions` (
+  `id` int(10) unsigned NOT NULL COMMENT 'Permission id',
+  `linkedId` int(10) unsigned NOT NULL COMMENT 'Linked Permission id',
+  PRIMARY KEY (`id`,`linkedId`),
+  KEY `fk__rbac_linked_permissions__rbac_permissions1` (`id`),
+  KEY `fk__rbac_linked_permissions__rbac_permissions2` (`linkedId`),
+  CONSTRAINT `fk__rbac_linked_permissions__rbac_permissions1` FOREIGN KEY (`id`) REFERENCES `rbac_permissions` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk__rbac_linked_permissions__rbac_permissions2` FOREIGN KEY (`linkedId`) REFERENCES `rbac_permissions` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Permission - Linked Permission relation';
 
 -- Listage des données de la table auth_bfa.rbac_account_permissions : ~0 rows (environ)
 /*!40000 ALTER TABLE `rbac_account_permissions` DISABLE KEYS */;
