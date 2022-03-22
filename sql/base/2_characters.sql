@@ -966,20 +966,6 @@ CREATE TABLE `character_garrison_buildings` (
 
 /*Data for the table `character_garrison_buildings` */
 
-/*Table structure for table `character_garrison_follower_abilities` */
-
-DROP TABLE IF EXISTS `character_garrison_follower_abilities`;
-
-CREATE TABLE `character_garrison_follower_abilities` (
-  `dbId` bigint(20) unsigned NOT NULL,
-  `abilityId` int(10) unsigned NOT NULL,
-  `slot` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`dbId`,`abilityId`,`slot`),
-  CONSTRAINT `fk_foll_dbid` FOREIGN KEY (`dbId`) REFERENCES `character_garrison_followers` (`dbId`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `character_garrison_follower_abilities` */
-
 /*Table structure for table `character_garrison_followers` */
 
 DROP TABLE IF EXISTS `character_garrison_followers`;
@@ -1003,6 +989,20 @@ CREATE TABLE `character_garrison_followers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `character_garrison_followers` */
+
+/*Table structure for table `character_garrison_follower_abilities` */
+
+DROP TABLE IF EXISTS `character_garrison_follower_abilities`;
+
+CREATE TABLE `character_garrison_follower_abilities` (
+  `dbId` bigint(20) unsigned NOT NULL,
+  `abilityId` int(10) unsigned NOT NULL,
+  `slot` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`dbId`,`abilityId`,`slot`),
+  CONSTRAINT `fk_foll_dbid` FOREIGN KEY (`dbId`) REFERENCES `character_garrison_followers` (`dbId`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `character_garrison_follower_abilities` */
 
 /*Table structure for table `character_garrison_mission_rewards` */
 
