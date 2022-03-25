@@ -28,6 +28,7 @@
 #include "WorldSession.h"
 #include "Chat.h"
 #include "SharedDefines.h"
+#include "GameEventMgr.h"
 
 
 class playerscript_recruiter : public PlayerScript
@@ -410,6 +411,76 @@ public:
     }
 };
 
+class PlayerScript_Weekly_Spells : public PlayerScript
+{
+public:
+	PlayerScript_Weekly_Spells() : PlayerScript("PlayerScript_Weekly_Spells") {}
+
+    void OnLogin(Player* player, bool /*firstLogin*/) override
+    {
+        if (!player)
+            return;
+
+        if (!sGameEventMgr->IsActiveEvent(130))
+        {
+            player->RemoveActiveQuest(sObjectMgr->GetQuestTemplate(44175), false);
+            player->RemoveAura(225788);
+        }
+        else
+            player->CastSpell(player, 225788, false);
+
+        if (!sGameEventMgr->IsActiveEvent(131))
+        {
+            player->RemoveActiveQuest(sObjectMgr->GetQuestTemplate(44173), false);
+            player->RemoveAura(186403);
+        }
+        else
+            player->CastSpell(player, 186403, false);
+
+        if (!sGameEventMgr->IsActiveEvent(132))
+        {
+            player->RemoveActiveQuest(sObjectMgr->GetQuestTemplate(44174), false);
+            player->RemoveAura(186406);
+        }
+        else
+            player->CastSpell(player, 186406, false);
+
+        if (!sGameEventMgr->IsActiveEvent(133))
+        {
+            player->RemoveActiveQuest(sObjectMgr->GetQuestTemplate(44172), false);
+            player->RemoveAura(186401);
+        }
+        else
+            player->CastSpell(player, 186401, false);
+
+        if (!sGameEventMgr->IsActiveEvent(134))
+        {
+            player->RemoveActiveQuest(sObjectMgr->GetQuestTemplate(44171), false);
+            player->RemoveAura(225787);
+        }
+        else
+            player->CastSpell(player, 225787, false);
+
+    }
+
+    void OnMapChanged(Player* player) override
+    {
+        if (!player)
+            return;
+
+        if (!sGameEventMgr->IsActiveEvent(130))
+            player->RemoveAura(225788);
+        if (!sGameEventMgr->IsActiveEvent(131))
+            player->RemoveAura(186403);
+        if (!sGameEventMgr->IsActiveEvent(132))
+            player->RemoveAura(186406);
+        if (!sGameEventMgr->IsActiveEvent(133))
+            player->RemoveAura(186401);
+        if (!sGameEventMgr->IsActiveEvent(134))
+            player->RemoveAura(225787);
+
+    }
+};
 
 void AddSC_custom_player_script()
 {
@@ -420,5 +491,7 @@ void AddSC_custom_player_script()
     RegisterPlayerScript(On120Arrival);             // TEMP FIX! remove it when bfa starting is properly fixed.
     RegisterPlayerScript(WorgenRunningWild);
     RegisterPlayerScript(PlayerSavingOnLogoutFix);
+	new PlayerScript_Weekly_Spells();
+
 }
 
