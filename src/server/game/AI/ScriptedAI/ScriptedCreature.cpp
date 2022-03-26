@@ -124,6 +124,7 @@ void SummonList::DoActionImpl(int32 action, StorageType const& summons)
 
 ScriptedAI::ScriptedAI(Creature* creature) : CreatureAI(creature),
     IsFleeing(false),
+	_checkHomeTimer(5000),
     summons(creature),
     damageEvents(creature),
     instance(creature->GetInstanceScript()),
@@ -448,6 +449,44 @@ void ScriptedAI::SetEquipmentSlots(bool loadDefault, int32 mainHand /*= EQUIP_NO
 void ScriptedAI::SetCombatMovement(bool allowMovement)
 {
     _isCombatMovementAllowed = allowMovement;
+}
+
+bool ScriptedAI::CheckHomeDistToEvade(uint32 diff, float dist, float x, float y, float z, bool onlyZ)
+{
+    if (!me->IsInCombat())
+        return false;
+
+    bool evade = false;
+
+    if (_checkHomeTimer <= diff)
+    {
+        _checkHomeTimer = 1500;
+
+        if (onlyZ)
+        {
+            if ((me->GetPositionZ() > z + dist) || (me->GetPositionZ() < z - dist))
+                evade = true;
+        }
+        else if (x != 0.0f || y != 0.0f || z != 0.0f)
+        {
+            if (me->GetDistance(x, y, z) >= dist)
+                evade = true;
+        }
+        else if (me->GetDistance(me->GetHomePosition()) >= dist)
+            evade = true;
+
+        if (evade)
+        {
+            EnterEvadeMode();
+            return true;
+        }
+    }
+    else
+    {
+        _checkHomeTimer -= diff;
+    }
+
+    return false;
 }
 
 void ScriptedAI::LoadEventData(std::vector<EventData> const* data)

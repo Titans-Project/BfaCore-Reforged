@@ -28,6 +28,7 @@
 #include "WorldSession.h"
 #include "Chat.h"
 #include "SharedDefines.h"
+#include "GameEventMgr.h"
 
 
 class playerscript_recruiter : public PlayerScript
@@ -410,6 +411,145 @@ public:
     }
 };
 
+class PlayerScript_Weekly_Spells : public PlayerScript
+{
+public:
+	PlayerScript_Weekly_Spells() : PlayerScript("PlayerScript_Weekly_Spells") {}
+
+    void OnLogin(Player* player, bool /*firstLogin*/) override
+    {
+        if (!player)
+            return;
+
+        if (!sGameEventMgr->IsActiveEvent(130))
+        {
+            player->RemoveActiveQuest(sObjectMgr->GetQuestTemplate(44175), false);
+            player->RemoveAura(225788);
+        }
+        else
+            player->CastSpell(player, 225788, false);
+
+        if (!sGameEventMgr->IsActiveEvent(131))
+        {
+            player->RemoveActiveQuest(sObjectMgr->GetQuestTemplate(44173), false);
+            player->RemoveAura(186403);
+        }
+        else
+            player->CastSpell(player, 186403, false);
+
+        if (!sGameEventMgr->IsActiveEvent(132))
+        {
+            player->RemoveActiveQuest(sObjectMgr->GetQuestTemplate(44174), false);
+            player->RemoveAura(186406);
+        }
+        else
+            player->CastSpell(player, 186406, false);
+
+        if (!sGameEventMgr->IsActiveEvent(133))
+        {
+            player->RemoveActiveQuest(sObjectMgr->GetQuestTemplate(44172), false);
+            player->RemoveAura(186401);
+        }
+        else
+            player->CastSpell(player, 186401, false);
+
+        if (!sGameEventMgr->IsActiveEvent(134))
+        {
+            player->RemoveActiveQuest(sObjectMgr->GetQuestTemplate(44171), false);
+            player->RemoveAura(225787);
+        }
+        else
+            player->CastSpell(player, 225787, false);
+
+    }
+
+    void OnMapChanged(Player* player) override
+    {
+        if (!player)
+            return;
+
+        if (!sGameEventMgr->IsActiveEvent(130))
+            player->RemoveAura(225788);
+        if (!sGameEventMgr->IsActiveEvent(131))
+            player->RemoveAura(186403);
+        if (!sGameEventMgr->IsActiveEvent(132))
+            player->RemoveAura(186406);
+        if (!sGameEventMgr->IsActiveEvent(133))
+            player->RemoveAura(186401);
+        if (!sGameEventMgr->IsActiveEvent(134))
+            player->RemoveAura(225787);
+
+    }
+};
+
+class player_level_rewards : public PlayerScript
+{
+public:
+    player_level_rewards() : PlayerScript("player_level_rewards") {}
+
+    void OnLevelChanged(Player* player, uint8 oldLevel) override
+    {
+        if (oldLevel <= 119 && player->getLevel() >= 120)
+        { 
+            switch (player->getRace()) // Heritage Armor
+            {
+                case RACE_VOID_ELF:
+                    if (player->GetQuestStatus(49928) == QUEST_STATUS_NONE)
+                        if (const Quest * quest = sObjectMgr->GetQuestTemplate(49928))
+                            player->AddQuest(quest, nullptr);
+                    break;
+                case RACE_LIGHTFORGED_DRAENEI:
+                    if (player->GetQuestStatus(49782) == QUEST_STATUS_NONE)
+                        if (const Quest * quest = sObjectMgr->GetQuestTemplate(49782))
+                            player->AddQuest(quest, nullptr);
+                    break;
+                case RACE_NIGHTBORNE:
+                    if (player->GetQuestStatus(49784) == QUEST_STATUS_NONE)
+                        if (const Quest * quest = sObjectMgr->GetQuestTemplate(49784))
+                            player->AddQuest(quest, nullptr);
+                    break;
+                case RACE_HIGHMOUNTAIN_TAUREN:
+                    if (player->GetQuestStatus(49783) == QUEST_STATUS_NONE)
+                        if (const Quest * quest = sObjectMgr->GetQuestTemplate(49783))
+                            player->AddQuest(quest, nullptr);
+                    break;
+                case RACE_DARK_IRON_DWARF:
+                    if (player->GetQuestStatus(51483) == QUEST_STATUS_NONE)
+                        if (const Quest * quest = sObjectMgr->GetQuestTemplate(51483))
+                            player->AddQuest(quest, nullptr);
+                    break;
+                case RACE_MAGHAR_ORC:
+                    if (player->GetQuestStatus(51484) == QUEST_STATUS_NONE)
+                        if (const Quest * quest = sObjectMgr->GetQuestTemplate(51484))
+                            player->AddQuest(quest, nullptr);
+                    break;
+                case RACE_ZANDALARI_TROLL:
+                    if (player->GetQuestStatus(53721) == QUEST_STATUS_NONE)
+                        if (const Quest * quest = sObjectMgr->GetQuestTemplate(53721))
+                            player->AddQuest(quest, nullptr);
+                    break;
+                case RACE_KUL_TIRAN:
+                    if (player->GetQuestStatus(53722) == QUEST_STATUS_NONE)
+                        if (const Quest * quest = sObjectMgr->GetQuestTemplate(53722))
+                            player->AddQuest(quest, nullptr);
+                    break;
+                case RACE_VULPERA:
+                    if (player->GetQuestStatus(58435) == QUEST_STATUS_NONE)
+                        if (const Quest * quest = sObjectMgr->GetQuestTemplate(58435))
+                            player->AddQuest(quest, nullptr);
+                    break;
+                case RACE_MECHAGNOME:
+                    if (player->GetQuestStatus(58436) == QUEST_STATUS_NONE)
+                        if (const Quest * quest = sObjectMgr->GetQuestTemplate(58436))
+                            player->AddQuest(quest, nullptr);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+};
+
 
 void AddSC_custom_player_script()
 {
@@ -420,5 +560,8 @@ void AddSC_custom_player_script()
     RegisterPlayerScript(On120Arrival);             // TEMP FIX! remove it when bfa starting is properly fixed.
     RegisterPlayerScript(WorgenRunningWild);
     RegisterPlayerScript(PlayerSavingOnLogoutFix);
+	new PlayerScript_Weekly_Spells();
+	RegisterPlayerScript(player_level_rewards);
+
 }
 
