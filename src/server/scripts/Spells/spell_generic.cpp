@@ -44,56 +44,14 @@
 #include "SpellMgr.h"
 #include "SpellScript.h"
 #include "Vehicle.h"
-#include "AccountMgr.h"
-#include "CellImpl.h"
-#include "CharacterCache.h"
-#include "Chat.h"
-#include "CreatureGroups.h"
 #include "DatabaseEnv.h"
-#include "DB2Stores.h"
-#include "DisableMgr.h"
-#include "GridNotifiers.h"
-#include "Group.h"
-#include "GroupMgr.h"
-#include "InstanceSaveMgr.h"
-#include "IpAddress.h"
-#include "IPLocation.h"
-#include "Item.h"
-#include "Language.h"
-#include "LFG.h"
-#include "Log.h"
-#include "MapManager.h"
-#include "MiscPackets.h"
-#include "MMapFactory.h"
-#include "MovementGenerator.h"
-#include "ObjectAccessor.h"
-#include "ObjectMgr.h"
-#include "Opcodes.h"
-#include "Pet.h"
-#include "PhasingHandler.h"
-#include "Player.h"
-#include "Realm.h"
-#include "ScriptMgr.h"
-#include "SpellAuras.h"
-#include "SpellHistory.h"
-#include "SpellMgr.h"
-#include "TargetedMovementGenerator.h"
-#include "Transport.h"
-#include "Weather.h"
-#include "WeatherMgr.h"
-#include "World.h"
-#include "WorldSession.h"
-#include "RestMgr.h"
-
 
 
 //312372
 class spell_back_camp : public SpellScript
 {
     PrepareSpellScript(spell_back_camp);
-
-
-
+	   
     void HandleTeleport()
     {
         Unit* caster = GetCaster();
@@ -101,7 +59,6 @@ class spell_back_camp : public SpellScript
         CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_SEL_CHARACTER_CAMP);
         stmt->setUInt64(0, player->GetGUID().GetCounter());
         PreparedQueryResult result = CharacterDatabase.Query(stmt);
-
 
         Field* fields = result->Fetch();
         float camp_x = fields[0].GetFloat();
@@ -120,7 +77,8 @@ class spell_back_camp : public SpellScript
         // Sac: 276247
         // campfire: 301125
 
-        while (caster->GetPositionX() == camp_x) {
+        while (caster->GetPositionX() == camp_x) 
+		{
             uint32 spawntm = 300;
             uint32 objectId = atoul("292769");
             GameObject* tempGob = gamer->SummonGameObject(objectId, *gamer, QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
@@ -134,13 +92,7 @@ class spell_back_camp : public SpellScript
             tempGob = gamer->SummonGameObject(objectId, Position(camp_x + -2.0f, camp_y + -2.0f, camp_z, camp_o), QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
             gamer->SetLastTargetedGO(tempGob->GetGUID().GetCounter());
         }
-            
-            
-
-        
     }
-
-    
 
     void Register() override
     {
@@ -154,61 +106,46 @@ class spell_make_camp : public SpellScript
 {
     PrepareSpellScript(spell_make_camp);
 
-    
+    void Oncast()
+    {
+        Unit* caster = GetCaster();
+        float x = caster->GetPositionX();
+        float y = caster->GetPositionY();
+        float z = caster->GetPositionZ();
+        float o = caster->GetOrientation();
+        int m = caster->GetMapId();
+        CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_CHARACTER_CAMP);
+        stmt->setFloat(0, x);
+        stmt->setFloat(1, y);
+        stmt->setFloat(2, z);
+        stmt->setFloat(3, o);
+        stmt->setUInt16(4, uint16(m));
+        stmt->setUInt64(5, caster->GetGUID().GetCounter());
+        CharacterDatabase.Execute(stmt);
+        // Tente: 292769
+        // Sac: 276247
+        // campfire: 301125
 
-        void Oncast()
-        {
-            Unit* caster = GetCaster();
-            float x = caster->GetPositionX();
-            float y = caster->GetPositionY();
-            float z = caster->GetPositionZ();
-            float o = caster->GetOrientation();
-            int m = caster->GetMapId();
-            CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_CHARACTER_CAMP);
-            stmt->setFloat(0, x);
-            stmt->setFloat(1, y);
-            stmt->setFloat(2, z);
-            stmt->setFloat(3, o);
-            stmt->setUInt16(4, uint16(m));
-            stmt->setUInt64(5, caster->GetGUID().GetCounter());
-            CharacterDatabase.Execute(stmt);
-            // Tente: 292769
-            // Sac: 276247
-            // campfire: 301125
-            
+        Player* gamer = GetCaster()->ToPlayer();
+        uint32 spawntm = 300;
+        uint32 objectId = atoul("292769");
+        GameObject* tempGob = gamer->SummonGameObject(objectId, *gamer, QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
+        gamer->SetLastTargetedGO(tempGob->GetGUID().GetCounter());
 
-            
+        objectId = atoul("276247");
+        tempGob = gamer->SummonGameObject(objectId, Position(x + 2.0f, y + 2.0f, z, o), QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
+        gamer->SetLastTargetedGO(tempGob->GetGUID().GetCounter());
 
-            Player* gamer = GetCaster()->ToPlayer();
-            uint32 spawntm = 300;
-            uint32 objectId = atoul("292769");
-            GameObject* tempGob = gamer->SummonGameObject(objectId, *gamer, QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
-            gamer->SetLastTargetedGO(tempGob->GetGUID().GetCounter());
+        objectId = atoul("301125");
+        tempGob = gamer->SummonGameObject(objectId, Position(x + -2.0f, y + -2.0f, z, o), QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
+        gamer->SetLastTargetedGO(tempGob->GetGUID().GetCounter());
+    }
 
-            objectId = atoul("276247");
-            tempGob = gamer->SummonGameObject(objectId, Position(x + 2.0f, y + 2.0f, z, o), QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
-            gamer->SetLastTargetedGO(tempGob->GetGUID().GetCounter());
-
-            objectId = atoul("301125");
-            tempGob = gamer->SummonGameObject(objectId, Position(x + -2.0f, y + -2.0f, z, o), QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
-            gamer->SetLastTargetedGO(tempGob->GetGUID().GetCounter());
-            
-
-            
-
-
-        }
-
-        void Register() override
-        {
-            OnCast += SpellCastFn(spell_make_camp::Oncast);
-        }
-
+    void Register() override
+    {
+        OnCast += SpellCastFn(spell_make_camp::Oncast);
+    }
 };
-
-
-
-
 
 class spell_gen_absorb0_hitlimit1 : public SpellScriptLoader
 {
