@@ -81,7 +81,7 @@ void CharacterDatabaseConnection::DoPrepareStatements()
                      "resettalents_time, primarySpecialization, trans_x, trans_y, trans_z, trans_o, transguid, extra_flags, stable_slots, at_login, zone, online, death_expire_time, taxi_path, dungeonDifficulty, "
                      "totalKills, todayKills, yesterdayKills, chosenTitle, watchedFaction, drunk, "
                      "health, power1, power2, power3, power4, power5, power6, instance_id, activeTalentGroup, lootSpecId, exploredZones, knownTitles, actionBars, raidDifficulty, legacyRaidDifficulty, xpRate, fishingSteps, "
-                     "honor, honorLevel, honorRestState, honorRestBonus, numRespecs, camp_x, camp_y, camp_mapid "
+                     "honor, honorLevel, honorRestState, honorRestBonus, numRespecs, camp_x, camp_y, camp_z, camp_o, camp_mapid "
                      "FROM characters c LEFT JOIN character_fishingsteps cfs ON c.guid = cfs.guid WHERE c.guid = ?", CONNECTION_ASYNC);
 
     PrepareStatement(CHAR_SEL_GROUP_MEMBER, "SELECT guid FROM group_member WHERE memberGuid = ?", CONNECTION_BOTH);
@@ -540,15 +540,13 @@ void CharacterDatabaseConnection::DoPrepareStatements()
     PrepareStatement(CHAR_SEL_CHARS_BY_ACCOUNT_ID, "SELECT guid FROM characters WHERE account = ?", CONNECTION_SYNCH);
     PrepareStatement(CHAR_SEL_CHAR_PINFO, "SELECT totaltime, level, money, account, race, class, map, zone, gender, health, playerFlags FROM characters WHERE guid = ?", CONNECTION_SYNCH);
     PrepareStatement(CHAR_SEL_PINFO_BANS, "SELECT unbandate, bandate = unbandate, bannedby, banreason FROM character_banned WHERE guid = ? AND active ORDER BY bandate ASC LIMIT 1", CONNECTION_SYNCH);
-    PrepareStatement(CHAR_UPD_CHARACTER_CAMP, "UPDATE characters SET camp_x = ?, camp_y = ?, camp_z = ?, camp_o = ?, camp_mapid = ? WHERE guid = ?", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_UPD_CHARACTER_CAMP_X, "UPDATE characters SET camp_x = ? WHERE guid = ?", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_UPD_CHARACTER_CAMP_Y, "UPDATE characters SET  camp_y = ? WHERE guid = ?", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_UPD_CHARACTER_CAMP_Z, "UPDATE characters SET camp_z = ? WHERE guid = ?", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_UPD_CHARACTER_CAMP_MAPID, "UPDATE characters SET camp_mapid = ? WHERE guid = ?", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_SEL_CHARACTER_CAMP, "SELECT camp_x, camp_y, camp_z, camp_o, camp_mapid FROM characters WHERE guid = ?", CONNECTION_SYNCH);
-
-    
-    
+	PrepareStatement(CHAR_UPD_CHARACTER_CAMP, "UPDATE characters SET camp_x = ?, camp_y = ?, camp_z = ?, camp_o = ?, camp_mapid = ? WHERE guid = ?", CONNECTION_ASYNC);
+	PrepareStatement(CHAR_UPD_CHARACTER_CAMP_X, "UPDATE characters SET camp_x = ? WHERE guid = ?", CONNECTION_ASYNC);
+	PrepareStatement(CHAR_UPD_CHARACTER_CAMP_Y, "UPDATE characters SET camp_y = ? WHERE guid = ?", CONNECTION_ASYNC);
+	PrepareStatement(CHAR_UPD_CHARACTER_CAMP_Z, "UPDATE characters SET camp_z = ? WHERE guid = ?", CONNECTION_ASYNC);
+	PrepareStatement(CHAR_UPD_CHARACTER_CAMP_O, "UPDATE characters SET camp_o = ? WHERE guid = ?", CONNECTION_ASYNC);
+	PrepareStatement(CHAR_UPD_CHARACTER_CAMP_MAPID, "UPDATE characters SET camp_mapid = ? WHERE guid = ?", CONNECTION_ASYNC);
+	PrepareStatement(CHAR_SEL_CHARACTER_CAMP, "SELECT camp_x, camp_y, camp_z, camp_o, camp_mapid FROM characters WHERE guid = ?", CONNECTION_SYNCH);
     //0: lowGUID
     PrepareStatement(CHAR_SEL_PINFO_MAILS, "SELECT SUM(CASE WHEN (checked & 1) THEN 1 ELSE 0 END) AS 'readmail', COUNT(*) AS 'totalmail' FROM mail WHERE `receiver` = ?", CONNECTION_SYNCH);
     //0: lowGUID
