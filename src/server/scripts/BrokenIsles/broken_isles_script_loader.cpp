@@ -202,7 +202,8 @@ void AddSC_boss_advisor_melandrus();
 void AddSC_court_of_stars();
 void AddSC_instance_court_of_stars();
 
-void AddSC_instance_cathedral_of_eternal_night(); //Cathedral of Eternal Night
+//Cathedral of Eternal Night
+void AddSC_instance_cathedral_of_eternal_night();
 void AddSC_boss_agronox();
 void AddSC_boss_thrashbite_the_scornful();
 void AddSC_boss_domatrax();
@@ -241,7 +242,8 @@ void AddSC_boss_sisters_of_moon();
 void AddSC_tomb_of_sargeras();
 void AddSC_instance_tomb_of_sargeras();
 
-void AddSC_trial_of_valor();                      //Trial of Valor
+ //Trial of Valor
+void AddSC_trial_of_valor();
 void AddSC_instance_trial_of_valor();
 void AddSC_boss_odyn_tov();
 void AddSC_boss_garm();
@@ -446,7 +448,8 @@ void AddBrokenIslesScripts()
     AddSC_court_of_stars();
     AddSC_instance_court_of_stars();
 	
-	AddSC_instance_cathedral_of_eternal_night(); //Cathedral of Eternal Night
+    //Cathedral of Eternal Night
+	AddSC_instance_cathedral_of_eternal_night();
     AddSC_boss_agronox();
     AddSC_boss_thrashbite_the_scornful();
     AddSC_boss_domatrax();
@@ -485,7 +488,8 @@ void AddBrokenIslesScripts()
     AddSC_tomb_of_sargeras();
     AddSC_instance_tomb_of_sargeras();
 	
-	AddSC_trial_of_valor();                     //Trial of Valor
+    //Trial of Valor
+	AddSC_trial_of_valor();                   
     AddSC_instance_trial_of_valor();
     AddSC_boss_odyn_tov();
     AddSC_boss_garm();
