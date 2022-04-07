@@ -333,3 +333,8 @@ void ObjectAccessor::RemoveObject(Player* player)
     HashMapHolder<Player>::Remove(player);
     PlayerNameMapHolder::Remove(player);
 }
+
+Creature* ObjectAccessor::FindCreature(ObjectGuid const& guid)
+{
+    return HashMapHolder<Creature>::Find(guid);
+}

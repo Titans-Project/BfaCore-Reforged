@@ -29,6 +29,17 @@ class Player;
 #define REPUTATION_PER_RANK 250
 #define MAX_BRAWLERS_REPUTATION 10000
 
+enum BrawlersDataTypes
+{
+    DATA_BOSS_RANK_ONE = 1,
+    DATA_BOSS_RANK_TWO = 2,
+    DATA_BOSS_RANK_THREE = 3,
+    DATA_BOSS_RANK_FOUR = 4,
+    DATA_BOSS_RANK_FIVE = 5,
+    DATA_BOSS_RANK_SIX = 6,
+    DATA_BOSS_RANK_SEVEN = 7
+};
+
 enum BrawlersSpells
 {
     SPELL_QUEUED_FOR_BRAWL      = 132639,
@@ -187,7 +198,7 @@ private:
     static uint32 GetBossForPlayer(Player* player);
 
     void SetBrawlState(uint32 state);
-   // void PlayFightSound(bool play, uint32 boss = 0);
+    void PlayFightSound(bool play, uint32 boss = 0);
     void SendCongratulations(Player* player);
     
     std::list<ObjectGuid> _waitList;

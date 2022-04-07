@@ -311,6 +311,13 @@ class TC_GAME_API UnitAI
             m_TimedDelayedOperations.push_back(std::pair<uint32, std::function<void()>>(p_Timeout, p_Function));
         }
 
+        void AddDelayedEvent(uint32 p_Timeout, std::function<void()>&& p_Function)
+        {
+            m_EmptyWarned = false;
+            m_TimedDelayedOperations.push_back(std::pair<uint32, std::function<void()>>(p_Timeout, p_Function));
+        }
+
+
         /// Called after last delayed operation was deleted
         /// Do whatever you want
         virtual void LastOperationCalled() { }
