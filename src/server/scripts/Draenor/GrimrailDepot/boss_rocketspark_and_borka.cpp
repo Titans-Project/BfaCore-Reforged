@@ -991,7 +991,7 @@ class grimrail_depot_rocketspark_spell_new_plan : public SpellScriptLoader
     }
 };
 
-void AddSC_RocketsparkandBorka()
+void AddSC_boss_rocketspark_and_borka()
 {
     new boss_rocketspark();                                            ///< 77803
     new grimrail_depot_rocketspark_mob_borka();                        ///< 86226
