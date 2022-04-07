@@ -102,7 +102,7 @@ public:
 
         void Reset() override
         {
-            (true);
+           // (true);
             events.Reset();
             me->Mount(44634);
             if (BrawlersGuild* brawlerGuild = me->GetBrawlerGuild())
@@ -110,7 +110,7 @@ public:
             me->GetMotionMaster()->MovePath(11854502, true);
         }
 
-        void SetData(uint32 rank, uint32 guid) override
+        void SetData(uint32 rank, uint32 /*guid*/) override
         {
             switch (rank)
             {
@@ -213,14 +213,14 @@ public:
 
         void Reset() override
         {
-            (true);
+          ///  (true);
             events.Reset();
             if (BrawlersGuild* brawlerGuild = me->GetBrawlerGuild())
                 brawlerGuild->SetAnnouncer(me->GetGUID());
             me->GetMotionMaster()->MovePath(11854503, true);
         }
 
-        void SetData(uint32 rank, uint32 guid) override
+        void SetData(uint32 rank, uint32 /*guid*/) override
         {
             switch (rank)
             {
@@ -337,7 +337,7 @@ public:
     }
 };
 
-// 93228, 93195, 93194, 144363
+// 93228, 93195, 93194, 144363, 166805
 class brawl_invitation_item : public ItemScript
 {
 public:
