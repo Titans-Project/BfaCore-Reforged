@@ -28,32 +28,23 @@
 #include "IslandPackets.h"
 #include "WorldSession.h"
 
-enum sv_events
-{
-
-};
-
-enum sv_gos
-{
-
-};
-
-enum sv_conversations
-{
-
-};
-
 struct scenario_verdant_wilds : public InstanceScript
 {
-    
-}
+    scenario_verdant_wilds(InstanceMap* map) : InstanceScript(map) { }
+
+    void OnPlayerEnter(Player* player) override
+    {
+        if (!player->GetScenario())
+            return;
+
+    }
 
 protected:
-    EventMap events;
+
 };
 
-void AddSC_expedition_verdant_wilds()
+void AddSC_scenario_verdant_wilds()
 {
-    RegisterInstanceScript(expedition_verdant_wilds, 1882);
+    RegisterInstanceScript(scenario_verdant_wilds, 1882);
 }
 

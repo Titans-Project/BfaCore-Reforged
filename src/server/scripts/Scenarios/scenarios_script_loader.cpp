@@ -24,7 +24,7 @@ void AddSC_scenario_pursuing_the_black_harvest();
 //void AddSC_scenario_the_battle_for_lordaeron();
 //void AddSC_scenario_scenario_the_defense_of_karabor();
 
-//Void AddSC_expedition_verdant_wilds();
+//Void AddSC_scenario_verdant_wilds();
 
 void AddScenariosScripts()
 {
@@ -38,5 +38,5 @@ void AddScenariosScripts()
     //AddSC_scenario_the_battle_for_lordaeron();
     //AddSC_scenario_scenario_the_defense_of_karabor();
 
-    //AddSC_expedition_verdant_wilds();
+    //AddSC_scenario_verdant_wilds();
 }
