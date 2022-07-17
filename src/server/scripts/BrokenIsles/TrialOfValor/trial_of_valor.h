@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 BfaCore Reforged
+ * Copyright (C) 2022 BfaCore Reforged
  * Copyright (C) 2016-2019 MagicStorm
  *
  * This program is free software; you can redistribute it and/or modify it

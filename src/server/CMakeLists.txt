@@ -1,4 +1,4 @@
-# Copyright (C) 2021 BfaCore Reforged
+# Copyright (C) 2022 BfaCore Reforged
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 BfaCore Reforged
+ * Copyright (C) 2022 BfaCore Reforged
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
