@@ -22,6 +22,7 @@
  */
 
 #include "Grid.h"
+#include "GridDefines.h"
 #include "GridReference.h"
 #include "Timer.h"
 #include "Util.h"
@@ -89,7 +90,7 @@ class NGrid
         }
 
         uint32 GetGridId(void) const { return i_gridId; }
-        void SetGridId(const uint32 id) const { i_gridId = id; }
+        void SetGridId(uint32 id) { i_gridId = id; }
         grid_state_t GetGridState(void) const { return i_cellstate; }
         void SetGridState(grid_state_t s) { i_cellstate = s; }
         int32 getX() const { return i_x; }

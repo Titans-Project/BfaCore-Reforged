@@ -81,7 +81,7 @@ template<>
 std::string DBUpdater<LoginDatabaseConnection>::GetBaseFile()
 {
     return BuiltInConfig::GetSourceDirectory() +
-        "/sql/base/auth_database.sql";
+        "/sql/base/1_auth.sql";
 }
 
 template<>
@@ -140,7 +140,7 @@ template<>
 std::string DBUpdater<CharacterDatabaseConnection>::GetBaseFile()
 {
     return BuiltInConfig::GetSourceDirectory() +
-        "/sql/base/characters_database.sql";
+        "/sql/base/2_characters.sql";
 }
 
 template<>

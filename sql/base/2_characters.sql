@@ -4,10 +4,6 @@
 *********************************************************************
 */
 
-/*!40101 SET NAMES utf8 */;
-
-CREATE DATABASE IF NOT EXISTS `characters_bfa` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
-USE `characters_bfa`;
 
 CREATE TABLE `account_battlepet` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -966,44 +962,6 @@ CREATE TABLE `character_garrison_buildings` (
 
 /*Data for the table `character_garrison_buildings` */
 
-/*Table structure for table `character_garrison_follower_abilities` */
-
-DROP TABLE IF EXISTS `character_garrison_follower_abilities`;
-
-CREATE TABLE `character_garrison_follower_abilities` (
-  `dbId` bigint(20) unsigned NOT NULL,
-  `abilityId` int(10) unsigned NOT NULL,
-  `slot` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`dbId`,`abilityId`,`slot`),
-  CONSTRAINT `fk_foll_dbid` FOREIGN KEY (`dbId`) REFERENCES `character_garrison_followers` (`dbId`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `character_garrison_follower_abilities` */
-
-/*Table structure for table `character_garrison_followers` */
-
-DROP TABLE IF EXISTS `character_garrison_followers`;
-
-CREATE TABLE `character_garrison_followers` (
-  `dbId` bigint(20) unsigned NOT NULL,
-  `guid` bigint(20) unsigned NOT NULL,
-  `garrison_type` tinyint(3) unsigned NOT NULL,
-  `followerId` int(10) unsigned NOT NULL,
-  `quality` int(10) unsigned NOT NULL DEFAULT '2',
-  `level` int(10) unsigned NOT NULL DEFAULT '90',
-  `itemLevelWeapon` int(10) unsigned NOT NULL DEFAULT '600',
-  `itemLevelArmor` int(10) unsigned NOT NULL DEFAULT '600',
-  `xp` int(10) unsigned NOT NULL DEFAULT '0',
-  `currentBuilding` int(10) unsigned NOT NULL DEFAULT '0',
-  `currentMission` int(10) unsigned NOT NULL DEFAULT '0',
-  `status` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`dbId`),
-  UNIQUE KEY `idx_guid_id` (`guid`,`followerId`),
-  CONSTRAINT `fk_foll_owner` FOREIGN KEY (`guid`) REFERENCES `characters` (`guid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `character_garrison_followers` */
-
 /*Table structure for table `character_garrison_mission_rewards` */
 
 DROP TABLE IF EXISTS `character_garrison_mission_rewards`;
@@ -1674,6 +1632,44 @@ CREATE TABLE `characters` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Player System';
 
 /*Data for the table `characters` */
+
+/*Table structure for table `character_garrison_followers` */
+
+DROP TABLE IF EXISTS `character_garrison_followers`;
+
+CREATE TABLE `character_garrison_followers` (
+  `dbId` bigint(20) unsigned NOT NULL,
+  `guid` bigint(20) unsigned NOT NULL,
+  `garrison_type` tinyint(3) unsigned NOT NULL,
+  `followerId` int(10) unsigned NOT NULL,
+  `quality` int(10) unsigned NOT NULL DEFAULT '2',
+  `level` int(10) unsigned NOT NULL DEFAULT '90',
+  `itemLevelWeapon` int(10) unsigned NOT NULL DEFAULT '600',
+  `itemLevelArmor` int(10) unsigned NOT NULL DEFAULT '600',
+  `xp` int(10) unsigned NOT NULL DEFAULT '0',
+  `currentBuilding` int(10) unsigned NOT NULL DEFAULT '0',
+  `currentMission` int(10) unsigned NOT NULL DEFAULT '0',
+  `status` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`dbId`),
+  UNIQUE KEY `idx_guid_id` (`guid`,`followerId`),
+  CONSTRAINT `fk_foll_owner` FOREIGN KEY (`guid`) REFERENCES `characters` (`guid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `character_garrison_followers` */
+
+/*Table structure for table `character_garrison_follower_abilities` */
+
+DROP TABLE IF EXISTS `character_garrison_follower_abilities`;
+
+CREATE TABLE `character_garrison_follower_abilities` (
+  `dbId` bigint(20) unsigned NOT NULL,
+  `abilityId` int(10) unsigned NOT NULL,
+  `slot` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`dbId`,`abilityId`,`slot`),
+  CONSTRAINT `fk_foll_dbid` FOREIGN KEY (`dbId`) REFERENCES `character_garrison_followers` (`dbId`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `character_garrison_follower_abilities` */
 
 /*Table structure for table `corpse` */
 
@@ -2851,8 +2847,3 @@ CREATE TABLE `worldstates` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Variable Saves';
 
 /*Data for the table `worldstates` */
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
