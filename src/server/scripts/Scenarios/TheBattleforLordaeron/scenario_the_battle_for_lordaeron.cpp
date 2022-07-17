@@ -22,11 +22,11 @@
 #include "GameObject.h"
 #include "InstanceScript.h"
 #include "Scenario.h"
-#include "whispering reef_island.h"
+#include "the_battle_for_lordaeron.h"
 
-struct scenario_whispering_reef_island : public InstanceScript
+struct scenario_the_battle_for_lordaeron : public InstanceScript
 {
-    scenario_whispering_reef_island(InstanceMap* map) : InstanceScript(map) { }
+    scenario_the_battle_for_lordaeron(InstanceMap* map) : InstanceScript(map) { }
 
     void OnPlayerEnter(Player* player) override
     {
@@ -39,7 +39,8 @@ protected:
 
 };
 
-void AddSC_scenario_whispering_reef_island()
+
+void AddSC_scenario_the_battle_for_lordaeron()
 {
-    RegisterInstanceScript(scenario_whispering_reef_island, 1883);
+	RegisterInstanceScript(scenario_the_battle_for_lordaeron, 1371);
 }

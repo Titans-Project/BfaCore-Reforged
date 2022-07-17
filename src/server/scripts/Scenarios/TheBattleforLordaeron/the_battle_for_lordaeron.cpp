@@ -22,24 +22,9 @@
 #include "GameObject.h"
 #include "InstanceScript.h"
 #include "Scenario.h"
-#include "whispering reef_island.h"
-
-struct scenario_whispering_reef_island : public InstanceScript
+#include "the_battle_for_lordaeron.h"
+	
+void AddSC_the_battle_for_lordaeron()
 {
-    scenario_whispering_reef_island(InstanceMap* map) : InstanceScript(map) { }
 
-    void OnPlayerEnter(Player* player) override
-    {
-        if (!player->GetScenario())
-            return;
-
-    }
-
-protected:
-
-};
-
-void AddSC_scenario_whispering_reef_island()
-{
-    RegisterInstanceScript(scenario_whispering_reef_island, 1883);
 }

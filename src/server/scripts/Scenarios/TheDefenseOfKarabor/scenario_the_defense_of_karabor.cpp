@@ -15,31 +15,39 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ScriptMgr.h"
-#include "CombatAI.h"
-#include "Creature.h"
-#include "CreatureGroups.h"
-#include "GameObject.h"
-#include "InstanceScript.h"
 #include "Scenario.h"
-#include "whispering reef_island.h"
+#include "GameObject.h"
+#include "ScriptMgr.h"
+#include "Spell.h"
+#include "WorldStatePackets.h"
+#include "ScriptedGossip.h"
+#include "ScriptedCreature.h"
 
-struct scenario_whispering_reef_island : public InstanceScript
+struct scenario_the_defense_of_karabor : public InstanceScript
 {
-    scenario_whispering_reef_island(InstanceMap* map) : InstanceScript(map) { }
+    scenario_the_defense_of_karabor(InstanceMap* map) : InstanceScript(map) { }
 
-    void OnPlayerEnter(Player* player) override
+    void Initialize() override
     {
-        if (!player->GetScenario())
-            return;
 
     }
 
-protected:
+    void OnPlayerEnter(Player* player) override
+    {
+
+    }
+
+    void Update(uint32 diff) override
+    {
+
+    }
+
+private:
 
 };
 
-void AddSC_scenario_whispering_reef_island()
+
+void AddSC_scenario_the_defense_of_karabor()
 {
-    RegisterInstanceScript(scenario_whispering_reef_island, 1883);
+
 }

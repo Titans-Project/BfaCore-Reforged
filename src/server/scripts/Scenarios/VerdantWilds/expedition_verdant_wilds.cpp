@@ -15,6 +15,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "Player.h"
 #include "ScriptMgr.h"
 #include "CombatAI.h"
 #include "Creature.h"
@@ -22,24 +23,37 @@
 #include "GameObject.h"
 #include "InstanceScript.h"
 #include "Scenario.h"
-#include "whispering reef_island.h"
+#include "WorldStatePackets.h"
+#include "MiscPackets.h"
+#include "IslandPackets.h"
+#include "WorldSession.h"
 
-struct scenario_whispering_reef_island : public InstanceScript
+enum sv_events
 {
-    scenario_whispering_reef_island(InstanceMap* map) : InstanceScript(map) { }
-
-    void OnPlayerEnter(Player* player) override
-    {
-        if (!player->GetScenario())
-            return;
-
-    }
-
-protected:
 
 };
 
-void AddSC_scenario_whispering_reef_island()
+enum sv_gos
 {
-    RegisterInstanceScript(scenario_whispering_reef_island, 1883);
+
+};
+
+enum sv_conversations
+{
+
+};
+
+struct scenario_verdant_wilds : public InstanceScript
+{
+    
 }
+
+protected:
+    EventMap events;
+};
+
+void AddSC_expedition_verdant_wilds()
+{
+    RegisterInstanceScript(expedition_verdant_wilds, 1882);
+}
+

@@ -26,7 +26,6 @@
 #include "Scenario.h"
 #include "pursuing_the_black_harvest.h"
 
-
 struct scenario_pursuing_the_black_harvest : public InstanceScript
 {
     scenario_pursuing_the_black_harvest(InstanceMap* map) : InstanceScript(map) { }
