@@ -17,6 +17,7 @@
 
 #include "AreaTrigger.h"
 #include "AreaTriggerAI.h"
+#include "Conversation.h"
 #include "ScriptMgr.h"
 #include "SpellScript.h"
 #include "SpellAuras.h"
@@ -34,45 +35,45 @@
 
 enum PriestessAlunzaSpells : uint32
 {
-    SPELL_PRE_RITUAL                    = 258386,
+    SPELL_PRE_RITUAL = 258386,
 
-    SPELL_ENERGY_REGEN                  = 258681,
-    SPELL_GILDED_CLAWS                  = 255579,
-    SPELL_GILDED_CLAWS_TRIGGER_SPELL    = 255581,
-    SPELL_TRANSFUSION                   = 260666,
-    SPELL_TRANSFUSION_PERIODIC_DUMMY    = 255577,
-    SPELL_TRANSFUSION_DAMAGE            = 255836,
-    SPELL_TRANSFUSION_DAMAGE_MYTHIC     = 260667,
-    SPELL_TRANSFUSION_HEAL              = 255835,
-    SPELL_TRANSFUSION_HEAL_MYTHIC       = 260668,
-    SPELL_TAINTED_BLOOD_DOT             = 255558,
+    SPELL_ENERGY_REGEN = 258681,
+    SPELL_GILDED_CLAWS = 255579,
+    SPELL_GILDED_CLAWS_TRIGGER_SPELL = 255581,
+    SPELL_TRANSFUSION = 260666,
+    SPELL_TRANSFUSION_PERIODIC_DUMMY = 255577,
+    SPELL_TRANSFUSION_DAMAGE = 255836,
+    SPELL_TRANSFUSION_DAMAGE_MYTHIC = 260667,
+    SPELL_TRANSFUSION_HEAL = 255835,
+    SPELL_TRANSFUSION_HEAL_MYTHIC = 260668,
+    SPELL_TAINTED_BLOOD_DOT = 255558,
     SPELL_TAINTED_BLOOD_TARGET_CAULDRON = 255592,
-    SPELL_TAINTED_BLOOD_MISSILE_BUBBLE  = 260660, // TARGET_DEST_DEST
-    SPELL_TAINTED_BLOOD_CREATE_AT       = 260670,//AT
-    SPELL_TAINTED_BLOOD_DAMAGE          = 255842,
-    SPELL_TAINTED_BLOOD_SPAWN           = 255619,
+    SPELL_TAINTED_BLOOD_MISSILE_BUBBLE = 260660, // TARGET_DEST_DEST
+    SPELL_TAINTED_BLOOD_CREATE_AT = 260670,//AT
+    SPELL_TAINTED_BLOOD_DAMAGE = 255842,
+    SPELL_TAINTED_BLOOD_SPAWN = 255619,
 
     SPELL_MOLTEN_GOLD_POOL_PRE_SELECTOR = 255615,
-    SPELL_MOLTEN_GOLD_POOL_SELECTOR     = 255591,
-    SPELL_MOLTEN_GOLD_TARGET_SELECT     = 255584,
-    SPELL_MOLTEN_GOLD_MISSILE           = 255583,
-    SPELL_MOLTEN_GOLD_DOT               = 255582,
+    SPELL_MOLTEN_GOLD_POOL_SELECTOR = 255591,
+    SPELL_MOLTEN_GOLD_TARGET_SELECT = 255584,
+    SPELL_MOLTEN_GOLD_MISSILE = 255583,
+    SPELL_MOLTEN_GOLD_DOT = 255582,
 
-    SPELL_CORRUPTED_GOLD_TOUCH          = 258709,
-    SPELL_CORRUPTED_GOLD_AT             = 258703,
+    SPELL_CORRUPTED_GOLD_TOUCH = 258709,
+    SPELL_CORRUPTED_GOLD_AT = 258703,
 
-    SPELL_SUMMON_SPIRIT_OF_GOLD         = 259205,
+    SPELL_SUMMON_SPIRIT_OF_GOLD = 259205,
 };
 
 enum PriestessAlunzaTalks : uint8
 {
-    TALK_AGGRO              = 0,
+    TALK_AGGRO = 0,
     TALK_GILDED_CLAWS_EMOTE = 1,
-    TALK_GILDED_CLAWS       = 2,
-    TALK_TRANSFUSION_EMOTE  = 3,
-    TALK_TRANSFUSION        = 4,
-    TALK_MOLTEN_GOLD        = 5,
-    TALK_DEATH              = 6
+    TALK_GILDED_CLAWS = 2,
+    TALK_TRANSFUSION_EMOTE = 3,
+    TALK_TRANSFUSION = 4,
+    TALK_MOLTEN_GOLD = 5,
+    TALK_DEATH = 6
 };
 
 enum PriestessAlunzaEvents : uint8
@@ -88,7 +89,7 @@ enum PriestessAlunzaEvents : uint8
 
 enum PriestessAlunzaNPCs : uint32
 {
-    NPC_BLOOD_TAINTED_CAULDRON  = 128956,
+    NPC_BLOOD_TAINTED_CAULDRON = 128956,
     NPC_CORRUPTED_GOLD = 130738,
     NPC_SPIRIT_OF_GOLD = 131009,
 };
@@ -101,7 +102,12 @@ enum Actions
 
 enum PriestessMisc : uint32
 {
-    OUT_OF_COMBAT_ANIM_ID       = 1346
+    OUT_OF_COMBAT_ANIM_ID = 1346
+};
+
+enum conversationalunza
+{
+    CONVERSATION_ALUNZA_DEATH = 6323,
 };
 
 // 122967 - Priestess Alunza
@@ -185,6 +191,7 @@ struct boss_priestess_alunza : public BossAI
         me->GetPlayerListInGrid(playerList, 100.0f);
         for (auto player : playerList)
         {
+            Conversation::CreateConversation(CONVERSATION_ALUNZA_DEATH, player, player->GetPosition(), { player->GetGUID() });
             if (player->HasAura(SPELL_UNSTABLE_HEX))
             {
                 int cont = instance->GetData(DATA_ACHIEVEMENT_COUNT);
@@ -212,59 +219,59 @@ struct boss_priestess_alunza : public BossAI
         {
             switch (eventId)
             {
-                case EVENT_GILDED_CLAWS:
-                    Talk(TALK_GILDED_CLAWS);
-                    Talk(TALK_GILDED_CLAWS_EMOTE);
-                    DoCastSelf(SPELL_GILDED_CLAWS);
-                    events.ScheduleEvent(EVENT_GILDED_CLAWS, 34000);
-                    break;
-                case EVENT_MOLTEN_GOLD:
-                    Talk(TALK_MOLTEN_GOLD);
-                    DoCastSelf(SPELL_MOLTEN_GOLD_POOL_PRE_SELECTOR, true);
-                    events.ScheduleEvent(EVENT_MOLTEN_GOLD, 34000);
-                    break;
-                case EVENT_TRANSFUSION:
-                    Talk(TALK_TRANSFUSION);
-                    Talk(TALK_TRANSFUSION_EMOTE);
-                    DoCast(SPELL_TRANSFUSION);
-                    taintedCounter = 0;
-                    break;
-                case EVENT_TAINTED_BLOOD:
-                    events.DelayEvents(11000);
-                    events.ScheduleEvent(EVENT_TAINTED_BLOOD_CAST, 1000);
-                    events.ScheduleEvent(EVENT_TAINTED_BLOOD, 44000);
-                    break;
-                case EVENT_TAINTED_BLOOD_CAST:
-                    DoCastSelf(SPELL_TAINTED_BLOOD_TARGET_CAULDRON);
-                    ++taintedCounter;
-                    if (taintedCounter < 5)
-                        events.ScheduleEvent(EVENT_TAINTED_BLOOD_CAST, 2000);
-                    else
+            case EVENT_GILDED_CLAWS:
+                Talk(TALK_GILDED_CLAWS);
+                Talk(TALK_GILDED_CLAWS_EMOTE);
+                DoCastSelf(SPELL_GILDED_CLAWS);
+                events.ScheduleEvent(EVENT_GILDED_CLAWS, 34000);
+                break;
+            case EVENT_MOLTEN_GOLD:
+                Talk(TALK_MOLTEN_GOLD);
+                DoCastSelf(SPELL_MOLTEN_GOLD_POOL_PRE_SELECTOR, true);
+                events.ScheduleEvent(EVENT_MOLTEN_GOLD, 34000);
+                break;
+            case EVENT_TRANSFUSION:
+                Talk(TALK_TRANSFUSION);
+                Talk(TALK_TRANSFUSION_EMOTE);
+                DoCast(SPELL_TRANSFUSION);
+                taintedCounter = 0;
+                break;
+            case EVENT_TAINTED_BLOOD:
+                events.DelayEvents(11000);
+                events.ScheduleEvent(EVENT_TAINTED_BLOOD_CAST, 1000);
+                events.ScheduleEvent(EVENT_TAINTED_BLOOD, 44000);
+                break;
+            case EVENT_TAINTED_BLOOD_CAST:
+                DoCastSelf(SPELL_TAINTED_BLOOD_TARGET_CAULDRON);
+                ++taintedCounter;
+                if (taintedCounter < 5)
+                    events.ScheduleEvent(EVENT_TAINTED_BLOOD_CAST, 2000);
+                else
+                {
+                    if (IsHeroic() || IsMythic())
+                        events.ScheduleEvent(EVENT_SPIRIT_OF_GOLD, 8500);
+                    events.ScheduleEvent(EVENT_TRANSFUSION, 13000);
+                }
+                break;
+            case EVENT_SPAWN_CORRUPTED_GOLD:
+            {
+                scheduler.Schedule(0s, [this](TaskContext context)
+                {
+                    if (Creature* cauldron = me->FindNearestCreature(NPC_BLOOD_TAINTED_CAULDRON, 100.f))
                     {
-                        if (IsHeroic() || IsMythic())
-                            events.ScheduleEvent(EVENT_SPIRIT_OF_GOLD, 8500);
-                        events.ScheduleEvent(EVENT_TRANSFUSION, 13000);
+                        cauldron = DoSummon(NPC_CORRUPTED_GOLD, cauldron->GetPosition(), 40000, TEMPSUMMON_TIMED_DESPAWN);
                     }
-                    break;
-                case EVENT_SPAWN_CORRUPTED_GOLD:
-                {
-                    scheduler.Schedule(0s, [this](TaskContext context)
-                    {
-                        if (Creature* cauldron = me->FindNearestCreature(NPC_BLOOD_TAINTED_CAULDRON, 100.f))
-                        {
-                            cauldron = DoSummon(NPC_CORRUPTED_GOLD, cauldron->GetPosition(), 40000, TEMPSUMMON_TIMED_DESPAWN);
-                        }
-                        context.Repeat(3500ms);
-                    });
-                    break;
-                }
-                case EVENT_SPIRIT_OF_GOLD:
-                {
-                    me->CastSpell(me, SPELL_SUMMON_SPIRIT_OF_GOLD);
-                    break;
-                }
-                default:
-                    break;
+                    context.Repeat(3500ms);
+                });
+                break;
+            }
+            case EVENT_SPIRIT_OF_GOLD:
+            {
+                me->CastSpell(me, SPELL_SUMMON_SPIRIT_OF_GOLD);
+                break;
+            }
+            default:
+                break;
             }
         }
 
@@ -384,7 +391,7 @@ struct npc_spirit_of_gold : public ScriptedAI
     {
         if (taintedblood >= 8)
         {
-            Creature* boss = instance->instance->GetCreature(instance->GetGuidData(NPC_PRIESTESS_ALUNZA));
+            Creature* boss = ObjectAccessor::GetCreature(*me, instance->GetGuidData(DATA_PRIESTESS_ALUNZA));
             boss->AI()->DoAction(ACTION_SPIRIT_DIED);
         }
     }
@@ -453,12 +460,12 @@ class spell_priestess_tranfusion_damage : public SpellScript
     void FilterTargets(std::list<WorldObject*>& targets)
     {
         targets.remove_if([](WorldObject* object) -> bool
-            {
-                if (!object->ToPlayer())
-                    return true;
+        {
+            if (!object->ToPlayer())
+                return true;
 
-                return false;
-            });
+            return false;
+        });
     }
 
     void Register() override
@@ -607,12 +614,12 @@ class spell_priestess_alunza_molten_gold : public SpellScript
     {
         std::list<WorldObject*> originalTargets = targets;
         targets.remove_if([](WorldObject* object) -> bool
-            {
-                if (object->ToUnit()->HasAura(SPELL_MOLTEN_GOLD_DOT))
-                    return true;
+        {
+            if (object->ToUnit()->HasAura(SPELL_MOLTEN_GOLD_DOT))
+                return true;
 
-                return false;
-            });
+            return false;
+        });
         if (targets.empty())
             targets = originalTargets;
     }

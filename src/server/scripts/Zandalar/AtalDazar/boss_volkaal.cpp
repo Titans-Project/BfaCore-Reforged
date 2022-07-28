@@ -37,25 +37,25 @@
 enum spell
 {
     //Totems
-    SPELL_REANIMATION_TOTEM_HEAL = 259531,
-    SPELL_BAD_VODOO = 250192, //Npc heals if totmes are alive, Each totem is supposed to add 1 stack of this to the boss
+    SPELL_REANIMATION_TOTEM_HEAL                = 259531,
+    SPELL_BAD_VODOO                             = 250192, //Npc heals if totmes are alive, Each totem is supposed to add 1 stack of this to the boss
     //Toxic Leap
-    SPELL_TOXIC_LEAP_DUMMY = 250708, //Targes
-    SPELL_TOXIC_LEAP = 250258, //Jumps to the position of the player (phase 1)
-    SPELL_TOXIC_LEAP_LANDING = 250259, //Cast after landing
+    SPELL_TOXIC_LEAP_DUMMY                      = 250708, //Targes
+    SPELL_TOXIC_LEAP                            = 250258, //Jumps to the position of the player (phase 1)
+    SPELL_TOXIC_LEAP_LANDING                    = 250259, //Cast after landing
 
-    SPELL_NOXIOUS_STENCH = 259572, //Chanelled and adds a debuff to the whole party
-    SPELL_NOXIOUS_STENCH_DMG = 250368,
-    SPELL_LINGERING_NAUSEA = 250372, //aura added
+    SPELL_NOXIOUS_STENCH                        = 259572, //Chanelled and adds a debuff to the whole party
+    SPELL_NOXIOUS_STENCH_DMG                    = 250368,
+    SPELL_LINGERING_NAUSEA                      = 250372, //aura added
     //Rapid Decay
-    SPELL_RAPID_DECAY_BOSS_AURA = 250241, //Added to the boss after the totems get destroyed
-    SPELL_RAPID_DECAY_AREATRIGGER = 250696, //also creates an areatrigger
-    SPELL_RAPID_DECAY_AREATRIGGER_MISSLE = 250697, //creates an areatrigger random
-    SPELL_RAPID_DECAY_AREATRIGGER_MISSLE2 = 250694, // creates an areatrigger at target
+    SPELL_RAPID_DECAY_BOSS_AURA                 = 250241, //Added to the boss after the totems get destroyed
+    SPELL_RAPID_DECAY_AREATRIGGER               = 250696, //also creates an areatrigger
+    SPELL_RAPID_DECAY_AREATRIGGER_MISSLE        = 250697, //creates an areatrigger random
+    SPELL_RAPID_DECAY_AREATRIGGER_MISSLE2       = 250694, // creates an areatrigger at target
 
-    SPELL_CREATE_TOXI_POOL_AREATRIGGER = 263922, //Creates the areatrigger for the toxic pool
+    SPELL_CREATE_TOXI_POOL_AREATRIGGER          = 263922, //Creates the areatrigger for the toxic pool
 
-    SPELL_TOXIC_POOLS_AURA = 263927  //Gets applied while you're standing in a toxic pool
+    SPELL_TOXIC_POOLS_AURA                      = 263927  //Gets applied while you're standing in a toxic pool
 
     // sniffs uses 259114? 250694, 250697,
     // areatrigger used from spell 250696
