@@ -19,7 +19,6 @@
 #include "atal_dazar.h"
 #include "ScriptedCreature.h"
 #include "GameObject.h"
-#include "GameObjectAI.h"
 #include "InstanceScript.h"
 #include "SpellScript.h"
 #include "ScriptedCreature.h"
@@ -168,6 +167,18 @@ void OpenGate(InstanceScript* instance)
         go->SetGoState(GO_STATE_ACTIVE);
     if (GameObject* go = instance->instance->GetGameObject(instance->GetGuidData(GO_GATE_004)))
         go->SetGoState(GO_STATE_ACTIVE);
+    if (GameObject* go = instance->instance->GetGameObject(instance->GetGuidData(GO_GATE_005)))
+        go->SetGoState(GO_STATE_ACTIVE);
+    if (GameObject* go = instance->instance->GetGameObject(instance->GetGuidData(GO_GATE_006)))
+        go->SetGoState(GO_STATE_ACTIVE);
+    if (GameObject* go = instance->instance->GetGameObject(instance->GetGuidData(GO_GATE_007)))
+        go->SetGoState(GO_STATE_ACTIVE);
+    if (GameObject* go = instance->instance->GetGameObject(instance->GetGuidData(GO_GATE_008)))
+        go->SetGoState(GO_STATE_ACTIVE);
+    if (GameObject* go = instance->instance->GetGameObject(instance->GetGuidData(GO_GATE_009)))
+        go->SetGoState(GO_STATE_ACTIVE);
+    if (GameObject* go = instance->instance->GetGameObject(instance->GetGuidData(GO_GATE_010)))
+        go->SetGoState(GO_STATE_ACTIVE);
 };
 
 class go_ad_switch : public GameObjectScript {
@@ -181,35 +192,18 @@ public:
     }
 };
 
-struct go_waterfall_stairs : public GameObjectAI
-{
-    go_waterfall_stairs(GameObject* go) : GameObjectAI(go) { }
+class go_waterfall_stairs : public GameObjectScript {
+public:
+    go_waterfall_stairs() : GameObjectScript("go_waterfall_stairs") { }
 
-    void Reset() override
+    void OnGameObjectStateChanged(GameObject* go, uint32 state) override
     {
-        go->GetScheduler().CancelAll();
-        go->GetScheduler().Schedule(1s, [this] (TaskContext context)
-        {
-            if (InstanceScript* instance = go->GetInstanceScript())
-            {
-                if (instance->GetBossState(DATA_PRIESTESS_ALUNZA) == DONE && instance->GetBossState(DATA_VOLKAAL) == DONE && instance->GetBossState(DATA_REZAN) == DONE)
-                {
-                    go->SetGoState(GO_STATE_ACTIVE);
-                    if (GameObject* colision = go->GetInstanceScript()->instance->GetGameObject(go->GetInstanceScript()->GetGuidData(GO_COLLISION_WALL)))
+        if (state == GO_STATE_ACTIVE)
+            if (GameObject* colision = go->GetInstanceScript()->instance->GetGameObject(go->GetInstanceScript()->GetGuidData(GO_COLLISION_WALL)))
                 colision->Delete();
-                }
-                context.Repeat(1s);
-            }
-        });
+            if (GameObject* water = go->GetInstanceScript()->instance->GetGameObject(go->GetInstanceScript()->GetGuidData(GO_WATERFALL_STAIRS)))
+                OpenGate(go->GetInstanceScript());
     }
-
-    void UpdateAI(uint32 diff) override
-    {
-        scheduler.Update(diff);
-    }
-
-private:
-    TaskScheduler scheduler;
 };
 
 //256960
@@ -232,8 +226,9 @@ class spell_rooting_decay : public AuraScript
 void AddSC_atal_dazar()
 {
     new go_ad_switch();
-    RegisterGameObjectAI(go_waterfall_stairs);
+    new go_waterfall_stairs();
     RegisterCreatureAI(npc_mob_echo_of_shadra);
     RegisterCreatureAI(npc_reanimation_totem);
     RegisterAuraScript(spell_rooting_decay);
+
 }
