@@ -15537,3 +15537,19 @@ void Unit::GetAreaTriggerListWithSpellIDInRange(std::list<AreaTrigger*>& list, u
         });
     }
 }
+
+void Unit::SetInMovement(bool toSet, uint32 timer) {
+
+    if (toSet == true && HasUnitState(UNIT_STATE_ROOT))
+        ClearUnitState(UNIT_STATE_ROOT);
+
+    if (toSet == false && !HasUnitState(UNIT_STATE_ROOT))
+        AddUnitState(UNIT_STATE_ROOT);
+
+    if (timer != 0)
+    {
+        GetAI()->AddTimedDelayedOperation(timer, [this]() -> void {
+            HasUnitState(UNIT_STATE_ROOT) ? ClearUnitState(UNIT_STATE_ROOT) : AddUnitState(UNIT_STATE_ROOT);
+        });
+    }
+}

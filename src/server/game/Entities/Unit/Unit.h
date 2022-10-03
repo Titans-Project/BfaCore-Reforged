@@ -2151,6 +2151,12 @@ class TC_GAME_API Unit : public WorldObject
             UF::UnitData::Mask const& requestedUnitMask, Player const* target) const;
         void DestroyForPlayer(Player* target) const override;
 
+        // Used to control the movement, if is true the npc can move, if is false the npc can't move.
+        // You can use this method in any moment and the creature can enter/out of combat in this state, keep attacking or casting spells.
+        // The timer is for clear in the time especificated the state added.
+        // The timer must be in ms.
+        void SetInMovement(bool toSet = true, uint32 timer = 0);
+		
  protected:
         void ClearUpdateMask(bool remove) override;
 
@@ -2388,5 +2394,4 @@ inline void SetUnitCurrentCastSpell(Unit* unit, Spell* spell)
 {
     unit->SetCurrentCastSpell(spell);
 }
-
 #endif
