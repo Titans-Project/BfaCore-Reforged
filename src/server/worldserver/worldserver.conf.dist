@@ -670,6 +670,18 @@ StrictPetNames = 0
 DBC.Locale = 0
 
 #
+#    LoadLocales
+#        Description: Space-separated list of locale names whose localized strings are
+#                     loaded at startup - db2 files, the hotfix database, and the world
+#                     *_locale tables. The DBC.Locale locale is always loaded regardless
+#                     of this setting. Restricting this list to the locales your players
+#                     actually use reduces both startup time and memory usage.
+#        Example:     "enUS frFR"
+#        Default:     ""  - (load every locale)
+
+LoadLocales = ""
+
+#
 #    DeclinedNames
 #        Description: Allow Russian clients to set and use declined names.
 #        Default:     0 - (Disabled, Except when the Russian RealmZone is set)

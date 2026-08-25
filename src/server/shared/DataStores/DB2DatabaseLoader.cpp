@@ -21,6 +21,7 @@
 #include "DB2Meta.h"
 #include "Errors.h"
 #include "Log.h"
+#include "Timer.h"
 
 DB2LoadInfo::DB2LoadInfo() : DB2FileLoadInfo(), Statement(MAX_HOTFIXDATABASE_STATEMENTS)
 {
@@ -207,12 +208,19 @@ char* DB2DatabaseLoader::Load(bool custom, uint32& records, char**& indexTable, 
 
 void DB2DatabaseLoader::LoadStrings(bool custom, uint32 locale, uint32 records, char** indexTable, std::vector<char*>& stringPool)
 {
+    uint32 tQuery = getMSTime();
     HotfixDatabasePreparedStatement* stmt = HotfixDatabase.GetPreparedStatement(HotfixDatabaseStatements(_loadInfo->Statement + 1));
     stmt->setBool(0, !custom);
     stmt->setString(1, localeNames[locale]);
     PreparedQueryResult result = HotfixDatabase.Query(stmt);
+    uint32 queryMs = GetMSTimeDiffToNow(tQuery);
     if (!result)
+    {
+        if (queryMs > 200)
+            TC_LOG_INFO("server.loading", ">> DB2 profile %s: query %u ms, EMPTY result", _storageName.c_str(), queryMs);
         return;
+    }
+    uint32 tLoop = getMSTime();
 
     std::size_t stringFields = _loadInfo->GetStringFieldCount(true);
     if (result->GetFieldCount() != stringFields + 1 /*ID*/)
@@ -292,6 +300,11 @@ void DB2DatabaseLoader::LoadStrings(bool custom, uint32 locale, uint32 records, 
             TC_LOG_ERROR("sql.sql", "Hotfix locale table for storage %s references row that does not exist %u locale %s!", _storageName.c_str(), indexValue, localeNames[locale]);
 
     } while (result->NextRow());
+
+    uint32 loopMs = GetMSTimeDiffToNow(tLoop);
+    if (queryMs + loopMs > 200)
+        TC_LOG_INFO("server.loading", ">> DB2 profile %s [%s]: query+fetch %u ms, row loop %u ms, %u rows",
+            _storageName.c_str(), localeNames[locale], queryMs, loopMs, uint32(result->GetRowCount()));
 }
 
 char* DB2DatabaseLoader::AddString(char const** holder, std::string const& value)

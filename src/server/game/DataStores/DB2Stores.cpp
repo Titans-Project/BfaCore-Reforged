@@ -16,6 +16,7 @@
  */
 
 #include "DB2Stores.h"
+#include "Config.h"
 #include "Containers.h"
 #include "DatabaseEnv.h"
 #include "DB2LoadInfo.h"
@@ -493,6 +494,15 @@ namespace
 template<typename T>
 constexpr std::size_t GetCppRecordSize(DB2Storage<T> const&) { return sizeof(T); }
 
+// Startup profiling accumulators, reported once at the end of LoadStores
+namespace
+{
+    uint32 _db2TimeFile = 0;        // parsing the default locale .db2 files
+    uint32 _db2TimeFromDB = 0;      // hotfix rows from the database
+    uint32 _db2TimeLocaleFile = 0;  // re-parsing .db2 files of every other locale
+    uint32 _db2TimeLocaleDB = 0;    // localized hotfix strings from the database
+}
+
 void LoadDB2(std::bitset<TOTAL_LOCALES>& availableDb2Locales, std::vector<std::string>& errlist, StorageMap& stores, DB2StorageBase* storage, std::string const& db2Path,
     LocaleConstant defaultLocale, std::size_t cppRecordSize)
 {
@@ -527,6 +537,7 @@ void LoadDB2(std::bitset<TOTAL_LOCALES>& availableDb2Locales, std::vector<std::s
             storage->GetFileName().c_str(), loadInfo->Meta->GetRecordSize(), cppRecordSize);
     }
 
+    uint32 phaseStart = getMSTime();
     try
     {
         storage->Load(db2Path + localeNames[defaultLocale] + '/', defaultLocale);
@@ -546,9 +557,14 @@ void LoadDB2(std::bitset<TOTAL_LOCALES>& availableDb2Locales, std::vector<std::s
         return;
     }
 
-    // load additional data and enUS strings from db
-    storage->LoadFromDB();
+    _db2TimeFile += GetMSTimeDiffToNow(phaseStart);
 
+    // load additional data and enUS strings from db
+    phaseStart = getMSTime();
+    storage->LoadFromDB();
+    _db2TimeFromDB += GetMSTimeDiffToNow(phaseStart);
+
+    phaseStart = getMSTime();
     for (LocaleConstant i = LOCALE_enUS; i < TOTAL_LOCALES; i = LocaleConstant(i + 1))
     {
         if (defaultLocale == i || !availableDb2Locales[i])
@@ -571,9 +587,21 @@ void LoadDB2(std::bitset<TOTAL_LOCALES>& availableDb2Locales, std::vector<std::s
         }
     }
 
+    _db2TimeLocaleFile += GetMSTimeDiffToNow(phaseStart);
+
+    phaseStart = getMSTime();
     for (LocaleConstant i = LOCALE_koKR; i < TOTAL_LOCALES; i = LocaleConstant(i + 1))
-        if (availableDb2Locales[i])
-            storage->LoadStringsFromDB(i);
+    {
+        if (!availableDb2Locales[i])
+            continue;
+
+        uint32 localeStart = getMSTime();
+        storage->LoadStringsFromDB(i);
+        uint32 localeElapsed = GetMSTimeDiffToNow(localeStart);
+        if (localeElapsed > 200)
+            TC_LOG_INFO("server.loading", ">> DB2 slow locale-DB: %s [%s] %u ms", storage->GetFileName().c_str(), localeNames[i], localeElapsed);
+    }
+    _db2TimeLocaleDB += GetMSTimeDiffToNow(phaseStart);
 
     stores[storage->GetTableHash()] = storage;
 }
@@ -608,6 +636,27 @@ uint32 DB2Manager::LoadStores(std::string const& dataPath, LocaleConstant defaul
 
     if (!availableDb2Locales[defaultLocale])
         return 0;
+
+    // LoadLocales: restrict which locales get their strings loaded (db2 files and hotfix DB;
+    // ObjectMgr applies the same option to the world *_locale tables).
+    // Empty (default) keeps the old behavior: every locale found in dbc/ is loaded.
+    // Loading a locale nobody plays costs both startup time and memory - BroadcastText alone
+    // pulls 170k localized rows from the hotfix database per locale.
+    std::string localesConfig = sConfigMgr->GetStringDefault("LoadLocales", "");
+    if (!localesConfig.empty())
+    {
+        std::bitset<TOTAL_LOCALES> requestedLocales;
+        requestedLocales[defaultLocale] = true; // the default locale is always required
+        for (char const* token : Tokenizer(localesConfig, ' ', 0, false))
+        {
+            LocaleConstant locale = GetLocaleByName(token);
+            if (IsValidLocale(locale))
+                requestedLocales[locale] = true;
+            else
+                TC_LOG_ERROR("server.loading", "LoadLocales contains invalid locale name '%s', ignored.", token);
+        }
+        availableDb2Locales &= requestedLocales;
+    }
 
 #define LOAD_DB2(store) LoadDB2(availableDb2Locales, loadErrors, _stores, &store, db2Path, defaultLocale, GetCppRecordSize(store))
 
@@ -896,6 +945,9 @@ uint32 DB2Manager::LoadStores(std::string const& dataPath, LocaleConstant defaul
     LOAD_DB2(sWorldStateExpressionStore);
 
 #undef LOAD_DB2
+
+    TC_LOG_INFO("server.loading", ">> DB2 load breakdown: files %u ms, hotfix rows %u ms, locale files %u ms, locale hotfix strings %u ms (total %u ms)",
+        _db2TimeFile, _db2TimeFromDB, _db2TimeLocaleFile, _db2TimeLocaleDB, GetMSTimeDiffToNow(oldMSTime));
 
     for (AreaGroupMemberEntry const* areaGroupMember : sAreaGroupMemberStore)
         _areaGroupMembers[areaGroupMember->AreaGroupID].push_back(areaGroupMember->AreaID);
@@ -3073,7 +3125,7 @@ double DB2Manager::GetChallngeWeight(uint32 mapID)
                   case 1763: // Atal'Dazar
                   case 1771: // tol dagor
                   case 1841: // Underrot
-                  case 1762: // king´s rest 
+                  case 1762: // kingï¿½s rest 
                   case 1754: // freehold
                   case 2097: // op mechagon
                   case 1864: // shrine of the storm 
