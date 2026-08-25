@@ -69,17 +69,17 @@ void AzeriteItem::SaveToDB(CharacterDatabaseTransaction& trans)
         stmt->setUInt64(1, m_azeriteItemData->Xp);
         stmt->setUInt32(2, m_azeriteItemData->Level);
         stmt->setUInt32(3, m_azeriteItemData->KnowledgeLevel);
-        std::size_t specIndex = 0;
+        uint8 specIndex = 0;
         for (; specIndex < m_azeriteItemData->SelectedEssences.size(); ++specIndex)
         {
-            stmt->setUInt32(4 + specIndex * 5, m_azeriteItemData->SelectedEssences[specIndex].SpecializationID);
-            for (std::size_t j = 0; j < MAX_AZERITE_ESSENCE_SLOT; ++j)
-                stmt->setUInt32(5 + specIndex * 5 + j, m_azeriteItemData->SelectedEssences[specIndex].AzeriteEssenceID[j]);
+            stmt->setUInt32(4 + specIndex * 5, uint32(m_azeriteItemData->SelectedEssences[specIndex].SpecializationID));
+            for (uint8 j = 0; j < MAX_AZERITE_ESSENCE_SLOT; ++j)
+                stmt->setUInt32(5 + specIndex * 5 + j, uint32(m_azeriteItemData->SelectedEssences[specIndex].AzeriteEssenceID[j]));
         }
         for (; specIndex < MAX_SPECIALIZATIONS; ++specIndex)
         {
             stmt->setUInt32(4 + specIndex * 5, 0);
-            for (std::size_t j = 0; j < MAX_AZERITE_ESSENCE_SLOT; ++j)
+            for (uint8 j = 0; j < MAX_AZERITE_ESSENCE_SLOT; ++j)
                 stmt->setUInt32(5 + specIndex * 5 + j, 0);
         }
 
@@ -227,7 +227,7 @@ uint32 AzeriteItem::GetCurrentKnowledgeLevel()
 uint64 AzeriteItem::CalcTotalXPToNextLevel(uint32 level, uint32 knowledgeLevel)
 {
     AzeriteLevelInfoEntry const* levelInfo = sAzeriteLevelInfoStore.AssertEntry(level);
-    uint64 totalXp = levelInfo->BaseExperienceToNextLevel * sAzeriteKnowledgeMultiplierStore.AssertEntry(knowledgeLevel)->Multiplier;
+    uint64 totalXp = uint64(levelInfo->BaseExperienceToNextLevel * sAzeriteKnowledgeMultiplierStore.AssertEntry(knowledgeLevel)->Multiplier);
     return std::max(totalXp, levelInfo->MinimumExperienceToNextLevel);
 }
 
@@ -400,7 +400,7 @@ void AzeriteItem::BuildValuesCreate(ByteBuffer* data, Player const* target) cons
     m_objectData->WriteCreate(*data, flags, this, target);
     m_itemData->WriteCreate(*data, flags, this, target);
     m_azeriteItemData->WriteCreate(*data, flags, this, target);
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void AzeriteItem::BuildValuesUpdate(ByteBuffer* data, Player const* target) const
@@ -419,7 +419,7 @@ void AzeriteItem::BuildValuesUpdate(ByteBuffer* data, Player const* target) cons
     if (m_values.HasChanged(TYPEID_AZERITE_ITEM))
         m_azeriteItemData->WriteUpdate(*data, flags, this, target);
 
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void AzeriteItem::BuildValuesUpdateWithFlag(ByteBuffer* data, UF::UpdateFieldFlag flags, Player const* target) const
@@ -440,7 +440,7 @@ void AzeriteItem::BuildValuesUpdateWithFlag(ByteBuffer* data, UF::UpdateFieldFla
     m_azeriteItemData->AppendAllowedFieldsMaskForFlag(mask2, flags);
     m_azeriteItemData->WriteUpdate(*data, mask2, true, this, target);
 
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void AzeriteItem::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::ObjectData::Mask const& requestedObjectMask,
@@ -475,7 +475,7 @@ void AzeriteItem::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::Objec
     if (valuesMask[TYPEID_AZERITE_ITEM])
         m_azeriteItemData->WriteUpdate(buffer, azeriteItemMask, true, this, target);
 
-    buffer.put<uint32>(sizePos, buffer.wpos() - sizePos - 4);
+    buffer.put<uint32>(sizePos, uint32(buffer.wpos() - sizePos - 4));
 
     data->AddUpdateBlock(buffer);
 }

@@ -105,7 +105,7 @@ void Corpse::SaveToDB()
     uint32 bytes1 = (uint32(*m_corpseData->RaceID) << 8) | (uint32(*m_corpseData->Sex) << 16) | (uint32(*m_corpseData->SkinID) << 24);
     uint32 bytes2 = (uint32(*m_corpseData->FaceID)) | (uint32(*m_corpseData->HairStyleID) << 8) | (uint32(*m_corpseData->HairColorID) << 16) | (uint32(*m_corpseData->FacialHairStyleID) << 24);
 
-    uint16 index = 0;
+    uint8 index = 0;
     CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_INS_CORPSE);
     stmt->setUInt64(index++, GetOwnerGUID().GetCounter());                            // guid
     stmt->setFloat (index++, GetPositionX());                                         // posX
@@ -226,7 +226,7 @@ void Corpse::BuildValuesCreate(ByteBuffer* data, Player const* target) const
     *data << uint8(flags);
     m_objectData->WriteCreate(*data, flags, this, target);
     m_corpseData->WriteCreate(*data, flags, this, target);
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void Corpse::BuildValuesUpdate(ByteBuffer* data, Player const* target) const
@@ -242,7 +242,7 @@ void Corpse::BuildValuesUpdate(ByteBuffer* data, Player const* target) const
     if (m_values.HasChanged(TYPEID_CORPSE))
         m_corpseData->WriteUpdate(*data, flags, this, target);
 
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void Corpse::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::ObjectData::Mask const& requestedObjectMask,
@@ -266,7 +266,7 @@ void Corpse::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::ObjectData
     if (valuesMask[TYPEID_CORPSE])
         m_corpseData->WriteUpdate(buffer, requestedCorpseMask, true, this, target);
 
-    buffer.put<uint32>(sizePos, buffer.wpos() - sizePos - 4);
+    buffer.put<uint32>(sizePos, uint32(buffer.wpos() - sizePos - 4));
 
     data->AddUpdateBlock(buffer);
 }
