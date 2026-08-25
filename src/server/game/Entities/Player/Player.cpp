@@ -27469,13 +27469,13 @@ void Player::StoreLootItem(uint8 lootSlot, Loot* loot, AELootResult* aeResult/* 
 }
 
 /* "Clean up bags" function on backbag */
-/*void Player::ApplyOnItems(uint8 type, std::function<bool(Player*, Item*, uint8, uint8)>&& function)
+void Player::ApplyOnItems(uint8 type, std::function<bool(Player*, Item*, uint8, uint8)>&& function)
 {
     switch (type)
     {
     case 1:
     {
-        for (uint32 i = INVENTORY_SLOT_ITEM_START; i < INVENTORY_SLOT_ITEM_START + GetInventorySlotCount(); i++)
+        for (uint32 i = INVENTORY_SLOT_ITEM_START; i < uint32(INVENTORY_SLOT_ITEM_START) + GetInventorySlotCount(); i++)
             if (Item* item = GetItemByPos(INVENTORY_SLOT_BAG_0, i))
                 if (!function(this, item, INVENTORY_SLOT_BAG_0, i))
                     return;
@@ -27514,7 +27514,7 @@ void Player::StoreLootItem(uint8 lootSlot, Loot* loot, AELootResult* aeResult/* 
     default:
         break;
     }
-}*/
+}
 
 void Player::LearnSpellHighestRank(uint32 spellid)
 {

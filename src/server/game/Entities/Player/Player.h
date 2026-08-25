@@ -1319,7 +1319,7 @@ class TC_GAME_API Player : public Unit, public GridObject<Player>
         void StoreLootItem(uint8 lootSlot, Loot* loot, AELootResult* aeResult = nullptr);
         
         /* "Clean up bags" function on backbag */
-        //void ApplyOnItems(uint8 type, std::function<bool(Player*, Item*, uint8, uint8)>&& function);
+        void ApplyOnItems(uint8 type, std::function<bool(Player*, Item*, uint8, uint8)>&& function);
 
         InventoryResult CanTakeMoreSimilarItems(uint32 entry, uint32 count, Item* pItem, uint32* no_space_count = nullptr, uint32* offendingItemId = nullptr) const;
         InventoryResult CanStoreItem(uint8 bag, uint8 slot, ItemPosCountVec& dest, uint32 entry, uint32 count, Item* pItem = nullptr, bool swap = false, uint32* no_space_count = nullptr, bool removeFromBank = false) const;
