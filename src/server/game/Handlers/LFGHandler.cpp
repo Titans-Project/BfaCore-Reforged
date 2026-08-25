@@ -151,7 +151,7 @@ void WorldSession::SendLfgPlayerLockInfo()
 
     // Get player locked Dungeons
     for (auto const& lock : sLFGMgr->GetLockedDungeons(_player->GetGUID()))
-        lfgPlayerInfo.BlackList.Slot.emplace_back(lock.first, lock.second.lockStatus, lock.second.requiredItemLevel, lock.second.currentItemLevel);
+        lfgPlayerInfo.BlackList.Slot.emplace_back(lock.first, lock.second.lockStatus, lock.second.requiredItemLevel, int32(lock.second.currentItemLevel));
 
     for (uint32 slot : randomDungeons)
     {
@@ -224,7 +224,7 @@ void WorldSession::SendLfgPartyLockInfo()
         WorldPackets::LFG::LFGBlackList& lfgBlackList = lfgPartyInfo.Player.back();
         lfgBlackList.PlayerGuid = pguid;
         for (auto const& lock : sLFGMgr->GetLockedDungeons(pguid))
-            lfgBlackList.Slot.emplace_back(lock.first, lock.second.lockStatus, lock.second.requiredItemLevel, lock.second.currentItemLevel);
+            lfgBlackList.Slot.emplace_back(lock.first, lock.second.lockStatus, lock.second.requiredItemLevel, int32(lock.second.currentItemLevel));
     }
 
     TC_LOG_DEBUG("lfg", "SMSG_LFG_PARTY_INFO %s", GetPlayerInfo().c_str());
@@ -355,7 +355,7 @@ void WorldSession::SendLfgJoinResult(lfg::LfgJoinResultData const& joinData)
             TC_LOG_TRACE("lfg", "SendLfgJoinResult:: %s DungeonID: %u Lock status: %u Required itemLevel: %u Current itemLevel: %f",
                 it->first.ToString().c_str(), (itr->first & 0x00FFFFFF), itr->second.lockStatus, itr->second.requiredItemLevel, itr->second.currentItemLevel);
 
-            blackList.Slots.emplace_back(itr->first, itr->second.lockStatus, itr->second.requiredItemLevel, itr->second.currentItemLevel);
+            blackList.Slots.emplace_back(itr->first, itr->second.lockStatus, itr->second.requiredItemLevel, int32(itr->second.currentItemLevel));
         }
     }
 

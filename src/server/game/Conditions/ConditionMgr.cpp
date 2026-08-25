@@ -999,7 +999,7 @@ bool ConditionMgr::IsObjectMeetingVehicleSpellConditions(uint32 creatureId, uint
 
 bool ConditionMgr::IsObjectMeetingSmartEventConditions(int64 entryOrGuid, uint32 eventId, uint32 sourceType, Unit* unit, WorldObject* baseObject) const
 {
-    SmartEventConditionContainer::const_iterator itr = SmartEventConditionStore.find(std::make_pair(entryOrGuid, sourceType));
+    SmartEventConditionContainer::const_iterator itr = SmartEventConditionStore.find(std::make_pair(int32(entryOrGuid), sourceType));
     if (itr != SmartEventConditionStore.end())
     {
         ConditionsByEntryMap::const_iterator i = itr->second.find(eventId + 1);
