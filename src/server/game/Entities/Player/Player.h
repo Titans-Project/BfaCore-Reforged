@@ -1706,6 +1706,7 @@ class TC_GAME_API Player : public Unit, public GridObject<Player>
         void VehicleSpellInitialize();
         void SendRemoveControlBar() const;
         bool HasSpell(uint32 spell) const override;
+        bool KnowsSpellIgnoringState(uint32 spell) const;   // HasSpell but accepts inactive-spec spells
         bool HasActiveSpell(uint32 spell) const;            // show in spellbook
         SpellInfo const* GetCastSpellInfo(SpellInfo const* spellInfo) const override;
         TrainerSpellState GetTrainerSpellState(TrainerSpell const* trainer_spell) const;

@@ -4025,6 +4025,15 @@ bool Player::HasSpell(uint32 spell) const
         !itr->second->disabled);
 }
 
+// Same as HasSpell but also accepts spells currently flagged disabled (those belonging to a
+// specialization that is not the active one). Use it where a spell only has to be part of the
+// character's spell book, not castable right now.
+bool Player::KnowsSpellIgnoringState(uint32 spell) const
+{
+    PlayerSpellMap::const_iterator itr = m_spells.find(spell);
+    return itr != m_spells.end() && itr->second->state != PLAYERSPELL_REMOVED;
+}
+
 bool Player::HasTalent(uint32 talentId, uint8 group) const
 {
     PlayerTalentMap::const_iterator itr = GetTalentMap(group)->find(talentId);
@@ -6199,7 +6208,11 @@ bool Player::IsActionButtonDataValid(uint8 button, uint32 action, uint8 type) co
                 return false;
             }
 
-            if (!HasSpell(action))
+            // Deliberately not HasSpell(): that one rejects spells flagged disabled, which is how
+            // spells of a non-active specialization are stored. Action bars are per specialization
+            // and the client greys such spells out rather than dropping them, so rejecting here
+            // would silently discard the button and _SaveActions would delete it for good.
+            if (!KnowsSpellIgnoringState(action))
             {
                 TC_LOG_DEBUG("entities.player", "Player::IsActionButtonDataValid: Spell action %u not added into button %u for player %s (%s): player does not known this spell, this can be due to a player changing their talents",
                     action, button, GetName().c_str(), GetGUID().ToString().c_str());
@@ -19681,11 +19694,14 @@ void Player::_LoadActions(PreparedQueryResult result)
                 ab->uState = ACTIONBUTTON_UNCHANGED;
             else
             {
-                TC_LOG_DEBUG("entities.player", "Player::_LoadActions: Player '%s' (%s) has an invalid action button (Button: %u, Action: %u, Type: %u). It will be deleted at next save. This can be due to a player changing their talents.",
+                TC_LOG_DEBUG("entities.player", "Player::_LoadActions: Player '%s' (%s) has an action button that cannot be restored right now (Button: %u, Action: %u, Type: %u). It is kept in the database.",
                     GetName().c_str(), GetGUID().ToString().c_str(), button, action, type);
 
-                // Will be deleted in DB at next save (it can create data until save but marked as deleted).
-                m_actionButtons[button].uState = ACTIONBUTTON_DELETED;
+                // Deliberately NOT marked ACTIONBUTTON_DELETED: most validation failures here are
+                // temporary (a spell the character has not learned back yet, an item that is not in
+                // the bags at the moment), and deleting the row would destroy the player's bar
+                // permanently. Leaving the row untouched means the button reappears on its own once
+                // the underlying action becomes valid again.
             }
         } while (result->NextRow());
     }
