@@ -422,7 +422,7 @@ class boss_nitrogg_thundertower : public CreatureScript
                         float l_X = (l_Creature->m_positionX + 15) * cos(l_Creature->GetOrientation());
                         float l_Y = (l_Creature->m_positionY + 15) * sin(l_Creature->GetOrientation());
 
-                        l_Creature->GetMotionMaster()->MoveJump(l_X, l_Y, float(g_TrainFloorPositionZ));
+                        l_Creature->GetMotionMaster()->MoveJump(l_X, l_Y, float(g_TrainFloorPositionZ), l_Creature->GetOrientation(), 10.0f, 10.0f);
                     }
                 }
 

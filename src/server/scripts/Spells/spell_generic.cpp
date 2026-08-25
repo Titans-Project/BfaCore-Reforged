@@ -82,15 +82,15 @@ class spell_back_camp : public SpellScript
             uint32 spawntm = 300;
             uint32 objectId = atoul("292769");
             GameObject* tempGob = gamer->SummonGameObject(objectId, *gamer, QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
-            gamer->SetLastTargetedGO(tempGob->GetGUID().GetCounter());
+            gamer->SetLastTargetedGO(uint32(tempGob->GetGUID().GetCounter()));
 
             objectId = atoul("276247");
             tempGob = gamer->SummonGameObject(objectId, Position(camp_x + 2.0f, camp_y + 2.0f, camp_z, camp_o), QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
-            gamer->SetLastTargetedGO(tempGob->GetGUID().GetCounter());
+            gamer->SetLastTargetedGO(uint32(tempGob->GetGUID().GetCounter()));
 
             objectId = atoul("301125");
             tempGob = gamer->SummonGameObject(objectId, Position(camp_x + -2.0f, camp_y + -2.0f, camp_z, camp_o), QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
-            gamer->SetLastTargetedGO(tempGob->GetGUID().GetCounter());
+            gamer->SetLastTargetedGO(uint32(tempGob->GetGUID().GetCounter()));
         }
     }
 
@@ -130,15 +130,15 @@ class spell_make_camp : public SpellScript
         uint32 spawntm = 300;
         uint32 objectId = atoul("292769");
         GameObject* tempGob = gamer->SummonGameObject(objectId, *gamer, QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
-        gamer->SetLastTargetedGO(tempGob->GetGUID().GetCounter());
+        gamer->SetLastTargetedGO(uint32(tempGob->GetGUID().GetCounter()));
 
         objectId = atoul("276247");
         tempGob = gamer->SummonGameObject(objectId, Position(x + 2.0f, y + 2.0f, z, o), QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
-        gamer->SetLastTargetedGO(tempGob->GetGUID().GetCounter());
+        gamer->SetLastTargetedGO(uint32(tempGob->GetGUID().GetCounter()));
 
         objectId = atoul("301125");
         tempGob = gamer->SummonGameObject(objectId, Position(x + -2.0f, y + -2.0f, z, o), QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
-        gamer->SetLastTargetedGO(tempGob->GetGUID().GetCounter());
+        gamer->SetLastTargetedGO(uint32(tempGob->GetGUID().GetCounter()));
     }
 
     void Register() override
@@ -1113,7 +1113,7 @@ class spell_gen_count_pct_from_max_hp : public SpellScriptLoader
                 if (!_damagePct)
                     _damagePct = GetHitDamage();
 
-                SetHitDamage(GetHitUnit()->CountPctFromMaxHealth(_damagePct));
+                SetHitDamage(int32(GetHitUnit()->CountPctFromMaxHealth(_damagePct)));
             }
 
             void Register() override
@@ -1742,7 +1742,7 @@ class spell_gen_gift_of_naaru : public SpellScriptLoader
                         break;
                 }
 
-                int32 healTick = std::floor(heal / aurEff->GetTotalTicks());
+                int32 healTick = int32(std::floor(heal / aurEff->GetTotalTicks()));
                 amount += int32(std::max(healTick, 0));
             }
 
@@ -2784,10 +2784,10 @@ class spell_gen_replenishment : public SpellScriptLoader
                 switch (GetSpellInfo()->Id)
                 {
                     case SPELL_REPLENISHMENT:
-                        amount = GetUnitOwner()->GetMaxPower(POWER_MANA) * 0.002f;
+                        amount = int32(GetUnitOwner()->GetMaxPower(POWER_MANA) * 0.002f);
                         break;
                     case SPELL_INFINITE_REPLENISHMENT:
-                        amount = GetUnitOwner()->GetMaxPower(POWER_MANA) * 0.0025f;
+                        amount = int32(GetUnitOwner()->GetMaxPower(POWER_MANA) * 0.0025f);
                         break;
                     default:
                         break;
@@ -4602,7 +4602,7 @@ class spell_gen_eredar_bloodmage_blood_siphon_damage : public SpellScript
         if (!target)
             return;
 
-        int32 healthPctDmg = target->CountPctFromCurHealth(GetSpellInfo()->GetEffect(EFFECT_0)->BasePoints);
+        int32 healthPctDmg = int32(target->CountPctFromCurHealth(GetSpellInfo()->GetEffect(EFFECT_0)->BasePoints));
         SetHitDamage(healthPctDmg);
         target->CastCustomSpell(GetCaster(), SPELL_BLOOD_SIPHON_HEAL, &healthPctDmg, 0, 0, true);
 
@@ -4648,7 +4648,7 @@ class spell_arcane_pulse : public SpellScript
         if (!damage)
             damage = float(GetCaster()->GetTotalSpellPowerValue(SPELL_SCHOOL_MASK_ALL, false)) * 0.75f;
 
-        SetHitDamage(damage);
+        SetHitDamage(int32(damage));
     }
 
     void Register() override
@@ -4692,7 +4692,7 @@ class spell_light_judgement : public SpellScript
     void HandleDamage(SpellEffIndex /*effIndex*/)
     {
         if (Unit* caster = GetCaster())
-            SetHitDamage(6.25f * caster->m_unitData->AttackPower);
+            SetHitDamage(int32(6.25f * caster->m_unitData->AttackPower));
     }
 
     void Register() override
@@ -5000,7 +5000,7 @@ public:
         void HandleOnCast()
         {
             if (Unit* caster = GetCaster())
-                caster->GetMotionMaster()->MoveJump(1273.716f, 1039.498f, 434.867f, 20.0f, 15.0f, GetSpellInfo()->Id, 0.966f, 0);
+                caster->GetMotionMaster()->MoveJump(1273.716f, 1039.498f, 434.867f, 0.966f, 20.0f, 15.0f, GetSpellInfo()->Id, false);
         }
 
         void Register() override
@@ -5382,7 +5382,7 @@ public:
                 float dist = position->GetExactDist2d(player->GetPositionX(), player->GetPositionY());
                 float speedXY = dist;
 
-                player->GetMotionMaster()->MoveJump(position->GetPositionX(), position->GetPositionY(), position->GetPositionZ(), speedXY, speedZ);
+                player->GetMotionMaster()->MoveJump(position->GetPositionX(), position->GetPositionY(), position->GetPositionZ(), position->GetOrientation(), speedXY, speedZ);
             }
         }
 
@@ -5424,7 +5424,7 @@ public:
 
         void HandleDummy(SpellEffIndex /* effIndex */)
         {
-            float damage = GetEffectValue();
+            float damage = float(GetEffectValue());
             Unit* caster = GetCaster();
            // if (Unit* target = GetHitUnit())
               //  if (SpellInfo const* triggeredByAuraSpell = GetTriggeringSpell())
@@ -6525,7 +6525,7 @@ public:
 
         void HandleDamageCalc(SpellEffIndex /*effIndex*/)
         {
-            uint32 bp = GetCaster()->CountPctFromCurHealth(93);
+            uint32 bp = uint32(GetCaster()->CountPctFromCurHealth(93));
             SetHitDamage(bp);
         }
 
@@ -6686,7 +6686,7 @@ public:
 
                 aurEff0->ChangeAmount(amount);
 
-                float bp0 = -amount;
+                float bp0 = float(-amount);
               //  player->CastCustomSpell(player, 74410, &bp0, &bp0, &bp0, true);
             }
         }
@@ -7294,7 +7294,7 @@ public:
 
             target->CastSpell(target, health, true);
             target->CastSpell(target, knock, true);
-            absorbAmount = dmgInfo.GetDamage();
+            absorbAmount = float(dmgInfo.GetDamage());
             GetAura()->SetDuration(250);
         }
 
@@ -7756,8 +7756,8 @@ public:
             PreventDefaultAction();
             Unit* caster = GetCaster();
 
-            uint32 triggerOnHealth = caster->CountPctFromMaxHealth(aurEff->GetAmount());
-            uint32 currentHealth = caster->GetHealth();
+            uint32 triggerOnHealth = uint32(caster->CountPctFromMaxHealth(aurEff->GetAmount()));
+            uint32 currentHealth = uint32(caster->GetHealth());
             // Just falling below threshold
             if (currentHealth > triggerOnHealth && (currentHealth - caster->GetMaxHealth() * 25.0f / 100.0f) <= triggerOnHealth){
                 caster->CastSpell(caster, 313010);
@@ -7838,7 +7838,7 @@ public:
         {
 
             Unit * caster = GetCaster();
-            uint32 heal = caster->GetMaxHealth() * 25.0f / 100.0f;
+            uint32 heal = uint32(caster->GetMaxHealth() * 25.0f / 100.0f);
             //caster->SpellHealingBonusDone(caster, GetSpellInfo(), caster->CountPctFromMaxHealth(GetSpellInfo()->GetEffect(effIndex)->BasePoints), HEAL, GetEffectInfo());
             heal = caster->SpellHealingBonusTaken(caster, GetSpellInfo(), heal, HEAL, GetEffectInfo());
             SetHitHeal(heal);

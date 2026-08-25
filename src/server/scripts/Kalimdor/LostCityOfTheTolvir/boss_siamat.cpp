@@ -552,7 +552,7 @@ class spell_wailing_winds: public SpellScriptLoader
                 {
                     float dist = frand(10.0f, 30.0f);
                     target->GetNearPoint2D(x, y, dist, angle);
-                    target->GetMotionMaster()->MoveJump(x, y, FLOR_COORD_Z, SpeedXY, SpeedZ);
+                    target->GetMotionMaster()->MoveJump(x, y, FLOR_COORD_Z, target->GetOrientation(), SpeedXY, SpeedZ);
                 }
             }
 

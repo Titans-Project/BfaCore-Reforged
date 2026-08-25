@@ -868,7 +868,7 @@ class spell_repentance_pull_player: public SpellScriptLoader
                 float z = caster->GetMap()->GetHeight(caster->GetPhaseShift(), x, y, MAX_HEIGHT);
                 float speedZ = (float)(GetSpellInfo()->GetEffect(effIndex)->CalcValue() / 10);
                 float speedXY = (float)(GetSpellInfo()->GetEffect(effIndex)->MiscValue / 10);
-                target->GetMotionMaster()->MoveJump(x, y, z, speedXY, speedZ);
+                target->GetMotionMaster()->MoveJump(x, y, z, target->GetOrientation(), speedXY, speedZ);
             }
 
             void Register() override
