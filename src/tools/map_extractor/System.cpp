@@ -38,8 +38,25 @@
 #include <unordered_map>
 #include <cstdlib>
 #include <cstring>
+#include <algorithm>
+#include <atomic>
+#include <mutex>
+#include <thread>
+#include <vector>
 
 std::shared_ptr<CASC::Storage> CascStorage;
+
+// CascLib is not thread safe: a storage handle must not be read from two threads at once.
+// Worker threads in ExtractMaps therefore open their own handle and publish it here; every read
+// goes through GetCascStorage() so the main thread keeps using the shared one.
+thread_local std::shared_ptr<CASC::Storage> ThreadCascStorage;
+
+std::shared_ptr<CASC::Storage> const& GetCascStorage()
+{
+    return ThreadCascStorage ? ThreadCascStorage : CascStorage;
+}
+
+bool OpenThreadCascStorage();   // defined next to OpenCascStorage
 
 struct MapEntry
 {
@@ -463,24 +480,26 @@ float selectUInt16StepStore(float maxDiff)
 {
     return 65535 / maxDiff;
 }
-// Temporary grid data store
-uint16 area_ids[ADT_CELLS_PER_GRID][ADT_CELLS_PER_GRID];
+// Temporary grid data store.
+// thread_local: ExtractMaps converts several maps at once and every one of these is scratch space
+// reused for each tile. Roughly 320 KB per worker thread.
+thread_local uint16 area_ids[ADT_CELLS_PER_GRID][ADT_CELLS_PER_GRID];
 
-float V8[ADT_GRID_SIZE][ADT_GRID_SIZE];
-float V9[ADT_GRID_SIZE+1][ADT_GRID_SIZE+1];
-uint16 uint16_V8[ADT_GRID_SIZE][ADT_GRID_SIZE];
-uint16 uint16_V9[ADT_GRID_SIZE+1][ADT_GRID_SIZE+1];
-uint8  uint8_V8[ADT_GRID_SIZE][ADT_GRID_SIZE];
-uint8  uint8_V9[ADT_GRID_SIZE+1][ADT_GRID_SIZE+1];
+thread_local float V8[ADT_GRID_SIZE][ADT_GRID_SIZE];
+thread_local float V9[ADT_GRID_SIZE+1][ADT_GRID_SIZE+1];
+thread_local uint16 uint16_V8[ADT_GRID_SIZE][ADT_GRID_SIZE];
+thread_local uint16 uint16_V9[ADT_GRID_SIZE+1][ADT_GRID_SIZE+1];
+thread_local uint8  uint8_V8[ADT_GRID_SIZE][ADT_GRID_SIZE];
+thread_local uint8  uint8_V9[ADT_GRID_SIZE+1][ADT_GRID_SIZE+1];
 
-uint16 liquid_entry[ADT_CELLS_PER_GRID][ADT_CELLS_PER_GRID];
-uint8 liquid_flags[ADT_CELLS_PER_GRID][ADT_CELLS_PER_GRID];
-bool  liquid_show[ADT_GRID_SIZE][ADT_GRID_SIZE];
-float liquid_height[ADT_GRID_SIZE+1][ADT_GRID_SIZE+1];
-uint8 holes[ADT_CELLS_PER_GRID][ADT_CELLS_PER_GRID][8];
+thread_local uint16 liquid_entry[ADT_CELLS_PER_GRID][ADT_CELLS_PER_GRID];
+thread_local uint8 liquid_flags[ADT_CELLS_PER_GRID][ADT_CELLS_PER_GRID];
+thread_local bool  liquid_show[ADT_GRID_SIZE][ADT_GRID_SIZE];
+thread_local float liquid_height[ADT_GRID_SIZE+1][ADT_GRID_SIZE+1];
+thread_local uint8 holes[ADT_CELLS_PER_GRID][ADT_CELLS_PER_GRID][8];
 
-int16 flight_box_max[3][3];
-int16 flight_box_min[3][3];
+thread_local int16 flight_box_max[3][3];
+thread_local int16 flight_box_min[3][3];
 
 LiquidVertexFormatType adt_MH2O::GetLiquidVertexFormat(adt_liquid_instance const* liquidInstance) const
 {
@@ -532,6 +551,12 @@ bool ConvertADT(ChunkedFile& adt, std::string const& mapName, std::string const&
     memset(liquid_show, 0, sizeof(liquid_show));
     memset(liquid_flags, 0, sizeof(liquid_flags));
     memset(liquid_entry, 0, sizeof(liquid_entry));
+
+    // liquid_height is (ADT_GRID_SIZE + 1) squared, but the reset loop further down only walks
+    // 0..ADT_GRID_SIZE-1, so the last row and column kept whatever the previously converted tile
+    // left there - and the liquid rectangle written to the file can reach them (its width and
+    // height are computed with a +1). Seed the whole array with the same default that loop uses.
+    std::fill_n(&liquid_height[0][0], (ADT_GRID_SIZE + 1) * (ADT_GRID_SIZE + 1), CONF_use_minHeight);
 
     memset(holes, 0, sizeof(holes));
 
@@ -909,7 +934,9 @@ bool ConvertADT(ChunkedFile& adt, std::string const& mapName, std::string const&
         }
     }
 
-    map_liquidHeader liquidHeader;
+    // Zero initialised: liquidFlags is only assigned when MAP_LIQUID_NO_TYPE is set, so on the
+    // other path an uninitialised stack byte used to be written straight into the .map file.
+    map_liquidHeader liquidHeader = { };
 
     // no water data (if all grid have 0 liquid type)
     if (firstLiquidFlag == 0 && !fullType)
@@ -1061,7 +1088,7 @@ bool ConvertADT(std::string const& fileName, std::string const& mapName, std::st
 {
     ChunkedFile adt;
 
-    if (!adt.loadFile(CascStorage, fileName))
+    if (!adt.loadFile(GetCascStorage(), fileName))
         return false;
 
     return ConvertADT(adt, mapName, outputPath, gx, gy, build, ignoreDeepWater);
@@ -1071,7 +1098,7 @@ bool ConvertADT(uint32 fileDataId, std::string const& mapName, std::string const
 {
     ChunkedFile adt;
 
-    if (!adt.loadFile(CascStorage, fileDataId, Trinity::StringFormat("Map %s grid [%u,%u]", mapName.c_str(), gx, gy)))
+    if (!adt.loadFile(GetCascStorage(), fileDataId, Trinity::StringFormat("Map %s grid [%u,%u]", mapName.c_str(), gx, gy)))
         return false;
 
     return ConvertADT(adt, mapName, outputPath, gx, gy, build, ignoreDeepWater);
@@ -1118,52 +1145,83 @@ void ExtractMaps(uint32 build)
 
     CreateDir(output_path / "maps");
 
-    printf("Convert map files\n");
-    for (std::size_t z = 0; z < map_ids.size(); ++z)
-    {
-        printf("Extract %s (" SZFMTD "/" SZFMTD ")                  \n", map_ids[z].Name.c_str(), z + 1, map_ids.size());
-        // Loadup map grid data
-        ChunkedFile wdt;
-        std::bitset<(WDT_MAP_SIZE) * (WDT_MAP_SIZE)> existingTiles;
-        if (wdt.loadFile(CascStorage, map_ids[z].WdtFileDataId, Trinity::StringFormat("WDT for map %u", map_ids[z].Id), false))
-        {
-            FileChunk* mphd = wdt.GetChunk("MPHD");
-            FileChunk* main = wdt.GetChunk("MAIN");
-            FileChunk* maid = wdt.GetChunk("MAID");
-            for (uint32 y = 0; y < WDT_MAP_SIZE; ++y)
-            {
-                for (uint32 x = 0; x < WDT_MAP_SIZE; ++x)
-                {
-                    if (!(main->As<wdt_MAIN>()->adt_list[y][x].flag & 0x1))
-                        continue;
+    // Maps are converted in parallel: each one loads its own WDT and writes only its own tiles
+    // and its own .tilelist, so there is nothing to synchronise beyond the work cursor and stdout.
+    unsigned int threadCount = std::max(1u, std::thread::hardware_concurrency());
+    threadCount = std::min<unsigned int>(threadCount, static_cast<unsigned int>(map_ids.size()));
 
-                    outputFileName = Trinity::StringFormat("%s/maps/%04u_%02u_%02u.map", output_path.string().c_str(), map_ids[z].Id, y, x);
-                    bool ignoreDeepWater = IsDeepWaterIgnored(map_ids[z].Id, y, x);
-                    if (mphd && mphd->As<wdt_MPHD>()->flags & 0x200)
+    printf("Convert map files (%u threads)\n", threadCount);
+
+    std::atomic<size_t> nextMap(0);
+    std::atomic<size_t> doneMaps(0);
+    std::mutex printMutex;
+
+    auto convertMaps = [&]()
+    {
+        // Every worker needs its own CASC handle, CascLib cannot be read from several threads.
+        if (!OpenThreadCascStorage())
+            return;
+
+        for (size_t z = nextMap.fetch_add(1); z < map_ids.size(); z = nextMap.fetch_add(1))
+        {
+            // Loadup map grid data
+            ChunkedFile wdt;
+            std::bitset<(WDT_MAP_SIZE) * (WDT_MAP_SIZE)> existingTiles;
+            if (wdt.loadFile(GetCascStorage(), map_ids[z].WdtFileDataId, Trinity::StringFormat("WDT for map %u", map_ids[z].Id), false))
+            {
+                FileChunk* mphd = wdt.GetChunk("MPHD");
+                FileChunk* main = wdt.GetChunk("MAIN");
+                FileChunk* maid = wdt.GetChunk("MAID");
+                for (uint32 y = 0; y < WDT_MAP_SIZE; ++y)
+                {
+                    for (uint32 x = 0; x < WDT_MAP_SIZE; ++x)
                     {
-                        existingTiles[y * WDT_MAP_SIZE + x] = ConvertADT(maid->As<wdt_MAID>()->adt_files[y][x].rootADT, map_ids[z].Name, outputFileName, y, x, build, ignoreDeepWater);
-                    }
-                    else
-                    {
-                        std::string storagePath = Trinity::StringFormat(R"(World\Maps\%s\%s_%u_%u.adt)", map_ids[z].Directory.c_str(), map_ids[z].Directory.c_str(), x, y);
-                        existingTiles[y * WDT_MAP_SIZE + x] = ConvertADT(storagePath, map_ids[z].Name, outputFileName, y, x, build, ignoreDeepWater);
+                        if (!(main->As<wdt_MAIN>()->adt_list[y][x].flag & 0x1))
+                            continue;
+
+                        std::string tileFileName = Trinity::StringFormat("%s/maps/%04u_%02u_%02u.map", output_path.string().c_str(), map_ids[z].Id, y, x);
+                        bool ignoreDeepWater = IsDeepWaterIgnored(map_ids[z].Id, y, x);
+                        if (mphd && mphd->As<wdt_MPHD>()->flags & 0x200)
+                        {
+                            existingTiles[y * WDT_MAP_SIZE + x] = ConvertADT(maid->As<wdt_MAID>()->adt_files[y][x].rootADT, map_ids[z].Name, tileFileName, y, x, build, ignoreDeepWater);
+                        }
+                        else
+                        {
+                            std::string storagePath = Trinity::StringFormat(R"(World\Maps\%s\%s_%u_%u.adt)", map_ids[z].Directory.c_str(), map_ids[z].Directory.c_str(), x, y);
+                            existingTiles[y * WDT_MAP_SIZE + x] = ConvertADT(storagePath, map_ids[z].Name, tileFileName, y, x, build, ignoreDeepWater);
+                        }
                     }
                 }
-
-                // draw progress bar
-                printf("Processing........................%d%%\r", (100 * (y + 1)) / WDT_MAP_SIZE);
             }
-        }
 
-        if (FILE* tileList = fopen(Trinity::StringFormat("%s/maps/%04u.tilelist", output_path.string().c_str(), map_ids[z].Id).c_str(), "wb"))
-        {
-            fwrite(MAP_MAGIC, 1, strlen(MAP_MAGIC), tileList);
-            fwrite(MAP_VERSION_MAGIC, 1, strlen(MAP_VERSION_MAGIC), tileList);
-            fwrite(&build, sizeof(build), 1, tileList);
-            fwrite(existingTiles.to_string().c_str(), 1, existingTiles.size(), tileList);
-            fclose(tileList);
+            if (FILE* tileList = fopen(Trinity::StringFormat("%s/maps/%04u.tilelist", output_path.string().c_str(), map_ids[z].Id).c_str(), "wb"))
+            {
+                fwrite(MAP_MAGIC, 1, strlen(MAP_MAGIC), tileList);
+                fwrite(MAP_VERSION_MAGIC, 1, strlen(MAP_VERSION_MAGIC), tileList);
+                fwrite(&build, sizeof(build), 1, tileList);
+                fwrite(existingTiles.to_string().c_str(), 1, existingTiles.size(), tileList);
+                fclose(tileList);
+            }
+
+            size_t done = doneMaps.fetch_add(1) + 1;
+            std::lock_guard<std::mutex> guard(printMutex);
+            printf("Extract %s (" SZFMTD "/" SZFMTD ")                  \r", map_ids[z].Name.c_str(), done, map_ids.size());
+            fflush(stdout);
         }
+    };
+
+    if (threadCount > 1)
+    {
+        std::vector<std::thread> workers;
+        workers.reserve(threadCount);
+        for (unsigned int i = 0; i < threadCount; ++i)
+            workers.emplace_back(convertMaps);
+
+        for (std::thread& t : workers)
+            t.join();
     }
+    else if (!map_ids.empty())
+        convertMaps();
 
     printf("\n");
 }
@@ -1432,11 +1490,14 @@ void ExtractGameTables()
     printf("Extracted %u files\n\n", count);
 }
 
+int CONF_OpenedLocale = 0;      // locale the storage handles are opened with, see OpenThreadCascStorage
+
 bool OpenCascStorage(int locale)
 {
     try
     {
         boost::filesystem::path const storage_dir(boost::filesystem::canonical(input_path) / "Data");
+        CONF_OpenedLocale = locale;
         CascStorage.reset(CASC::Storage::Open(storage_dir, WowLocaleToCascLocaleFlags[locale], CONF_Product));
         if (!CascStorage)
         {
@@ -1449,6 +1510,32 @@ bool OpenCascStorage(int locale)
     catch (boost::filesystem::filesystem_error const& error)
     {
         printf("Error opening CASC storage: %s\n", error.what());
+        return false;
+    }
+}
+
+// Opens a CASC handle owned by the calling thread, with the same locale the main handle was
+// opened with. Called once per worker thread in ExtractMaps.
+bool OpenThreadCascStorage()
+{
+    if (ThreadCascStorage)
+        return true;
+
+    try
+    {
+        boost::filesystem::path const storage_dir(boost::filesystem::canonical(input_path) / "Data");
+        ThreadCascStorage.reset(CASC::Storage::Open(storage_dir, WowLocaleToCascLocaleFlags[CONF_OpenedLocale], CONF_Product));
+        if (!ThreadCascStorage)
+        {
+            printf("error opening casc storage for worker thread\n");
+            return false;
+        }
+
+        return true;
+    }
+    catch (boost::filesystem::filesystem_error const& error)
+    {
+        printf("Error opening CASC storage for worker thread: %s\n", error.what());
         return false;
     }
 }
