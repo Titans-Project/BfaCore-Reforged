@@ -21,9 +21,14 @@
 #include "StringFormat.h"
 #include "VMapDefinitions.h"
 #include <boost/filesystem.hpp>
+#include <algorithm>
+#include <atomic>
 #include <iomanip>
+#include <mutex>
 #include <set>
 #include <sstream>
+#include <thread>
+#include <vector>
 
 using G3D::Vector3;
 using G3D::AABox;
@@ -171,17 +176,50 @@ namespace VMAP
         // add an object models, listed in temp_gameobject_models file
         exportGameobjectModels();
         // export objects
-        std::cout << "\nConverting Model Files" << std::endl;
-        for (std::set<std::string>::iterator mfile = spawnedModelFiles.begin(); mfile != spawnedModelFiles.end(); ++mfile)
+        // Each model is converted independently (read one raw file, write one .vmo named after it),
+        // so the loop is spread over all cores with a shared atomic cursor.
+        std::vector<std::string> modelFiles(spawnedModelFiles.begin(), spawnedModelFiles.end());
+        std::cout << "\nConverting " << modelFiles.size() << " Model Files" << std::endl;
+
+        unsigned int threadCount = std::max(1u, std::thread::hardware_concurrency());
+        threadCount = std::min<unsigned int>(threadCount, static_cast<unsigned int>(modelFiles.size()));
+
+        std::atomic<size_t> nextIndex(0);
+        std::atomic<bool> failed(false);
+        std::mutex outputMutex;
+
+        auto worker = [&]()
         {
-            std::cout << "Converting " << *mfile << std::endl;
-            if (!convertRawFile(*mfile))
+            for (size_t i = nextIndex.fetch_add(1); i < modelFiles.size(); i = nextIndex.fetch_add(1))
             {
-                std::cout << "error converting " << *mfile << std::endl;
-                success = false;
-                break;
+                if (failed.load())
+                    return;
+
+                if (!convertRawFile(modelFiles[i]))
+                {
+                    std::lock_guard<std::mutex> guard(outputMutex);
+                    std::cout << "error converting " << modelFiles[i] << std::endl;
+                    failed.store(true);
+                    return;
+                }
             }
+        };
+
+        if (threadCount > 1)
+        {
+            std::vector<std::thread> workers;
+            workers.reserve(threadCount);
+            for (unsigned int i = 0; i < threadCount; ++i)
+                workers.emplace_back(worker);
+
+            for (std::thread& t : workers)
+                t.join();
         }
+        else if (!modelFiles.empty())
+            worker();
+
+        if (failed.load())
+            success = false;
 
         return success;
     }
