@@ -1201,7 +1201,7 @@ public:
             if (HealthAbovePct(75))
                 damage = urand(1, 2);
             else
-                me->SetHealth(me->GetMaxHealth() * 0.85f);
+                me->SetHealth(uint64(me->GetMaxHealth() * 0.85f));
         }
 
         void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override {}
@@ -1267,7 +1267,7 @@ public:
             if (HealthAbovePct(75))
                 damage = urand(1, 2);
             else
-                me->SetHealth(me->GetMaxHealth() * 0.85f);
+                me->SetHealth(uint64(me->GetMaxHealth() * 0.85f));
         }
 
         void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override {}
@@ -1332,7 +1332,7 @@ public:
             if (HealthAbovePct(75))
                 damage = urand(1, 2);
             else
-                me->SetHealth(me->GetMaxHealth() * 0.85f);
+                me->SetHealth(uint64(me->GetMaxHealth() * 0.85f));
         }
 
         void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override {}
@@ -1395,7 +1395,7 @@ public:
             if (HealthAbovePct(75))
                 damage = urand(1, 2);
             else
-                me->SetHealth(me->GetMaxHealth() * 0.85f);
+                me->SetHealth(uint64(me->GetMaxHealth() * 0.85f));
         }
 
         void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override {}

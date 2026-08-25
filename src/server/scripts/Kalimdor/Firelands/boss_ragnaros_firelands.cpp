@@ -2197,7 +2197,7 @@ public:
             const float MAX_DIST = 100;
 
             if (distance >= 0 && distance <= MAX_DIST)
-                SetHitDamage(GetHitDamage() * (1 - (distance / MAX_DIST)));
+                SetHitDamage(int32(GetHitDamage() * (1 - (distance / MAX_DIST))));
         }
 
         void Register() override

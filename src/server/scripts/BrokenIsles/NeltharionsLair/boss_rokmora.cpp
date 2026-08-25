@@ -710,7 +710,7 @@ public:
                                 {
                                     if (instance->instance->GetDifficultyID() >= 2)
                                     {
-                                        int32 bp = target->GetHealth()/2;
+                                        int32 bp = int32(target->GetHealth()/2);
                                         target->CastCustomSpell(_player, SPELL_RUPTURING_SKITTER, &bp, 0, 0, 0);
                                     }
                                     caster->Kill(target, false);

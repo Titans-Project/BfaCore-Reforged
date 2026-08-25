@@ -374,7 +374,7 @@ public:
 
         void HandleAreaSelect(std::list<WorldObject*>& targets)
         {
-            targetsCount = targets.size();
+            targetsCount = uint8(targets.size());
         }
 
         void HandleHitTarget(SpellEffIndex /*effIndex*/)

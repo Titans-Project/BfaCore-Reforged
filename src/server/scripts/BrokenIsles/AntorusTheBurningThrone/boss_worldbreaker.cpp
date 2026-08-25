@@ -153,9 +153,9 @@ namespace TargetHandler
             return;
 
         std::list<WorldObject*> targetsCopy = targets;
-        uint8 size = targetsCopy.size();
+        uint8 size = uint8(targetsCopy.size());
         // Selecting our prefered target size based on total targets (min 10 player: 2, max 30 player: 6)
-        uint8 preferedSize = std::min<uint8>(std::max<uint8>(std::ceil(size / 5), MIN_TARGETS_SIZE), MAX_TARGETS_SIZE);
+        uint8 preferedSize = std::min<uint8>(std::max<uint8>(uint8(std::ceil(size / 5)), MIN_TARGETS_SIZE), MAX_TARGETS_SIZE);
 
         // Now we get rid of the tank as these abilities prefer non-tanks above tanks as long as there are alternatives
         targetsCopy.remove_if(TargetHandler::VictimCheck(caster, false));
@@ -286,7 +286,7 @@ struct boss_garothi_worldbreaker : public BossAI
             {
                 if (!annihilator->HasAura(SPELL_RIDE_SPELL))
                     annihilator->CastSpell(me, SPELL_RIDE_SPELL, true);
-                uint8 count = std::max<uint8>(MIN_TARGETS_SIZE, std::ceil(me->GetMap()->GetPlayersCountExceptGMs() / 5));
+                uint8 count = std::max<uint8>(MIN_TARGETS_SIZE, uint8(std::ceil(me->GetMap()->GetPlayersCountExceptGMs() / 5)));
                 for (uint8 i = 0; i < count; i++)
                 {
                     float x = AnnihilationCenterReferencePos.GetPositionX() + cos(frand(0.0f, float(M_PI * 2))) * frand(15.0f, 30.0f);

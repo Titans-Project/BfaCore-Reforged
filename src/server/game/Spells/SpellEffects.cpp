@@ -418,7 +418,7 @@ void Spell::EffectInstaKill(SpellEffIndex /*effIndex*/)
 
     m_caster->SendMessageToSet(data.Write(), true);
 
-    m_caster->DealDamage(unitTarget, unitTarget->GetHealth(), nullptr, NODAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
+    m_caster->DealDamage(unitTarget, uint32(unitTarget->GetHealth()), nullptr, NODAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
 }
 
 void Spell::EffectEnvironmentalDMG(SpellEffIndex /*effIndex*/)
@@ -459,10 +459,10 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
         // Meteor like spells (divided damage to targets)
         if (m_spellInfo->HasAttribute(SPELL_ATTR0_CU_SHARE_DAMAGE))
         {
-            uint32 count = std::count_if(m_UniqueTargetInfo.begin(), m_UniqueTargetInfo.end(), [effIndex](TargetInfo const& targetInfo)
+            uint32 count = uint32(std::count_if(m_UniqueTargetInfo.begin(), m_UniqueTargetInfo.end(), [effIndex](TargetInfo const& targetInfo)
             {
                 return targetInfo.effectMask & (1 << effIndex);
-            });
+            }));
 
             // divide to all targets
             if (count)
@@ -482,7 +482,7 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                     // percent from health with min
                     case 25599:                             // Thundercrash
                     {
-                        damage = unitTarget->GetHealth() / 2;
+                        damage = int32(unitTarget->GetHealth() / 2);
                         if (damage < 200)
                             damage = 200;
                         break;
@@ -597,7 +597,7 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                             ++aItr;
 
                     // selected from list 3
-                    uint32 maxTargets = std::min<uint32>(3, attackers.size());
+                    uint32 maxTargets = std::min<uint32>(3, uint32(attackers.size()));
                     for (uint32 i = 0; i < maxTargets; ++i)
                     {
                         Unit* attacker = Trinity::Containers::SelectRandomContainerElement(attackers);
@@ -664,7 +664,7 @@ void Spell::EffectTriggerSpell(SpellEffIndex effIndex)
              {
                 // unitTarget->RemoveMovementImpairingAuras(true);
                  if (unitTarget->GetAura(14983)) {
-                     unitTarget->SetPower(POWER_ENERGY, 170.0f);
+                     unitTarget->SetPower(POWER_ENERGY, 170);
                  }
                  unitTarget->CastSpell(unitTarget, 11327, true);
                  unitTarget->CombatStop();
@@ -1333,7 +1333,7 @@ void Spell::EffectHeal(SpellEffIndex /*effIndex*/)
         {
             if (Aura* aur = m_caster->GetAura(77513)) // Mastery: Blood Shield
             {
-                int32 bp0 = float(addhealth * float(aur->GetEffect(EFFECT_0)->GetAmount() / 100.0f));
+                int32 bp0 = int32(addhealth * float(aur->GetEffect(EFFECT_0)->GetAmount() / 100.0f));
                 if (Aura* aurShield = m_caster->GetAura(77535))
                     bp0 += aurShield->GetEffect(0)->GetAmount();
 
@@ -1372,7 +1372,7 @@ void Spell::EffectHealPct(SpellEffIndex /*effIndex*/)
     if (!m_originalCaster)
         return;
 
-    uint32 heal = m_originalCaster->SpellHealingBonusDone(unitTarget, m_spellInfo, unitTarget->CountPctFromMaxHealth(damage), HEAL, effectInfo);
+    uint32 heal = m_originalCaster->SpellHealingBonusDone(unitTarget, m_spellInfo, uint32(unitTarget->CountPctFromMaxHealth(damage)), HEAL, effectInfo);
     heal = unitTarget->SpellHealingBonusTaken(m_originalCaster, m_spellInfo, heal, HEAL, effectInfo);
 
     m_healing += heal;
@@ -1382,7 +1382,7 @@ void Spell::EffectHealPct(SpellEffIndex /*effIndex*/)
     case 197509: // Bloodworm
         if (!unitTarget->IsFullHealth())
             if (SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(195679))
-                heal = CalculatePct(unitTarget->GetMaxHealth() - unitTarget->GetHealth(), spellInfo->GetEffect(EFFECT_2)->CalcValue(unitTarget));
+                heal = uint32(CalculatePct(unitTarget->GetMaxHealth() - unitTarget->GetHealth(), spellInfo->GetEffect(EFFECT_2)->CalcValue(unitTarget)));
         break;
     default:
         break;
@@ -2312,7 +2312,7 @@ void Spell::EffectDispel(SpellEffIndex effIndex)
     {
         // Random select buff for dispel
         auto itr = dispelList.begin();
-        std::advance(itr, urand(0, remaining - 1));
+        std::advance(itr, urand(0, uint32(remaining - 1)));
 
         if (itr->RollDispel())
         {
@@ -3050,10 +3050,10 @@ void Spell::EffectWeaponDmg(SpellEffIndex effIndex)
             }
             case 49998: // Death Strike
             {
-                float pctDamage = m_caster->IsFFAPvP() ? m_spellInfo->GetEffect(EFFECT_2)->CalcValue(m_caster) / 2 : m_spellInfo->GetEffect(EFFECT_2)->CalcValue(m_caster);
+                float pctDamage = float(m_caster->IsFFAPvP() ? m_spellInfo->GetEffect(EFFECT_2)->CalcValue(m_caster) / 2 : m_spellInfo->GetEffect(EFFECT_2)->CalcValue(m_caster));
                 int32 lastTime = m_spellInfo->GetEffect(EFFECT_3)->CalcValue(m_caster);
                 int32 pctHeal = m_spellInfo->GetEffect(EFFECT_4)->CalcValue(m_caster);
-                int32 bp = m_caster->CountPctFromMaxHealth(pctHeal) + CalculatePct(m_caster->GetDamageOverLastSeconds(lastTime), pctDamage);
+                int32 bp = int32(m_caster->CountPctFromMaxHealth(pctHeal) + CalculatePct(m_caster->GetDamageOverLastSeconds(lastTime), pctDamage));
 
                 m_caster->CastCustomSpell(m_caster, 45470, &bp, nullptr, nullptr, false);
                 break;
@@ -3185,9 +3185,9 @@ void Spell::EffectHealMaxHealth(SpellEffIndex /*effIndex*/)
 
     // damage == 0 - heal for caster max health
     if (damage == 0)
-        addhealth = m_caster->GetMaxHealth();
+        addhealth = int32(m_caster->GetMaxHealth());
     else
-        addhealth = unitTarget->GetMaxHealth() - unitTarget->GetHealth();
+        addhealth = int32(unitTarget->GetMaxHealth() - unitTarget->GetHealth());
 
     m_healing += addhealth;
     m_healing = unitTarget->SpellHealingBonusTaken(m_caster, m_spellInfo, m_healing, HEAL, effectInfo);
@@ -4187,7 +4187,7 @@ void Spell::EffectSummonSurveyTools(SpellEffIndex /*effIndex*/)
             m_caster->m_ObjectSlot[1] = ObjectGuid::Empty;
 
             // Read digsite info
-            int memId = player->GetArchaeologyMgr().GetDigsite(player->GetPositionX(), player->GetPositionY());
+            int memId = player->GetArchaeologyMgr().GetDigsite(int32(player->GetPositionX()), int32(player->GetPositionY()));
             uint32 digsiteId = 0;
 
             std::vector<uint32> const/*&*/ digsites;// = player->GetDynamicValues(ACTIVE_PLAYER_DYNAMIC_FIELD_RESERACH_SITE);
@@ -4310,7 +4310,7 @@ void Spell::EffectResurrect(SpellEffIndex effIndex)
     if (target->IsResurrectRequested())       // already have one active request
         return;
 
-    uint32 health = target->CountPctFromMaxHealth(damage);
+    uint32 health = uint32(target->CountPctFromMaxHealth(damage));
     uint32 mana   = CalculatePct(target->GetMaxPower(POWER_MANA), damage);
 
     ExecuteLogEffectResurrect(effIndex, target);
@@ -4469,7 +4469,7 @@ void Spell::EffectSelfResurrect(SpellEffIndex /*effIndex*/)
     // percent case
     else
     {
-        health = m_caster->CountPctFromMaxHealth(damage);
+        health = uint32(m_caster->CountPctFromMaxHealth(damage));
         if (m_caster->GetMaxPower(POWER_MANA) > 0)
             mana = CalculatePct(m_caster->GetMaxPower(POWER_MANA), damage);
     }
@@ -5281,7 +5281,7 @@ void Spell::EffectStealBeneficialBuff(SpellEffIndex /*effIndex*/)
     {
         // Random select buff for dispel
         DispelChargesList::iterator itr = stealList.begin();
-        std::advance(itr, urand(0, remaining - 1));
+        std::advance(itr, urand(0, uint32(remaining - 1)));
 
         if (itr->RollDispel())
         {
@@ -5707,7 +5707,7 @@ void Spell::EffectDamageFromMaxHealthPCT(SpellEffIndex /*effIndex*/)
     if (!unitTarget)
         return;
 
-    m_damage += unitTarget->CountPctFromMaxHealth(damage);
+    m_damage += int32(unitTarget->CountPctFromMaxHealth(damage));
 }
 
 void Spell::EffectGiveCurrency(SpellEffIndex /*effIndex*/)
@@ -5779,7 +5779,7 @@ void Spell::EffectRechargeItem(SpellEffIndex /*effIndex*/)
     {
         ItemTemplate const* proto = item->GetTemplate();
         for (size_t x = 0; x < proto->Effects.size() && x < 5; ++x)
-            item->SetSpellCharges(x, proto->Effects[x]->Charges);
+            item->SetSpellCharges(uint8(x), proto->Effects[x]->Charges);
         item->SetState(ITEM_CHANGED, player);
     }
 }
@@ -5856,7 +5856,7 @@ void Spell::EffectResurrectWithAura(SpellEffIndex effIndex)
     if (target->IsResurrectRequested())       // already have one active request
         return;
 
-    uint32 health = target->CountPctFromMaxHealth(damage);
+    uint32 health = uint32(target->CountPctFromMaxHealth(damage));
     uint32 mana   = CalculatePct(target->GetMaxPower(POWER_MANA), damage);
     uint32 resurrectAura = 0;
     if (sSpellMgr->GetSpellInfo(m_spellValue->EffectTriggerSpell[effIndex]))
@@ -6295,7 +6295,7 @@ void Spell::EffectGiveExperience(SpellEffIndex /*effIndex*/)
 
     Player* playerTarget = unitTarget->ToPlayer();
     float questXpRate = playerTarget->GetPersonnalXpRate() ? playerTarget->GetPersonnalXpRate() : sWorld->getRate(RATE_XP_QUEST);
-    uint32 XP = questXp->Difficulty[effectInfo->MiscValueB] * questXpRate;
+    uint32 XP = uint32(questXp->Difficulty[effectInfo->MiscValueB] * questXpRate);
 
     // handle SPELL_AURA_MOD_XP_QUEST_PCT auras
     Unit::AuraEffectList const& ModXPPctAuras = playerTarget->GetAuraEffectsByType(SPELL_AURA_MOD_XP_QUEST_PCT);

@@ -256,7 +256,7 @@ public:
                         {
                             if (Sath->HasAura(SPELL_BANISH))
                             {
-                                Sath->DealDamage(Sath, Sath->GetHealth());
+                                Sath->DealDamage(Sath, uint32(Sath->GetHealth()));
                                 return;
                             }
                             else
@@ -746,7 +746,7 @@ public:
                     {
                         if (Kalecgos->HasAura(SPELL_BANISH))
                         {
-                            me->DealDamage(me, me->GetHealth());
+                            me->DealDamage(me, uint32(me->GetHealth()));
                             return;
                         }
                         DoAction(DO_BANISH);

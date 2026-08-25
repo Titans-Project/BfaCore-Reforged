@@ -948,7 +948,7 @@ class spell_gatewatcher_subboss_trigger : public SpellScriptLoader
                 {
                     // If there are, pick one of them at random
                     std::list<WorldObject*>::iterator it = targetList.begin();
-                    std::advance(it, urand(0, targetList.size() - 1));
+                    std::advance(it, urand(0, uint32(targetList.size() - 1)));
                     target = *it;
                 }
                 // And hit only that one

@@ -244,7 +244,7 @@ public:
 
         void SetInPhase3()
         {
-            uint32 calcHealth = CalculatePct(me->GetMaxHealth(), 47);
+            uint32 calcHealth = uint32(CalculatePct(me->GetMaxHealth(), 47));
             me->SetHealth(calcHealth);
             me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE));
             me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_NOT_SELECTABLE));
@@ -387,7 +387,7 @@ public:
                     me->SetFacingTo(4.29f);
                     furyOfTheMaw = true;
 
-                    events.ScheduleEvent(EVENT_FURY_OF_THE_MAW, 0.1 * IN_MILLISECONDS);
+                    events.ScheduleEvent(EVENT_FURY_OF_THE_MAW, uint32(0.1 * IN_MILLISECONDS));
                     break;
 
                 case EVENT_TORRENT:
@@ -490,7 +490,7 @@ public:
                         furyOfTheMaw = true;
                     }
 
-                    events.ScheduleEvent(EVENT_MISTS_OF_HELHEIM, 0.8 * IN_MILLISECONDS);
+                    events.ScheduleEvent(EVENT_MISTS_OF_HELHEIM, uint32(0.8 * IN_MILLISECONDS));
                     break;
 
                 case EVENT_ORB_OF_CORROSION_CAST:
@@ -786,7 +786,7 @@ public:
             if (instance)
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
 
-            events.ScheduleEvent(EVENT_JUMP_BOAT, 6.5 * IN_MILLISECONDS);
+            events.ScheduleEvent(EVENT_JUMP_BOAT, uint32(6.5 * IN_MILLISECONDS));
         }
 
         void JustDied(Unit* /*killer*/) override
@@ -883,7 +883,7 @@ public:
             if (instance)
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
 
-            events.ScheduleEvent(EVENT_JUMP_BOAT, 6.5 * IN_MILLISECONDS);
+            events.ScheduleEvent(EVENT_JUMP_BOAT, uint32(6.5 * IN_MILLISECONDS));
         }
 
         void JustDied(Unit* /*killer*/) override

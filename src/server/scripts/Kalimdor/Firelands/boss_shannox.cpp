@@ -113,11 +113,11 @@ enum Other
 
 enum AreaIds
 {
-    AREA_1          = 5764, // Логово Бет'тилак
-    AREA_2          = 5821, // Порочный путь
-    AREA_3          = 5766, // Каменный Венец
-    AREA_4          = 5791, // Гряда Древнего Пламени
-    AREA_5          = 5765, // Огненный портал
+    AREA_1          = 5764, // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ'пїЅпїЅпїЅпїЅпїЅ
+    AREA_2          = 5821, // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+    AREA_3          = 5766, // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    AREA_4          = 5791, // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    AREA_5          = 5765, // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 };
 
 const Position dogPos[2] =
@@ -393,7 +393,7 @@ class boss_shannox : public CreatureScript
                             Position pos;
                             for (uint8 i = 0; i < 60; ++i)
                             {
-                                pos = me->GetNearPosition(15.0f + i * 0.75f, (M_PI * i) / 10);
+                                pos = me->GetNearPosition(15.0f + i * 0.75f, float((M_PI * i) / 10));
                                 pos.m_positionZ = me->GetMap()->GetHeight(me->GetPhaseShift(), pos.GetPositionX(), pos.GetPositionY(), pos.GetPositionZ(), true, MAX_HEIGHT);
                                 me->CastSpell(pos.GetPositionX(), pos.GetPositionY(), pos.GetPositionZ(), SPELL_MAGMA_RUPTURE_MISSILE, true);
                             }
@@ -538,7 +538,7 @@ class npc_shannox_riplimb : public CreatureScript
                             AttackStart(me->GetVictim());
                         else
                         {
-                            if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0.0f, 0.0f, true))
+                            if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0f, true))
                                 AttackStart(pTarget);
                         }
                     }
@@ -820,7 +820,7 @@ class npc_shannox_spear_of_shannox : public CreatureScript
                             Position pos;
                             for (uint8 i = 0; i < 60; ++i)
                             {
-                                pos = me->GetNearPosition(15.0f + i * 0.75f, (M_PI * i) / 10);
+                                pos = me->GetNearPosition(15.0f + i * 0.75f, float((M_PI * i) / 10));
                                 pos.m_positionZ = me->GetMap()->GetHeight(me->GetPhaseShift(), pos.GetPositionX(), pos.GetPositionY(), pos.GetPositionZ(), true, MAX_HEIGHT);
                                 pShannox->CastSpell(pos.GetPositionX(), pos.GetPositionY(), pos.GetPositionZ(), SPELL_MAGMA_RUPTURE_MISSILE, true);
                             }

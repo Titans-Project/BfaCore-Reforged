@@ -199,7 +199,7 @@ struct scenario_artifact_ursocslair : public InstanceScript
             ++data;
         }
         //KillCount = 0;
-        needKillCount = m_targetMobs.size();
+        needKillCount = uint32(m_targetMobs.size());
         TC_LOG_ERROR("server.worldserver", "LoadNPC needKillCount = %u;KillCount = %u;", needKillCount, KillCount);
     }
 

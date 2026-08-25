@@ -39,7 +39,7 @@ struct instance_neltharions_lair : public InstanceScript
 
     int32 round(float v)
     { 
-        return floor( v + 0.5f); 
+        return int32(floor( v + 0.5f));
     }
 
     ObjectGuid spiritWalkerGUID;

@@ -152,7 +152,7 @@ class boss_slabhide : public CreatureScript
             void DamageTaken(Unit* /*attacker*/, uint32& damage) override
             {
                 if (_isFlying && damage >= me->GetHealth())
-                    damage = me->GetHealth() - 1; // Let creature health fall to 1 hp but prevent it from dying during air phase.
+                    damage = uint32(me->GetHealth() - 1); // Let creature health fall to 1 hp but prevent it from dying during air phase.
             }
 
             void JustDied(Unit* /*killer*/) override

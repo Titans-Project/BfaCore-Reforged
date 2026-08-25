@@ -69,7 +69,7 @@ public:
 
     void Reset(uint32 index)
     {
-        std::size_t blockIndex = UpdateMaskHelpers::GetBlockIndex(index);
+        uint32 blockIndex = UpdateMaskHelpers::GetBlockIndex(index);
         if (!(_blocks[blockIndex] &= ~UpdateMaskHelpers::GetBlockFlag(index)))
             _blocksMask[UpdateMaskHelpers::GetBlockIndex(blockIndex)] &= ~UpdateMaskHelpers::GetBlockFlag(blockIndex);
     }
@@ -82,7 +82,7 @@ public:
 
     void Set(uint32 index)
     {
-        std::size_t blockIndex = UpdateMaskHelpers::GetBlockIndex(index);
+        uint32 blockIndex = UpdateMaskHelpers::GetBlockIndex(index);
         _blocks[blockIndex] |= UpdateMaskHelpers::GetBlockFlag(index);
         _blocksMask[UpdateMaskHelpers::GetBlockIndex(blockIndex)] |= UpdateMaskHelpers::GetBlockFlag(blockIndex);
     }
@@ -127,7 +127,7 @@ public:
     }
 
 private:
-    void InitFromBlocks(uint32 const* input, uint32 size)
+    void InitFromBlocks(uint32 const* input, std::size_t size)
     {
         std::fill(std::begin(_blocksMask), std::end(_blocksMask), 0);
 

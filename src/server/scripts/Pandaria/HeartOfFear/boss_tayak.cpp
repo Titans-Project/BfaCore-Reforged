@@ -778,13 +778,13 @@ class npc_tempest_slash_tornado : public CreatureScript
 
                 if (id == 7)
                     /// In circle loop : just change the orientation from 1/16 of circle (that is 2 * Pi / 16, so Pi / 8)
-                    l_NewAngle = Position::NormalizeOrientation(me->GetOrientation() + M_PI / 8);
+                    l_NewAngle = Position::NormalizeOrientation(float(me->GetOrientation() + M_PI / 8));
 
                 if (id == 8)
                     /// New angle = turning right to start cirle, so if we consider orientation = 0.0f, new orientation is 3 Pi / 2
                     /// And we also add the orientation for the circle. As we have 16 points, the orientation change at each point
                     /// is (2 * Pi) / 16, so Pi / 8. And (3 Pi / 2) + (Pi / 8) = (12 Pi / 8) + (Pi / 8), so : 13 Pi / 8.
-                    l_NewAngle = Position::NormalizeOrientation(me->GetOrientation() + 13 * M_PI / 8);
+                    l_NewAngle = Position::NormalizeOrientation(float(me->GetOrientation() + 13 * M_PI / 8));
 
                 me->SetOrientation(l_NewAngle);
                 me->SetFacingTo(l_NewAngle);
@@ -1169,7 +1169,7 @@ class spell_unseen_strike_dmg : public SpellScriptLoader
 
             void CountTargets(std::list<WorldObject*>& targets)
             {
-                numTargets = targets.size();
+                numTargets = int32(targets.size());
             }
 
             void DealDamages(SpellEffIndex effIndex)

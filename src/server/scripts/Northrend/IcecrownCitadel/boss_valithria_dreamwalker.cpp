@@ -286,7 +286,7 @@ class boss_valithria_dreamwalker : public CreatureScript
                 _instance(creature->GetInstanceScript()), _portalCount(RAID_MODE<uint32>(3, 8, 3, 8))
             {
                 Initialize();
-                _spawnHealth = me->GetHealth();
+                _spawnHealth = uint32(me->GetHealth());
             }
 
             void Initialize()

@@ -404,7 +404,7 @@ LfgCompatibility LFGQueue::CheckCompatibility(GuidList check)
         for (LfgRolesMap::const_iterator it2 = itQueue->second.roles.begin(); it2 != itQueue->second.roles.end(); ++it2)
             proposalGroups[it2->first] = itQueue->first.IsParty() ? itQueue->first : ObjectGuid::Empty;
 
-        numPlayers += itQueue->second.roles.size();
+        numPlayers = uint8(numPlayers + itQueue->second.roles.size());
 
         if (sLFGMgr->IsLfgGroup(guid))
         {
@@ -464,7 +464,7 @@ LfgCompatibility LFGQueue::CheckCompatibility(GuidList check)
             }
         }
 
-        if (uint8 playersize = numPlayers - proposalRoles.size())
+        if (uint8 playersize = uint8(numPlayers - proposalRoles.size()))
         {
             TC_LOG_DEBUG("lfg.queue.match.compatibility.check", "Guids: (%s) not compatible, %u players are ignoring each other", GetDetailedMatchRoles(check).c_str(), playersize);
             SetCompatibles(strGuids, LFG_INCOMPATIBLES_HAS_IGNORES);
@@ -708,10 +708,10 @@ void LFGQueue::UpdateBestCompatibleInQueue(LfgQueueDataContainer::iterator itrQu
 {
     LfgQueueData& queueData = itrQueue->second;
 
-    uint8 storedSize = queueData.bestCompatible.empty() ? 0 :
-        std::count(queueData.bestCompatible.begin(), queueData.bestCompatible.end(), '|') + 1;
+    uint8 storedSize = queueData.bestCompatible.empty() ? 0 : uint8(
+        std::count(queueData.bestCompatible.begin(), queueData.bestCompatible.end(), '|') + 1);
 
-    uint8 size = std::count(key.begin(), key.end(), '|') + 1;
+    uint8 size = uint8(std::count(key.begin(), key.end(), '|') + 1);
 
     if (size <= storedSize)
         return;

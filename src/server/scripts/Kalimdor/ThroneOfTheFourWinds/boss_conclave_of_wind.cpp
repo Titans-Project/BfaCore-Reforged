@@ -986,7 +986,7 @@ public:
         void UpdateOrientation()
         {
             float orient = me->GetOrientation();
-            me->SetFacingTo(orient - M_PI/75);
+            me->SetFacingTo(float(orient - M_PI/75));
             float x, y, z;
             z = me->GetPositionZ();
             me->GetNearPoint2D(x, y, 10.0f, me->GetOrientation());
@@ -1081,7 +1081,7 @@ public:
                 {
                     if (IsCastingWindBlast)
                     {
-                        me->SetFacingTo(irand(0,4));
+                        me->SetFacingTo(float(irand(0,4)));
                         UpdateOrientation();
                     }
                     uiTurnTimer = 70;
@@ -1196,7 +1196,7 @@ class spell_nezir_sleet_storm : public SpellScriptLoader
 
             void FilterTargets(std::list<WorldObject*>& unitList)
             {
-                targetCount = unitList.size();
+                targetCount = uint32(unitList.size());
             }
 
             void CalcDamage()

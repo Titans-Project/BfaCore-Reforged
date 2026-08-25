@@ -1084,7 +1084,7 @@ public:
                 return;
 
             int32 damage = GetHitDamage();
-            uint8 distance = caster->GetExactDist(target);
+            uint8 distance = uint8(caster->GetExactDist(target));
             AddPct(damage, -distance);
             SetHitDamage(damage);
         }
@@ -1126,13 +1126,13 @@ public:
 
             if (WorldLocation const* dest = GetExplTargetDest())
             {
-                int32 speedxy = caster->GetExactDist2d(dest);
+                int32 speedxy = int32(caster->GetExactDist2d(dest));
                 int32 speedz = 25;
                 JumpArrivalCastArgs arrivalCast;
                 arrivalCast.SpellId = SPELL_TEMPORAL_SMASH_VISUAL;
                 arrivalCast.Target = target->GetGUID();
                 //arrivalCast.Triggered = true;
-                caster->GetMotionMaster()->MoveJump(*dest, speedxy, speedz, 0, false, &arrivalCast);
+                caster->GetMotionMaster()->MoveJump(*dest, float(speedxy), float(speedz), 0, false, &arrivalCast);
             }
         }
 

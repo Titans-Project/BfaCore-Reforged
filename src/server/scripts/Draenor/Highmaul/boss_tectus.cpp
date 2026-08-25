@@ -342,7 +342,7 @@ class boss_tectus : public CreatureScript
                     case eActions::MoteKilled:
                     {
                         if (m_Instance != nullptr)
-                            m_Instance->SetData(eHighmaulDatas::TectusAchievement, time(nullptr));
+                            m_Instance->SetData(eHighmaulDatas::TectusAchievement, uint32(time(nullptr)));
 
                         ++m_MoteKilled;
 
@@ -643,7 +643,7 @@ class boss_tectus : public CreatureScript
                             (me->GetEntry() == eHighmaulCreatures::Tectus) ? me->CastSpell(me, HollowedHeartOfTheMountain) :
                                 me->CastSpell(me, HollowedShardOfTheMountain);
 
-                            me->SetHealth(me->GetMaxHealth() * 0.2f);
+                            me->SetHealth(uint64(me->GetMaxHealth() * 0.2f));
                             damage = 0;
 
                             me->CastSpell(me, eSpells::ZeroPowerZeroRegen, true);

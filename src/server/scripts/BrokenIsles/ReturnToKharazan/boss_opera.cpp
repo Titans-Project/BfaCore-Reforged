@@ -1278,7 +1278,7 @@ class npc_kara_gang_ruffian : public CreatureScript
                 {
                     damage = 0;
                     _events.Reset();
-                    me->SetHealth(me->GetMaxHealth() * 0.01f);
+                    me->SetHealth(uint64(me->GetMaxHealth() * 0.01f));
                     me->AddUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
                     me->SetReactState(REACT_PASSIVE);
                     me->GetMotionMaster()->MovePoint(0, me->GetHomePosition());
@@ -1425,7 +1425,7 @@ class npc_kara_shoreline_speaker : public CreatureScript
                 {
                     damage = 0;
                     _events.Reset();
-                    me->SetHealth(me->GetMaxHealth() * 0.01f);
+                    me->SetHealth(uint64(me->GetMaxHealth() * 0.01f));
                     me->AddUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
                     me->SetReactState(REACT_PASSIVE);
                     me->GetMotionMaster()->MovePoint(0, me->GetHomePosition());

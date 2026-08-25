@@ -245,13 +245,13 @@ struct boss_aggramar : public BossAI
         }
         case SPELL_FLARE:
         {
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_FLARE, false);
 
-            if (Unit* target2 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target2 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target2, SPELL_FLARE, false);
 
-            if (Unit* target3 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target3 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target3, SPELL_FLARE, false);
             events.Repeat(25s);
             break;
@@ -264,10 +264,10 @@ struct boss_aggramar : public BossAI
         }
         case SPELL_SCORCHING_BLAZE:
         {
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_SCORCHING_BLAZE, false);
 
-            if (Unit* target2 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target2 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target2, SPELL_SCORCHING_BLAZE, false);
             events.Repeat(8s);
             break;

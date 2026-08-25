@@ -450,7 +450,7 @@ struct boss_council_captain : public BossAI
             }
             case CouncilCaptainEvents::EventPowderShot:
             {
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                     me->CastSpell(target, CouncilCaptainSpells::PowderShot, false);
 
                 events.Repeat(8000);
@@ -472,7 +472,7 @@ struct boss_council_captain : public BossAI
                 {
                     events.CancelEvent(CouncilCaptainEvents::EventGrapeshotJump);
                     events.CancelEvent(CouncilCaptainEvents::EventPowderShot);
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                     {
                         me->SetFacingToObject(target);
                         me->CastSpell(target, CouncilCaptainSpells::GrapeShotFire, false);
@@ -492,7 +492,7 @@ struct boss_council_captain : public BossAI
             case CouncilCaptainEvents::EventCuttingSurge:
             {
                 Talk(TextJolly::TalkCuttingSurge);
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                     me->CastSpell(target, CouncilCaptainSpells::CuttingSurgeCast, false);
 
                 events.Repeat(15000);
@@ -501,7 +501,7 @@ struct boss_council_captain : public BossAI
             case CouncilCaptainEvents::EventWhirlpoolofBlades:
             {
                 Talk(TextJolly::TalkWhirpoolBlade);
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                     me->CastSpell(target, CouncilCaptainSpells::WhirlpoolofBladesMissile, false);
 
                 events.Repeat(15000);

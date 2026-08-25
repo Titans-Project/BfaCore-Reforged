@@ -452,7 +452,7 @@ void WorldSession::HandleMovementOpcode(OpcodeClient opcode, MovementInfo& movem
                 if (plrMover->IsAlive())
                 {
                     plrMover->AddPlayerFlag(PLAYER_FLAGS_IS_OUT_OF_BOUNDS);
-                    plrMover->EnvironmentalDamage(DAMAGE_FALL_TO_VOID, GetPlayer()->GetMaxHealth());
+                    plrMover->EnvironmentalDamage(DAMAGE_FALL_TO_VOID, uint32(GetPlayer()->GetMaxHealth()));
                     // player can be alive if GM/etc
                     // change the death state to CORPSE to prevent the death timer from
                     // starting in the next player update

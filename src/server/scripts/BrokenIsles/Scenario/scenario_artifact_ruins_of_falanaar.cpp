@@ -437,7 +437,7 @@ struct npc_verstok_darkbough_108003 : public BossAI
             {
             case SPELL_SWIPE:
             {
-                if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                     me->CastSpell(target1, SPELL_SWIPE, false);
 
                 events.Repeat(4500, 5000);
@@ -445,7 +445,7 @@ struct npc_verstok_darkbough_108003 : public BossAI
             }
             case SPELL_ASHAMANES_FRENZY:
             {
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                     me->CastSpell(target, SPELL_ASHAMANES_FRENZY);
 
                 events.Repeat(20200, 22200);

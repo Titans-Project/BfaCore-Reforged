@@ -297,7 +297,7 @@ class spell_mage_arcane_explosion : public SpellScript
 
     void CheckTargets(std::list<WorldObject*>& targets)
     {
-        _hit = targets.size();
+        _hit = int32(targets.size());
     }
 
     void Prevent(SpellEffIndex effIndex)
@@ -396,7 +396,7 @@ class spell_mage_clearcasting : public AuraScript
                 if (powerCost.Power == POWER_MANA)
                     manaUsed = powerCost.Amount;
 
-            int32 chance = std::floor(manaUsed / reqManaToSpent) * 1;
+            int32 chance = int32(std::floor(manaUsed / reqManaToSpent) * 1);
             return roll_chance_i(chance);
         }
 
@@ -508,7 +508,7 @@ class spell_mage_arcane_barrage : public SpellScript
     {
         if (targets.size() > uint64(GetCaster()->GetPower(POWER_ARCANE_CHARGES)))
             targets.resize(GetCaster()->GetPower(POWER_ARCANE_CHARGES));
-        _chainTargetCount = targets.size();
+        _chainTargetCount = uint32(targets.size());
     }
 
     void HandleEffectHitTarget(SpellEffIndex /*effIndex*/)
@@ -778,7 +778,7 @@ class spell_mage_meteor_damage : public SpellScript
 
     void CountTargets(std::list<WorldObject*>& targets)
     {
-        _targets = targets.size();
+        _targets = int32(targets.size());
     }
 
     void Register() override
@@ -1247,7 +1247,7 @@ class spell_mage_ray_of_frost : public AuraScript
         if (Unit* caster = GetCaster())
         {
             if (AuraEffect* aurEff = GetAura()->GetEffect(EFFECT_1))
-                aurEff->SetDamage(caster->SpellDamageBonusDone(GetTarget(), GetSpellInfo(), 0, DOT, aurEff->GetSpellEffectInfo(), GetStackAmount()) * aurEff->GetDonePct());
+                aurEff->SetDamage(int32(caster->SpellDamageBonusDone(GetTarget(), GetSpellInfo(), 0, DOT, aurEff->GetSpellEffectInfo(), GetStackAmount()) * aurEff->GetDonePct()));
 
             caster->CastSpell(caster, SPELL_MAGE_RAY_OF_FROST_DAMAGE_INCREASE, true);
         }
@@ -1505,7 +1505,7 @@ class spell_mage_frostbolt : public SpellScript
         if (caster->HasSpell(SPELL_MAGE_BRAIN_FREEZE))
         {
             int32 clarityOfThoughtChance = 0;
-            float brainFreezeChance = sSpellMgr->GetSpellInfo(SPELL_MAGE_BRAIN_FREEZE)->GetEffect(EFFECT_0)->CalcValue(caster);
+            float brainFreezeChance = float(sSpellMgr->GetSpellInfo(SPELL_MAGE_BRAIN_FREEZE)->GetEffect(EFFECT_0)->CalcValue(caster));
 
             if (Aura* clarityOfThought = caster->GetAura(SPELL_MAGE_GLARITY_OF_THOUGHT))
             {
@@ -1514,7 +1514,7 @@ class spell_mage_frostbolt : public SpellScript
 
             brainFreezeChance += clarityOfThoughtChance;
 
-            if (roll_chance_i(brainFreezeChance))
+            if (roll_chance_i(int32(brainFreezeChance)))
                 caster->CastSpell(caster, SPELL_MAGE_BRAIN_FREEZE_AURA, true);
         }
 
@@ -1695,7 +1695,7 @@ public:
             if (!caster->IsPlayer())
                 return;
 
-            int32 crit = caster->ToPlayer()->GetRatingBonusValue(CR_CRIT_SPELL);
+            int32 crit = int32(caster->ToPlayer()->GetRatingBonusValue(CR_CRIT_SPELL));
             amount += crit;
         }
 
@@ -2063,7 +2063,7 @@ public:
             if (target->ToPlayer()->GetSpellHistory()->HasCooldown(SPELL_MAGE_CAUTERIZE))
                 return;
 
-            int bp1 = target->CountPctFromMaxHealth(healtPct);
+            int bp1 = int(target->CountPctFromMaxHealth(healtPct));
             target->CastCustomSpell(target, SPELL_MAGE_CAUTERIZE, nullptr, &bp1, nullptr, true);
             target->CastSpell(target, GetSpellInfo()->GetEffect(EFFECT_2)->TriggerSpell, true);
             target->GetSpellHistory()->AddCooldown(SPELL_MAGE_CAUTERIZE, 0, std::chrono::minutes(2));

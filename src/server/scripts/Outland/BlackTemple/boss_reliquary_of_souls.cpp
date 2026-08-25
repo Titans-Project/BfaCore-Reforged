@@ -205,7 +205,7 @@ public:
 
             for (uint8 i = 0; i < 21; ++i)
             {
-                uint32 timer = 4000 * (std::floor(i / 3) + 1);
+                uint32 timer = uint32(4000 * (std::floor(i / 3) + 1));
 
                 _worldTriggerList[i]->GetScheduler().Schedule(Milliseconds(timer), [](TaskContext context)
                 {
@@ -720,7 +720,7 @@ class spell_reliquary_of_souls_aura_of_desire : public SpellScriptLoader
                 int32 bp = damageInfo->GetDamage() / 2;
 
                 // Remove damage multiplier by expansion, avoid killing high level player with massive amount of damage
-                bp /= Trinity::GetDamageMultiplierForExpansion(caster->getLevel(), EXPANSION_THE_BURNING_CRUSADE);
+                bp = int32(bp / Trinity::GetDamageMultiplierForExpansion(caster->getLevel(), EXPANSION_THE_BURNING_CRUSADE));
 
                 caster->CastCustomSpell(SPELL_AURA_OF_DESIRE_DAMAGE, SPELLVALUE_BASE_POINT0, bp, caster, true, nullptr, aurEff);
             }

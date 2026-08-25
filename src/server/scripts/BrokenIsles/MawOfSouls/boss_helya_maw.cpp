@@ -476,7 +476,7 @@ public:
         {
             if (action == ACTION_TENTACLE_DEAD && !_submerged)
             {
-                me->SetHealth(me->GetHealth() - (me->GetHealth() * 0.033));
+                me->SetHealth(uint64(me->GetHealth() - (me->GetHealth() * 0.033)));
                 Talk(SAY_TENTACLE);
                 uint32 dmg = 0;
                 DamageTaken(nullptr, dmg);
@@ -630,7 +630,7 @@ public:
                 Position pos(BrackWaterBarrageVisualPos);
 
                 for (auto& it : players)
-                    me->SendPlaySpellVisual(pos, _brackwaterSide, 0, 0, 9.0f, true);
+                    me->SendPlaySpellVisual(pos, float(_brackwaterSide), 0, 0, uint16(9.0f), true);
 
                 events.ScheduleEvent(EVENT_BRACKWATER_BARRAGE, Seconds(55));
                 break;
@@ -1152,19 +1152,19 @@ public:
                     {
                         case 0:
                         {
-                            GetCaster()->SendPlaySpellVisual(CorruptedBellowLeftVisualPacketPos[i], CORRUPTED_BELLOW_ANIM, 0, 0, 95.0f, false);
+                            GetCaster()->SendPlaySpellVisual(CorruptedBellowLeftVisualPacketPos[i], CORRUPTED_BELLOW_ANIM, 0, 0, uint16(95.0f), false);
                             break;
                         }
 
                         case 1:
                         {
-                            GetCaster()->SendPlaySpellVisual(CorruptedBellowMidVisualPacketPos[i], CORRUPTED_BELLOW_ANIM, 0, 0, 95.0f, false);
+                            GetCaster()->SendPlaySpellVisual(CorruptedBellowMidVisualPacketPos[i], CORRUPTED_BELLOW_ANIM, 0, 0, uint16(95.0f), false);
                             break;
                         }
 
                         case 2:
                         {
-                            GetCaster()->SendPlaySpellVisual(CorruptedBellowRightVisualPacketPos[i], CORRUPTED_BELLOW_ANIM, 0, 0, 95.0f, false);
+                            GetCaster()->SendPlaySpellVisual(CorruptedBellowRightVisualPacketPos[i], CORRUPTED_BELLOW_ANIM, 0, 0, uint16(95.0f), false);
                             break;
                         }
                     }
@@ -1323,7 +1323,7 @@ public:
             Aura* wing = GetCaster()->GetAura(SPELL_WING_BUFFET);
 
             if (wing)
-                SetHitDamage(GetHitDamage() * (1.0f + (wing->GetStackAmount() * 0.25f)));
+                SetHitDamage(int32(GetHitDamage() * (1.0f + (wing->GetStackAmount() * 0.25f))));
         }
 
         void Register() override
@@ -1391,7 +1391,7 @@ public:
             Aura* smash = GetCaster()->GetAura(SPELL_SMASH);
 
             if (smash)
-                SetHitDamage(GetEffectInfo(EFFECT_0)->BasePoints * (1.0f + (smash->GetStackAmount() * 0.20f)));
+                SetHitDamage(int32(GetEffectInfo(EFFECT_0)->BasePoints * (1.0f + (smash->GetStackAmount() * 0.20f))));
         }
 
         void Register() override

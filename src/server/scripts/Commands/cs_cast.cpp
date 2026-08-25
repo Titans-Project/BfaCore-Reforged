@@ -97,7 +97,7 @@ public:
         char* triggeredStr = strtok(nullptr, " ");
         if (triggeredStr)
         {
-            int l = strlen(triggeredStr);
+            int l = int(strlen(triggeredStr));
             if (strncmp(triggeredStr, "triggered", l) != 0)
                 return false;
         }
@@ -129,7 +129,7 @@ public:
         char* triggeredStr = strtok(nullptr, " ");
         if (triggeredStr)
         {
-            int l = strlen(triggeredStr);
+            int l = int(strlen(triggeredStr));
             if (strncmp(triggeredStr, "triggered", l) != 0)
                 return false;
         }
@@ -163,7 +163,7 @@ public:
         char* triggeredStr = strtok(nullptr, " ");
         if (triggeredStr)
         {
-            int l = strlen(triggeredStr);
+            int l = int(strlen(triggeredStr));
             if (strncmp(triggeredStr, "triggered", l) != 0)
                 return false;
         }
@@ -225,7 +225,7 @@ public:
         char* triggeredStr = strtok(nullptr, " ");
         if (triggeredStr)
         {
-            int l = strlen(triggeredStr);
+            int l = int(strlen(triggeredStr));
             if (strncmp(triggeredStr, "triggered", l) != 0)
                 return false;
         }
@@ -268,7 +268,7 @@ public:
         char* triggeredStr = strtok(nullptr, " ");
         if (triggeredStr)
         {
-            int l = strlen(triggeredStr);
+            int l = int(strlen(triggeredStr));
             if (strncmp(triggeredStr, "triggered", l) != 0)
                 return false;
         }

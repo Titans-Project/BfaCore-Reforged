@@ -377,11 +377,11 @@ uint8 TwinActive(InstanceScript* instance, Creature* me)
     if (!instance || !me)
         return count;
 
-    Creature* lulin = instance->GetCreature(instance->GetData64(NPC_LULIN));
+    Creature* lulin = instance->GetCreature(uint32(instance->GetData64(NPC_LULIN)));
     if (lulin && lulin->IsAlive())
         ++count;
 
-    Creature* suen = instance->GetCreature(instance->GetData64(NPC_SUEN));
+    Creature* suen = instance->GetCreature(uint32(instance->GetData64(NPC_SUEN)));
     if (suen && suen->IsAlive())
         ++count;
 
@@ -491,8 +491,8 @@ public:
 
             if (instance)
             {
-                Creature* lulin = instance->GetCreature(instance->GetData64(NPC_LULIN));
-                Creature* suen = instance->GetCreature(instance->GetData64(NPC_SUEN));
+                Creature* lulin = instance->GetCreature(uint32(instance->GetData64(NPC_LULIN)));
+                Creature* suen = instance->GetCreature(uint32(instance->GetData64(NPC_SUEN)));
 
                 switch (TwinActive(instance, me))
                 {
@@ -901,8 +901,8 @@ public:
 
             if (instance)
             {
-                Creature* lulin = instance->GetCreature(instance->GetData64(NPC_LULIN));
-                Creature* suen = instance->GetCreature(instance->GetData64(NPC_SUEN));
+                Creature* lulin = instance->GetCreature(uint32(instance->GetData64(NPC_LULIN)));
+                Creature* suen = instance->GetCreature(uint32(instance->GetData64(NPC_SUEN)));
 
                 switch (TwinActive(instance, me))
                 {
@@ -1731,7 +1731,7 @@ public:
                 {
                     if (Creature* suen = Suen())
                     {
-                        int32 damage = CalculatePct(me->GetHealth(), 10);
+                        int32 damage = int32(CalculatePct(me->GetHealth(), 10));
                         if (suen->GetDistance(me) < 10.0f)
                         {
                             if (suen->HasAura(SPELL_BLAZING_RADIANCE_STACK_DAMAGE))

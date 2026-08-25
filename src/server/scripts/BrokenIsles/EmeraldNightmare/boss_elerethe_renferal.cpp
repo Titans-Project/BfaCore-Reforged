@@ -692,7 +692,7 @@ struct npc_elerethe_surging_egg_sac : public ScriptedAI
 
     void Reset() override
     {
-        events.RescheduleEvent(1, frand(1000, 10000));
+        events.RescheduleEvent(1, uint32(frand(1000, 10000)));
         events.RescheduleEvent(2, 500);
     }
 
@@ -1020,9 +1020,9 @@ class spell_en_wretched_ambush : public SpellScript
 
         float dist = caster->GetDistance(target);
         if (dist < 15.0f)
-            SetHitDamage(GetHitDamage() * (0.1f + 0.9f * (15.0f - dist) / 15.0f));
+            SetHitDamage(int32(GetHitDamage() * (0.1f + 0.9f * (15.0f - dist) / 15.0f)));
         else
-            SetHitDamage(GetHitDamage() * 0.1f);
+            SetHitDamage(int32(GetHitDamage() * 0.1f));
     }
 
     void Register() override
@@ -1187,7 +1187,7 @@ class spell_elerethe_vile_ambush : public SpellScript
        // float radius = GetSpellInfo()->Effects[EFFECT_0]->CalcRadius(GetCaster());
         uint32 perc;
         if (distance < 15.0f)
-            perc = 100 - (distance / 10) * 30;
+            perc = uint32(100 - (distance / 10) * 30);
       //  else
          //   perc = 20 - (distance / radius) * 30;
 

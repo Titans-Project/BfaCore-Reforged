@@ -46,7 +46,7 @@ public:
     bool Execute(uint64 /*time*/, uint32 /*diff*/)
     {
         if (_caster && _target && _caster->IsInWorld() && _target->IsInWorld())
-            _caster->SendPlaySpellVisual(_target->GetGUID(), _spellVisualId, 0.f, 0.f, 40.0f, false);
+            _caster->SendPlaySpellVisual(_target->GetGUID(), _spellVisualId, 0, 0, 40.0f, false);
 
         return true;
     }
@@ -201,13 +201,13 @@ public:
 
             // We must remove 1 stack of Chitinous Exoskeleton for each 1% HP
             // If aura from Chitinous Exoskeleton is absent, then we cast Exoskeletal Vulnerability
-            if (me->HealthBelowPctDamaged(_prevHealthForRemoveStack, damage) && !me->HasAura(SPELL_EXOSKELETAL_VULNERABILITY))
+            if (me->HealthBelowPctDamaged(int32(_prevHealthForRemoveStack), damage) && !me->HasAura(SPELL_EXOSKELETAL_VULNERABILITY))
             {
                 if (Aura* exoskeleton = me->GetAura(SPELL_CHITINOUS_EXOSKELETON))
                 {
                     if (_prevHealthForRemoveStack - healthPctDamage >= 1)
                     {
-                        roundedValue = _prevHealthForRemoveStack - healthPctDamage;
+                        roundedValue = uint8(_prevHealthForRemoveStack - healthPctDamage);
                         exoskeleton->ModStackAmount(-roundedValue);
                         _prevHealthForRemoveStack -= roundedValue;
                     }
@@ -903,7 +903,7 @@ public:
         if (_caster)
         {
             uint32 visual = RAND(SPELL_VISUAL_FOCUSED_BLAST_1, SPELL_VISUAL_FOCUSED_BLAST_2, SPELL_VISUAL_FOCUSED_BLAST_3);
-            _caster->SendPlaySpellVisual(_position, 0.f, visual, 0.f, 0.f, 1.0f, false);
+            _caster->SendPlaySpellVisual(_position, 0.f, visual, 0, 0, 1.0f, false);
         }
 
         return true;

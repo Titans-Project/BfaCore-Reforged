@@ -927,7 +927,7 @@ void Map::Update(const uint32 t_diff)
     if (_weatherUpdateTimer.Passed())
     {
         for (auto&& zoneInfo : _zoneDynamicInfo)
-            if (zoneInfo.second.DefaultWeather && !zoneInfo.second.DefaultWeather->Update(_weatherUpdateTimer.GetInterval()))
+            if (zoneInfo.second.DefaultWeather && !zoneInfo.second.DefaultWeather->Update(uint32(_weatherUpdateTimer.GetInterval())))
                 zoneInfo.second.DefaultWeather.reset();
 
         _weatherUpdateTimer.Reset();

@@ -168,7 +168,7 @@ void WorldSession::SendTrainerListLegacy(ObjectGuid guid, uint32 index)
 
         WorldPackets::NPC::TrainerListSpell spell;
         spell.SpellID = tSpell->SpellID;
-        spell.MoneyCost = floor(tSpell->MoneyCost * fDiscountMod);
+        spell.MoneyCost = uint32(floor(tSpell->MoneyCost * fDiscountMod));
         spell.ReqSkillLine = tSpell->ReqSkillLine;
         spell.ReqSkillRank = tSpell->ReqSkillRank;
         spell.ReqLevel = tSpell->ReqLevel;

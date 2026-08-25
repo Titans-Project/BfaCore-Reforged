@@ -273,7 +273,7 @@ public:
                             
                         if (freeIds.size() > 0)
                         {
-                            uint8 select = freeIds[urand(0, freeIds.size()-1)];
+                            uint8 select = freeIds[urand(0, uint32(freeIds.size()-1))];
                             if (Creature* add = me->SummonCreature(NPC_SHADOW_OF_MEPHISTROTH, adds_pos[select]))
                                 justUseIt[select] = add->GetGUID();
                         }
@@ -382,7 +382,7 @@ public:
                 uint32 hit_range = 2;
                 for (uint8 i = 0; i < 3; i++)
                 {
-                    caster->GetNearPoint2D(pos.m_positionX, pos.m_positionY, hit_range, angle);
+                    caster->GetNearPoint2D(pos.m_positionX, pos.m_positionY, float(hit_range), angle);
                     pos.m_positionZ = caster->GetPositionZ();
                     caster->GetScheduler().Schedule(Milliseconds(100 + i), [caster, pos](TaskContext context)
                     {

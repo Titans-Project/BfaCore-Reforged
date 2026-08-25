@@ -535,7 +535,7 @@ public:
 
                 uint64 health7 = target->CountPctFromMaxHealth(7);
                 target->SetHealth(1);
-                HealInfo healInfo(target, target, health7, GetSpellInfo(), GetSpellInfo()->GetSchoolMask());
+                HealInfo healInfo(target, target, uint32(health7), GetSpellInfo(), GetSpellInfo()->GetSchoolMask());
                 target->HealBySpell(healInfo);
                 target->CastSpell(target, SPELL_ROGUE_CHEAT_DEATH_ANIM, true);
                 target->CastSpell(target, SPELL_ROGUE_CHEAT_DEATH_DMG_REDUC, true);

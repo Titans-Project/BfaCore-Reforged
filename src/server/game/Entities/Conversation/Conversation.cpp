@@ -230,7 +230,7 @@ void Conversation::BuildValuesCreate(ByteBuffer* data, Player const* target) con
     *data << uint8(flags);
     m_objectData->WriteCreate(*data, flags, this, target);
     m_conversationData->WriteCreate(*data, flags, this, target);
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void Conversation::BuildValuesUpdate(ByteBuffer* data, Player const* target) const
@@ -246,7 +246,7 @@ void Conversation::BuildValuesUpdate(ByteBuffer* data, Player const* target) con
     if (m_values.HasChanged(TYPEID_CONVERSATION))
         m_conversationData->WriteUpdate(*data, flags, this, target);
 
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void Conversation::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::ObjectData::Mask const& requestedObjectMask,
@@ -270,7 +270,7 @@ void Conversation::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::Obje
     if (valuesMask[TYPEID_CONVERSATION])
         m_conversationData->WriteUpdate(buffer, requestedConversationMask, true, this, target);
 
-    buffer.put<uint32>(sizePos, buffer.wpos() - sizePos - 4);
+    buffer.put<uint32>(sizePos, uint32(buffer.wpos() - sizePos - 4));
 
     data->AddUpdateBlock(buffer);
 }

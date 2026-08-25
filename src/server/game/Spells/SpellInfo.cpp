@@ -433,7 +433,7 @@ SpellEffectInfo::SpellEffectInfo(SpellInfo const* spellInfo, uint8 effIndex, Spe
     ApplyAuraName = _effect ? _effect->EffectAura : 0;
     ApplyAuraPeriod = _effect ? _effect->EffectAuraPeriod : 0;
     RealPointsPerLevel = _effect ? _effect->EffectRealPointsPerLevel : 0.0f;
-    BasePoints = _effect ? _effect->EffectBasePoints : 0;
+    BasePoints = int32(_effect ? _effect->EffectBasePoints : 0);
     PointsPerResource = _effect ? _effect->EffectPointsPerResource : 0.0f;
     Amplitude = _effect ? _effect->EffectAmplitude : 0.0f;
     ChainAmplitude = _effect ? _effect->EffectChainAmplitude : 0.0f;
@@ -516,7 +516,7 @@ int32 SpellEffectInfo::CalcValue(Unit const* caster /*= nullptr*/, int32 const* 
     float basePointsPerLevel = RealPointsPerLevel;
     // TODO: this needs to be a float, not rounded
     int32 basePoints = CalcBaseValue(caster, target, castItemId, itemLevel);
-    float value = bp ? *bp : basePoints;
+    float value = float(bp ? *bp : basePoints);
     float comboDamage = PointsPerResource;
 
     if (Scaling.Variance)
@@ -606,10 +606,10 @@ int32 SpellEffectInfo::CalcBaseValue(Unit const* caster, Unit const* target, uin
                     if (!randPropPoints)
                         randPropPoints = sRandPropPointsStore.AssertEntry(sRandPropPointsStore.GetNumRows() - 1);
 
-                    value = _spellInfo->Scaling.Class == -8 ? randPropPoints->DamageReplaceStat : randPropPoints->DamageSecondary;
+                    value = float(_spellInfo->Scaling.Class == -8 ? randPropPoints->DamageReplaceStat : randPropPoints->DamageSecondary);
                 }
                 else
-                    value = GetRandomPropertyPoints(effectiveItemLevel, ITEM_QUALITY_RARE, INVTYPE_CHEST, 0);
+                    value = float(GetRandomPropertyPoints(effectiveItemLevel, ITEM_QUALITY_RARE, INVTYPE_CHEST, 0));
             }
             else
                 value = GetSpellScalingColumnForClass(sSpellScalingGameTable.GetRow(level), _spellInfo->Scaling.Class);
@@ -641,7 +641,7 @@ int32 SpellEffectInfo::CalcBaseValue(Unit const* caster, Unit const* target, uin
     }
     else
     {
-        float value = BasePoints;
+        float value = float(BasePoints);
         ExpectedStatType stat = GetScalingExpectedStat();
         if (stat != ExpectedStatType::None)
         {
@@ -3956,7 +3956,7 @@ std::vector<SpellPowerCost> SpellInfo::CalcPowerCost(Unit const* caster, SpellSc
                 // If power type - health drain all
                 if (power->PowerType == POWER_HEALTH)
                 {
-                    healthCost = caster->GetHealth();
+                    healthCost = int32(caster->GetHealth());
                     continue;
                 }
                 // Else drain all power
@@ -4068,7 +4068,7 @@ std::vector<SpellPowerCost> SpellInfo::CalcPowerCost(Unit const* caster, SpellSc
                     GtNpcManaCostScalerEntry const* spellScaler = sNpcManaCostScalerGameTable.GetRow(SpellLevel);
                     GtNpcManaCostScalerEntry const* casterScaler = sNpcManaCostScalerGameTable.GetRow(caster->getLevel());
                     if (spellScaler && casterScaler)
-                        powerCost *= casterScaler->Scaler / spellScaler->Scaler;
+                        powerCost = int32(powerCost * casterScaler->Scaler / spellScaler->Scaler);
                 }
             }
 
@@ -4187,8 +4187,8 @@ inline float CalcPPMItemLevelMod(SpellProcsPerMinuteModEntry const* mod, int32 i
     if (itemLevel == mod->Param)
         return 0.0f;
 
-    float itemLevelPoints = GetRandomPropertyPoints(itemLevel, ITEM_QUALITY_RARE, INVTYPE_CHEST, 0);
-    float basePoints = GetRandomPropertyPoints(mod->Param, ITEM_QUALITY_RARE, INVTYPE_CHEST, 0);
+    float itemLevelPoints = float(GetRandomPropertyPoints(itemLevel, ITEM_QUALITY_RARE, INVTYPE_CHEST, 0));
+    float basePoints = float(GetRandomPropertyPoints(mod->Param, ITEM_QUALITY_RARE, INVTYPE_CHEST, 0));
     if (itemLevelPoints == basePoints)
         return 0.0f;
 

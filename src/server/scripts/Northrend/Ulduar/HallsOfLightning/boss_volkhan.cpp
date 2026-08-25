@@ -123,7 +123,7 @@ public:
         {
             Talk(SAY_AGGRO);
             events.SetPhase(PHASE_NORMAL);
-            events.ScheduleEvent(EVENT_PAUSE,            3.5 * IN_MILLISECONDS, 0, PHASE_NORMAL);
+            events.ScheduleEvent(EVENT_PAUSE,            uint32(3.5 * IN_MILLISECONDS), 0, PHASE_NORMAL);
             events.ScheduleEvent(EVENT_SHATTERING_STOMP,   0 * IN_MILLISECONDS, 0, PHASE_NORMAL);
             events.ScheduleEvent(EVENT_SHATTER,            5 * IN_MILLISECONDS, 0, PHASE_NORMAL);
             _EnterCombat();
@@ -248,7 +248,7 @@ public:
 
                             m_bHasTemper = false;
                             m_bIsStriking = false;
-                            events.ScheduleEvent(EVENT_PAUSE, 3.5 * IN_MILLISECONDS, 0, PHASE_NORMAL);
+                            events.ScheduleEvent(EVENT_PAUSE, uint32(3.5 * IN_MILLISECONDS), 0, PHASE_NORMAL);
                         }
                         break;
                     case EVENT_SHATTERING_STOMP:

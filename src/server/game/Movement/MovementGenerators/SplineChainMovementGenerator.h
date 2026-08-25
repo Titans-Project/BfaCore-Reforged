@@ -24,8 +24,8 @@
 class TC_GAME_API SplineChainMovementGenerator : public MovementGenerator
 {
     public:
-        explicit SplineChainMovementGenerator(uint32 id, std::vector<SplineChainLink> const& chain, bool walk = false) : _id(id), _chain(chain), _chainSize(chain.size()), _walk(walk), finished(false), _nextIndex(0), _nextFirstWP(0), _msToNext(0) { }
-        explicit SplineChainMovementGenerator(SplineChainResumeInfo const& info) : _id(info.PointID), _chain(*info.Chain), _chainSize(info.Chain->size()), _walk(info.IsWalkMode), finished(info.SplineIndex >= info.Chain->size()), _nextIndex(info.SplineIndex), _nextFirstWP(info.PointIndex), _msToNext(info.TimeToNext) { }
+        explicit SplineChainMovementGenerator(uint32 id, std::vector<SplineChainLink> const& chain, bool walk = false) : _id(id), _chain(chain), _chainSize(uint8(chain.size())), _walk(walk), finished(false), _nextIndex(0), _nextFirstWP(0), _msToNext(0) { }
+        explicit SplineChainMovementGenerator(SplineChainResumeInfo const& info) : _id(info.PointID), _chain(*info.Chain), _chainSize(uint8(info.Chain->size())), _walk(info.IsWalkMode), finished(info.SplineIndex >= info.Chain->size()), _nextIndex(info.SplineIndex), _nextFirstWP(info.PointIndex), _msToNext(info.TimeToNext) { }
         void Initialize(Unit* me) override;
         void Finalize(Unit* me) override;
         void Reset(Unit* /*me*/) override { };

@@ -424,10 +424,10 @@ void UnitAI::UpdateOperations(uint32 const diff)
         }
     }
 
-    uint32 l_TimedDelayedOperationCountToRemove = std::count_if(std::begin(m_TimedDelayedOperations), std::end(m_TimedDelayedOperations), [](const std::pair<int32, std::function<void()>> & p_Pair) -> bool
+    uint32 l_TimedDelayedOperationCountToRemove = uint32(std::count_if(std::begin(m_TimedDelayedOperations), std::end(m_TimedDelayedOperations), [](const std::pair<int32, std::function<void()>> & p_Pair) -> bool
     {
         return p_Pair.second == nullptr;
-    });
+    }));
 
     for (uint32 l_I = 0; l_I < l_TimedDelayedOperationCountToRemove; l_I++)
     {

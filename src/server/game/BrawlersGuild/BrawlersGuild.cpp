@@ -118,7 +118,7 @@ void BrawlersGuild::AddPlayer(Player* player)
     }
 
     _waitList.push_back(player->GetGUID());
-    UpdateAura(player, _waitList.size());
+    UpdateAura(player, uint32(_waitList.size()));
 }
 
 void BrawlersGuild::RemovePlayers()

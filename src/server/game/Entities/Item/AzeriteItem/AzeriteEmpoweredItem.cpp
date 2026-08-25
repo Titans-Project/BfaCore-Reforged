@@ -163,7 +163,7 @@ void AzeriteEmpoweredItem::BuildValuesCreate(ByteBuffer* data, Player const* tar
     m_objectData->WriteCreate(*data, flags, this, target);
     m_itemData->WriteCreate(*data, flags, this, target);
     m_azeriteEmpoweredItemData->WriteCreate(*data, flags, this, target);
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void AzeriteEmpoweredItem::BuildValuesUpdate(ByteBuffer* data, Player const* target) const
@@ -182,7 +182,7 @@ void AzeriteEmpoweredItem::BuildValuesUpdate(ByteBuffer* data, Player const* tar
     if (m_values.HasChanged(TYPEID_AZERITE_EMPOWERED_ITEM))
         m_azeriteEmpoweredItemData->WriteUpdate(*data, flags, this, target);
 
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void AzeriteEmpoweredItem::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::ObjectData::Mask const& requestedObjectMask,
@@ -215,7 +215,7 @@ void AzeriteEmpoweredItem::BuildValuesUpdateForPlayerWithMask(UpdateData* data, 
     if (valuesMask[TYPEID_AZERITE_EMPOWERED_ITEM])
         m_azeriteEmpoweredItemData->WriteUpdate(buffer, requestedAzeriteEmpoweredItemMask, true, this, target);
 
-    buffer.put<uint32>(sizePos, buffer.wpos() - sizePos - 4);
+    buffer.put<uint32>(sizePos, uint32(buffer.wpos() - sizePos - 4));
 
     data->AddUpdateBlock(buffer);
 }

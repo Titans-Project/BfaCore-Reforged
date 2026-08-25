@@ -347,8 +347,8 @@ public:
 
             mapId = data.MapID;
 
-            x = data.QuestPOIBlobPointStats.front().X;
-            y = data.QuestPOIBlobPointStats.front().Y;
+            x = float(data.QuestPOIBlobPointStats.front().X);
+            y = float(data.QuestPOIBlobPointStats.front().Y);
         }
         else
         {
@@ -652,13 +652,13 @@ public:
         float x, y, z, o;
         player->GetPosition(x, y, z, o);
         if (goX)
-            x += atof(goX);
+            x += float(atof(goX));
         if (goY)
-            y += atof(goY);
+            y += float(atof(goY));
         if (goZ)
-            z += atof(goZ);
+            z += float(atof(goZ));
         if (port)
-            o += atof(port);
+            o += float(atof(port));
 
         if (!Trinity::IsValidMapCoord(x, y, z, o))
         {

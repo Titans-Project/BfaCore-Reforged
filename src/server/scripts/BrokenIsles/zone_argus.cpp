@@ -819,7 +819,7 @@ class spell_soul_cleave : public SpellScript
 
     void FilterTargets(std::list<WorldObject*>& targets)
     {
-        targetsCount = targets.size();
+        targetsCount = uint8(targets.size());
     }
 
     void HandleDamage(SpellEffIndex /*effectIndex*/)

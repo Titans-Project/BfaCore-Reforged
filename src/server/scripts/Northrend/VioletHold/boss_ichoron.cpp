@@ -133,9 +133,9 @@ class boss_ichoron : public CreatureScript
                         DoCastAOE(SPELL_BURST, true);
                         DoCast(me, SPELL_DRAINED, true);
 
-                        uint32 damage = me->CountPctFromMaxHealth(30);
+                        uint32 damage = uint32(me->CountPctFromMaxHealth(30));
                         me->LowerPlayerDamageReq(damage);
-                        me->ModifyHealth(-std::min<int32>(damage, me->GetHealth() - 1));
+                        me->ModifyHealth(-std::min<int32>(damage, int32(me->GetHealth() - 1)));
 
                         me->GetScheduler().DelayAll(Seconds(15));
                         break;

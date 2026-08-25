@@ -153,7 +153,7 @@ class boss_sapphiron : public CreatureScript
             {
                 if (damage < me->GetHealth() || !events.IsInPhase(PHASE_FLIGHT))
                     return;
-                damage = me->GetHealth()-1; // don't die during air phase
+                damage = uint32(me->GetHealth()-1); // don't die during air phase
             }
 
             void EnterCombat(Unit* /*who*/) override

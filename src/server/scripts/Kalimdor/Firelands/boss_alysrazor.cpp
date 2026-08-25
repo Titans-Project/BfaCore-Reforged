@@ -548,7 +548,7 @@ class boss_alysrazor : public CreatureScript
 
                 if (GameObject* molten_ground = me->FindNearestGameObject(GO_MOLTEN_GROUND, 300))
                     if (molten_ground->GetDestructibleState() != GO_DESTRUCTIBLE_INTACT)
-                        who->NearTeleportTo(who->GetPositionX(), who->GetPositionY(), who->GetPositionZ() + 7.9, who->GetOrientation());
+                        who->NearTeleportTo(who->GetPositionX(), who->GetPositionY(), float(who->GetPositionZ() + 7.9), who->GetOrientation());
             }
 
             bool AllowAchieve()
@@ -817,7 +817,7 @@ class boss_alysrazor : public CreatureScript
             }
 
         private:
-            bool _isEventRunning;//si l'event et le combat qui s'ensuit est lancé
+            bool _isEventRunning;//si l'event et le combat qui s'ensuit est lancï¿½
             void RemoveEncounterAuras()
             {
                 instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_BLAZING_POWER_AURA);
@@ -988,7 +988,7 @@ class npc_alysrazor_fiery_vortex : public CreatureScript
                                     {
                                         pTornado->CastSpell(pTornado, SPELL_FIERY_TORNADO);
                                         pTornado->ClearUnitState(UNIT_STATE_CASTING);
-                                        Position pos = me->GetNearPosition(5.0f + 12.0f * i, (float(i) * M_PI / 2));
+                                        Position pos = me->GetNearPosition(5.0f + 12.0f * i, float((float(i) * M_PI) / 2));
                                         pTornado->SetSpeed(MOVE_RUN, 2.0f);
                                         pTornado->GetMotionMaster()->MovePoint((bClock ? POINT_TORNADO_1 : POINT_TORNADO_2), pos);
                                         bClock = !bClock;
@@ -1209,7 +1209,7 @@ class npc_alysrazor_brushfire : public CreatureScript
 
             void IsSummonedBy(Unit* /*summoner*/) override
             {
-                me->SetFacingTo(urand(0, 6));
+                me->SetFacingTo(float(urand(0, 6)));
                 DoCast(me, SPELL_BRASHFIRE_AURA);
                 me->AddUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));
                 started = true;

@@ -129,8 +129,8 @@ class npc_firesworn : public CreatureScript
 
             void DamageTaken(Unit* /*attacker*/, uint32& damage) override
             {
-                uint32 const health10pct = me->CountPctFromMaxHealth(10);
-                uint32 health = me->GetHealth();
+                uint32 const health10pct = uint32(me->CountPctFromMaxHealth(10));
+                uint32 health = uint32(me->GetHealth());
                 if (int32(health) - int32(damage) < int32(health10pct))
                 {
                     damage = 0;

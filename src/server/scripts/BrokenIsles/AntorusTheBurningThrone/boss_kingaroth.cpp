@@ -117,7 +117,7 @@ struct boss_kingaroth : public BossAI
     {
         if (action == 1)
         {
-            uint64 damage = 0.06f * me->GetMaxHealth();
+            uint64 damage = uint64(0.06f * me->GetMaxHealth());
             uint64 ohealth = me->GetHealth() - damage;
             me->SetHealth(ohealth > 0 ? ohealth : 0);
             if (ohealth <= 0)

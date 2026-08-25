@@ -722,7 +722,7 @@ class spell_marrowgar_bone_slice : public SpellScriptLoader
 
             void CountTargets(std::list<WorldObject*>& targets)
             {
-                _targetCount = std::min<uint32>(targets.size(), GetSpellInfo()->MaxAffectedTargets);
+                _targetCount = std::min<uint32>(uint32(targets.size()), GetSpellInfo()->MaxAffectedTargets);
             }
 
             void SplitDamage()

@@ -729,8 +729,8 @@ public:
             events.ScheduleEvent(EVENT_SUMMON_MINDS_EYE, 19000, 0, 0);
             events.ScheduleEvent(EVENT_SUMMON_APPRAISIING_EYE, 15000, 0, 0);
             //events.ScheduleEvent(EVENT_SUMMON_HUNGRY_EYE, 40000, 0, 0);
-            events.ScheduleEvent(EVENT_DISINTEGRATION_BEAM, 2.5 * MINUTE * IN_MILLISECONDS); // 2.5 * MINUTE * IN_MILLISECONDS
-            events.ScheduleEvent(EVENT_ADD_WALLS_BEFORE_MAZE, 2.3 * MINUTE * IN_MILLISECONDS);
+            events.ScheduleEvent(EVENT_DISINTEGRATION_BEAM, uint32(2.5 * MINUTE * IN_MILLISECONDS)); // 2.5 * MINUTE * IN_MILLISECONDS
+            events.ScheduleEvent(EVENT_ADD_WALLS_BEFORE_MAZE, uint32(2.3 * MINUTE * IN_MILLISECONDS));
             events.ScheduleEvent(EVENT_LIGHT_SPECTRUM, 30000, 0, 0);
             if (me->GetMap()->IsHeroic())
                 events.ScheduleEvent(EVENT_SUMMON_EVIL_EYE, 90000, 0, 0);
@@ -887,7 +887,7 @@ public:
                 events.CancelEvent(EVENT_KILL_PLAYERS);
                 events.CancelEvent(EVENT_KEEP_TARGET_MOVER);
                 events.ScheduleEvent(EVENT_DISINTEGRATION_BEAM, 3 * MINUTE * IN_MILLISECONDS);
-                events.ScheduleEvent(EVENT_ADD_WALLS_BEFORE_MAZE, 2.8 * MINUTE * IN_MILLISECONDS);
+                events.ScheduleEvent(EVENT_ADD_WALLS_BEFORE_MAZE, uint32(2.8 * MINUTE * IN_MILLISECONDS));
                 events.ScheduleEvent(EVENT_SUMMON_HUNGRY_EYE, 4000, 0, 0);
                 break;
             case EVENT_LIGHT_SPECTRUM:
@@ -896,7 +896,7 @@ public:
                 me->SummonCreature(BLUE_EYE, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN);
                 me->SummonCreature(RED_EYE, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN);
                 me->SummonCreature(YELLOW_EYE, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN);
-                events.ScheduleEvent(EVENT_LIGHT_SPECTRUM, 3.5 * MINUTE * IN_MILLISECONDS);
+                events.ScheduleEvent(EVENT_LIGHT_SPECTRUM, uint32(3.5 * MINUTE * IN_MILLISECONDS));
                 events.ScheduleEvent(EVENT_SUMMON_FOGS_CRIMSON, 500, 0, 0);
                 events.ScheduleEvent(EVENT_SUMMON_FOGS_AZURE, 550, 0, 0);
                 if (me->GetMap()->IsHeroic())
@@ -1382,7 +1382,7 @@ public:
             int32 amount = GetHitDamage();
 
             if (GetHitUnit()->HasAura(SPELL_DRAIN_LIFE_DAMAGE))
-                amount += (amount * 0.40) * GetHitUnit()->GetAura(SPELL_DRAIN_LIFE_DAMAGE)->GetStackAmount();
+                amount += int32((amount * 0.40) * GetHitUnit()->GetAura(SPELL_DRAIN_LIFE_DAMAGE)->GetStackAmount());
 
             int32 bp = amount * 22;
             std::list<Creature*> durumu;
@@ -2828,7 +2828,7 @@ public:
 
         void CheckTargets(std::list<WorldObject*>& targets)
         {
-            targetsPlayers = targets.size();
+            targetsPlayers = uint8(targets.size());
         }
 
         void RecalculateDamage(SpellEffIndex effIndex)
@@ -3441,7 +3441,7 @@ public:
                     if (distance > STERN_DISTANCE)
                         distance = STERN_DISTANCE;
 
-                    SetHitDamage(((mindmg / +STERN_DISTANCE) * distance) + maxdmg);
+                    SetHitDamage(int32(((mindmg / +STERN_DISTANCE) * distance) + maxdmg));
                 }
             }
         }

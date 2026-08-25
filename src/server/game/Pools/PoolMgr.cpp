@@ -177,7 +177,7 @@ PoolObject* PoolGroup<T>::RollOne(ActivePoolData& spawns, uint64 triggerFrom)
     }
     if (!EqualChanced.empty())
     {
-        uint32 index = urand(0, EqualChanced.size()-1);
+        uint32 index = urand(0, uint32(EqualChanced.size()-1));
         // Triggering object is marked as spawned at this time and can be also rolled (respawn case)
         // so this need explicit check for this case
         if (EqualChanced[index].guid == triggerFrom || !spawns.IsActiveObject<T>(EqualChanced[index].guid))
@@ -268,7 +268,7 @@ void PoolGroup<GameObject>::Despawn1Object(uint64 guid)
 template<>
 void PoolGroup<Pool>::Despawn1Object(uint64 child_pool_id)
 {
-    sPoolMgr->DespawnPool(child_pool_id);
+    sPoolMgr->DespawnPool(uint32(child_pool_id));
 }
 
 // Same on one quest
@@ -277,7 +277,7 @@ void PoolGroup<Quest>::Despawn1Object(uint64 quest_id)
 {
     // Creatures
     QuestRelations* questMap = sObjectMgr->GetCreatureQuestRelationMap();
-    PooledQuestRelationBoundsNC qr = sPoolMgr->mQuestCreatureRelation.equal_range(quest_id);
+    PooledQuestRelationBoundsNC qr = sPoolMgr->mQuestCreatureRelation.equal_range(uint32(quest_id));
     for (PooledQuestRelation::iterator itr = qr.first; itr != qr.second; ++itr)
     {
         QuestRelations::iterator qitr = questMap->find(itr->second);
@@ -296,7 +296,7 @@ void PoolGroup<Quest>::Despawn1Object(uint64 quest_id)
 
     // Gameobjects
     questMap = sObjectMgr->GetGOQuestRelationMap();
-    qr = sPoolMgr->mQuestGORelation.equal_range(quest_id);
+    qr = sPoolMgr->mQuestGORelation.equal_range(uint32(quest_id));
     for (PooledQuestRelation::iterator itr = qr.first; itr != qr.second; ++itr)
     {
         QuestRelations::iterator qitr = questMap->find(itr->second);
@@ -370,7 +370,7 @@ void PoolGroup<T>::SpawnObject(ActivePoolData& spawns, uint32 limit, uint64 trig
         {
             // One spawn one despawn no count increase
             DespawnObject(spawns, triggerFrom);
-            lastDespawned = triggerFrom;
+            lastDespawned = uint32(triggerFrom);
             triggerFrom = 0;
         }
     }
@@ -421,7 +421,7 @@ void PoolGroup<GameObject>::Spawn1Object(PoolObject* obj)
 template <>
 void PoolGroup<Pool>::Spawn1Object(PoolObject* obj)
 {
-    sPoolMgr->SpawnPool(obj->guid);
+    sPoolMgr->SpawnPool(uint32(obj->guid));
 }
 
 // Same for 1 quest
@@ -430,7 +430,7 @@ void PoolGroup<Quest>::Spawn1Object(PoolObject* obj)
 {
     // Creatures
     QuestRelations* questMap = sObjectMgr->GetCreatureQuestRelationMap();
-    PooledQuestRelationBoundsNC qr = sPoolMgr->mQuestCreatureRelation.equal_range(obj->guid);
+    PooledQuestRelationBoundsNC qr = sPoolMgr->mQuestCreatureRelation.equal_range(uint32(obj->guid));
     for (PooledQuestRelation::iterator itr = qr.first; itr != qr.second; ++itr)
     {
         TC_LOG_DEBUG("pool", "PoolGroup<Quest>: Adding quest %u to creature %u", itr->first, itr->second);
@@ -439,7 +439,7 @@ void PoolGroup<Quest>::Spawn1Object(PoolObject* obj)
 
     // Gameobjects
     questMap = sObjectMgr->GetGOQuestRelationMap();
-    qr = sPoolMgr->mQuestGORelation.equal_range(obj->guid);
+    qr = sPoolMgr->mQuestGORelation.equal_range(uint32(obj->guid));
     for (PooledQuestRelation::iterator itr = qr.first; itr != qr.second; ++itr)
     {
         TC_LOG_DEBUG("pool", "PoolGroup<Quest>: Adding quest %u to GO %u", itr->first, itr->second);
@@ -493,7 +493,7 @@ void PoolGroup<Quest>::SpawnObject(ActivePoolData& spawns, uint32 limit, uint64 
     {
         do
         {
-            uint32 questId = Trinity::Containers::SelectRandomContainerElement(currentQuests);
+            uint32 questId = uint32(Trinity::Containers::SelectRandomContainerElement(currentQuests));
             newQuests.insert(questId);
             currentQuests.erase(questId);
         } while (newQuests.size() < limit && !currentQuests.empty()); // failsafe
@@ -505,7 +505,7 @@ void PoolGroup<Quest>::SpawnObject(ActivePoolData& spawns, uint32 limit, uint64 
     // activate <limit> random quests
     do
     {
-        uint32 questId = Trinity::Containers::SelectRandomContainerElement(newQuests);
+        uint32 questId = uint32(Trinity::Containers::SelectRandomContainerElement(newQuests));
         spawns.ActivateObject<Quest>(questId, poolId);
         PoolObject tempObj(questId, 0.0f);
         Spawn1Object(&tempObj);
@@ -785,7 +785,7 @@ void PoolMgr::LoadFromDB()
                 std::set<uint32> checkedPools;
                 for (SearchMap::iterator poolItr = mPoolSearchMap.find(it.first); poolItr != mPoolSearchMap.end(); poolItr = mPoolSearchMap.find(poolItr->second))
                 {
-                    checkedPools.insert(poolItr->first);
+                    checkedPools.insert(uint32(poolItr->first));
                     if (checkedPools.find(poolItr->second) != checkedPools.end())
                     {
                         std::ostringstream ss;
@@ -795,7 +795,7 @@ void PoolMgr::LoadFromDB()
                         ss << "create(s) a circular reference, which can cause the server to freeze.\nRemoving the last link between mother pool "
                             << poolItr->first << " and child pool " << poolItr->second;
                         TC_LOG_ERROR("sql.sql", "%s", ss.str().c_str());
-                        mPoolPoolGroups[poolItr->second].RemoveOneRelation(poolItr->first);
+                        mPoolPoolGroups[poolItr->second].RemoveOneRelation(uint32(poolItr->first));
                         mPoolSearchMap.erase(poolItr);
                         --count;
                         break;
@@ -968,7 +968,7 @@ void PoolMgr::SaveQuestsToDB()
         {
             CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_INS_QUEST_POOL_SAVE);
             stmt->setUInt32(0, itr->second);
-            stmt->setUInt32(1, itr->first);
+            stmt->setUInt32(1, uint32(itr->first));
             trans->Append(stmt);
         }
     }
@@ -980,7 +980,7 @@ void PoolMgr::ChangeDailyQuests()
 {
     for (PoolGroupQuestMap::iterator itr = mPoolQuestGroups.begin(); itr != mPoolQuestGroups.end(); ++itr)
     {
-        if (Quest const* quest = sObjectMgr->GetQuestTemplate(itr->second.GetFirstEqualChancedObjectId()))
+        if (Quest const* quest = sObjectMgr->GetQuestTemplate(uint32(itr->second.GetFirstEqualChancedObjectId())))
         {
             if (quest->IsWeekly())
                 continue;
@@ -996,7 +996,7 @@ void PoolMgr::ChangeWeeklyQuests()
 {
     for (PoolGroupQuestMap::iterator itr = mPoolQuestGroups.begin(); itr != mPoolQuestGroups.end(); ++itr)
     {
-        if (Quest const* quest = sObjectMgr->GetQuestTemplate(itr->second.GetFirstEqualChancedObjectId()))
+        if (Quest const* quest = sObjectMgr->GetQuestTemplate(uint32(itr->second.GetFirstEqualChancedObjectId())))
         {
             if (quest->IsDaily())
                 continue;

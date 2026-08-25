@@ -650,7 +650,7 @@ class spell_tos_blowback : public AuraScript
         if (GetCaster()->GetDistance2d(GetTarget()) >= 60.0f)
             SetDuration(10);
         else
-            SetDuration(1000 * (60 - GetCaster()->GetDistance2d(GetTarget())) * 12.0f / 60.0f);
+            SetDuration(int32(1000 * (60 - GetCaster()->GetDistance2d(GetTarget())) * 12.0f / 60.0f));
     }
 
     void Register()
@@ -673,7 +673,7 @@ class spell_tos_wrath_of_the_creators : public SpellScript
         {
             uint32 count = caster->GetAuraCount(SPELL_WRATH_OF_THE_CREATORS_BUFF);
 
-            SetHitDamage(GetHitDamage() * (1 + 0.05*count));
+            SetHitDamage(int32(GetHitDamage() * (1 + 0.05*count)));
         }
     }
 

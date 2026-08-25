@@ -509,7 +509,7 @@ struct npc_basher_tentacle : public ScriptedAI
         switch (eventId)
         {
         case EVENT_TUMULTUOUS_BURST:
-            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 10.0f))
+            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, uint32(10.0f)))
             {
                 if (!me->IsWithinMeleeRange(target))
                 {
@@ -520,7 +520,7 @@ struct npc_basher_tentacle : public ScriptedAI
             break;
 
         case EVENT_VOID_LASH:
-            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 10.0f))
+            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, uint32(10.0f)))
             {
                 DoCast(target, SPELL_VOID_LASH, false);
             }            

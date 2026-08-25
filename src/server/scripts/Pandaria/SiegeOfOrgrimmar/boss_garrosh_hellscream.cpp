@@ -1960,7 +1960,7 @@ class npc_garrosh_hellscream_thrall : public CreatureScript
 
             void JumpIntoRoom()
             {
-                me->GetMotionMaster()->MoveJump(centerOfRoomPos, 20.0f, 20.0f, centerOfRoomPos.GetOrientation());
+                me->GetMotionMaster()->MoveJump(centerOfRoomPos, 20.0f, 20.0f, uint32(centerOfRoomPos.GetOrientation()));
             }
 
             void MoveToFightGarrosh()
@@ -2502,7 +2502,7 @@ class npc_garrosh_hellscream_korkron_iron_star : public CreatureScript
 
                 _polygonVertices = s_IronStarVertices;
 
-                float const orientation = me->NormalizeOrientation(me->GetOrientation() + (M_PI / 2));
+                float const orientation = me->NormalizeOrientation(float(me->GetOrientation() + (M_PI / 2)));
 
                 float angleSin = std::sin(orientation);
                 float angleCos = std::cos(orientation);
@@ -2654,7 +2654,7 @@ class npc_garrosh_hellscream_korkron_iron_star : public CreatureScript
                 }
 
                 if (Creature* pGarrosh = GetGarrosh(me))
-                    pGarrosh->AI()->SetData(DATA_IRON_STAR_CREATURES, creatures.size());
+                    pGarrosh->AI()->SetData(DATA_IRON_STAR_CREATURES, uint32(creatures.size()));
             }
 
             void HandlePowerIronStar()
@@ -3457,7 +3457,7 @@ class spell_garrosh_hellscream_whirling_corruption_dmg : public SpellScriptLoade
 
                 int32 minDamage = GetHitDamage() / 4;
 
-                int32 reduceDamage = dist * ((GetHitDamage() - minDamage) / WHIRLING_CORRUPTION_MIN_DAMAGE_RANGE);
+                int32 reduceDamage = int32(dist * ((GetHitDamage() - minDamage) / WHIRLING_CORRUPTION_MIN_DAMAGE_RANGE));
                 int32 damage = GetHitDamage() - reduceDamage;
                 if (damage < minDamage)
                     damage = minDamage;
@@ -3638,7 +3638,7 @@ class spell_garrosh_hellscream_touch_of_yshaarj : public SpellScriptLoader
 
                 if (GetTarget()->GetHealth() <= dmgInfo.GetDamage())
                 {
-                    absorbAmount = dmgInfo.GetDamage() - GetTarget()->GetHealth() + minHealth;
+                    absorbAmount = uint32(dmgInfo.GetDamage() - GetTarget()->GetHealth() + minHealth);
                 }
                 else if (GetTarget()->GetHealth() <= minHealth)
                 {
@@ -3646,7 +3646,7 @@ class spell_garrosh_hellscream_touch_of_yshaarj : public SpellScriptLoader
                 }
                 else if ((GetTarget()->GetHealth() - dmgInfo.GetDamage()) <= minHealth)
                 {
-                    absorbAmount = dmgInfo.GetDamage() - (GetTarget()->GetHealth() - minHealth);
+                    absorbAmount = uint32(dmgInfo.GetDamage() - (GetTarget()->GetHealth() - minHealth));
                 }
             }
 
@@ -3977,7 +3977,7 @@ class spell_garrosh_hellscream_malice_aoe : public SpellScriptLoader
 
             void FilterTargets(std::list<WorldObject*> &targets)
             {
-                m_TargetsCount = targets.size();
+                m_TargetsCount = int32(targets.size());
             }
 
             void HandleAfterCast()

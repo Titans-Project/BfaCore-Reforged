@@ -624,7 +624,7 @@ class npc_spine_of_deathwing_corruption : public CreatureScript
                             if (pTarget)
                             {
                                 isGrip = true;
-                                damageCounter = me->CountPctFromMaxHealth(20);
+                                damageCounter = uint32(me->CountPctFromMaxHealth(20));
                                 me->CastCustomSpell(SPELL_FIERY_GRIP, SPELLVALUE_MAX_TARGETS, RAID_MODE(1, 3), pTarget, false);
                             }
                             events.ScheduleEvent(EVENT_FIERY_GRIP, urand(31000, 33000));

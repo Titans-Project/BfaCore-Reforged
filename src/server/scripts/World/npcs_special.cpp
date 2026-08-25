@@ -891,7 +891,7 @@ void npc_doctor::npc_doctorAI::UpdateAI(uint32 diff)
             }
 
             std::vector<Position const*>::iterator point = Coordinates.begin();
-            std::advance(point, urand(0, Coordinates.size() - 1));
+            std::advance(point, urand(0, uint32(Coordinates.size() - 1)));
 
             if (Creature* Patient = me->SummonCreature(patientEntry, **point, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 5000))
             {
@@ -2053,7 +2053,7 @@ class npc_train_wrecker : public CreatureScript
                             {
                                 me->SetFacingTo(target->GetOrientation());
                                 me->HandleEmoteCommand(EMOTE_ONESHOT_ATTACK1H);
-                                _timer = 1.5 * IN_MILLISECONDS;
+                                _timer = uint32(1.5 * IN_MILLISECONDS);
                                 _nextAction = EVENT_DO_WRECK;
                             }
                             else
@@ -2261,7 +2261,7 @@ public:
 
         void DamageTaken(Unit* doneBy, uint32& damage) override
         {
-            uint32 healthPctLimit = me->GetScriptParam(0).numericValue;
+            uint32 healthPctLimit = uint32(me->GetScriptParam(0).numericValue);
 
             if (doneBy->GetTypeId() == TYPEID_UNIT)
                 if (me->HealthBelowPctDamaged(healthPctLimit, damage))

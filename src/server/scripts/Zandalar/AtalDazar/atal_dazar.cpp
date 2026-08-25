@@ -48,7 +48,7 @@ struct npc_reanimation_totem : public ScriptedAI
     {
         if (damage >= me->GetHealth())
         {
-            damage = me->GetHealth() - 1;
+            damage = uint32(me->GetHealth() - 1);
             std::list<Creature*> zombies;
             zombies = me->FindNearestCreatures(127757, 20.0f);
             for (auto npc : zombies)
@@ -122,7 +122,7 @@ struct npc_mob_echo_of_shadra : public ScriptedAI
         events.Reset();
         me->setActive(false);
         me->SetWalk(false);
-        me->GetMotionMaster()->MoveRandom(urand(0, 15));
+        me->GetMotionMaster()->MoveRandom(float(urand(0, 15)));
 
         //need to check the chance
         int chance = urand(0, 3);
@@ -143,7 +143,7 @@ struct npc_mob_echo_of_shadra : public ScriptedAI
 
     void MovementInform(uint32 type, uint32 id) override
     {
-        me->GetMotionMaster()->MoveRandom(urand(5, 15));
+        me->GetMotionMaster()->MoveRandom(float(urand(5, 15)));
     }
 
     void UpdateAI(uint32 diff) override

@@ -453,7 +453,7 @@ public:
         void MovementInform(uint32 /*motionType*/, uint32 pointId) override
         {
             if (pointId == 1)
-                me->SetFacingTo(me->GetOrientation() - M_PI);
+                me->SetFacingTo(float(me->GetOrientation() - M_PI));
         }
 
         void MoveInLineOfSight(Unit* who) override
@@ -546,7 +546,7 @@ public:
     {
         boss_kuai_the_brute_AI(Creature* creature) : BossAI(creature, BOSS_KUAI_THE_BRUTE)
         {
-            TempSummon* sum = me->SummonCreature(CREATURE_MU_SHIBA, me->GetPositionX() + 3 * cos(M_PI / 4), me->GetPositionY() + 3 * sin(M_PI / 4), me->GetPositionZ(), me->GetOrientation());
+            TempSummon* sum = me->SummonCreature(CREATURE_MU_SHIBA, float(me->GetPositionX() + 3 * cos(M_PI / 4)), float(me->GetPositionY() + 3 * sin(M_PI / 4)), me->GetPositionZ(), me->GetOrientation());
             if (sum)
             {
                 pet_guid = sum->GetGUID();

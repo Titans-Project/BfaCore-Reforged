@@ -906,7 +906,7 @@ public:
             if (!caster || !target)
                 return;
 
-            uint32 amount = CalculatePct(caster->GetMaxHealth(), GetEffectValue());
+            uint32 amount = uint32(CalculatePct(caster->GetMaxHealth(), GetEffectValue()));
             caster->CastCustomSpell(SPELL_WARRIOR_RALLYING_CRY_TRIGGER, SPELLVALUE_BASE_POINT0, amount, target, true);
         }
 
@@ -1059,7 +1059,7 @@ public:
             if (Player* _player = GetCaster()->ToPlayer())
                 if (Unit* target = GetHitUnit())
                 {
-                    _player->CastCustomSpell(SPELL_WARRIOR_COLOSSUS_SMASH_BUFF, SPELLVALUE_BASE_POINT0, 15.0f + _player->m_activePlayerData->Mastery, target, true);
+                    _player->CastCustomSpell(SPELL_WARRIOR_COLOSSUS_SMASH_BUFF, SPELLVALUE_BASE_POINT0, int32(15.0f + _player->m_activePlayerData->Mastery), target, true);
                 }
 
             if (Unit* caster = GetCaster())
@@ -1888,7 +1888,7 @@ class aura_warr_ignore_pain : public AuraScript
     {
         if (Unit* caster = GetCaster())
         {
-            amount = (float)(22.3f * caster->GetTotalAttackPowerValue(BASE_ATTACK)) * (float(m_ExtraSpellCost+200) / 600.0f);
+            amount = int32((float)(22.3f * caster->GetTotalAttackPowerValue(BASE_ATTACK)) * (float(m_ExtraSpellCost+200) / 600.0f));
             int32 m_newRage = caster->GetPower(POWER_RAGE) - m_ExtraSpellCost;
             if (m_newRage < 0)
                 m_newRage = 0;
@@ -1903,7 +1903,7 @@ class aura_warr_ignore_pain : public AuraScript
         if (Unit* caster = GetCaster())
         {
             SpellNonMeleeDamage spell(caster, caster, SPELL_WARRIOR_IGNORE_PAIN, 0, SPELL_SCHOOL_MASK_NORMAL);
-            spell.damage = dmgInfo.GetDamage() - dmgInfo.GetDamage() * 0.9f;
+            spell.damage = uint32(dmgInfo.GetDamage() - dmgInfo.GetDamage() * 0.9f);
             spell.cleanDamage = spell.damage;
             caster->DealSpellDamage(&spell, false);
             caster->SendSpellNonMeleeDamageLog(&spell);
@@ -2243,16 +2243,16 @@ public:
             {
                 int32 l_PeriodicDamage = l_PreviousBloodBath->GetAmount();
                 int32 l_Duration = l_Target->GetAura(eSpells::BloodBathDamage, l_Caster->GetGUID())->GetDuration();
-                int32 l_Amplitude = l_PreviousBloodBath->GetSpellEffectInfo()->Amplitude;
+                int32 l_Amplitude = int32(l_PreviousBloodBath->GetSpellEffectInfo()->Amplitude);
 
                 if (l_Amplitude)
                     l_PreviousTotalDamage = l_PeriodicDamage * ((l_Duration / l_Amplitude) + 1);
 
-                l_PreviousTotalDamage /= (l_SpellInfoDamage->GetMaxDuration() / l_SpellInfoDamage->GetEffect(EFFECT_0)->Amplitude);
+                l_PreviousTotalDamage = int32(l_PreviousTotalDamage / (l_SpellInfoDamage->GetMaxDuration() / l_SpellInfoDamage->GetEffect(EFFECT_0)->Amplitude));
             }
 
             if (l_SpellInfoDamage->GetEffect(EFFECT_0)->Amplitude)
-                l_Damage /= (l_SpellInfoDamage->GetMaxDuration() / l_SpellInfoDamage->GetEffect(EFFECT_0)->Amplitude);
+                l_Damage = int32(l_Damage / (l_SpellInfoDamage->GetMaxDuration() / l_SpellInfoDamage->GetEffect(EFFECT_0)->Amplitude));
 
             l_Damage += l_PreviousTotalDamage;
 
@@ -2390,7 +2390,7 @@ public:
             if (damageTaken <= 0)
                 return;
 
-            int32 rageAmount = (50.0f * (float)damageTaken) / (float)caster->GetMaxHealth();
+            int32 rageAmount = int32((50.0f * (float)damageTaken) / (float)caster->GetMaxHealth());
             caster->ModifyPower(POWER_RAGE, 10 * uint32(rageAmount));
         }
 
@@ -2433,7 +2433,7 @@ public:
                         rageSpent = cost.Amount;
                     }
 
-                    if (roll_chance_f((rageSpent / 10) * 1.40))
+                    if (roll_chance_f(float((rageSpent / 10) * 1.40)))
                     {
                         caster->GetSpellHistory()->ResetCooldown(SPELL_WARRIOR_COLOSSUS_SMASH, true);
                         caster->GetSpellHistory()->ResetCooldown(SPELL_WARRIOR_MORTAL_STRIKE, true);
@@ -2479,7 +2479,7 @@ public:
 
 
                 uint32 bonusDamage = eventInfo.GetDamageInfo() ? eventInfo.GetDamageInfo()->GetDamage() : 0;
-                bonusDamage *= 0.2f;
+                bonusDamage = uint32(bonusDamage * 0.2f);
                 //If the target already has the dot
                 if (target->HasAura(SPELL_WARRIOR_TRAUMA_DOT))
                 {
@@ -2645,9 +2645,9 @@ class spell_warr_execute : public SpellScript
 
     void HandleTakePower(SpellPowerCost& powerCost)
     {
-        m_powerTaken = powerCost.Amount;
-        uint32 requiredAmount = powerCost.Amount - powerCost.OptionalAmount;
-        float dmgMultiplier = powerCost.Amount / (requiredAmount ? requiredAmount : 1);
+        m_powerTaken = float(powerCost.Amount);
+        uint32 requiredAmount = uint32(powerCost.Amount - powerCost.OptionalAmount);
+        float dmgMultiplier = float(powerCost.Amount) / (requiredAmount ? requiredAmount : 1);
         GetCaster()->Variables.Set("spell_warr_execute_damages::multiplier", dmgMultiplier);
     }
 
@@ -2655,7 +2655,7 @@ class spell_warr_execute : public SpellScript
     {
         if (Unit* target = GetHitUnit())
             if (target->IsAlive())
-                GetCaster()->ModifyPower(POWER_RAGE, CalculatePct(m_powerTaken, GetEffectInfo(EFFECT_1)->BasePoints));
+                GetCaster()->ModifyPower(POWER_RAGE, int32(CalculatePct(m_powerTaken, GetEffectInfo(EFFECT_1)->BasePoints)));
 
         GetCaster()->Variables.Remove("spell_warr_execute_damages::multiplier");
         GetCaster()->RemoveAurasDueToSpell(SPELL_WARRIOR_SUDDEN_DEATH);
@@ -2676,7 +2676,7 @@ class spell_warr_execute_damages : public SpellScript
     void HandleDamage(SpellEffIndex /*effIndex*/)
     {
         float damageMultiplier = GetCaster()->Variables.GetValue<float>("spell_warr_execute_damages::multiplier", 1.f);
-        SetHitDamage(GetHitDamage() * damageMultiplier);
+        SetHitDamage(int32(GetHitDamage() * damageMultiplier));
     }
 
     void Register() override
@@ -2771,7 +2771,7 @@ struct at_into_the_fray : AreaTriggerAI
         if (timer >= 250)
         {
             at->Variables.Set<int32>("_timer", 0);
-            if (uint32 count = at->GetInsideUnits().size() - 1) // -1 for self
+            if (uint32 count = uint32(at->GetInsideUnits().size() - 1)) // -1 for self
             {
                 if (!caster->HasAura(SPELL_WARRIOR_INTO_THE_FRAY))
                     caster->CastSpell(caster, SPELL_WARRIOR_INTO_THE_FRAY, true);

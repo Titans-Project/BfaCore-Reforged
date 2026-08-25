@@ -38,7 +38,7 @@ void WorldSession::HandleRequestLeaders(WorldPackets::ChallengeMode::RequestLead
         {
             WorldPackets::ChallengeMode::ModeAttempt guildLeaders;
             guildLeaders.InstanceRealmAddress = GetVirtualRealmAddress();
-            guildLeaders.AttemptID = bestGuild->ID;
+            guildLeaders.AttemptID = uint32(bestGuild->ID);
             guildLeaders.CompletionTime = bestGuild->RecordTime;
             guildLeaders.CompletionDate = bestGuild->Date;
             guildLeaders.MedalEarned = bestGuild->ChallengeLevel;
@@ -61,7 +61,7 @@ void WorldSession::HandleRequestLeaders(WorldPackets::ChallengeMode::RequestLead
     {
         WorldPackets::ChallengeMode::ModeAttempt realmLeaders;
         realmLeaders.InstanceRealmAddress = GetVirtualRealmAddress();
-        realmLeaders.AttemptID = bestServer->ID;
+        realmLeaders.AttemptID = uint32(bestServer->ID);
         realmLeaders.CompletionTime = bestServer->RecordTime;
         realmLeaders.CompletionDate = bestServer->Date;
         realmLeaders.MedalEarned = bestServer->ChallengeLevel;
@@ -162,7 +162,7 @@ void WorldSession::HandleChallengeModeStart(WorldPackets::ChallengeMode::StartRe
 
 void WorldSession::HandleChallengeModeRequestMapStatsOpcode(WorldPackets::ChallengeMode::RequestMapStats& request)
 {
-    uint32 ChallengeModeMapCount = _player->m_CompletedChallenges.size();
+    uint32 ChallengeModeMapCount = uint32(_player->m_CompletedChallenges.size());
     WorldPacket packet(SMSG_MYTHIC_PLUS_ALL_MAP_STATS);
     packet << (uint32)ChallengeModeMapCount;
     if (ChallengeModeMapCount > 0)

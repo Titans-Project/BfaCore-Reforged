@@ -2136,7 +2136,7 @@ class spell_item_swift_hand_justice_dummy : public SpellScriptLoader
                 PreventDefaultAction();
 
                 Unit* caster = eventInfo.GetActor();
-                int32 amount = caster->CountPctFromMaxHealth(aurEff->GetAmount());
+                int32 amount = int32(caster->CountPctFromMaxHealth(aurEff->GetAmount()));
                 caster->CastCustomSpell(SPELL_SWIFT_HAND_OF_JUSTICE_HEAL, SPELLVALUE_BASE_POINT0, amount, (Unit*)nullptr, true, nullptr, aurEff);
             }
 

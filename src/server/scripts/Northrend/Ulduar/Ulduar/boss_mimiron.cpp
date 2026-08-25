@@ -695,7 +695,7 @@ public:
         {
             if (damage >= me->GetHealth())
             {
-                damage = me->GetHealth() - 1; // Let creature fall to 1 hp, but do not let it die or damage itself with SetHealth().
+                damage = uint32(me->GetHealth() - 1); // Let creature fall to 1 hp, but do not let it die or damage itself with SetHealth().
                 me->AddUnitFlag(UNIT_FLAG_NON_ATTACKABLE);
                 DoCast(me, SPELL_VEHICLE_DAMAGED, true);
                 me->AttackStop();
@@ -940,7 +940,7 @@ public:
         {
             if (damage >= me->GetHealth())
             {
-                damage = me->GetHealth() - 1; // Let creature fall to 1 hp, but do not let it die or damage itself with SetHealth().
+                damage = uint32(me->GetHealth() - 1); // Let creature fall to 1 hp, but do not let it die or damage itself with SetHealth().
                 me->AttackStop();
                 DoCast(me, SPELL_VEHICLE_DAMAGED, true);
                 me->RemoveAllAurasExceptType(SPELL_AURA_CONTROL_VEHICLE, SPELL_AURA_MOD_INCREASE_HEALTH_PERCENT);
@@ -1121,7 +1121,7 @@ public:
         {
             if (damage >= me->GetHealth())
             {
-                damage = me->GetHealth() - 1; // Let creature fall to 1 hp, but do not let it die or damage itself with SetHealth().
+                damage = uint32(me->GetHealth() - 1); // Let creature fall to 1 hp, but do not let it die or damage itself with SetHealth().
                 me->AddUnitFlag(UNIT_FLAG_NON_ATTACKABLE);
                 me->AttackStop();
                 me->SetReactState(REACT_PASSIVE);

@@ -507,7 +507,7 @@ public:
             if (hp >= maxHp)
                 absorbAmount = heal;
             else if (heal >= maxHeal)
-                absorbAmount = heal - maxHeal;
+                absorbAmount = uint32(heal - maxHeal);
             else
                 absorbAmount = 0;
         }
@@ -519,7 +519,7 @@ public:
             {
                 if (AuraEffect* aurEff = GetAura()->GetEffect(EFFECT_1))
                     if (AuraEffect* aurEff = GetAura()->GetEffect(EFFECT_1))
-                        aurEff->SetDamage(caster->SpellDamageBonusDone(GetTarget(), GetSpellInfo(), 0, DOT, aurEff->GetSpellEffectInfo(), GetStackAmount()) * aurEff->GetDonePct());
+                        aurEff->SetDamage(int32(caster->SpellDamageBonusDone(GetTarget(), GetSpellInfo(), 0, DOT, aurEff->GetSpellEffectInfo(), GetStackAmount()) * aurEff->GetDonePct()));
             }
         }
 

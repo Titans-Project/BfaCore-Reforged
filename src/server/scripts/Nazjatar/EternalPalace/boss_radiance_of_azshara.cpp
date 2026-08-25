@@ -526,7 +526,7 @@ public:
 
         void FillCirclePath(Position const& center, float radius, float z, Movement::PointsArray& path, bool clockwise)
         {
-            float step = clockwise ? -M_PI / 8.0f : M_PI / 8.0f;
+            float step = float(clockwise ? -M_PI / 8.0f : M_PI / 8.0f);
             float angle = center.GetAngle(at->GetPositionX(), at->GetPositionY());
 
             for (uint8 iter = 0; iter < 16; angle += step, ++iter)
@@ -845,7 +845,7 @@ public:
                 case EVENT_SUMMON_STORMLINGS:
                 {
                     for (uint8 i = 0; i < 3; ++i)
-                        if (Creature* storms = me->SummonCreature(NPC_STORMLING, me->GetPositionX() + urand(5.0f, 10.0f), me->GetPositionY() + urand(5.0f, 10.0f), me->GetPositionZ(), TEMPSUMMON_MANUAL_DESPAWN))
+                        if (Creature* storms = me->SummonCreature(NPC_STORMLING, me->GetPositionX() + urand(uint32(5.0f), uint32(10.0f)), me->GetPositionY() + urand(uint32(5.0f), uint32(10.0f)), me->GetPositionZ(), TEMPSUMMON_MANUAL_DESPAWN))
                             storms->SetInCombatWithZone();
                     events.ScheduleEvent(EVENT_SUMMON_STORMLINGS, TIMER_SUMMON_STORMLINGS);
                     break;

@@ -215,7 +215,7 @@ void WorldSession::HandleBattlePayConfirmPurchase(WorldPackets::BattlePay::Confi
     if (!GetBattlePayMgr()->IsAvailable())
         return;
 
-    packet.ClientCurrentPriceFixedPoint /= Battlepay::g_CurrencyPrecision;
+    packet.ClientCurrentPriceFixedPoint = uint64(packet.ClientCurrentPriceFixedPoint / Battlepay::g_CurrencyPrecision);
 
     auto purchase = GetBattlePayMgr()->GetPurchase();
     if (!purchase)
@@ -286,7 +286,7 @@ void WorldSession::HandleBattlePayConfirmPurchase(WorldPackets::BattlePay::Confi
 
     GetBattlePayMgr()->SavePurchase(purchase);
     GetBattlePayMgr()->ProcessDelivery(purchase);
-    player->DestroyDonateTokenCount((purchase->CurrentPrice) / 2);
+    player->DestroyDonateTokenCount(uint32((purchase->CurrentPrice) / 2));
 
 }
 

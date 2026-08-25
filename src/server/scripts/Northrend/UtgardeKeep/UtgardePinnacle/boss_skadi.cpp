@@ -742,7 +742,7 @@ class spell_skadi_reset_check : public SpellScriptLoader
             void CountTargets(std::list<WorldObject*>& targets)
             {
                 targets.remove_if(Trinity::UnitAuraCheck(false, SPELL_UTGARDE_PINNACLE_GAUNTLET_EFFECT));
-                _targetCount = targets.size();
+                _targetCount = uint32(targets.size());
             }
 
             void HandleDummy(SpellEffIndex /*effIndex*/)
@@ -793,7 +793,7 @@ class spell_skadi_launch_harpoon : public SpellScriptLoader
             void HandleDamageCalc()
             {
                 if (Unit* target = GetHitUnit())
-                    SetHitDamage(target->CountPctFromMaxHealth(35));
+                    SetHitDamage(int32(target->CountPctFromMaxHealth(35)));
             }
 
             void Register() override

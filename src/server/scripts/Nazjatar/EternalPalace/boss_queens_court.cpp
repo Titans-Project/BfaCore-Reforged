@@ -537,7 +537,7 @@ public:
 
         void CheckTargets(std::list<WorldObject*>& targets)
         {
-            targetList = targets.size();
+            targetList = uint32(targets.size());
         }
 
         void RecalculateDamage(SpellEffIndex index)
@@ -1114,7 +1114,7 @@ public:
 
         void CheckTargets(std::list<WorldObject*>& targets)
         {
-            targetList = targets.size();
+            targetList = uint32(targets.size());
         }
 
         void RecalculateDamage(SpellEffIndex index)
@@ -1231,7 +1231,7 @@ public:
                 {
                     for (uint8 i = 0; i < 5; ++i)
                         flag->RemoveAura(DecreeAreaTriggerSpellByFlag[i]);
-                    flag->CastSpell(entry, spellId, true);
+                    flag->CastSpell(float(entry), spellId, true);
                 }
             }
         }

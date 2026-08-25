@@ -445,7 +445,7 @@ public:
                         break;
 
                     auto l_RandUnit = m_SolarConstructorsGuid.begin();
-                    std::advance(l_RandUnit, urand(0, m_SolarConstructorsGuid.size() - 1));
+                    std::advance(l_RandUnit, urand(0, uint32(m_SolarConstructorsGuid.size() - 1)));
                     m_SelectedSolarConstructorGuid = *l_RandUnit;
 
                     if (Creature* l_Constructor = instance->GetCreature(m_SelectedSolarConstructorGuid))

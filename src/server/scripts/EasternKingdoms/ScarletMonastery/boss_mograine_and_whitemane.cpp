@@ -290,7 +290,7 @@ public:
         void DamageTaken(Unit* /*attacker*/, uint32& damage) override
         {
             if (!_bCanResurrectCheck && damage >= me->GetHealth())
-                damage = me->GetHealth() - 1;
+                damage = uint32(me->GetHealth() - 1);
         }
 
         void UpdateAI(uint32 diff) override

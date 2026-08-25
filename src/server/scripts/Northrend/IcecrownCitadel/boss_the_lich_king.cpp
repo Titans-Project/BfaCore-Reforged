@@ -1778,7 +1778,7 @@ public:
         {
             if (damage >= me->GetHealth())
             {
-                damage = me->GetHealth() - 1;
+                damage = uint32(me->GetHealth() - 1);
                 if (!me->HasAura(SPELL_TERENAS_LOSES_INSIDE) && !IsHeroic())
                 {
                     me->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);

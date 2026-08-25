@@ -132,7 +132,7 @@ public:
                 instance->SetBossState(DATA_GUARM, IN_PROGRESS);
             }
 
-            events.ScheduleEvent(EVENT_GUARDIANS_BREATH, 20.5 * IN_MILLISECONDS);
+            events.ScheduleEvent(EVENT_GUARDIANS_BREATH, uint32(20.5 * IN_MILLISECONDS));
             events.ScheduleEvent(EVENT_FLASHING_FANGS, 6 * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_ROARING_LEAP, 45 * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_HEADLONG_CHARGE, 60 * IN_MILLISECONDS);
@@ -213,7 +213,7 @@ public:
                 if (Unit* target = me->GetVictim())
                     me->CanStartAttack(target, true);
 
-                events.ScheduleEvent(EVENT_GUARDIANS_BREATH, 30.5 * IN_MILLISECONDS);
+                events.ScheduleEvent(EVENT_GUARDIANS_BREATH, uint32(30.5 * IN_MILLISECONDS));
                 events.ScheduleEvent(EVENT_FLASHING_FANGS, 12 * IN_MILLISECONDS);
                 events.ScheduleEvent(EVENT_ROARING_LEAP, 45 * IN_MILLISECONDS);
                 events.ScheduleEvent(EVENT_HEADLONG_CHARGE, 45 * IN_MILLISECONDS);
@@ -280,7 +280,7 @@ public:
                     if (guardiansBreathTargets.empty() || PlayerList.isEmpty())
                         return;
 
-                    totalPlayersPct = CalculatePct(guardiansBreathTargets.size(), PlayerList.getSize());
+                    totalPlayersPct = uint32(CalculatePct(guardiansBreathTargets.size(), PlayerList.getSize()));
 
                     if (totalPlayersPct < 60)
                         me->CastSpell(me, SPELL_FROTHING_RAGE, true);

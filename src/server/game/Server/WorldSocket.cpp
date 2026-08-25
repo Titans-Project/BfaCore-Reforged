@@ -158,7 +158,7 @@ void WorldSocket::InitializeHandler(boost::system::error_code error, std::size_t
             }
 
             ByteBuffer buffer(std::move(_packetBuffer));
-            std::string initializer = buffer.ReadString(ClientConnectionInitialize.length());
+            std::string initializer = buffer.ReadString(uint32(ClientConnectionInitialize.length()));
             if (initializer != ClientConnectionInitialize)
             {
                 CloseSocket();
@@ -203,7 +203,7 @@ bool WorldSocket::Update()
     MessageBuffer buffer(_sendBufferSize);
     while (_bufferQueue.Dequeue(queued))
     {
-        uint32 packetSize = queued->size();
+        uint32 packetSize = uint32(queued->size());
         if (packetSize > MinSizeForCompression && queued->NeedsEncryption())
             packetSize = compressBound(packetSize) + sizeof(CompressedWorldPacket);
 
@@ -515,7 +515,7 @@ void WorldSocket::SendPacket(WorldPacket const& packet)
 void WorldSocket::WritePacketToBuffer(EncryptablePacket const& packet, MessageBuffer& buffer)
 {
     uint16 opcode = packet.GetOpcode();
-    uint32 packetSize = packet.size();
+    uint32 packetSize = uint32(packet.size());
 
     // Reserve space for buffer
     uint8* headerPos = buffer.GetWritePointer();
@@ -559,7 +559,7 @@ void WorldSocket::WritePacketToBuffer(EncryptablePacket const& packet, MessageBu
 uint32 WorldSocket::CompressPacket(uint8* buffer, WorldPacket const& packet)
 {
     uint32 opcode = packet.GetOpcode();
-    uint32 bufferSize = deflateBound(_compressionStream, packet.size() + sizeof(uint16));
+    uint32 bufferSize = deflateBound(_compressionStream, uLong(packet.size() + sizeof(uint16)));
 
     _compressionStream->next_out = buffer;
     _compressionStream->avail_out = bufferSize;
@@ -574,7 +574,7 @@ uint32 WorldSocket::CompressPacket(uint8* buffer, WorldPacket const& packet)
     }
 
     _compressionStream->next_in = (Bytef*)packet.contents();
-    _compressionStream->avail_in = packet.size();
+    _compressionStream->avail_in = uInt(packet.size());
 
     z_res = deflate(_compressionStream, Z_SYNC_FLUSH);
     if (z_res != Z_OK)

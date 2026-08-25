@@ -154,7 +154,7 @@ namespace ArenaHelper
         float currentRatingFactor = CalculateRatingFactor(rating);
         float normalizedRatingFactor = RoundToInterval(currentRatingFactor, minRatingFactor, maxRatingFactor);
 
-        return g_PvpMinCPPerWeek + floor(((normalizedRatingFactor - minRatingFactor) / (maxRatingFactor - minRatingFactor)) * (g_PvpMaxCPPerWeek - g_PvpMinCPPerWeek));
+        return uint32(g_PvpMinCPPerWeek + floor(((normalizedRatingFactor - minRatingFactor) / (maxRatingFactor - minRatingFactor)) * (g_PvpMaxCPPerWeek - g_PvpMinCPPerWeek)));
     }
 
     inline uint8 GetSlotByType(uint32 type)

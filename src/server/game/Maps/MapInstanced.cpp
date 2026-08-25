@@ -196,7 +196,7 @@ Map* MapInstanced::CreateInstanceForPlayer(const uint32 mapId, Player* player, u
     }
     else
     {
-        newInstanceId = player->GetGUID().GetCounter();
+        newInstanceId = uint32(player->GetGUID().GetCounter());
         map = FindInstanceMap(newInstanceId);
         if (!map)
             map = CreateGarrison(newInstanceId, player);

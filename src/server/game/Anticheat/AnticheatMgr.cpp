@@ -44,7 +44,7 @@ void AnticheatMgr::JumpHackDetection(Player* player, MovementInfo /* movementInf
     if ((sWorld->getIntConfig(CONFIG_ANTICHEAT_DETECTIONS_ENABLED) & JUMP_HACK_DETECTION) == 0)
         return;
 
-    uint32 key = player->GetGUID().GetCounter();
+    uint32 key = uint32(player->GetGUID().GetCounter());
 
     if (m_Players[key].GetLastOpcode() == CMSG_MOVE_JUMP && opcode == CMSG_MOVE_JUMP)
     {
@@ -58,7 +58,7 @@ void AnticheatMgr::WalkOnWaterHackDetection(Player* player, MovementInfo /* move
     if ((sWorld->getIntConfig(CONFIG_ANTICHEAT_DETECTIONS_ENABLED) & WALK_WATER_HACK_DETECTION) == 0)
         return;
 
-    uint32 key = player->GetGUID().GetCounter();
+    uint32 key = uint32(player->GetGUID().GetCounter());
     if (!m_Players[key].GetLastMovementInfo().HasMovementFlag(MOVEMENTFLAG_WATERWALKING))
         return;
 
@@ -81,7 +81,7 @@ void AnticheatMgr::FlyHackDetection(Player* player, MovementInfo /* movementInfo
     if ((sWorld->getIntConfig(CONFIG_ANTICHEAT_DETECTIONS_ENABLED) & FLY_HACK_DETECTION) == 0)
         return;
 
-    uint32 key = player->GetGUID().GetCounter();
+    uint32 key = uint32(player->GetGUID().GetCounter());
     if (!m_Players[key].GetLastMovementInfo().HasMovementFlag(MOVEMENTFLAG_FLYING))
         return;
 
@@ -99,7 +99,7 @@ void AnticheatMgr::TeleportPlaneHackDetection(Player* player, MovementInfo movem
     if ((sWorld->getIntConfig(CONFIG_ANTICHEAT_DETECTIONS_ENABLED) & TELEPORT_PLANE_HACK_DETECTION) == 0)
         return;
 
-    uint32 key = player->GetGUID().GetCounter();
+    uint32 key = uint32(player->GetGUID().GetCounter());
 
     if (m_Players[key].GetLastMovementInfo().pos.GetPositionZ() != 0 ||
         movementInfo.pos.GetPositionZ() != 0)
@@ -129,7 +129,7 @@ void AnticheatMgr::StartHackDetection(Player* player, MovementInfo movementInfo,
     if (player->IsGameMaster() || player->GetSession()->GetSecurity() > SEC_PLAYER)
         return;
 
-    uint32 key = player->GetGUID().GetCounter();
+    uint32 key = uint32(player->GetGUID().GetCounter());
 
     if (player->IsInFlight() || player->GetTransport() || player->GetVehicle())
     {
@@ -155,7 +155,7 @@ void AnticheatMgr::ClimbHackDetection(Player *player, MovementInfo movementInfo,
     if ((sWorld->getIntConfig(CONFIG_ANTICHEAT_DETECTIONS_ENABLED) & CLIMB_HACK_DETECTION) == 0)
         return;
 
-    uint32 key = player->GetGUID().GetCounter();
+    uint32 key = uint32(player->GetGUID().GetCounter());
 
     if (opcode != CMSG_MOVE_HEARTBEAT ||
         m_Players[key].GetLastOpcode() != CMSG_MOVE_HEARTBEAT)
@@ -186,7 +186,7 @@ void AnticheatMgr::SpeedHackDetection(Player* player,MovementInfo movementInfo)
     if ((sWorld->getIntConfig(CONFIG_ANTICHEAT_DETECTIONS_ENABLED) & SPEED_HACK_DETECTION) == 0)
         return;
 
-    uint32 key = player->GetGUID().GetCounter();
+    uint32 key = uint32(player->GetGUID().GetCounter());
 
     // We also must check the map because the movementFlag can be modified by the client.
     // If we just check the flag, they could always add that flag and always skip the speed hacking detection.
@@ -238,11 +238,11 @@ void AnticheatMgr::HandlePlayerLogin(Player* player)
     // we must delete this to prevent errors in case of crash
     CharacterDatabase.PExecute("DELETE FROM players_reports_status WHERE guid=%u",player->GetGUID().GetCounter());
     // we initialize the pos of lastMovementPosition var.
-    m_Players[player->GetGUID().GetCounter()].SetPosition(player->GetPositionX(),player->GetPositionY(),player->GetPositionZ(),player->GetOrientation());
+    m_Players[uint32(player->GetGUID().GetCounter())].SetPosition(player->GetPositionX(),player->GetPositionY(),player->GetPositionZ(),player->GetOrientation());
     QueryResult resultDB = CharacterDatabase.PQuery("SELECT * FROM daily_players_reports WHERE guid=%u;",player->GetGUID().GetCounter());
 
     if (resultDB)
-        m_Players[player->GetGUID().GetCounter()].SetDailyReportState(true);
+        m_Players[uint32(player->GetGUID().GetCounter())].SetDailyReportState(true);
 }
 
 void AnticheatMgr::HandlePlayerLogout(Player* player)
@@ -252,12 +252,12 @@ void AnticheatMgr::HandlePlayerLogout(Player* player)
     // We must also delete it at logout to prevent have data of offline players in the db when we query the database (IE: The GM Command)
     CharacterDatabase.PExecute("DELETE FROM players_reports_status WHERE guid=%u",player->GetGUID().GetCounter());
     // Delete not needed data from the memory.
-    m_Players.erase(player->GetGUID().GetCounter());
+    m_Players.erase(uint32(player->GetGUID().GetCounter()));
 }
 
 void AnticheatMgr::SavePlayerData(Player* player)
 {
-    CharacterDatabase.PExecute("REPLACE INTO players_reports_status (guid,average,total_reports,speed_reports,fly_reports,jump_reports,waterwalk_reports,teleportplane_reports,climb_reports,creation_time) VALUES (%u,%f,%u,%u,%u,%u,%u,%u,%u,%u);",player->GetGUID().GetCounter(),m_Players[player->GetGUID().GetCounter()].GetAverage(),m_Players[player->GetGUID().GetCounter()].GetTotalReports(), m_Players[player->GetGUID().GetCounter()].GetTypeReports(SPEED_HACK_REPORT),m_Players[player->GetGUID().GetCounter()].GetTypeReports(FLY_HACK_REPORT),m_Players[player->GetGUID().GetCounter()].GetTypeReports(JUMP_HACK_REPORT),m_Players[player->GetGUID().GetCounter()].GetTypeReports(WALK_WATER_HACK_REPORT),m_Players[player->GetGUID().GetCounter()].GetTypeReports(TELEPORT_PLANE_HACK_REPORT),m_Players[player->GetGUID().GetCounter()].GetTypeReports(CLIMB_HACK_REPORT),m_Players[player->GetGUID().GetCounter()].GetCreationTime());
+    CharacterDatabase.PExecute("REPLACE INTO players_reports_status (guid,average,total_reports,speed_reports,fly_reports,jump_reports,waterwalk_reports,teleportplane_reports,climb_reports,creation_time) VALUES (%u,%f,%u,%u,%u,%u,%u,%u,%u,%u);",uint32(player->GetGUID().GetCounter()),m_Players[uint32(player->GetGUID().GetCounter())].GetAverage(),m_Players[uint32(player->GetGUID().GetCounter())].GetTotalReports(), m_Players[uint32(player->GetGUID().GetCounter())].GetTypeReports(SPEED_HACK_REPORT),m_Players[uint32(player->GetGUID().GetCounter())].GetTypeReports(FLY_HACK_REPORT),m_Players[uint32(player->GetGUID().GetCounter())].GetTypeReports(JUMP_HACK_REPORT),m_Players[uint32(player->GetGUID().GetCounter())].GetTypeReports(WALK_WATER_HACK_REPORT),m_Players[uint32(player->GetGUID().GetCounter())].GetTypeReports(TELEPORT_PLANE_HACK_REPORT),m_Players[uint32(player->GetGUID().GetCounter())].GetTypeReports(CLIMB_HACK_REPORT),m_Players[uint32(player->GetGUID().GetCounter())].GetCreationTime());
 }
 
 uint32 AnticheatMgr::GetTotalReports(uint32 lowGUID)
@@ -285,7 +285,7 @@ bool AnticheatMgr::MustCheckTempReports(uint8 type)
 
 void AnticheatMgr::BuildReport(Player* player,uint8 reportType)
 {
-    uint32 key = player->GetGUID().GetCounter();
+    uint32 key = uint32(player->GetGUID().GetCounter());
 
     if (MustCheckTempReports(reportType))
     {
@@ -331,7 +331,7 @@ void AnticheatMgr::BuildReport(Player* player,uint8 reportType)
     {
         if (!m_Players[key].GetDailyReportState())
         {
-            CharacterDatabase.PExecute("REPLACE INTO daily_players_reports (guid,average,total_reports,speed_reports,fly_reports,jump_reports,waterwalk_reports,teleportplane_reports,climb_reports,creation_time) VALUES (%u,%f,%u,%u,%u,%u,%u,%u,%u,%u);",player->GetGUID().GetCounter(),m_Players[player->GetGUID().GetCounter()].GetAverage(),m_Players[player->GetGUID().GetCounter()].GetTotalReports(), m_Players[player->GetGUID().GetCounter()].GetTypeReports(SPEED_HACK_REPORT),m_Players[player->GetGUID().GetCounter()].GetTypeReports(FLY_HACK_REPORT),m_Players[player->GetGUID().GetCounter()].GetTypeReports(JUMP_HACK_REPORT),m_Players[player->GetGUID().GetCounter()].GetTypeReports(WALK_WATER_HACK_REPORT),m_Players[player->GetGUID().GetCounter()].GetTypeReports(TELEPORT_PLANE_HACK_REPORT),m_Players[player->GetGUID().GetCounter()].GetTypeReports(CLIMB_HACK_REPORT),m_Players[player->GetGUID().GetCounter()].GetCreationTime());
+            CharacterDatabase.PExecute("REPLACE INTO daily_players_reports (guid,average,total_reports,speed_reports,fly_reports,jump_reports,waterwalk_reports,teleportplane_reports,climb_reports,creation_time) VALUES (%u,%f,%u,%u,%u,%u,%u,%u,%u,%u);",uint32(player->GetGUID().GetCounter()),m_Players[uint32(player->GetGUID().GetCounter())].GetAverage(),m_Players[uint32(player->GetGUID().GetCounter())].GetTotalReports(), m_Players[uint32(player->GetGUID().GetCounter())].GetTypeReports(SPEED_HACK_REPORT),m_Players[uint32(player->GetGUID().GetCounter())].GetTypeReports(FLY_HACK_REPORT),m_Players[uint32(player->GetGUID().GetCounter())].GetTypeReports(JUMP_HACK_REPORT),m_Players[uint32(player->GetGUID().GetCounter())].GetTypeReports(WALK_WATER_HACK_REPORT),m_Players[uint32(player->GetGUID().GetCounter())].GetTypeReports(TELEPORT_PLANE_HACK_REPORT),m_Players[uint32(player->GetGUID().GetCounter())].GetTypeReports(CLIMB_HACK_REPORT),m_Players[uint32(player->GetGUID().GetCounter())].GetCreationTime());
             m_Players[key].SetDailyReportState(true);
         }
     }

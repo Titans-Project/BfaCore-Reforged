@@ -214,7 +214,7 @@ class boss_oshir : public CreatureScript
                 m_WolfDests.clear();
                 m_RylakDests.clear();
                 m_Spell = false;
-                m_HpPact = me->GetHealthPct() * 0.95f;
+                m_HpPact = uint32(me->GetHealthPct() * 0.95f);
                 m_CurrentDestTarget = ObjectGuid::Empty;
                 m_CurrentTimeToFeedTarget = ObjectGuid::Empty;
                 me->AddUnitState(UnitState::UNIT_STATE_IGNORE_PATHFINDING);
@@ -631,7 +631,7 @@ class boss_oshir : public CreatureScript
                     {
                         me->RemoveAura(eOshirSpells::SpellFeedingFrenzy);
 
-                        m_HpPact = me->GetHealthPct() * 0.95;                 
+                        m_HpPact = uint32(me->GetHealthPct() * 0.95);
 
                         if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 50.0f, true))
                         {
@@ -704,7 +704,7 @@ class boss_oshir : public CreatureScript
                                 m_Breakout = true;
 
                                 auto l_Iter = m_WolfDests.begin();
-                                std::advance(l_Iter, urand(0, m_WolfDests.size() - 1));
+                                std::advance(l_Iter, urand(0, uint32(m_WolfDests.size() - 1)));
 
                                 if (Creature* l_Wolf = ObjectAccessor::GetCreature(*me, *l_Iter))
                                 {
@@ -726,7 +726,7 @@ class boss_oshir : public CreatureScript
                                 m_Breakout = true;
 
                                 auto l_Iter = m_RylakDests.begin();
-                                std::advance(l_Iter, urand(0, m_RylakDests.size() - 1));
+                                std::advance(l_Iter, urand(0, uint32(m_RylakDests.size() - 1)));
 
                                 if ((*l_Iter)!= ObjectGuid::Empty)
                                 {
@@ -1326,7 +1326,7 @@ class iron_docks_oshir_mob_wolf : public CreatureScript
                     {
                         if (Aura* l_Aura = me->GetAura(eWolfSpells::SpellStrengthOfThePack))
                         {
-                            l_Aura->SetStackAmount(l_WolfTempoList.size());
+                            l_Aura->SetStackAmount(uint8(l_WolfTempoList.size()));
                         }
                     }
 

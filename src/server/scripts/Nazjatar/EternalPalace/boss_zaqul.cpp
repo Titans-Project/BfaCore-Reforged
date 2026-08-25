@@ -722,7 +722,7 @@ public:
 
             for (uint8 i = 0; i < 3; ++i)
             {
-                float x = caster->GetPositionX() + 5.0f * cos(i * M_PI / 5);
+                float x = float(caster->GetPositionX() + 5.0f * cos(i * M_PI / 5));
                 float y = caster->GetPositionY();
                 float z = caster->GetPositionZ();
                 caster->CastSpell(x, y, z, SPELL_CAUSTIC_DELIRIUM_AT, true);
@@ -1703,7 +1703,7 @@ public:
 
         void CalculateAmount(AuraEffect const* auraEffect, int32& amount, bool& /*canBeRecalculated*/)
         {
-            amount += GetCaster()->CountPctFromMaxHealth(5);
+            amount += int32(GetCaster()->CountPctFromMaxHealth(5));
         }
 
         void OnAbsorb(AuraEffect* aurEff, DamageInfo& dmgInfo, uint32& absorbAmount)

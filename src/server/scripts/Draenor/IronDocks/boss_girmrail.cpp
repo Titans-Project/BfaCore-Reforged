@@ -306,7 +306,7 @@ class iron_docks_grimrail_mob_train : public CreatureScript
                                 l_Itr->SetSpeed(UnitMoveType::MOVE_FLIGHT, 8.0f);
                                 l_Itr->DespawnOrUnsummon(20 * TimeConstants::IN_MILLISECONDS);
 
-                                l_Itr->GetMotionMaster()->MoveCharge(l_Trigger, l_Itr->GetPositionZ(), l_Itr->GetOrientation());
+                                l_Itr->GetMotionMaster()->MoveCharge(l_Trigger, l_Itr->GetPositionZ(), uint32(l_Itr->GetOrientation()));
                             }
 
                             float l_X = me->m_positionX + 600 * cos(3.142922f);
@@ -317,7 +317,7 @@ class iron_docks_grimrail_mob_train : public CreatureScript
                             me->SetSpeed(UnitMoveType::MOVE_FLIGHT, 8.0f);
                             me->DespawnOrUnsummon(20 * TimeConstants::IN_MILLISECONDS);
 
-                            me->GetMotionMaster()->MoveCharge(l_Trigger, me->GetPositionZ(), me->GetOrientation());
+                            me->GetMotionMaster()->MoveCharge(l_Trigger, me->GetPositionZ(), uint32(me->GetOrientation()));
                         }
                     }
                     break;

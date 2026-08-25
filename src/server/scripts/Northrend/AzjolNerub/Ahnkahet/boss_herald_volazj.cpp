@@ -95,7 +95,7 @@ public:
         {
             if (damage > me->GetHealth())
                 return 0;
-            return 100*(me->GetHealth()-damage)/me->GetMaxHealth();
+            return uint32(100*(me->GetHealth()-damage)/me->GetMaxHealth());
         }
 
         void DamageTaken(Unit* /*pAttacker*/, uint32 &damage) override

@@ -1198,7 +1198,7 @@ bool Guild::Create(Player* pLeader, std::string const& name)
     for (uint8 i = 1; i < ChallengeMax; ++i)
     {
         auto statement = CharacterDatabase.GetPreparedStatement(CHAR_INIT_GUILD_CHALLENGES);
-        statement->setInt32(0, GetId());
+        statement->setInt32(0, int32(GetId()));
         statement->setInt32(1, i);
         CharacterDatabase.Execute(statement);
     }
@@ -2330,7 +2330,7 @@ void Guild::CompleteGuildChallenge(uint32 challengeType)
 
     auto stmt = CharacterDatabase.GetPreparedStatement(CHAR_COMPLETE_GUILD_CHALLENGE);
     stmt->setInt32(0, m_ChallengeCount[challengeType]);
-    stmt->setInt32(1, GetId());
+    stmt->setInt32(1, int32(GetId()));
     stmt->setInt32(2, challengeType);
     CharacterDatabase.Execute(stmt);
 
@@ -3046,7 +3046,7 @@ void Guild::_UpdateAccountsNumber()
     for (auto itr = m_members.begin(); itr != m_members.end(); ++itr)
         accountsIdSet.insert(itr->second->GetAccountId());
 
-    m_accountsNumber = accountsIdSet.size();
+    m_accountsNumber = uint32(accountsIdSet.size());
 }
 
 // Detects if player is the guild master.

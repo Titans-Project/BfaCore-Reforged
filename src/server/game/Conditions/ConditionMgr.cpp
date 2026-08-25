@@ -3038,7 +3038,7 @@ static int32(* const WorldStateExpressionFunctions[WSE_FUNCTION_MAX])(Player con
     // WSE_FUNCTION_TIMER_CURRENT_TIME
     [](Player const* /*player*/, uint32 /*arg1*/, uint32 /*arg2*/) -> int32
     {
-        return GameTime::GetGameTime();
+        return int32(GameTime::GetGameTime());
     },
 
     // WSE_FUNCTION_WEEK_NUMBER
@@ -3049,7 +3049,7 @@ static int32(* const WorldStateExpressionFunctions[WSE_FUNCTION_MAX])(Player con
         if (Cfg_RegionsEntry const* region = sCfgRegionsStore.LookupEntry(realm.Id.Region))
             raidOrigin = region->Raidorigin;
 
-        return (now - raidOrigin) / WEEK;
+        return int32((now - raidOrigin) / WEEK);
     },
 
     // WSE_FUNCTION_UNK13

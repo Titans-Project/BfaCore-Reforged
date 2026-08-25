@@ -303,7 +303,7 @@ public:
                 if (!l_SpellInfo)
                     return;
 
-                uint32 l_Periodic = l_SpellInfo->GetEffect(0)->Amplitude;
+                uint32 l_Periodic = uint32(l_SpellInfo->GetEffect(0)->Amplitude);
 
                 m_Diff = l_Periodic;
             }

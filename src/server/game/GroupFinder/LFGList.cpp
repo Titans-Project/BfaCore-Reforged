@@ -24,8 +24,8 @@
 
 LFGListEntry::LFGListApplicationEntry::LFGListApplicationEntry(ObjectGuid::LowType playerGuid, LFGListEntry* owner)
 {
-    ID = sObjectMgr->GetGenerator<HighGuid::LFGObject>().Generate();
-    ApplicationTime = time(nullptr);
+    ID = uint32(sObjectMgr->GetGenerator<HighGuid::LFGObject>().Generate());
+    ApplicationTime = uint32(time(nullptr));
     PlayerGuid = playerGuid;
     Timeout = ApplicationTime + LFG_LIST_APPLY_FOR_GROUP_TIMEOUT;
     ApplicationStatus = LFGListApplicationStatus::None;
@@ -56,7 +56,7 @@ void LFGListEntry::BroadcastApplicantUpdate(LFGListApplicationEntry const* appli
 
     WorldPackets::LfgList::LfgListApplicationUpdate update;
     update.ApplicationTicket.RequesterGuid = ApplicationGroup->GetGUID();
-    update.ApplicationTicket.Id = ApplicationGroup->GetGUID().GetCounter();
+    update.ApplicationTicket.Id = uint32(ApplicationGroup->GetGUID().GetCounter());
     update.ApplicationTicket.Type = WorldPackets::LFG::RideType::LfgListApplication;
     update.ApplicationTicket.Time = CreationTime;
 
@@ -99,18 +99,18 @@ void LFGListEntry::BroadcastApplicantUpdate(LFGListApplicationEntry const* appli
 
 void LFGListEntry::LFGListApplicationEntry::ResetTimeout()
 {
-    Timeout = time(nullptr) + (ApplicationStatus == LFGListApplicationStatus::Invited ? LFG_LIST_INVITE_TO_GROUP_TIMEOUT : LFG_LIST_APPLY_FOR_GROUP_TIMEOUT);
+    Timeout = uint32(time(nullptr) + (ApplicationStatus == LFGListApplicationStatus::Invited ? LFG_LIST_INVITE_TO_GROUP_TIMEOUT : LFG_LIST_APPLY_FOR_GROUP_TIMEOUT));
 }
 
 void LFGListEntry::ResetTimeout()
 {
-    Timeout = time(nullptr) + LFG_LIST_GROUP_TIMEOUT;
+    Timeout = uint32(time(nullptr) + LFG_LIST_GROUP_TIMEOUT);
     sLFGListMgr->SendLFGListStatusUpdate(this);
 }
 
 uint32 LFGListEntry::GetID() const
 {
-    return ApplicationGroup->GetGUID().GetCounter();
+    return uint32(ApplicationGroup->GetGUID().GetCounter());
 }
 
 bool LFGListEntry::Update(uint32 const diff)

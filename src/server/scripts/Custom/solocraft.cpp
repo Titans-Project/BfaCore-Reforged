@@ -95,7 +95,7 @@ namespace {
                         difficulty = D5;
                 }
             }
-            return difficulty - 1.0; // HandleStatModifier treats 100 as +100%, so a difficulty of 1 ends up being applied as a 200% buff
+            return float(difficulty - 1.0); // HandleStatModifier treats 100 as +100%, so a difficulty of 1 ends up being applied as a 200% buff
         }
 
         // Get the groups size
@@ -106,7 +106,7 @@ namespace {
             if (group)
             {
                 Group::MemberSlotList const& groupMembers = group->GetMemberSlots();
-                numInGroup = groupMembers.size();
+                numInGroup = int(groupMembers.size());
             }
             return numInGroup;
         }
@@ -131,7 +131,7 @@ namespace {
                 for (int32 i = STAT_STRENGTH; i < MAX_STATS; ++i)
                 {
                     // Buff the player
-                    player->HandleStatModifier(UnitMods(UNIT_MOD_STAT_START + i), TOTAL_PCT, difficulty * 100.0, true);
+                    player->HandleStatModifier(UnitMods(UNIT_MOD_STAT_START + i), TOTAL_PCT, float(difficulty * 100.0), true);
                 }
 
                 // Set player health
@@ -160,7 +160,7 @@ namespace {
                 // Clear the buffs
                 for (int32 i = STAT_STRENGTH; i < MAX_STATS; ++i)
                 {
-                    player->HandleStatModifier(UnitMods(UNIT_MOD_STAT_START + i), TOTAL_PCT, difficulty * 100.0, false);
+                    player->HandleStatModifier(UnitMods(UNIT_MOD_STAT_START + i), TOTAL_PCT, float(difficulty * 100.0), false);
                 }
             }
         }

@@ -224,11 +224,11 @@ struct boss_noura_mother_of_flames : public BossAI
         }
         case SPELL_WHIRLING_SABER:
         {
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_WHIRLING_SABER, false);
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_WHIRLING_SABER, false);
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_WHIRLING_SABER, false);
             events.Repeat(35s);
             break;
@@ -333,7 +333,7 @@ struct npc_asara_mother_of_night_122467 : public ScriptedAI
                 {
                     if (Creature* shadowblade = me->SummonCreature(NPC_SHADOW_BLADE, me->GetRandomNearPosition(5.0f), TEMPSUMMON_TIMED_DESPAWN, 10000))
                     {
-                        if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                        if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                         {
                             shadowblade->SetFacingToObject(target1);
                             shadowblade->AI()->DoAction(1);
@@ -344,7 +344,7 @@ struct npc_asara_mother_of_night_122467 : public ScriptedAI
                 {
                     if (Creature* shadowblade = me->SummonCreature(NPC_SHADOW_BLADE, me->GetRandomNearPosition(5.0f), TEMPSUMMON_TIMED_DESPAWN, 10000))
                     {
-                        if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                        if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                         {
                             shadowblade->SetFacingToObject(target1);
                             shadowblade->AI()->DoAction(1);
@@ -355,7 +355,7 @@ struct npc_asara_mother_of_night_122467 : public ScriptedAI
                 {
                     if (Creature* shadowblade = me->SummonCreature(NPC_SHADOW_BLADE, me->GetRandomNearPosition(5.0f), TEMPSUMMON_TIMED_DESPAWN, 10000))
                     {
-                        if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                        if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                         {
                             shadowblade->SetFacingToObject(target1);
                             shadowblade->AI()->DoAction(1);

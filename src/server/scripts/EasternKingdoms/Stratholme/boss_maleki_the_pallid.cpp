@@ -90,7 +90,7 @@ public:
                     case EVENT_FROSTBOLT:
                         if (rand32() % 90)
                             DoCastVictim(SPELL_FROSTBOLT);
-                        _events.ScheduleEvent(EVENT_FROSTBOLT, 3.5 * IN_MILLISECONDS);
+                        _events.ScheduleEvent(EVENT_FROSTBOLT, uint32(3.5 * IN_MILLISECONDS));
                         break;
                     case EVENT_ICETOMB:
                         if (rand32() % 65)

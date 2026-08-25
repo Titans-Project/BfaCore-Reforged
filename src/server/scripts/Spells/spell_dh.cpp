@@ -234,8 +234,8 @@ public:
                 return;
 
             int32 basePoints = GetSpellInfo()->GetEffect(EFFECT_0)->BasePoints;
-            int32 dmg = (eventInfo.GetDamageInfo()->GetDamage() * (float)basePoints) / 100.f;
-            int32 dmgPerTick = (float)dmg / 5.f;
+            int32 dmg = int32((eventInfo.GetDamageInfo()->GetDamage() * (float)basePoints) / 100.f);
+            int32 dmgPerTick = int32((float)dmg / 5.f);
 
             // Any remaining damage must be added
             if (AuraEffect* dot = target->GetAuraEffect(SPELL_DH_BLOODLET_DOT, EFFECT_0, caster->GetGUID()))
@@ -448,7 +448,7 @@ class spell_dh_fel_rush_damage : public SpellScript
     {
         if (GetCaster() && GetHitUnit())
         {
-            int32 attackPower = GetCaster()->m_unitData->AttackPower / 100 * 25.3f;
+            int32 attackPower = int32(GetCaster()->m_unitData->AttackPower / 100 * 25.3f);
             SetHitDamage(attackPower);        
         }
     }
@@ -740,7 +740,7 @@ public:
                 {
                     caster->CastSpell(caster, SPELL_DH_EYE_BEAM_DAMAGE, true);
                     if (int32 energize = caster->GetAuraEffectAmount(SPELL_DH_BLIND_FURY, EFFECT_2))
-                        caster->ModifyPower(POWER_FURY, energize * 2.f / 50.f);
+                        caster->ModifyPower(POWER_FURY, int32(energize * 2.f / 50.f));
                 }
             }
 
@@ -1041,7 +1041,7 @@ public:
 
             int32 healthPct = GetSpellInfo()->GetEffect(EFFECT_1) ? GetSpellInfo()->GetEffect(EFFECT_1)->BasePoints : 0;
             target->SetHealth(1);
-            HealInfo healInfo = HealInfo(target, target, target->CountPctFromMaxHealth(healthPct), GetSpellInfo(), (SpellSchoolMask)GetSpellInfo()->SchoolMask);
+            HealInfo healInfo = HealInfo(target, target, uint32(target->CountPctFromMaxHealth(healthPct)), GetSpellInfo(), (SpellSchoolMask)GetSpellInfo()->SchoolMask);
             target->HealBySpell(healInfo);
             // We use AddAura instead of CastSpell, since if the spell is on cooldown, it will not be casted
             target->AddAura(SPELL_DH_METAMORPHOSIS_VENGEANCE, target);
@@ -1135,7 +1135,7 @@ public:
         {
             int32 chargesUsed = GetSpellValue()->EffectBasePoints[0];
             int32 dmg = GetHitDamage();
-            SetHitDamage((float)(dmg*chargesUsed) / 5.f);
+            SetHitDamage(int32((float)(dmg*chargesUsed) / 5.f));
         }
 
         void Register() override
@@ -1391,7 +1391,7 @@ public:
             {
                 for (AreaTrigger* at : vec)
                 {
-                    if (!caster->IsWithinDist(at, range))
+                    if (!caster->IsWithinDist(at, float(range)))
                         continue;
 
                     if (TempSummon * tempSumm = caster->SummonCreature(WORLD_TRIGGER, at->GetPositionX(), at->GetPositionY(), at->GetPositionZ(), 0, TEMPSUMMON_TIMED_DESPAWN, 100))
@@ -1421,7 +1421,7 @@ public:
 
                         if (AuraEffect* soulBarrier = caster->GetAuraEffect(SPELL_DH_SOUL_BARRIER, EFFECT_0))
                         {
-                            int32 amount = soulBarrier->GetAmount() + (float(sSpellMgr->GetSpellInfo(SPELL_DH_SOUL_BARRIER)->GetEffect(EFFECT_1)->BasePoints) / 100.f) * caster->GetTotalAttackPowerValue(BASE_ATTACK);
+                            int32 amount = int32(soulBarrier->GetAmount() + (float(sSpellMgr->GetSpellInfo(SPELL_DH_SOUL_BARRIER)->GetEffect(EFFECT_1)->BasePoints) / 100.f) * caster->GetTotalAttackPowerValue(BASE_ATTACK));
                             soulBarrier->SetAmount(amount);
                         }
 
@@ -1465,9 +1465,9 @@ class spell_dh_soul_cleave_damage : public SpellScript
         if (!caster)
             return;
 
-        float dmg = GetHitDamage() * 2;
+        float dmg = float(GetHitDamage()) * 2;
         dmg *= caster->Variables.GetValue<float>("lastSoulCleaveMod");
-        SetHitDamage(dmg);
+        SetHitDamage(int32(dmg));
     }
 
     void Register() override
@@ -1663,9 +1663,9 @@ public:
             {
                 float coeff = amount / 100.f;
                 float soulShardCoeff = GetSpellInfo()->GetEffect(EFFECT_1)->BasePoints / 100.f;
-                int32 ap = player->GetTotalAttackPowerValue(BASE_ATTACK);
+                int32 ap = int32(player->GetTotalAttackPowerValue(BASE_ATTACK));
 
-                amount = coeff * ap;
+                amount = int32(coeff * ap);
 
                 // Consume all soul fragments in 25 yards;
                 std::vector<std::vector<AreaTrigger*>> fragments;
@@ -1708,7 +1708,7 @@ public:
                             if (caster->HasAura(SPELL_DH_PAINBRINGER))
                                 caster->CastSpell(caster, SPELL_DH_PAINBRINGER_BUFF, true);
 
-                            amount += soulShardCoeff * ap;
+                            amount += int32(soulShardCoeff * ap);
 
                             at->SetDuration(0);
                         }
@@ -1726,7 +1726,7 @@ public:
             if (!caster)
                 return;
 
-            uint32 threshold = caster->GetTotalAttackPowerValue(BASE_ATTACK) * 0.4914f;
+            uint32 threshold = uint32(caster->GetTotalAttackPowerValue(BASE_ATTACK) * 0.4914f);
 
             if (absorbAmount < dmgInfo.GetDamage())
                 aurEff->SetAmount(absorbAmount + threshold);
@@ -1824,13 +1824,13 @@ public:
 
             if (casterHp < targetHp)
             {
-                casterHealBp = caster->CountPctFromMaxHealth(healthPct) - caster->GetHealth();
-                targetDamageBp = m_BondUnit->GetHealth() - m_BondUnit->CountPctFromMaxHealth(healthPct);
+                casterHealBp = int32(caster->CountPctFromMaxHealth(int32(healthPct)) - caster->GetHealth());
+                targetDamageBp = int32(m_BondUnit->GetHealth() - m_BondUnit->CountPctFromMaxHealth(int32(healthPct)));
             }
             else
             {
-                casterDamageBp = caster->GetHealth() - caster->CountPctFromMaxHealth(healthPct);
-                targetHealBp = m_BondUnit->CountPctFromMaxHealth(healthPct) - m_BondUnit->GetHealth();
+                casterDamageBp = int32(caster->GetHealth() - caster->CountPctFromMaxHealth(int32(healthPct)));
+                targetHealBp = int32(m_BondUnit->CountPctFromMaxHealth(int32(healthPct)) - m_BondUnit->GetHealth());
             }
 
             CustomSpellValues casterValues;
@@ -1913,9 +1913,9 @@ public:
 
             int32 range = GetSpellInfo()->GetEffect(EFFECT_1)->BasePoints;
             std::list<Unit*> allies;
-            Trinity::AnyFriendlyUnitInObjectRangeCheck check(caster, caster, range, true);
+            Trinity::AnyFriendlyUnitInObjectRangeCheck check(caster, caster, float(range), true);
             Trinity::UnitListSearcher<Trinity::AnyFriendlyUnitInObjectRangeCheck> searcher(caster, allies, check);
-            Cell::VisitAllObjects(caster, searcher, range);
+            Cell::VisitAllObjects(caster, searcher, float(range));
             allies.remove(caster);
 
             if (allies.empty() && !caster->HasAura(SPELL_DH_SOLITUDE_BUFF))
@@ -2256,7 +2256,7 @@ class spell_dh_fel_lance : public SpellScriptLoader
                     return;
 
                 int32 pct = GetSpellInfo()->GetEffect(EFFECT_0)->BasePoints;
-                SetHitDamage(GetHitDamage() + target->CountPctFromMaxHealth(pct));
+                SetHitDamage(int32(GetHitDamage() + target->CountPctFromMaxHealth(pct)));
             }
 
             void Register()
@@ -2728,7 +2728,7 @@ class spell_dh_prepared : public SpellScriptLoader
                 if (!caster)
                     return;
 
-                caster->ModifyPower(POWER_FURY, aurEff->GetAmount() / 10.f);
+                caster->ModifyPower(POWER_FURY, int32(aurEff->GetAmount() / 10.f));
             }
 
             void Register()
@@ -2871,8 +2871,8 @@ class spell_dh_desperate_instincts : public SpellScriptLoader
                 if (caster->GetSpellHistory()->HasCooldown(SPELL_DH_BLUR_BUFF))
                     return;
 
-                uint32 triggerOnHealth = caster->CountPctFromMaxHealth(aurEff->GetAmount());
-                uint32 currentHealth = caster->GetHealth();
+                uint32 triggerOnHealth = uint32(caster->CountPctFromMaxHealth(aurEff->GetAmount()));
+                uint32 currentHealth = uint32(caster->GetHealth());
                 // Just falling below threshold
                 if (currentHealth > triggerOnHealth && (currentHealth - eventInfo.GetDamageInfo()->GetDamage()) <= triggerOnHealth)
                     caster->CastSpell(caster, SPELL_DH_BLUR_BUFF, false);
@@ -3649,7 +3649,7 @@ struct at_demon_hunter_mana_rift : AreaTriggerAI
         {
             if (caster->IsValidAttackTarget(unit))
             {
-                int32 hpBp = unit->CountPctFromMaxHealth(spellProto->GetEffect(EFFECT_1)->BasePoints);
+                int32 hpBp = int32(unit->CountPctFromMaxHealth(spellProto->GetEffect(EFFECT_1)->BasePoints));
                 int32 manaBp = unit->CountPctFromMaxPower(POWER_MANA, spellProto->GetEffect(EFFECT_2)->BasePoints);
                 caster->CastCustomSpell(unit, SPELL_DH_MANA_RIFT_DAMAGE, &hpBp, &manaBp, NULL, true);
             }
@@ -3727,7 +3727,7 @@ class spell_demon_hunter_pain : public SpellScriptLoader
                     return;
 
                 float painAmount = (50.0f * (float)damageTaken) / (float)caster->GetMaxHealth();
-                caster->CastCustomSpell(SPELL_DH_REWARD_PAIN, SPELLVALUE_BASE_POINT0, 10 * painAmount, caster, true);
+                caster->CastCustomSpell(SPELL_DH_REWARD_PAIN, SPELLVALUE_BASE_POINT0, int32(10 * painAmount), caster, true);
             }
 
             void Register()
@@ -3764,10 +3764,10 @@ public:
             float powerPct = target->GetPowerPct(POWER_MANA);
             if (powerPct >= 1.f)
             {
-                damage += (100.f - powerPct) / 10.f * GetSpellInfo()->GetEffect(EFFECT_2)->BasePoints;
+                damage += int32((100.f - powerPct) / 10.f * GetSpellInfo()->GetEffect(EFFECT_2)->BasePoints);
             }
 
-            damage = std::max<uint32>(GetHitUnit()->CountPctFromMaxHealth(int32(5)), 1);
+            damage = int32(std::max<uint32>(uint32(GetHitUnit()->CountPctFromMaxHealth(int32(5))), 1));
 
             SetHitDamage(damage);
         }
@@ -3925,7 +3925,7 @@ public:
 
         if (AuraEffect* soulBarrier = player->GetAuraEffect(SPELL_DH_SOUL_BARRIER, EFFECT_0))
         {
-            int32 amount = soulBarrier->GetAmount() + (float(sSpellMgr->GetSpellInfo(SPELL_DH_SOUL_BARRIER)->GetEffect(EFFECT_1)->BasePoints) / 100.f) * player->GetTotalAttackPowerValue(BASE_ATTACK);
+            int32 amount = int32(soulBarrier->GetAmount() + (float(sSpellMgr->GetSpellInfo(SPELL_DH_SOUL_BARRIER)->GetEffect(EFFECT_1)->BasePoints) / 100.f) * player->GetTotalAttackPowerValue(BASE_ATTACK));
             soulBarrier->SetAmount(amount);
         }
     }
@@ -3945,9 +3945,9 @@ class spell_dh_annihilation : public SpellScript
                 return;
 
             float attackPower = caster->GetTotalAttackPowerValue(BASE_ATTACK) + 28.7f;
-            float damage = GetHitDamage();
+            float damage = float(GetHitDamage());
 
-            SetHitDamage(damage + attackPower);
+            SetHitDamage(int32(damage + attackPower));
 
             if (roll_chance_f(20))
                 caster->ModifyPower(POWER_FURY, +20);

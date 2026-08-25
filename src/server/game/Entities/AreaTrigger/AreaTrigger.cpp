@@ -804,7 +804,7 @@ void AreaTrigger::InitSplines(std::vector<G3D::Vector3> splinePoints, uint32 tim
     _movementTime = 0;
 
     _spline = std::make_unique<::Movement::Spline<int32>>();
-    _spline->init_spline(&splinePoints[0], splinePoints.size(), ::Movement::SplineBase::ModeCatmullrom);
+    _spline->init_spline(&splinePoints[0], ::Movement::SplineBase::index_type(splinePoints.size()), ::Movement::SplineBase::ModeCatmullrom);
     _spline->initLengths();
 
     // should be sent in object create packets only
@@ -1079,7 +1079,7 @@ void AreaTrigger::BuildValuesCreate(ByteBuffer* data, Player const* target) cons
     *data << uint8(flags);
     m_objectData->WriteCreate(*data, flags, this, target);
     m_areaTriggerData->WriteCreate(*data, flags, this, target);
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void AreaTrigger::BuildValuesUpdate(ByteBuffer* data, Player const* target) const
@@ -1095,7 +1095,7 @@ void AreaTrigger::BuildValuesUpdate(ByteBuffer* data, Player const* target) cons
     if (m_values.HasChanged(TYPEID_AREATRIGGER))
         m_areaTriggerData->WriteUpdate(*data, flags, this, target);
 
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void AreaTrigger::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::ObjectData::Mask const& requestedObjectMask,
@@ -1119,7 +1119,7 @@ void AreaTrigger::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::Objec
     if (valuesMask[TYPEID_AREATRIGGER])
         m_areaTriggerData->WriteUpdate(buffer, requestedAreaTriggerMask, true, this, target);
 
-    buffer.put<uint32>(sizePos, buffer.wpos() - sizePos - 4);
+    buffer.put<uint32>(sizePos, uint32(buffer.wpos() - sizePos - 4));
 
     data->AddUpdateBlock(buffer);
 }

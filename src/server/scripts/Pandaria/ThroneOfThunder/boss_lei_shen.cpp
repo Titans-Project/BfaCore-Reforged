@@ -1582,7 +1582,7 @@ public:
                     if (distance > SAFE_DISTANCE)
                         distance = SAFE_DISTANCE;
 
-                    SetHitDamage(((mindmg / -SAFE_DISTANCE) * distance) + maxdmg);
+                    SetHitDamage(int32(((mindmg / -SAFE_DISTANCE) * distance) + maxdmg));
                 }
             }
         }
@@ -2879,7 +2879,7 @@ public:
 
         void CheckTargets(std::list<WorldObject*>& targets)
         {
-            targetsPlayers = targets.size();
+            targetsPlayers = uint8(targets.size());
         }
 
         void RecalculateDamage(SpellEffIndex effIndex)
@@ -3173,7 +3173,7 @@ public:
 
         void CheckTargets(std::list<WorldObject*>& targets)
         {
-            targetsPlayers = targets.size();
+            targetsPlayers = uint8(targets.size());
         }
 
         void RecalculateDamage(SpellEffIndex effIndex)
@@ -3278,7 +3278,7 @@ public:
                     if (distance > SAFE_DISTANCE_DECAPITATE)
                         distance = SAFE_DISTANCE_DECAPITATE;
 
-                    SetHitDamage(((mindmg / -SAFE_DISTANCE_DECAPITATE) * distance) + maxdmg);
+                    SetHitDamage(int32(((mindmg / -SAFE_DISTANCE_DECAPITATE) * distance) + maxdmg));
                 }
             }
         }

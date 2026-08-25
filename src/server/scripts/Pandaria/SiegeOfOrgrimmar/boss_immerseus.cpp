@@ -1414,7 +1414,7 @@ class spell_immerseus_erupting_sha : public SpellScriptLoader
 
                 if (modDamage < 1.f)
                 {
-                    int32 newDamage = modDamage * GetHitDamage();
+                    int32 newDamage = int32(modDamage * GetHitDamage());
                     SetHitDamage(newDamage);
                 }
             }
@@ -1610,7 +1610,7 @@ class spell_sha_corruption : public AuraScript
     void OnPeriodic(AuraEffect const* p_AurEff)
     {
         uint8 l_StackAmount = GetAura()->GetStackAmount();
-        uint32 l_Damage = p_AurEff->GetBaseAmount() * m_Coefficients[std::min(uint8(l_StackAmount - 1), uint8(5))];
+        uint32 l_Damage = uint32(p_AurEff->GetBaseAmount() * m_Coefficients[std::min(uint8(l_StackAmount - 1), uint8(5))]);
 
         for (uint8 l_Itr = 7; l_Itr <= l_StackAmount; ++l_Itr)
             AddPct(l_Damage, 100);

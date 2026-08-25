@@ -243,7 +243,7 @@ public:
                 if (AuraApplication* improvedDemonicTacticsApp = owner->GetAuraApplicationOfRankedSpell(54347))
                     if (Aura* improvedDemonicTactics = improvedDemonicTacticsApp->GetBase())
                         if (AuraEffect* improvedDemonicTacticsEffect = improvedDemonicTactics->GetEffect(EFFECT_0))
-                            amount += CalculatePct(CritSpell, improvedDemonicTacticsEffect->GetAmount());
+                            amount += int32(CalculatePct(CritSpell, improvedDemonicTacticsEffect->GetAmount()));
             }
         }
 
@@ -263,7 +263,7 @@ public:
                 if (AuraApplication* improvedDemonicTacticsApp = owner->GetAuraApplicationOfRankedSpell(54347))
                     if (Aura* improvedDemonicTactics = improvedDemonicTacticsApp->GetBase())
                         if (AuraEffect* improvedDemonicTacticsEffect = improvedDemonicTactics->GetEffect(EFFECT_0))
-                            amount += CalculatePct(CritMelee, improvedDemonicTacticsEffect->GetAmount());
+                            amount += int32(CalculatePct(CritMelee, improvedDemonicTacticsEffect->GetAmount()));
             }
         }
 
@@ -461,8 +461,8 @@ public:
                             AddPct(mod, spellInfo->GetEffect(EFFECT_0)->CalcValue());
                         }
 
-                        int32 const ownerBonus = owner->GetStat(STAT_STAMINA) * mod;
-                        amount += ownerBonus;
+                        int32 const ownerBonus = int32(owner->GetStat(STAT_STAMINA) * mod);
+                        amount += int32(ownerBonus);
                     }
         }
 
@@ -476,7 +476,7 @@ public:
         void RemoveEffect(AuraEffect const* /* aurEff */, AuraEffectHandleModes /*mode*/)
         {
             if (Unit* pet = GetUnitOwner())
-                _tempHealth = pet->GetHealth();
+                _tempHealth = uint32(pet->GetHealth());
         }
 
         void CalculateAttackPowerAmount(AuraEffect const* /* aurEff */, int32& amount, bool& /*canBeRecalculated*/)
@@ -505,7 +505,7 @@ public:
 
                 bonusAP = owner->GetTotalAttackPowerValue(RANGED_ATTACK) * 0.22f * mod;
 
-                amount += bonusAP;
+                amount += int32(bonusAP);
             }
         }
 
@@ -535,7 +535,7 @@ public:
 
                 bonusDamage = owner->GetTotalAttackPowerValue(RANGED_ATTACK) * 0.1287f * mod;
 
-                amount += bonusDamage;
+                amount += int32(bonusDamage);
             }
         }
 
@@ -826,7 +826,7 @@ public:
                 // Increase crit spell from spell crit ratings
                 // CritSpell += owner->GetRatingBonusValue(CR_CRIT_SPELL);
 
-                amount += (CritSpell * 0.8f);
+                amount += int32(CritSpell * 0.8f);
             }
         }
 
@@ -845,7 +845,7 @@ public:
                 // Increase crit melee from melee crit ratings
                 // CritMelee += owner->GetRatingBonusValue(CR_CRIT_MELEE);
 
-                amount += (CritMelee * 0.8f);
+                amount += int32(CritMelee * 0.8f);
             }
         }
 
@@ -1019,7 +1019,7 @@ public:
                     if (Unit* owner = pet->GetOwner())
                     {
                         float ownerBonus = float(owner->GetStat(STAT_STAMINA)) * 0.3f;
-                        amount += ownerBonus;
+                        amount += int32(ownerBonus);
                     }
                 }
             }
@@ -1035,7 +1035,7 @@ public:
         void RemoveEffect(AuraEffect const* /* aurEff */, AuraEffectHandleModes /*mode*/)
         {
             if (Unit* pet = GetUnitOwner())
-                _tempHealth = pet->GetHealth();
+                _tempHealth = uint32(pet->GetHealth());
         }
 
         void CalculateStrengthAmount(AuraEffect const* /* aurEff */, int32& amount, bool& /*canBeRecalculated*/)
@@ -1050,7 +1050,7 @@ public:
                     return;
 
                 float ownerBonus = float(owner->GetStat(STAT_STRENGTH)) * 0.7f;
-                amount += ownerBonus;
+                amount += int32(ownerBonus);
             }
         }
 
@@ -1203,7 +1203,7 @@ public:
                     return;
 
                 if (pet->IsGuardian())
-                   ((Guardian*)pet)->SetBonusDamage(owner->GetTotalAttackPowerValue(WeaponAttackType::BASE_ATTACK));
+                   ((Guardian*)pet)->SetBonusDamage(int32(owner->GetTotalAttackPowerValue(WeaponAttackType::BASE_ATTACK)));
 
                 amount += owner->CalculateDamage(BASE_ATTACK, true, true);
             }

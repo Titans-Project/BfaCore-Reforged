@@ -234,8 +234,8 @@ struct npc_ataldazar_soulspawn : public ScriptedAI
         if (IsMythic())
             if (who->IsPlayer())
             {
-                float percent = damage * (15 / 100);
-                me->DealDamage(who, percent);
+                float percent = float(damage * (15 / 100));
+                me->DealDamage(who, uint32(percent));
             }
     }
 
@@ -253,7 +253,7 @@ struct npc_ataldazar_soulspawn : public ScriptedAI
 struct npc_ataldazar_echo_of_shadra : public ScriptedAI
 {
     npc_ataldazar_echo_of_shadra(Creature* creature) : ScriptedAI(creature) {
-        me->GetMotionMaster()->MoveRandom(urand(0, 15));
+        me->GetMotionMaster()->MoveRandom(float(urand(0, 15)));
     }
 
     void Reset() override
@@ -261,7 +261,7 @@ struct npc_ataldazar_echo_of_shadra : public ScriptedAI
         events.Reset();
         me->setActive(false);
         me->SetWalk(false);
-        me->GetMotionMaster()->MoveRandom(urand(0, 15));
+        me->GetMotionMaster()->MoveRandom(float(urand(0, 15)));
     }
 
     void InitializeAI() override
@@ -276,7 +276,7 @@ struct npc_ataldazar_echo_of_shadra : public ScriptedAI
 
     void MovementInform(uint32 type, uint32 id) override
     {
-        me->GetMotionMaster()->MoveRandom(urand(5, 15));
+        me->GetMotionMaster()->MoveRandom(float(urand(5, 15)));
     }
 
     void UpdateAI(uint32 diff) override
@@ -308,7 +308,7 @@ struct npc_ataldazar_echo_of_shadra : public ScriptedAI
                 me->RemoveAura(SPELL_ECHOES_OF_SHADOW_EMPOWERED);
                 events.ScheduleEvent(EVENT_SHADOW_EMPOWERED, 6000);
                 me->GetMotionMaster()->Clear();
-                me->GetMotionMaster()->MoveRandom(urand(5, 15));
+                me->GetMotionMaster()->MoveRandom(float(urand(5, 15)));
                 closestplayer = NULL;
             }
           }

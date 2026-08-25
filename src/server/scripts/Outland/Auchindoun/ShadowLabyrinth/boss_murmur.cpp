@@ -78,7 +78,7 @@ class boss_murmur : public CreatureScript
                 }
 
                 // database should have `RegenHealth`=0 to prevent regen
-                uint32 hp = me->CountPctFromMaxHealth(40);
+                uint32 hp = uint32(me->CountPctFromMaxHealth(40));
                 if (hp)
                     me->SetHealth(hp);
                 me->ResetPlayerDamageReq();
@@ -221,7 +221,7 @@ class spell_murmur_sonic_boom_effect : public SpellScriptLoader
             void CalcDamage()
             {
                 if (Unit* target = GetHitUnit())
-                    SetHitDamage(target->CountPctFromMaxHealth(80)); /// @todo: find correct value
+                    SetHitDamage(int32(target->CountPctFromMaxHealth(80))); /// @todo: find correct value
             }
 
             void Register() override

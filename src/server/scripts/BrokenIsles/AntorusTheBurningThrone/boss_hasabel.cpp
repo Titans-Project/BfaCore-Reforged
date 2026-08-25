@@ -171,7 +171,7 @@ struct boss_portal_keeper_hasabel : public BossAI
                 if (Creature* felcrush = me->SummonCreature(NPC_FELCRUSH_PORTAL, me->GetRandomNearPosition(25.0f), TEMPSUMMON_TIMED_DESPAWN, 10000))
                 {
                     felcrush->AddUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
-                    if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                    if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                         felcrush->CastSpell(target1->GetPosition(), SPELL_FELSTORM_BARRAGE_DMG, false);
                 }
             });
@@ -180,7 +180,7 @@ struct boss_portal_keeper_hasabel : public BossAI
                 if (Creature* felcrush = me->SummonCreature(NPC_FELCRUSH_PORTAL, me->GetRandomNearPosition(25.0f), TEMPSUMMON_TIMED_DESPAWN, 10000))
                 {
                     felcrush->AddUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
-                    if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                    if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                         felcrush->CastSpell(target1->GetPosition(), SPELL_FELSTORM_BARRAGE_DMG, false);
                 }
             });
@@ -189,7 +189,7 @@ struct boss_portal_keeper_hasabel : public BossAI
                 if (Creature* felcrush = me->SummonCreature(NPC_FELCRUSH_PORTAL, me->GetRandomNearPosition(25.0f), TEMPSUMMON_TIMED_DESPAWN, 10000))
                 {
                     felcrush->AddUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
-                    if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                    if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                         felcrush->CastSpell(target1->GetPosition(), SPELL_FELSTORM_BARRAGE_DMG, false);
                 }
             });
@@ -207,7 +207,7 @@ struct boss_portal_keeper_hasabel : public BossAI
             DoCast(SPELL_TRANSPORT_PORTAL);
             Talk(urand(5, 7));
 
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
             {
                 me->SummonCreature(NPC_TRANSPORT_PORTAL, target1->GetPosition(), TEMPSUMMON_TIMED_DESPAWN, 10000);
                 AddTimedDelayedOperation(2500, [this, target1]() -> void

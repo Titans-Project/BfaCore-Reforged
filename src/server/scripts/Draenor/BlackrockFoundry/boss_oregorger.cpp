@@ -1164,7 +1164,7 @@ class npc_foundry_crate_ore : public CreatureScript
                     if (Creature* l_Oregorger = ObjectAccessor::GetCreature(*me, l_Instance->GetGuidData(eFoundryCreatures::BossOregorger)))
                     {
                         if (Creature* l_Ore = l_Oregorger->SummonCreature(eCreature::BlackrockOre, *me))
-                            l_Ore->SendPlaySpellVisual(Position(), 0.0f, eVisual::BlackrockOreVisual,0.0f,0.F,0.F);
+                            l_Ore->SendPlaySpellVisual(Position(), 0.0f, eVisual::BlackrockOreVisual,0,0,0.F);
                     }
                 }
             }
@@ -1219,7 +1219,7 @@ class spell_foundry_acid_torrent : public SpellScriptLoader
                         if (!l_Oregorger->IsAIEnabled)
                             return;
 
-                        l_Oregorger->AI()->SetData(eData::DamageMitigationPct, l_Pct);
+                        l_Oregorger->AI()->SetData(eData::DamageMitigationPct, uint32(l_Pct));
                     }
                 }
             }
@@ -1259,7 +1259,7 @@ class spell_foundry_acid_torrent_aoe : public SpellScriptLoader
                     if (!l_Oregorger->IsAIEnabled)
                         return;
 
-                    float l_Pct = l_Oregorger->AI()->GetData(eData::DamageMitigationPct);
+                    float l_Pct = float(l_Oregorger->AI()->GetData(eData::DamageMitigationPct));
                     float l_Dmg = (float)GetHitDamage();
 
                     l_Dmg *= l_Pct;

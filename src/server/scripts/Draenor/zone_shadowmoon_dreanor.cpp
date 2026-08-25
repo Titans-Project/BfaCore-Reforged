@@ -618,7 +618,7 @@ public:
                             Omra->SetSpeed(MOVE_RUN, 0.4f);
                             Omra->GetMotionMaster()->MovePoint(1, BurialEventPos[1], true);
                         }
-                        events.ScheduleEvent(EVENT_SOUL_EFFIGY_02, 4.5 * IN_MILLISECONDS);
+                        events.ScheduleEvent(EVENT_SOUL_EFFIGY_02, uint32(4.5 * IN_MILLISECONDS));
 
                         break;
                     }
@@ -659,7 +659,7 @@ public:
                         if (TempSummon* Omra = GetOmra())
                             Omra->Say(SAY_OMRA_04, LANG_UNIVERSAL, Omra);
 
-                        events.ScheduleEvent(EVENT_SOUL_EFFIGY_06, 7.5 * IN_MILLISECONDS);
+                        events.ScheduleEvent(EVENT_SOUL_EFFIGY_06, uint32(7.5 * IN_MILLISECONDS));
 
                         break;
                     }

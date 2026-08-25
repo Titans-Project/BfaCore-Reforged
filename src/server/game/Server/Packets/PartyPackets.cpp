@@ -578,8 +578,8 @@ void WorldPackets::Party::PartyMemberFullState::Initialize(Player const* player)
     MemberStats.Level = player->getLevel();
 
     // Health
-    MemberStats.CurrentHealth = player->GetHealth();
-    MemberStats.MaxHealth = player->GetMaxHealth();
+    MemberStats.CurrentHealth = int32(player->GetHealth());
+    MemberStats.MaxHealth = int32(player->GetMaxHealth());
 
     // Power
     MemberStats.PowerType = player->GetPowerType();
@@ -641,8 +641,8 @@ void WorldPackets::Party::PartyMemberFullState::Initialize(Player const* player)
         MemberStats.PetStats->Name = pet->GetName();
         MemberStats.PetStats->ModelId = pet->GetDisplayId();
 
-        MemberStats.PetStats->CurrentHealth = pet->GetHealth();
-        MemberStats.PetStats->MaxHealth = pet->GetMaxHealth();
+        MemberStats.PetStats->CurrentHealth = int32(pet->GetHealth());
+        MemberStats.PetStats->MaxHealth = int32(pet->GetMaxHealth());
 
         for (AuraApplication const* aurApp : pet->GetVisibleAuras())
         {

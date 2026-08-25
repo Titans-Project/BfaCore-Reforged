@@ -149,7 +149,7 @@ class boss_gal_darah : public CreatureScript
             uint32 GetData(uint32 type) const override
             {
                 if (type == DATA_SHARE_THE_LOVE)
-                    return impaledPlayers.size();
+                    return uint32(impaledPlayers.size());
 
                 return 0;
             }

@@ -411,7 +411,7 @@ uint32 AccountMgr::GetCharactersCount(uint32 accountId)
     stmt->setUInt32(0, accountId);
     PreparedQueryResult result = CharacterDatabase.Query(stmt);
 
-    return (result) ? (*result)[0].GetUInt64() : 0;
+    return uint32((result) ? (*result)[0].GetUInt64() : 0);
 }
 
 bool AccountMgr::IsBannedAccount(std::string const& name)

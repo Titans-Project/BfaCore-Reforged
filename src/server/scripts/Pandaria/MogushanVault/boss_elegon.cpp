@@ -568,7 +568,7 @@ class boss_elegon : public CreatureScript
 
             void DamageTaken(Unit* /*p_Attacker*/, uint32& damage) override
             {
-                if (phase == PHASE_1 && me->HealthBelowPctDamaged(nextPhase1EndingHealthPct, damage))
+                if (phase == PHASE_1 && me->HealthBelowPctDamaged(int32(nextPhase1EndingHealthPct), damage))
                 {
                     phase = PHASE_2;
                     phase2WaveCount = 0;

@@ -524,7 +524,7 @@ public:
                     if (!targetList.empty())
                     {
                         std::list<Unit*>::iterator find = targetList.begin();
-                        std::advance(find, urand(0, targetList.size() - 1));
+                        std::advance(find, urand(0, uint32(targetList.size() - 1)));
 
                         if (Unit* pTarget = *find)
                         {
@@ -537,7 +537,7 @@ public:
                     }
 
                     std::list<HostileReference*>::iterator find = threatList.begin();
-                    std::advance(find, urand(0 /*1*/, threatList.size() - 1));
+                    std::advance(find, urand(0 /*1*/, uint32(threatList.size() - 1)));
 
                     if (Unit* pTarget = (*find)->getTarget())
                     {
@@ -1179,7 +1179,7 @@ public:
 
         void CalculateAmount(AuraEffect const* auraEffect, int32& amount, bool& /*canBeRecalculated*/)
         {
-            amount += GetCaster()->CountPctFromMaxHealth(15);
+            amount += int32(GetCaster()->CountPctFromMaxHealth(15));
         }
 
         void OnAbsorb(AuraEffect* aurEff, DamageInfo& dmgInfo, uint32& absorbAmount)
@@ -1243,7 +1243,7 @@ public:
                         uint32 newAmount = amount + base;
                         if (newAmount > target->CountPctFromMaxHealth(75))
                         {
-                            newAmount = target->CountPctFromMaxHealth(75);
+                            newAmount = uint32(target->CountPctFromMaxHealth(75));
                             target->AddAura(SPELL_CRYSTAL_SHELL_CAPPED, target);
                             target->RemoveAura(137648); // healing absorb
                         }
@@ -1284,7 +1284,7 @@ public:
                 return;
             if (caster->GetMap()->IsHeroic())
             {
-                uint32 damage = target->CountPctFromMaxHealth(100);
+                uint32 damage = uint32(target->CountPctFromMaxHealth(100));
                 // resilience/armor/absorb
                 //SpellNonMeleeDamage damageInfo(caster, target, GetSpellInfo()->Id, GetSpellInfo()->SchoolMask);
                 //caster->CalculateSpellDamageTaken(&damageInfo, damage, GetSpellInfo());
@@ -1295,7 +1295,7 @@ public:
             }
             else
             {
-                uint32 damage = target->CountPctFromMaxHealth(65);
+                uint32 damage = uint32(target->CountPctFromMaxHealth(65));
                 // resilience/armor/absorb
                // SpellNonMeleeDamage damageInfo(caster, target, GetSpellInfo()->Id, GetSpellInfo()->SchoolMask);
                 //caster->CalculateSpellDamageTaken(&damageInfo, damage, GetSpellInfo());

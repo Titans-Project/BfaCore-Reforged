@@ -1144,7 +1144,7 @@ class spell_sistersmoon_incorporeal_shot_filter : public SpellScript
         }
 
         targets = tempTargets;
-        targetsCount = targets.size();
+        targetsCount = uint8(targets.size());
 
         if (GetCaster() && targets.size() < 6)
             GetCaster()->CastSpell(GetCaster(), SPELL_INCORPOREAL_SHOT_DMG_AOE, true);
@@ -1209,7 +1209,7 @@ class spell_sistersmoon_astral_purge : public SpellScript
                 //> Mechanic hack
                 float mod = 1.0f;
                 AddPct(mod, GetHitUnit()->GetTotalAuraModifierByMiscValue(SPELL_AURA_MOD_DAMAGE_DONE_FOR_MECHANIC, 35));
-                SetHitDamage(GetHitDamage() * mod);
+                SetHitDamage(int32(GetHitDamage() * mod));
                 //<
                 GetHitUnit()->CastSpell(GetHitUnit(), SPELL_ASTRAL_VULNERABILITY, true);
             }

@@ -421,9 +421,9 @@ class spell_ursoc_trampling_slam : public SpellScript
         float distance = GetCaster()->GetExactDist2d(GetHitUnit());
 
         if (distance < 100.0f)
-            SetHitDamage(GetHitDamage() * (1.0f - (distance / 100.0f)));
+            SetHitDamage(int32(GetHitDamage() * (1.0f - (distance / 100.0f))));
         else
-            SetHitDamage(GetHitDamage() * 0.1f);
+            SetHitDamage(int32(GetHitDamage() * 0.1f));
     }
 
     void Register() override
@@ -446,7 +446,7 @@ class spell_ursoc_barreling_impact : public SpellScript
 
         if (uint8 hitCount = GetCaster()->GetAI()->GetData(DATA_PLAYER_HITCOUNT))
         {
-            uint32 perc = float(float(hitCount) / float(plrCount) * 100.0f);
+            uint32 perc = uint32(float(hitCount) / float(plrCount) * 100.0f);
             if (perc >= 100)
                 perc = 90;
             int32 damage = CalculatePct(GetHitDamage(), 100 - perc);

@@ -396,7 +396,7 @@ class spell_arti_warl_thalkiels_consumption : public SpellScript
 
         int32 basePoints = GetSpellInfo()->GetEffect(EFFECT_1)->BasePoints;
         for (WorldObject* pet : targets)
-            damage += pet->ToUnit()->CountPctFromMaxHealth(basePoints);
+            damage += int32(pet->ToUnit()->CountPctFromMaxHealth(basePoints));
     }
 
     void Register() override

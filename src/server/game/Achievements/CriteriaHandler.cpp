@@ -1415,7 +1415,7 @@ bool CriteriaHandler::RequirementsSatisfied(Criteria const* criteria, uint64 mis
         case CRITERIA_TYPE_COMPLETE_QUESTS_IN_ZONE:
             if (miscValue1)
             {
-                Quest const* quest = sObjectMgr->GetQuestTemplate(miscValue1);
+                Quest const* quest = sObjectMgr->GetQuestTemplate(uint32(miscValue1));
                 if (!quest ||  quest->GetZoneOrSort() != criteria->Entry->Asset.ZoneID)
                     return false;
             }
@@ -2611,7 +2611,7 @@ bool CriteriaHandler::ModifierSatisfied(ModifierTreeEntry const* modifier, uint6
         }
         case CRITERIA_ADDITIONAL_CONDITION_QUEST_INFO_ID: // 206
         {
-            Quest const* quest = sObjectMgr->GetQuestTemplate(miscValue1);
+            Quest const* quest = sObjectMgr->GetQuestTemplate(uint32(miscValue1));
             if (!quest || quest->GetQuestInfoID() != reqValue)
                 return false;
             break;

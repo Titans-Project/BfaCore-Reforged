@@ -110,7 +110,7 @@ class npc_darkmoon_canon_target : public CreatureScript
 
                     player->RemoveAurasDueToSpell(SPELL_CANON_DEFLAGRATION);
 
-                    uint32 dist = me->GetDistance(player);
+                    uint32 dist = uint32(me->GetDistance(player));
                     uint32 creditCount = 1;
 
                     if (dist <= 3.0f)

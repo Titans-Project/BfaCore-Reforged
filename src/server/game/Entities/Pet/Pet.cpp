@@ -363,7 +363,7 @@ void Pet::SavePetToDB(PetSaveMode mode)
     if (!GetOwnerGUID().IsPlayer())
         return;
 
-    uint32 curhealth = GetHealth();
+    uint32 curhealth = uint32(GetHealth());
     uint32 curmana = GetPower(POWER_MANA);
 
     CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
@@ -427,7 +427,7 @@ void Pet::SavePetToDB(PetSaveMode mode)
 
         stmt->setString(13, GenerateActionBarData());
 
-        stmt->setUInt32(14, time(nullptr));
+        stmt->setUInt32(14, uint32(time(nullptr)));
         stmt->setUInt32(15, m_unitData->CreatedBySpell);
         stmt->setUInt8(16, getPetType());
         stmt->setUInt16(17, m_petSpecialization);
@@ -465,7 +465,7 @@ void Pet::SavePetToDB(PetSaveMode mode)
         playerPetData->SavedHealth = curhealth;
         playerPetData->SavedMana = curmana;
         playerPetData->Actionbar = GenerateActionBarData();
-        playerPetData->Timediff = time(nullptr);
+        playerPetData->Timediff = uint32(time(nullptr));
         playerPetData->SummonSpellId = m_unitData->CreatedBySpell;
         playerPetData->Type = getPetType();
         playerPetData->SpecId = m_petSpecialization;
@@ -791,7 +791,7 @@ bool Guardian::InitStatsForLevel(uint8 petlevel)
 
     SetMeleeDamageSchool(SpellSchools(cinfo->dmgschool));
 
-    SetModifierValue(UNIT_MOD_ARMOR, BASE_VALUE, stats->BaseArmor);
+    SetModifierValue(UNIT_MOD_ARMOR, BASE_VALUE, float(stats->BaseArmor));
 
     //scale
     CreatureFamilyEntry const* cFamily = sCreatureFamilyStore.LookupEntry(cinfo->family);
@@ -817,7 +817,7 @@ bool Guardian::InitStatsForLevel(uint8 petlevel)
     if (petType == HUNTER_PET)
     {
         SetMaxHealth(CalculatePct(m_owner->GetMaxHealth(), 70.f));
-        SetModifierValue(UNIT_MOD_ARMOR, BASE_VALUE, CalculatePct(m_owner->GetArmor(), 170.f));
+        SetModifierValue(UNIT_MOD_ARMOR, BASE_VALUE, float(CalculatePct(m_owner->GetArmor(), 170.f)));
         SetBaseAttackTime(BASE_ATTACK, BASE_ATTACK_TIME);
         SetBaseAttackTime(OFF_ATTACK, BASE_ATTACK_TIME);
         SetBaseAttackTime(RANGED_ATTACK, BASE_ATTACK_TIME);
@@ -832,7 +832,7 @@ bool Guardian::InitStatsForLevel(uint8 petlevel)
         CreatureBaseStats const* stats = sObjectMgr->GetCreatureBaseStats(petlevel, cinfo->unit_class);
         CreatureLevelScaling const* scaling = cinfo->GetLevelScaling(GetMap()->GetDifficultyID());
 
-        SetCreateHealth(sDB2Manager.EvaluateExpectedStat(ExpectedStatType::CreatureHealth, petlevel, cinfo->GetHealthScalingExpansion(), scaling->ContentTuningID, Classes(cinfo->unit_class)) * cinfo->ModHealth * cinfo->ModHealthExtra);
+        SetCreateHealth(uint32(sDB2Manager.EvaluateExpectedStat(ExpectedStatType::CreatureHealth, petlevel, cinfo->GetHealthScalingExpansion(), scaling->ContentTuningID, Classes(cinfo->unit_class)) * cinfo->ModHealth * cinfo->ModHealthExtra));
         SetCreateMana(stats->BaseMana);
 
         SetCreateStat(STAT_STRENGTH, 22);
@@ -864,7 +864,7 @@ bool Guardian::InitStatsForLevel(uint8 petlevel)
             if (val < 0)
                 val = 0;
 
-            SetBonusDamage(val * 0.15f);
+            SetBonusDamage(int32(val * 0.15f));
             break;
         }
         case HUNTER_PET:

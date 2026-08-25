@@ -179,7 +179,7 @@ class spell_devourer_coalesce_power : public SpellScriptLoader
 
                     if (owner->GetPowerPct(POWER_MANA) >= 5.f)
                     {
-                        owner->SetPower(POWER_MANA, owner->GetPower(POWER_MANA) - owner->GetMaxPower(POWER_MANA) * 0.05f);
+                        owner->SetPower(POWER_MANA, int32(owner->GetPower(POWER_MANA) - owner->GetMaxPower(POWER_MANA) * 0.05f));
                         Position pos = owner->GetNearPosition(50.f, frand(0, 2 * float(M_PI)));
 
                         auto* orb = owner->SummonCreature(NPC_LOOSE_MANA, pos);

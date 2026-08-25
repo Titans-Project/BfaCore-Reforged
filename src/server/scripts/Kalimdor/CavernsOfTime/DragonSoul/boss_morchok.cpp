@@ -895,16 +895,16 @@ class spell_morchok_black_blood_of_the_earth : public SpellScriptLoader
                     Position pos;
                     for (float i = 0.0f; i < 2 * M_PI; i += float (0.3f))
                     {
-                        pos = GetCaster()->GetNearPosition(ticks * 3 , i);
+                        pos = GetCaster()->GetNearPosition(float(ticks * 3) , i);
                         GetCaster()->CastSpell(pos.GetPositionX(), pos.GetPositionY(), pos.GetPositionZ(), SPELL_BLACK_BLOOD_OF_THE_EARTH_DUMMY, true);
                         if (j == 4)
                         {
-                            pos = GetCaster()->GetNearPosition((ticks - 4) * 3, i);
+                            pos = GetCaster()->GetNearPosition(float((ticks - 4) * 3), i);
                             GetCaster()->CastSpell(pos.GetPositionX(), pos.GetPositionY(), pos.GetPositionZ(), SPELL_BLACK_BLOOD_OF_THE_EARTH_DUMMY, true);
                         }
                         if (j == 8)
                         {
-                            pos = GetCaster()->GetNearPosition((ticks - 8) * 3, i);
+                            pos = GetCaster()->GetNearPosition(float((ticks - 8) * 3), i);
                             GetCaster()->CastSpell(pos.GetPositionX(), pos.GetPositionY(), pos.GetPositionZ(), SPELL_BLACK_BLOOD_OF_THE_EARTH_DUMMY, true);
                         }
                     }
@@ -1029,7 +1029,7 @@ class spell_morchok_stomp : public SpellScriptLoader
                     targets.sort(DistanceOrderPred(GetCaster()));
                     std::list<WorldObject*>::const_iterator itr = targets.begin();
                     pMorchok->AI()->SetGUID((*itr)->GetGUID(), DATA_GUID_1);
-                    _targetCount = targets.size();
+                    _targetCount = uint32(targets.size());
                     if (targets.size() > 1)
                     {
                         ++itr;

@@ -75,7 +75,7 @@ public:
                 if (Unit* owner = me->ToTempSummon()->GetSummoner())
                     me->GetMotionMaster()->MovePoint(0, owner->GetPositionX() + 25 * cos(owner->GetOrientation()), owner->GetPositionY() + 25 * cos(owner->GetOrientation()), owner->GetPositionZ());
 
-            _StinkerBrokenHeartTimer = 3.5 * IN_MILLISECONDS;
+            _StinkerBrokenHeartTimer = uint32(3.5 * IN_MILLISECONDS);
         }
 
         void UpdateAI(uint32 diff) override

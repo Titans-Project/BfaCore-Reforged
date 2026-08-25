@@ -416,7 +416,7 @@ class boss_unsok : public CreatureScript
                         {
                             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 200.0f, true))
                             {
-                                scalpelTargetGuid = target->GetGUID().GetCounter();
+                                scalpelTargetGuid = uint32(target->GetGUID().GetCounter());
                                 me->SummonCreature(NPC_AMBER_SCALPEL, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), target->GetOrientation());
                             }
 
@@ -770,7 +770,7 @@ public:
             if (p_Damage > me->GetHealth())
             {
                 // False death
-                p_Damage = me->GetHealth() - 1;
+                p_Damage = uint32(me->GetHealth() - 1);
                 me->SetReactState(REACT_PASSIVE);
                 me->RemoveAurasDueToSpell(SPELL_CORROSIVE_AURA);
                 me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));

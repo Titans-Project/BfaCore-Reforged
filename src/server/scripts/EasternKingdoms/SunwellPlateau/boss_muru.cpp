@@ -277,7 +277,7 @@ public:
         {
             if (damage >= me->GetHealth())
             {
-                damage = me->GetHealth() - 1;
+                damage = uint32(me->GetHealth() - 1);
                 if (_phase != PHASE_ONE)
                     return;
 

@@ -2926,7 +2926,7 @@ public:
                 {
                     if (Creature* godfrey = ObjectAccessor::GetCreature(*me, m_godfreyGUID))
                     {
-                        godfrey->GetMotionMaster()->MovePath(godfrey->GetSpawnId(), false);
+                        godfrey->GetMotionMaster()->MovePath(uint32(godfrey->GetSpawnId()), false);
                         godfrey->SetDisableGravity(true);
                     }
 

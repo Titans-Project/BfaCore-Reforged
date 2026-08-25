@@ -286,7 +286,7 @@ struct boss_skycap_kragg : public BossAI
             {
                 if (Creature* mount = ObjectAccessor::GetCreature(*me, mountGUID))
                 {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                     {
                         charge = true;
                         mount->StopMoving();
@@ -300,7 +300,7 @@ struct boss_skycap_kragg : public BossAI
             }
             case KraggEvents::EventPistolShot:
             {
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                     me->CastSpell(target, KraggSpells::PistolShot, false);
 
                 events.Repeat(8000);
@@ -313,7 +313,7 @@ struct boss_skycap_kragg : public BossAI
                 else
                     Talk(KraggTalk::TalkAzeritePowderShot1);
 
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                     me->CastSpell(target, KraggSpells::AzeritePowderShot, false);
 
                 events.Repeat(8000);
@@ -423,7 +423,7 @@ struct npc_sharkbait : public ScriptedAI
             {
             case KraggEvents::EventVileBombadment:
             {
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                     me->CastSpell(target, KraggSpells::VileBombadment, false);
 
                 events.Repeat(5000);
@@ -434,7 +434,7 @@ struct npc_sharkbait : public ScriptedAI
                 if (Creature* kragg = m_Instance->instance->GetCreature(m_Instance->GetGuidData(FreeholdCreature::NpcSkycapKragg)))
                     kragg->AI()->Talk(KraggTalk::TalkDiveBomb);
 
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                     me->GetMotionMaster()->MovePoint(KraggMovementPoint::MovementPointDiveBomb, GetRandomPositionAround(target, 10.0f, 15.0f));
                 break;
             }
@@ -489,7 +489,7 @@ class spell_dive_bomb : public SpellScript
         {
             if (caster->IsCreature())
             {
-                if (Unit* target = caster->ToCreature()->AI()->SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                if (Unit* target = caster->ToCreature()->AI()->SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 {
                     Position ChargePosition;
                     GetPositionWithDistInOrientation(target, 10.0f, caster->GetAngle(target), ChargePosition);

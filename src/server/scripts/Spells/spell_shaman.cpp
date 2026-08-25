@@ -1373,7 +1373,7 @@ class spell_sha_nature_guardian : public SpellScriptLoader
             void OnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
             {
                 PreventDefaultAction();
-                int32 basePoints0 = GetTarget()->CountPctFromMaxHealth(aurEff->GetAmount());
+                int32 basePoints0 = int32(GetTarget()->CountPctFromMaxHealth(aurEff->GetAmount()));
 
                 GetTarget()->CastCustomSpell(GetTarget(), SPELL_SHAMAN_NATURE_GUARDIAN, &basePoints0, nullptr, nullptr, true);
 
@@ -1515,7 +1515,7 @@ class spell_sha_earthquake_tick : public SpellScript
 
     void CalcDamage(SpellEffIndex /*effIndex*/)
     {
-        uint32 dmg = GetCaster()->GetTotalSpellPowerValue(SPELL_SCHOOL_MASK_NATURE, false) * 0.92f;
+        uint32 dmg = uint32(GetCaster()->GetTotalSpellPowerValue(SPELL_SCHOOL_MASK_NATURE, false) * 0.92f);
         SetHitDamage(dmg);
     }
 
@@ -1641,12 +1641,12 @@ public:
                 int32 bp0 = 0;
                 int32 bp1 = 0;
                 float percentage = targets[target->GetGUID()];
-                int64 currentHp = target->CountPctFromMaxHealth(percentage);
-                int64 desiredHp = target->CountPctFromMaxHealth(averagePercentage);
+                int64 currentHp = target->CountPctFromMaxHealth(int32(percentage));
+                int64 desiredHp = target->CountPctFromMaxHealth(int32(averagePercentage));
                 if (desiredHp > currentHp)
-                    bp1 = desiredHp - currentHp;
+                    bp1 = int32(desiredHp - currentHp);
                 else
-                    bp0 = currentHp - desiredHp;
+                    bp0 = int32(currentHp - desiredHp);
                 GetCaster()->CastCustomSpell(target, 98021, &bp0, &bp1, nullptr, false);
             }
 
@@ -1758,12 +1758,12 @@ public:
                         case SPELL_RIPTIDE:
                         case SPELL_HEALING_SURGE:
                         case SPELL_UNLEASH_LIFE:
-                            healAmount *= 0.6f;
+                            healAmount = int32(healAmount * 0.6f);
                             break;
 
                             // 33% on Chain Heal
                         case SPELL_CHAIN_HEAL:
-                            healAmount *= 0.33f;
+                            healAmount = int32(healAmount * 0.33f);
                             break;
 
                             /*
@@ -2166,7 +2166,7 @@ public:
 
         void CountTargets(std::list<WorldObject*>& p_Targets)
         {
-            l_TargetCount = p_Targets.size();
+            l_TargetCount = uint8(p_Targets.size());
         }
 
         void Register() override
@@ -2329,7 +2329,7 @@ public:
 
         void FilterTargets(std::list<WorldObject*>& p_Targets)
         {
-            m_TargetSize = p_Targets.size();
+            m_TargetSize = uint32(p_Targets.size());
         }
 
         void Register() override
@@ -2783,7 +2783,7 @@ public:
             if(!GetCaster())
                 return;
 
-            amount = GetCaster()->GetHealth();
+            amount = int32(GetCaster()->GetHealth());
         }
 
         void HandleAbsorb(AuraEffect* /*aurEff*/, DamageInfo& dmgInfo, uint32& absorbAmount)
@@ -3001,7 +3001,7 @@ public:
                 tempSumm->SetFaction(caster->getFaction());
                 tempSumm->SetSummonerGUID(caster->GetGUID());
                 PhasingHandler::InheritPhaseShift(tempSumm, caster);
-                tempSumm->CastCustomSpell(SPELL_SHAMAN_EARTHQUAKE_DAMAGE, SPELLVALUE_BASE_POINT0, caster->GetTotalSpellPowerValue(SPELL_SCHOOL_MASK_NORMAL, false) * 0.3, caster, TRIGGERED_FULL_MASK);
+                tempSumm->CastCustomSpell(SPELL_SHAMAN_EARTHQUAKE_DAMAGE, SPELLVALUE_BASE_POINT0, int32(caster->GetTotalSpellPowerValue(SPELL_SCHOOL_MASK_NORMAL, false) * 0.3), caster, TRIGGERED_FULL_MASK);
             }
 
             timeInterval -= 1000;
@@ -3808,7 +3808,7 @@ public:
             
             if (Aura* flamet = caster->GetAura(SPELL_FLAMETONGUE_AURA))
             {
-                uint32 damage = caster->GetTotalAttackPowerValue(BASE_ATTACK) * 0.2f;
+                uint32 damage = uint32(caster->GetTotalAttackPowerValue(BASE_ATTACK) * 0.2f);
                 SetHitDamage(damage);
             }
         }
@@ -3844,7 +3844,7 @@ public:
 
         void CheckTargets(std::list<WorldObject*>& targets)
         {
-            hitTarget = targets.size();
+            hitTarget = uint32(targets.size());
         }
 
         void HandleAfterCast(SpellEffIndex index)

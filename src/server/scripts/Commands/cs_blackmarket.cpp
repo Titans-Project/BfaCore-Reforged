@@ -54,7 +54,7 @@ public:
         uint32 durationSeconds  = cmdArgs.GetArg<uint32>(1);
 
         if (BlackMarketEntry* entry = sBlackMarketMgr->GetAuctionByID(marketId))
-            entry->SetStartTime(durationSeconds + time(nullptr) - sBlackMarketMgr->GetTemplateByID(entry->GetMarketId())->Duration);
+            entry->SetStartTime(uint32(durationSeconds + time(nullptr) - sBlackMarketMgr->GetTemplateByID(entry->GetMarketId())->Duration));
 
         return true;
     }

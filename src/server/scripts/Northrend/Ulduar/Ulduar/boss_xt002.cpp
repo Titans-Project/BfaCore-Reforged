@@ -416,10 +416,10 @@ public:
             if (!_hardMode)
             {
                 if (!_transferHealth)
-                    _transferHealth = (heart->GetMaxHealth() - heart->GetHealth());
+                    _transferHealth = uint32(heart->GetMaxHealth() - heart->GetHealth());
 
                 if (_transferHealth >= me->GetHealth())
-                    _transferHealth = me->GetHealth() - 1;
+                    _transferHealth = uint32(me->GetHealth() - 1);
 
                 me->ModifyHealth(-((int32)_transferHealth));
                 me->LowerPlayerDamageReq(_transferHealth);
@@ -463,7 +463,7 @@ public:
         {
             if (Creature* xt002 = _instance->GetCreature(BOSS_XT002))
             {
-                xt002->AI()->SetData(DATA_TRANSFERED_HEALTH, me->GetHealth());
+                xt002->AI()->SetData(DATA_TRANSFERED_HEALTH, uint32(me->GetHealth()));
                 xt002->AI()->DoAction(ACTION_ENTER_HARD_MODE);
             }
         }
@@ -696,7 +696,7 @@ public:
                 instakill.SpellID = SPELL_BOOM;
                 me->SendMessageToSet(instakill.Write(), false);
 
-                me->DealDamage(me, me->GetHealth(), nullptr, NODAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
+                me->DealDamage(me, uint32(me->GetHealth()), nullptr, NODAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
 
                 damage = 0;
 
@@ -1009,7 +1009,7 @@ public:
 
         void RecalculateDamage()
         {
-            SetHitDamage(GetHitUnit()->CountPctFromMaxHealth(GetHitDamage()));
+            SetHitDamage(int32(GetHitUnit()->CountPctFromMaxHealth(GetHitDamage())));
         }
 
         void Register() override

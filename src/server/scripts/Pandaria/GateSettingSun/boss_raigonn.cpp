@@ -262,7 +262,7 @@ class boss_raigonn : public CreatureScript
 
                         for (uint8 i = 0; i < maxPassenger; ++i)
                             if (passengerList[i])
-                                passengerList[i]->GetMotionMaster()->MoveJumpTo((rand() % 2) ? (M_PI / 4): (3 * M_PI / 4), 20.0f, 10.0f);
+                                passengerList[i]->GetMotionMaster()->MoveJumpTo(float((rand() % 2) ? (M_PI / 4): (3 * M_PI / 4)), 20.0f, 10.0f);
                     }
                 }
             }

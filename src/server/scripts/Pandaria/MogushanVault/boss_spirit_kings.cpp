@@ -1451,7 +1451,7 @@ class spell_massive_attacks : public SpellScriptLoader
 
             void CheckTargets(std::list<WorldObject*>& targets)
             {
-                targetsCount = targets.size();
+                targetsCount = uint8(targets.size());
             }
 
             void RecalculateDamage(SpellEffIndex /*effIndex*/)

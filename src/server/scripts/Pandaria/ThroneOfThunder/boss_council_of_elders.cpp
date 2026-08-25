@@ -647,8 +647,8 @@ protected:
     {
         if (Aura* pLingeringPresence = me->GetAura(SPELL_LINGERING_PRESENCE))
         {
-            float fReduce = 1 - (pLingeringPresence->GetStackAmount() / 10);
-            uint32 uiTimer = (2 * IN_MILLISECONDS) * fReduce;
+            float fReduce = float(1 - (pLingeringPresence->GetStackAmount() / 10));
+            uint32 uiTimer = uint32((2 * IN_MILLISECONDS) * fReduce);
             return uiTimer;
         }
         else
@@ -2882,12 +2882,12 @@ public:
                     // In 25-man raid, the amount is 1 * number of players within 4 yards
                 case DIFFICULTY_25_HC:
                 case DIFFICULTY_25_N:
-                    uiReduceAmount = playerList.size() > 4 ? 4 : playerList.size();
+                    uiReduceAmount = uint32(playerList.size() > 4 ? 4 : playerList.size());
                     break;
 
                     // Otherwise it is 2 * number of players within 4 yards
                 default:
-                    uiReduceAmount = playerList.size() > 2 ? 4 : playerList.size() * 2;
+                    uiReduceAmount = uint32(playerList.size() > 2 ? 4 : playerList.size() * 2);
                     break;
                 }
 
@@ -3385,7 +3385,7 @@ public:
                 if (!eventInfo.GetDamageInfo())
                     return;
 
-                int32 uiDamages = eventInfo.GetDamageInfo()->GetDamage() * 0.4f; // 40% of damages returned to the player
+                int32 uiDamages = int32(eventInfo.GetDamageInfo()->GetDamage() * 0.4f); // 40% of damages returned to the player
 
                 if (Unit* pVictim = eventInfo.GetActionTarget())
                 {
@@ -3453,8 +3453,8 @@ public:
 
             if (Creature* pOwner = GetOwner()->ToCreature())
             {
-                int32 uiDamagesInPastSecs = (int32)pOwner->AI()->GetData(DATA_DAMAGES_PAST_SEC) * 0.05f; // 5% of damages taken in past sec
-                int32 uiDamagesInPastSecsHEROIC = (int32)pOwner->AI()->GetData(DATA_DAMAGES_PAST_SEC) * 0.10f; // 10%
+                int32 uiDamagesInPastSecs = int32((int32)pOwner->AI()->GetData(DATA_DAMAGES_PAST_SEC) * 0.05f); // 5% of damages taken in past sec
+                int32 uiDamagesInPastSecsHEROIC = int32((int32)pOwner->AI()->GetData(DATA_DAMAGES_PAST_SEC) * 0.10f); // 10%
                 pOwner->AI()->DoAction(ACTION_RESET_DAMAGES);
                 if (pOwner->GetMap()->IsHeroic())
                     pOwner->CastCustomSpell(pOwner, SPELL_DISCHARGE_DAMAGES, &uiDamagesInPastSecsHEROIC, NULL, NULL, true);
@@ -3472,8 +3472,8 @@ public:
             if (!caster || !target)
                 return;
 
-            int32 damage = eventInfo.GetDamageInfo()->GetDamage() * 0.05f; //5% normal
-            int32 damageHeroic = eventInfo.GetDamageInfo()->GetDamage() * 0.10f; //10% heroic
+            int32 damage = int32(eventInfo.GetDamageInfo()->GetDamage() * 0.05f); //5% normal
+            int32 damageHeroic = int32(eventInfo.GetDamageInfo()->GetDamage() * 0.10f); //10% heroic
 
             if (caster->GetMap()->IsHeroic())
                 target->CastCustomSpell(caster, SPELL_DISCHARGE_DAMAGES, &damageHeroic, NULL, NULL, true);
@@ -3856,7 +3856,7 @@ public:
                     if (distance > MAX_DIST)
                         distance = MAX_DIST;
 
-                    SetHitDamage(((mindmg / -MAX_DIST) * distance) + maxdmg);
+                    SetHitDamage(int32(((mindmg / -MAX_DIST) * distance) + maxdmg));
                 }
             }
         }
@@ -3897,7 +3897,7 @@ public:
                 {
                     if (CreatureAI* pAI = pCaster->AI())
                     {
-                        SetHitDamage(1.1f * 1.0f);
+                        SetHitDamage(int32(1.1f * 1.0f));
                     }
                 }
             }

@@ -247,7 +247,7 @@ class spell_ashbury_asphyxoate_periodic : public SpellScriptLoader
 
             void HandleEffectApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
-                InitialHealth = GetTarget()->GetHealth();
+                InitialHealth = int32(GetTarget()->GetHealth());
             }
 
             void HandlePeriodic(AuraEffect const* aurEff)
@@ -260,7 +260,7 @@ class spell_ashbury_asphyxoate_periodic : public SpellScriptLoader
                 int32 damage = int32( (float)InitialHealth / 6.0f + 1.0f);
 
                 if (damage >= int32(GetTarget()->GetHealth()))
-                    damage = GetTarget()->GetHealth() - 1;
+                    damage = int32(GetTarget()->GetHealth() - 1);
 
                  uint32 triggerSpell = GetSpellInfo()->GetEffect(aurEff->GetEffIndex())->TriggerSpell;
                  GetTarget()->CastCustomSpell(triggerSpell, SPELLVALUE_BASE_POINT0, damage, GetTarget(), true, NULL, aurEff, GetCasterGUID());

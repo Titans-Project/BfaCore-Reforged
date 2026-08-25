@@ -274,7 +274,7 @@ struct boss_avatar_of_sethraliss : public BossAI
             instance->SetBossState(DATA_AVATAR_OF_SETHRALISS, IN_PROGRESS);
             me->AddUnitState(UNIT_STATE_ROOT);
             me->RemoveNpcFlag(UNIT_NPC_FLAG_GOSSIP);
-            me->SetHealth(me->GetMaxHealth() * 0.10f);
+            me->SetHealth(uint64(me->GetMaxHealth() * 0.10f));
             me->SetFaction(FACTION_MASK_PLAYER);
             events.ScheduleEvent(EVENT_JOLT, 100ms);
 

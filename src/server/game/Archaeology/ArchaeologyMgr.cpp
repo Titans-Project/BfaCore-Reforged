@@ -253,13 +253,13 @@ void ArchaeologyMgr::GenerateRandomPosition(Player* player, uint8 count)
 {
     float x, y, z;
     Position treasurePos = player->GetPosition();
-    uint8 memId = player->GetArchaeologyMgr().GetDigsite(player->GetPositionX(), player->GetPositionY());
+    uint8 memId = player->GetArchaeologyMgr().GetDigsite(int32(player->GetPositionX()), int32(player->GetPositionY()));
 
     do
     {
         player->GetRandomPoint(treasurePos, 300.0f, x, y, z);
     }
-    while (player->GetArchaeologyMgr().GetDigsite(x, y) == -1);
+    while (player->GetArchaeologyMgr().GetDigsite(int32(x), int32(y)) == -1);
 
     //std::vector<uint32> const& site_now = player->GetDynamicValues(ACTIVE_PLAYER_DYNAMIC_FIELD_RESERACH_SITE);
 

@@ -392,10 +392,10 @@ class spell_pal_crusader_strike : public SpellScript
         if (caster->HasAura(SPELL_PALADIN_CRUSADERS_MIGHT))
         {
             if (caster->GetSpellHistory()->HasCooldown(SPELL_PALADIN_HOLY_SHOCK_GENERIC))
-                caster->GetSpellHistory()->ModifyCooldown(SPELL_PALADIN_HOLY_SHOCK_GENERIC, -1.5 * IN_MILLISECONDS);
+                caster->GetSpellHistory()->ModifyCooldown(SPELL_PALADIN_HOLY_SHOCK_GENERIC, int32(-1.5 * IN_MILLISECONDS));
 
             if (caster->GetSpellHistory()->HasCooldown(SPELL_PALADIN_LIGHT_OF_DAWN))
-                caster->GetSpellHistory()->ModifyCooldown(SPELL_PALADIN_LIGHT_OF_DAWN, -1.5 * IN_MILLISECONDS);
+                caster->GetSpellHistory()->ModifyCooldown(SPELL_PALADIN_LIGHT_OF_DAWN, int32(-1.5 * IN_MILLISECONDS));
         }
     }
 
@@ -418,7 +418,7 @@ class spell_pal_light_of_the_protector : public SpellScript
         if (GetSpellInfo()->Id == SPELL_PALADIN_LIGHT_OF_THE_PROTECTOR)
         {
             int32 effvalue = sSpellMgr->GetSpellInfo(SPELL_PALADIN_LIGHT_OF_THE_PROTECTOR)->GetEffect(1)->BasePoints;
-            int32 healthMissing = caster->GetMaxHealth() - caster->GetHealth();
+            int32 healthMissing = int32(caster->GetMaxHealth() - caster->GetHealth());
 
             dmg = ApplyPct(healthMissing, effvalue) + GetHitHeal();
 
@@ -431,7 +431,7 @@ class spell_pal_light_of_the_protector : public SpellScript
             int32 effvalue = sSpellMgr->GetSpellInfo(SPELL_PALADIN_HAND_OF_THE_PROTECTOR)->GetEffect(1)->BasePoints;
 
             Unit* target = GetHitUnit();
-            int32 healthMissing = target->GetMaxHealth() - target->GetHealth();
+            int32 healthMissing = int32(target->GetMaxHealth() - target->GetHealth());
 
             dmg = ApplyPct(healthMissing, effvalue) + GetHitHeal();
         }
@@ -638,7 +638,7 @@ class spell_pal_shield_of_vengeance : public AuraScript
             canBeRecalculated = false;
 
             float ap = caster->GetTotalAttackPowerValue(BASE_ATTACK);
-            absorb = (ap * 20);
+            absorb = int32(ap * 20);
             amount += absorb;
         }
     }
@@ -664,7 +664,7 @@ class spell_pal_shield_of_vengeance : public AuraScript
         std::list<Unit*> targets;
         caster->GetAttackableUnitListInRange(targets, 8.0f);
 
-		if (uint32 targetSize = targets.size())
+		if (uint32 targetSize = uint32(targets.size()))
            absorb /= targetSize;
 
         caster->CastCustomSpell(SPELL_PALADIN_SHIELD_OF_VENGEANCE_DAMAGE, SPELLVALUE_BASE_POINT0, absorb, caster, true);
@@ -696,7 +696,7 @@ class spell_pal_divine_storm : public SpellScript
         if (caster->HasAura(SPELL_PALADIN_FIST_OF_JUSTICE_RETRI))
         {
             if (caster->GetSpellHistory()->HasCooldown(SPELL_PALADIN_HAMMER_OF_JUSTICE))
-                caster->GetSpellHistory()->ModifyCooldown(SPELL_PALADIN_HAMMER_OF_JUSTICE, -7.5 * IN_MILLISECONDS);
+                caster->GetSpellHistory()->ModifyCooldown(SPELL_PALADIN_HAMMER_OF_JUSTICE, int32(-7.5 * IN_MILLISECONDS));
         }
 
         if (caster->HasAura(SPELL_PALADIN_DIVINE_PURPOSE_RET_AURA))
@@ -737,7 +737,7 @@ class spell_pal_templar_s_verdict : public SpellScript
         if (caster->HasAura(SPELL_PALADIN_FIST_OF_JUSTICE_RETRI))
         {
             if (caster->GetSpellHistory()->HasCooldown(SPELL_PALADIN_HAMMER_OF_JUSTICE))
-                caster->GetSpellHistory()->ModifyCooldown(SPELL_PALADIN_HAMMER_OF_JUSTICE, -7.5 * IN_MILLISECONDS);
+                caster->GetSpellHistory()->ModifyCooldown(SPELL_PALADIN_HAMMER_OF_JUSTICE, int32(-7.5 * IN_MILLISECONDS));
         }
 
         if (caster->HasAura(SPELL_PALADIN_DIVINE_PURPOSE_RET_AURA))
@@ -1001,7 +1001,7 @@ class spell_pal_word_of_glory : public SpellScript
             if (caster->HasAura(SPELL_PALADIN_FIST_OF_JUSTICE_RETRI))
             {
                 if (caster->GetSpellHistory()->HasCooldown(SPELL_PALADIN_HAMMER_OF_JUSTICE))
-                    caster->GetSpellHistory()->ModifyCooldown(SPELL_PALADIN_HAMMER_OF_JUSTICE, -7.5 * IN_MILLISECONDS);
+                    caster->GetSpellHistory()->ModifyCooldown(SPELL_PALADIN_HAMMER_OF_JUSTICE, int32(-7.5 * IN_MILLISECONDS));
             }
         }
     }
@@ -1225,7 +1225,7 @@ public:
         {
             if (Unit* caster = GetCaster())
             {
-                remainingAmount = caster->GetMaxHealth();
+                remainingAmount = int32(caster->GetMaxHealth());
                 return true;
             }
             return false;
@@ -1397,7 +1397,7 @@ public:
         {
             Unit* caster = GetCaster();
 
-            int32 dmg = (GetHitHeal() * 50.0f) / 100.0f;
+            int32 dmg = int32((GetHitHeal() * 50.0f) / 100.0f);
             caster->CastCustomSpell(caster, SPELL_PALADIN_LIGHT_OF_THE_MARTYR_DAMAGE, &dmg, nullptr, nullptr, true);
 
             if (caster->HasAura(SPELL_PALADIN_FERVENT_MARTYR_BUFF))
@@ -1514,7 +1514,7 @@ public:
 
         bool Load() override
         {
-            maxAbsorbAmount = 2.7f * GetCaster()->GetTotalSpellPowerValue(SPELL_SCHOOL_MASK_ALL, true);
+            maxAbsorbAmount = uint32(2.7f * GetCaster()->GetTotalSpellPowerValue(SPELL_SCHOOL_MASK_ALL, true));
             leftAbsorbAmount = maxAbsorbAmount;
             return GetUnitOwner()->IsPlayer();
         }
@@ -1581,7 +1581,7 @@ public:
         {
             int32 dmg = GetHitHeal();
 
-            dmg += GetCaster()->m_unitData->AttackPower * 1.8f;
+            dmg += int32(GetCaster()->m_unitData->AttackPower * 1.8f);
 
             SetHitHeal(dmg);
         }
@@ -2045,13 +2045,13 @@ class spell_pal_inquisition : public SpellScript
 
     void HandleTakePower(SpellPowerCost& powerCost)
     {
-        m_powerTaken = powerCost.Amount;
+        m_powerTaken = float(powerCost.Amount);
     }
 
     void HandleAfterHit()
     {
         if (Aura* aura = GetCaster()->GetAura(GetSpellInfo()->Id))
-            aura->SetDuration(aura->GetDuration() * m_powerTaken);
+            aura->SetDuration(int32(aura->GetDuration() * m_powerTaken));
     }
 
     void Register() override
@@ -2110,7 +2110,7 @@ class spell_pal_awakening : public AuraScript
     {
         if (Spell const* procSpell = eventInfo.GetProcSpell())
             if (procSpell->GetSpellInfo()->Id == SPELL_PALADIN_LIGHT_OF_DAWN)
-                return roll_chance_f(GetEffectInfo(EFFECT_0)->BasePoints);
+                return roll_chance_f(float(GetEffectInfo(EFFECT_0)->BasePoints));
 
         return false;
     }

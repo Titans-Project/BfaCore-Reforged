@@ -289,7 +289,7 @@ class boss_shade_of_medivh : public CreatureScript
 
                     case EVENT_REGEN_ENERGY:
                     {
-                        int32 power = me->GetMaxPower(POWER_MANA) * 0.03f;
+                        int32 power = int32(me->GetMaxPower(POWER_MANA) * 0.03f);
                         me->ModifyPower(POWER_MANA, power);
 
                         if (me->GetPower(POWER_MANA) == me->GetMaxPower(POWER_MANA))

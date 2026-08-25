@@ -1030,7 +1030,7 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
             {
                 if (IsUnit(*itr))
                 {
-                    float angle = e.action.follow.angle > 6 ? (e.action.follow.angle * M_PI / 180.0f) : e.action.follow.angle;
+                    float angle = float(e.action.follow.angle > 6 ? (e.action.follow.angle * M_PI / 180.0f) : e.action.follow.angle);
                     ENSURE_AI(SmartAI, me->AI())->SetFollow((*itr)->ToUnit(), float(e.action.follow.dist) + 0.1f, angle, e.action.follow.credit, e.action.follow.entry, e.action.follow.creditType);
                     TC_LOG_DEBUG("scripts.ai", "SmartScript::ProcessAction: SMART_ACTION_FOLLOW: %s following target %s",
                         me->GetGUID().ToString().c_str(), (*itr)->GetGUID().ToString().c_str());
@@ -1361,7 +1361,7 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
                         continue;
 
                     if (e.action.invincHP.percent)
-                        ai->SetInvincibilityHpLevel((*itr)->ToCreature()->CountPctFromMaxHealth(e.action.invincHP.percent));
+                        ai->SetInvincibilityHpLevel(uint32((*itr)->ToCreature()->CountPctFromMaxHealth(e.action.invincHP.percent)));
                     else
                         ai->SetInvincibilityHpLevel(e.action.invincHP.minHP);
                 }
@@ -1404,8 +1404,8 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
                     // Use forward/backward/left/right cartesian plane movement
                     float x, y, z, o;
                     o = pos.GetOrientation();
-                    x = pos.GetPositionX() + (std::cos(o - (M_PI / 2))*e.target.x) + (std::cos(o)*e.target.y);
-                    y = pos.GetPositionY() + (std::sin(o - (M_PI / 2))*e.target.x) + (std::sin(o)*e.target.y);
+                    x = float(pos.GetPositionX() + (std::cos(o - (M_PI / 2))*e.target.x) + (std::cos(o)*e.target.y));
+                    y = float(pos.GetPositionY() + (std::sin(o - (M_PI / 2))*e.target.x) + (std::sin(o)*e.target.y));
                     z = pos.GetPositionZ() + e.target.z;
                     (*itr)->ToCreature()->GetMotionMaster()->MovePoint(SMART_RANDOM_POINT, x, y, z);
                 }
@@ -1796,7 +1796,7 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
                 float x, y, z;
                 target->GetPosition(x, y, z);
                 if (e.action.MoveToPos.ContactDistance > 0)
-                    target->GetContactPoint(me, x, y, z, e.action.MoveToPos.ContactDistance);
+                    target->GetContactPoint(me, x, y, z, float(e.action.MoveToPos.ContactDistance));
                 me->GetMotionMaster()->MovePoint(e.action.MoveToPos.pointId, x + e.target.x, y + e.target.y, z + e.target.z, e.action.MoveToPos.disablePathfinding == 0);
             }
             break;
@@ -2748,7 +2748,7 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
 
             for (ObjectList::const_iterator itr = targets->begin(); itr != targets->end(); ++itr)
                 if (IsCreature(*itr))
-                    (*itr)->ToCreature()->m_SightDistance = e.action.sightDistance.dist;
+                    (*itr)->ToCreature()->m_SightDistance = float(e.action.sightDistance.dist);
 
             delete targets;
             break;
@@ -2901,7 +2901,7 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
 
             uint32 speedInteger = e.action.movementSpeed.speedInteger;
             uint32 speedFraction = e.action.movementSpeed.speedFraction;
-            float speed = float(speedInteger) + float(speedFraction) / std::pow(10, std::floor(std::log10(float(speedFraction ? speedFraction : 1)) + 1));
+            float speed = float(speedInteger) + float(speedFraction) / float(std::pow(10, std::floor(std::log10(float(speedFraction ? speedFraction : 1)) + 1)));
 
             for (WorldObject* target : *targets)
                 if (IsCreature(target))
@@ -3021,13 +3021,13 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
                         switch (e.action.playSpellVisual.variations)
                         {
                             case 0:
-                                (*itr)->ToUnit()->SendPlaySpellVisual((*itr)->GetGUID(), e.action.playSpellVisual.playVisualId, (float)e.action.playSpellVisual.travelSpeed);
+                                (*itr)->ToUnit()->SendPlaySpellVisual((*itr)->GetGUID(), e.action.playSpellVisual.playVisualId, uint16(e.action.playSpellVisual.travelSpeed));
                                 break;
                             case 1:
-                                me->SendPlaySpellVisual((*itr)->GetGUID(), e.action.playSpellVisual.playVisualId, (float)e.action.playSpellVisual.travelSpeed);
+                                me->SendPlaySpellVisual((*itr)->GetGUID(), e.action.playSpellVisual.playVisualId, uint16(e.action.playSpellVisual.travelSpeed));
                                 break;
                             case 2:
-                                (*itr)->ToUnit()->SendPlaySpellVisual(me->GetGUID(), e.action.playSpellVisual.playVisualId, (float)e.action.playSpellVisual.travelSpeed);
+                                (*itr)->ToUnit()->SendPlaySpellVisual(me->GetGUID(), e.action.playSpellVisual.playVisualId, uint16(e.action.playSpellVisual.travelSpeed));
                                 break;
                             case 3:
                                 (*itr)->ToUnit()->SendPlaySpellVisual((*itr)->GetGUID(), e.action.playSpellVisual.playVisualId);
@@ -3142,7 +3142,7 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
                 {
                     if (Unit* unitTarget = target->ToUnit())
                     {
-                        float threat = e.action.modifyThreat.increase ? e.action.modifyThreat.increase: -int32(e.action.modifyThreat.decrease);
+                        float threat = float(e.action.modifyThreat.increase ? e.action.modifyThreat.increase: -int32(e.action.modifyThreat.decrease));
                         me->getThreatManager().addThreat(unitTarget, threat);
                     }
                 }
@@ -3159,7 +3159,7 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
 
             for (WorldObject* target : *targets)
                 if (Unit* unitTarget = target->ToUnit())
-                    unitTarget->SetSpeed(UnitMoveType(e.action.setSpeed.type), e.action.setSpeed.speed);
+                    unitTarget->SetSpeed(UnitMoveType(e.action.setSpeed.type), float(e.action.setSpeed.speed));
 
             delete targets;
             break;
@@ -3278,8 +3278,8 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
                     // Use forward/backward/left/right cartesian plane movement
                     float x, y, z, o;
                     o = pos.GetOrientation();
-                    x = pos.GetPositionX() + (std::cos(o - (M_PI / 2))*e.target.x) + (std::cos(o)*e.target.y);
-                    y = pos.GetPositionY() + (std::sin(o - (M_PI / 2))*e.target.x) + (std::sin(o)*e.target.y);
+                    x = float(pos.GetPositionX() + (std::cos(o - (M_PI / 2))*e.target.x) + (std::cos(o)*e.target.y));
+                    y = float(pos.GetPositionY() + (std::sin(o - (M_PI / 2))*e.target.x) + (std::sin(o)*e.target.y));
                     z = pos.GetPositionZ() + e.target.z;
 
                     if (e.action.castOffSet.triggered)
@@ -3753,14 +3753,14 @@ ObjectList* SmartScript::GetTargets(SmartScriptHolder const& e, Unit* invoker /*
         case SMART_TARGET_CLOSEST_ENEMY:
         {
             if (me)
-                if (Unit* target = me->SelectNearestTarget(e.target.closestAttackable.maxDist, e.target.closestAttackable.playerOnly != 0))
+                if (Unit* target = me->SelectNearestTarget(float(e.target.closestAttackable.maxDist), e.target.closestAttackable.playerOnly != 0))
                     l->push_back(target);
             break;
         }
         case SMART_TARGET_CLOSEST_FRIENDLY:
         {
             if (me)
-                if (Unit* target = DoFindClosestFriendlyInRange(e.target.closestFriendly.maxDist, e.target.closestFriendly.playerOnly != 0))
+                if (Unit* target = DoFindClosestFriendlyInRange(float(e.target.closestFriendly.maxDist), e.target.closestFriendly.playerOnly != 0))
                     l->push_back(target);
             break;
         }

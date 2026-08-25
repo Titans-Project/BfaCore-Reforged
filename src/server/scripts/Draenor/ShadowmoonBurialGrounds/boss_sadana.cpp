@@ -479,7 +479,7 @@ public:
                 if (!l_ListShadowrunes.empty())
                 {
                     std::list<Creature*>::const_iterator l_it = l_ListShadowrunes.begin();
-                    std::advance(l_it, urand(0, l_ListShadowrunes.size() - 6));
+                    std::advance(l_it, urand(0, uint32(l_ListShadowrunes.size() - 6)));
 
                     if ((*l_it)->IsAIEnabled)
                         (*l_it)->GetAI()->DoAction(eSadanaActions::ActionActivateLunarTriggersActivate);

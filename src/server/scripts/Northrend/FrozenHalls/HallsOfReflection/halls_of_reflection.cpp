@@ -839,7 +839,7 @@ class npc_jaina_or_sylvanas_escape_hor : public CreatureScript
             void DamageTaken(Unit* /*attacker*/, uint32& damage) override
             {
                 if (damage >= me->GetHealth() && _invincibility)
-                    damage = me->GetHealth() - 1;
+                    damage = uint32(me->GetHealth() - 1);
             }
 
             void DoAction(int32 actionId) override
@@ -1178,7 +1178,7 @@ class npc_the_lich_king_escape_hor : public CreatureScript
             void DamageTaken(Unit* /*attacker*/, uint32& damage) override
             {
                 if (damage >= me->GetHealth())
-                    damage = me->GetHealth() - 1;
+                    damage = uint32(me->GetHealth() - 1);
             }
 
             void MovementInform(uint32 type, uint32 pointId) override
@@ -2463,7 +2463,7 @@ class npc_uther_quel_delar : public CreatureScript
             void DamageTaken(Unit* /*attacker*/, uint32& damage) override
             {
                 if (damage >= me->GetHealth())
-                    damage = me->GetHealth() - 1;
+                    damage = uint32(me->GetHealth() - 1);
             }
 
             void DoAction(int32 action) override

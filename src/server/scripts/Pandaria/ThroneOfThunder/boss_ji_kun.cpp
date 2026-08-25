@@ -390,7 +390,7 @@ public:
 
             std::list<Creature*> EggList;
             for (uint8 i = 0; i <= (HighEggs ? (EggsHighNest - 1) : (EggsLowNest - 1)); ++i)
-                if (Creature* Egg = instance->GetCreature(NestHighEggs[NestNumber][i]))
+                if (Creature* Egg = instance->GetCreature(uint32(NestHighEggs[NestNumber][i])))
                     if (Egg->HasUnitFlag(UNIT_FLAG_NOT_SELECTABLE))
                         EggList.push_back(Egg);
 
@@ -812,7 +812,7 @@ public:
 
                 if (instance)
                     for (uint8 i = 0; i <= (IsHighActivate ? 1 : 2); ++i)
-                        if (Creature* Egg = instance->GetCreature(GetEggGUID(NestNumber, IsHighActivate)))
+                        if (Creature* Egg = instance->GetCreature(uint32(GetEggGUID(NestNumber, IsHighActivate))))
                         {
                             Egg->AddAura(IsHighActivate ? SPELL_INCUBATION_HIGH_NEST : SPELL_INCUBATION_LOW_NEST, Egg);
                             Egg->RemoveUnitFlag(UNIT_FLAG_NON_ATTACKABLE);
@@ -1750,7 +1750,7 @@ public:
                         playerTarget->AddAura(89428, playerTarget);
 
                         float dist = playerTarget->GetDistance(Center) - 87.0f;
-                        playerTarget->GetMotionMaster()->MoveCharge(playerTarget->GetPositionX() + dist * cos(angle), playerTarget->GetPositionY() + dist * sin(angle), -20.0f, 15.0f, 11.0f);
+                        playerTarget->GetMotionMaster()->MoveCharge(playerTarget->GetPositionX() + dist * cos(angle), playerTarget->GetPositionY() + dist * sin(angle), -20.0f, 15.0f, uint32(11.0f));
                     }
 
                     if (playerTarget->HasAura(89428) && playerTarget->GetPositionZ() > -21.0f) // come to return jump
@@ -1758,7 +1758,7 @@ public:
                         playerTarget->RemoveAurasDueToSpell(89428);
 
                         float dist = playerTarget->GetDistance(Center) - 37.0f;
-                        playerTarget->GetMotionMaster()->MoveCharge(playerTarget->GetPositionX() + dist * cos(angle), playerTarget->GetPositionY() + dist * sin(angle), -31.0f, 30.0f, 22.0f);
+                        playerTarget->GetMotionMaster()->MoveCharge(playerTarget->GetPositionX() + dist * cos(angle), playerTarget->GetPositionY() + dist * sin(angle), -31.0f, 30.0f, uint32(22.0f));
                     }
                 } // WARNINGS HERE IDK
         }

@@ -757,7 +757,7 @@ DumpReturn PlayerDumpReader::LoadDump(std::string const& file, uint32 account, s
     sCharacterCache->AddCharacterCacheEntry(ObjectGuid::Create<HighGuid::Player>(guid), account, name, gender, race, playerClass, level, false);
 
     sObjectMgr->GetGenerator<HighGuid::Item>().Set(sObjectMgr->GetGenerator<HighGuid::Item>().GetNextAfterMaxUsed() + items.size());
-    sObjectMgr->_mailId     += mails.size();
+    sObjectMgr->_mailId     += uint32(mails.size());
 
     if (incHighest)
         sObjectMgr->GetGenerator<HighGuid::Player>().Generate();

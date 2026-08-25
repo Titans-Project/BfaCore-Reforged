@@ -228,7 +228,7 @@ void WorldSession::HandleWardenData(WorldPackets::Warden::WardenData& packet)
     if (!_warden || packet.Data.empty())
         return;
 
-    _warden->DecryptData(packet.Data.contents(), packet.Data.size());
+    _warden->DecryptData(packet.Data.contents(), uint32(packet.Data.size()));
     uint8 opcode;
     packet.Data >> opcode;
     TC_LOG_DEBUG("warden", "Got packet, opcode %02X, size %u", opcode, uint32(packet.Data.size()));

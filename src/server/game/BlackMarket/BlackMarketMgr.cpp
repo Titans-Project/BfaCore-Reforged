@@ -163,7 +163,7 @@ void BlackMarketMgr::Update(bool updateTime)
 
 void BlackMarketMgr::RefreshAuctions()
 {
-    int32 const auctionDiff = sWorld->getIntConfig(CONFIG_BLACKMARKET_MAXAUCTIONS) - _auctions.size();
+    int32 const auctionDiff = int32(sWorld->getIntConfig(CONFIG_BLACKMARKET_MAXAUCTIONS) - _auctions.size());
 
     // We are already at max auctions, do nothing
     if (auctionDiff <= 0)
@@ -204,7 +204,7 @@ bool BlackMarketMgr::IsEnabled() const
 
 void BlackMarketMgr::BuildItemsResponse(WorldPackets::BlackMarket::BlackMarketRequestItemsResult& packet, Player* player)
 {
-    packet.LastUpdateID = _lastUpdate;
+    packet.LastUpdateID = int32(_lastUpdate);
     packet.Items.reserve(_auctions.size());
     for (auto itr = _auctions.begin(); itr != _auctions.end(); ++itr)
     {
@@ -435,7 +435,7 @@ void BlackMarketEntry::SaveToDB(CharacterDatabaseTransaction& trans) const
 
     stmt->setInt32(0, _marketId);
     stmt->setUInt64(1, _currentBid);
-    stmt->setInt32(2, GetExpirationTime());
+    stmt->setInt32(2, int32(GetExpirationTime()));
     stmt->setInt32(3, _numBids);
     stmt->setUInt64(4, _bidder);
 
@@ -477,7 +477,7 @@ void BlackMarketEntry::PlaceBid(uint64 bid, Player* player, CharacterDatabaseTra
 
     CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_BLACKMARKET_AUCTIONS);
     stmt->setUInt64(0, _currentBid);
-    stmt->setInt32(1, GetExpirationTime());
+    stmt->setInt32(1, int32(GetExpirationTime()));
     stmt->setInt32(2, _numBids);
     stmt->setUInt64(3, _bidder);
     stmt->setInt32(4, _marketId);

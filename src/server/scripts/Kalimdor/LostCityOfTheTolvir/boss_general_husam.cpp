@@ -402,7 +402,7 @@ public:
                     float x, y, _x, _y, z = me->GetPositionZ();
                     summoner->GetPosition(_x, _y);
                     pos.Relocate(_x, _y, z);
-                    me->GetNearPoint2D(x, y, 40.0f, M_PI - me->GetAngle(_x, _y));
+                    me->GetNearPoint2D(x, y, 40.0f, float(M_PI - me->GetAngle(_x, _y)));
                     me->GetMotionMaster()->MovePoint(0, x, y, z);
                 }
         }

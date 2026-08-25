@@ -147,7 +147,7 @@ public:
                     handler->SendSysMessage("========================");
                 }
                 std::string const& name = itr->second->GetName();
-                uint8 size = name.size();
+                uint8 size = uint8(name.size());
                 uint8 security = itrSec;
                 uint8 max = ((16 - size) / 2);
                 uint8 max2 = max;
@@ -185,7 +185,7 @@ public:
                 Field* fields = result->Fetch();
                 char const* name = fields[0].GetCString();
                 uint8 security = fields[1].GetUInt8();
-                uint8 max = (16 - strlen(name)) / 2;
+                uint8 max = uint8((16 - strlen(name)) / 2);
                 uint8 max2 = max;
                 if ((max + max2 + strlen(name)) == 16)
                     max2 = max - 1;

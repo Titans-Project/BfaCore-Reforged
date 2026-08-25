@@ -449,34 +449,34 @@ int32 PetBattleAbilityEffect::CalculateDamage(int32 damage)
         switch (targetPetType)
         {
         case BATTLE_PET_TYPE_HUMANOID:
-            modPetTypeDamagePercent += damageModInfo->Humanoid * 100;
+            modPetTypeDamagePercent = int32(modPetTypeDamagePercent + damageModInfo->Humanoid * 100);
             break;
         case BATTLE_PET_TYPE_DRAGONKIN:
-            modPetTypeDamagePercent += damageModInfo->Dragonkin * 100;
+            modPetTypeDamagePercent = int32(modPetTypeDamagePercent + damageModInfo->Dragonkin * 100);
             break;
         case BATTLE_PET_TYPE_FLYING:
-            modPetTypeDamagePercent += damageModInfo->Flying * 100;
+            modPetTypeDamagePercent = int32(modPetTypeDamagePercent + damageModInfo->Flying * 100);
             break;
         case BATTLE_PET_TYPE_UNDEAD:
-            modPetTypeDamagePercent += damageModInfo->Undead * 100;
+            modPetTypeDamagePercent = int32(modPetTypeDamagePercent + damageModInfo->Undead * 100);
             break;
         case BATTLE_PET_TYPE_CRITTER:
-            modPetTypeDamagePercent += damageModInfo->Critter * 100;
+            modPetTypeDamagePercent = int32(modPetTypeDamagePercent + damageModInfo->Critter * 100);
             break;
         case BATTLE_PET_TYPE_MAGIC:
-            modPetTypeDamagePercent += damageModInfo->Magic * 100;
+            modPetTypeDamagePercent = int32(modPetTypeDamagePercent + damageModInfo->Magic * 100);
             break;
         case BATTLE_PET_TYPE_ELEMENTAL:
-            modPetTypeDamagePercent += damageModInfo->Elemental * 100;
+            modPetTypeDamagePercent = int32(modPetTypeDamagePercent + damageModInfo->Elemental * 100);
             break;
         case BATTLE_PET_TYPE_BEAST:
-            modPetTypeDamagePercent += damageModInfo->Beast * 100;
+            modPetTypeDamagePercent = int32(modPetTypeDamagePercent + damageModInfo->Beast * 100);
             break;
         case BATTLE_PET_TYPE_AQUATIC:
-            modPetTypeDamagePercent += damageModInfo->Aquatic * 100;
+            modPetTypeDamagePercent = int32(modPetTypeDamagePercent + damageModInfo->Aquatic * 100);
             break;
         case BATTLE_PET_TYPE_MECHANICAL:
-            modPetTypeDamagePercent += damageModInfo->Mechanical * 100;
+            modPetTypeDamagePercent = int32(modPetTypeDamagePercent + damageModInfo->Mechanical * 100);
             break;
         default:
             break;
@@ -753,7 +753,7 @@ bool PetBattleAbilityEffect::AddTarget(PetBattleAbilityImplicitTarget /*target*/
         return false;
     case PETBATTLE_TARGET_ALL:
         for (size_t slot = 0; slot < MAX_PET_BATTLE_TEAM * MAX_PET_BATTLE_SLOTS; ++slot)
-            AddTarget(slot);
+            AddTarget(uint32(slot));
         return true;
     case PETBATTLE_TARGET_CASTER_TEAM_UNCONDITIONAL:
         battleTeam = PetBattleInstance->Teams[PetBattleInstance->Pets[Caster]->TeamID];
@@ -1079,7 +1079,7 @@ bool PetBattleAbilityEffect::HandleHealState()
 bool PetBattleAbilityEffect::HandleSplittedDamage()
 {
     CalculateHit(EffectInfo->Param[1]);
-    int32 damage = CalculateDamage(EffectInfo->Param[0] / Targets.size());
+    int32 damage = CalculateDamage(EffectInfo->Param[0] / int32(Targets.size()));
     return Damage(Target, damage);
 }
 

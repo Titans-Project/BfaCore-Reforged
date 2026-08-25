@@ -883,7 +883,7 @@ class iron_docks_skulloc_mob_turret : public CreatureScript
                         }
 
                         events.ScheduleEvent(eTurretEvents::EventRapidFireChangeTarget, 8 * TimeConstants::IN_MILLISECONDS);
-                        events.ScheduleEvent(eTurretEvents::EventRapidFire, 0.5 * TimeConstants::IN_MILLISECONDS);
+                        events.ScheduleEvent(eTurretEvents::EventRapidFire, uint32(0.5 * TimeConstants::IN_MILLISECONDS));
                         break;
                     }
                     case eTurretEvents::EventRapidFire:

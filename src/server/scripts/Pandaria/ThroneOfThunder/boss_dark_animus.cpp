@@ -917,7 +917,7 @@ public:
                     {
                         if (oneGolem->GetHealthPct() < healthPoints)
                         {
-                            healthPoints = oneGolem->GetHealthPct();
+                            healthPoints = uint32(oneGolem->GetHealthPct());
                             me->AddAura(SPELL_EMPOWER_GOLEM, oneGolem);
                         }
                     }
@@ -1177,8 +1177,8 @@ public:
                         ReturnRings();
                         break;
                     }
-                    float x = _x + 5.0f * cos(point * M_PI / 7);
-                    float y = _y + 5.0f * sin(point * M_PI / 7);
+                    float x = float(_x + 5.0f * cos(point * M_PI / 7));
+                    float y = float(_y + 5.0f * sin(point * M_PI / 7));
                     me->SummonCreature(999287, x, y, me->GetPositionZ() + 5.0f, 0.0f, TEMPSUMMON_TIMED_DESPAWN, 15000);
                     ++point;
                     events.RescheduleEvent(EVENT_SUMMON_RINGS_ANIMA, 200);
@@ -1622,7 +1622,7 @@ public:
             if (!GetCaster())
                 return;
             GetCaster()->SetUnitFlags(UNIT_FLAG_NON_ATTACKABLE);
-            uint32 health = GetCaster()->CountPctFromMaxHealth(5);
+            uint32 health = uint32(GetCaster()->CountPctFromMaxHealth(5));
             GetCaster()->SetHealth(health);
         }
 
@@ -1676,8 +1676,8 @@ public:
                 {
                     int32 damageCaster = GetAura()->GetEffect(EFFECT_0) ? GetAura()->GetEffect(EFFECT_0)->GetAmount() : 0;
                     int32 damageTarget = GetAura()->GetEffect(EFFECT_1) ? GetAura()->GetEffect(EFFECT_1)->GetAmount() : 0;
-                    damageCaster = CalculatePct(target->GetMaxHealth(), damageCaster);
-                    damageTarget = CalculatePct(target->GetMaxHealth(), damageTarget);
+                    damageCaster = int32(CalculatePct(target->GetMaxHealth(), damageCaster));
+                    damageTarget = int32(CalculatePct(target->GetMaxHealth(), damageTarget));
 
                     target->CastCustomSpell(targetedPlayer, SPELL_MATTER_SWAP_DAMAGE, &damageTarget, NULL, NULL, true);
                     targetedPlayer->CastCustomSpell(target, SPELL_MATTER_SWAP_DAMAGE, &damageCaster, NULL, NULL, true);
@@ -1844,13 +1844,13 @@ public:
                         // Aura on caster
                         if (Aura* link = caster->GetAura(SPELL_ACCELERATION_LINK))
                         {
-                            stacks = cList.size() - 1;
+                            stacks = uint32(cList.size() - 1);
                             link->SetStackAmount(stacks);
                         }
                         // Aura on listed creature w/o caster
                         if (Aura* link2 = (*itr)->GetAura(SPELL_ACCELERATION_LINK))
                         {
-                            stacks = cList.size() - 1;
+                            stacks = uint32(cList.size() - 1);
                             link2->SetStackAmount(stacks);
                         }
                     }

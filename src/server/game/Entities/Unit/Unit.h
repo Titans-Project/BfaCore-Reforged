@@ -1016,7 +1016,7 @@ class TC_GAME_API Unit : public WorldObject
         bool AttackStop();
         void RemoveAllAttackers();
         AttackerSet const& getAttackers() const { return m_attackers; }
-        uint32 GetAttackersCount(Unit const* except = nullptr) const { return std::count_if(getAttackers().begin(), getAttackers().end(), [except](Unit* attacker) { return except != attacker; }); }
+        uint32 GetAttackersCount(Unit const* except = nullptr) const { return uint32(std::count_if(getAttackers().begin(), getAttackers().end(), [except](Unit* attacker) { return except != attacker; })); }
         bool isAttackingPlayer() const;
         Unit* GetVictim() const { return m_attacking; }
         // Use this only when 100% sure there is a victim
@@ -1685,8 +1685,8 @@ class TC_GAME_API Unit : public WorldObject
         void SetCreateMana(uint32 val) { SetUpdateFieldValue(m_values.ModifyValue(&Unit::m_unitData).ModifyValue(&UF::UnitData::BaseMana), val); }
         uint32 GetCreateMana() const { return m_unitData->BaseMana; }
         int32 GetCreatePowers(Powers power) const;
-        float GetPosStat(Stats stat) const { return m_unitData->StatPosBuff[stat]; }
-        float GetNegStat(Stats stat) const { return m_unitData->StatNegBuff[stat]; }
+        float GetPosStat(Stats stat) const { return float(m_unitData->StatPosBuff[stat]); }
+        float GetNegStat(Stats stat) const { return float(m_unitData->StatNegBuff[stat]); }
         float GetCreateStat(Stats stat) const { return m_createStats[stat]; }
 
         uint32 GetChannelSpellId() const { return m_unitData->ChannelData->SpellID; }

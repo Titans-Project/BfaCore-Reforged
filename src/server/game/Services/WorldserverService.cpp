@@ -83,11 +83,11 @@ uint32 Battlenet::GameUtilitiesService::HandleRealmListRequest(std::unordered_ma
 
     std::string json = "JSONRealmCharacterCountList:" + JSON::Serialize(realmCharacterCounts);
 
-    uLongf compressedLength = compressBound(json.length());
+    uLongf compressedLength = compressBound(uint32(json.length()));
     compressed.resize(4 + compressedLength);
-    *reinterpret_cast<uint32*>(compressed.data()) = json.length() + 1;
+    *reinterpret_cast<uint32*>(compressed.data()) = uint32(json.length() + 1);
 
-    if (compress(compressed.data() + 4, &compressedLength, reinterpret_cast<uint8 const*>(json.c_str()), json.length() + 1) != Z_OK)
+    if (compress(compressed.data() + 4, &compressedLength, reinterpret_cast<uint8 const*>(json.c_str()), uint32(json.length()) + 1) != Z_OK)
         return ERROR_UTIL_SERVER_FAILED_TO_SERIALIZE_RESPONSE;
 
     attribute = response->add_attribute();

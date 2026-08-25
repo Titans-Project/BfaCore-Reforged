@@ -71,7 +71,7 @@ public:
     */
     uint8 GetPhaseMask() const
     {
-        return _phase;
+        return uint8(_phase);
     }
 
     /**

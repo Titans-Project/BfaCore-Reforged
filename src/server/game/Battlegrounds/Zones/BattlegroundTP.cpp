@@ -241,7 +241,7 @@ void BattlegroundTP::StartingEventOpenDoors()
     //StartCriteriaTimer(CRITERIA_TIMED_TYPE_EVENT, TP_EVENT_START_BATTLE);
 
     // Send start timer
-    m_EndTimestamp = time(nullptr) + 1500;
+    m_EndTimestamp = uint32(time(nullptr) + 1500);
 
     UpdateWorldState(BG_TP_STATE_TIMER_ACTIVE, 1);
     UpdateWorldState(BG_TP_STATE_TIMER, m_EndTimestamp);

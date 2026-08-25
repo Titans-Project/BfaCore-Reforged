@@ -140,7 +140,7 @@ void GuildFinderMgr::AddMembershipRequest(ObjectGuid const& guildGuid, Membershi
     stmt->setUInt8(3, request.GetClassRoles());
     stmt->setUInt8(4, request.GetInterests());
     stmt->setString(5, request.GetComment());
-    stmt->setUInt32(6, request.GetSubmitTime());
+    stmt->setUInt32(6, uint32(request.GetSubmitTime()));
     trans->Append(stmt);
     CharacterDatabase.CommitTransaction(trans);
 
@@ -238,7 +238,7 @@ std::vector<MembershipRequest const*> GuildFinderMgr::GetAllMembershipRequestsFo
 uint8 GuildFinderMgr::CountRequestsFromPlayer(ObjectGuid const& playerId)
 {
     auto playerItr = _membershipRequestsByPlayer.find(playerId);
-    return playerItr != _membershipRequestsByPlayer.end() ? playerItr->second.size() : 0;
+    return uint8(playerItr != _membershipRequestsByPlayer.end() ? playerItr->second.size() : 0);
 }
 
 std::vector<LFGuildSettings const*> GuildFinderMgr::GetGuildsMatchingSetting(LFGuildPlayer& settings, TeamId faction)

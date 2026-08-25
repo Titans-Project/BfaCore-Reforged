@@ -1027,7 +1027,7 @@ public:
                 for (std::list<Creature*>::iterator itr = adds.begin(); itr != adds.end(); ++itr)
                 {
                     (*itr)->AddUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));
-                    (*itr)->GetMotionMaster()->MovePoint(0, (2.0*(*itr)->GetPositionX() - me->GetPositionX()), (2.0*(*itr)->GetPositionY() - me->GetPositionY()), (*itr)->GetPositionZ()); // way for nice despawn
+                    (*itr)->GetMotionMaster()->MovePoint(0, float(2.0*(*itr)->GetPositionX() - me->GetPositionX()), float(2.0*(*itr)->GetPositionY() - me->GetPositionY()), (*itr)->GetPositionZ()); // way for nice despawn
                     (*itr)->DespawnOrUnsummon(3000);
                 }
             events.ScheduleEvent(1, 5000);
@@ -1353,7 +1353,7 @@ public:
             Position const* pos = GetExplTargetDest();
             float distance = pos->GetExactDist2d(GetHitUnit());
             float radius = GetSpellInfo()->GetEffect(EFFECT_0)->CalcRadius(GetCaster());
-            uint32 damage = GetHitDamage() * (1 - ((distance * 3) / radius));
+            uint32 damage = uint32(GetHitDamage() * (1 - ((distance * 3) / radius)));
 
             SetHitDamage(damage);
         }
@@ -1611,7 +1611,7 @@ public:
             if (Unit* caster = GetCaster())
             {
                 Position pos;
-                caster->GetNearPosition(frand(15.0f, 25.0f), (urand(0, 6)));
+                caster->GetNearPosition(frand(15.0f, 25.0f), float(urand(0, 6)));
                 uint32 spellId = GetSpellInfo()->GetEffect(effIndex)->TriggerSpell;
                 uint32 delay = GetSpellInfo()->GetEffect(effIndex)->MiscValue;
                // caster->m_Events.AddEvent(new DelayDestCastEvent(*caster, pos, spellId, true), caster->m_Events.CalculateTime(delay));
@@ -1683,7 +1683,7 @@ public:
         void FilterTargets(std::list<WorldObject*>& targets)
         {
             if (targets.size() > 1)
-                targetCount = targets.size();
+                targetCount = uint8(targets.size());
         }
 
         void HandleDamage(SpellEffIndex /*effIndex*/)

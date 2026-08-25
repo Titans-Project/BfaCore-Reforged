@@ -115,9 +115,9 @@ void TaxiPathGraph::AddVerticeAndEdgeFromNodeInfo(TaxiNodesEntry const* from, Ta
             if (uiMap1 != uiMap2)
                 continue;
 
-            totalDist += std::sqrt(
+            totalDist += float(std::sqrt(
                 std::pow(pos2.X - pos1.X, 2) +
-                std::pow(pos2.Y - pos1.Y, 2));
+                std::pow(pos2.Y - pos1.Y, 2)));
         }
 
         uint32 dist = uint32(totalDist * 32767.0f);
@@ -206,7 +206,7 @@ void TaxiPathGraph::GetReachableNodesMask(TaxiNodesEntry const* from, TaxiMask* 
     if (!from || !mask)
         return;
 
-    boost::vector_property_map<boost::default_color_type> color(boost::num_vertices(m_graph));
+    boost::vector_property_map<boost::default_color_type> color(static_cast<unsigned int>(boost::num_vertices(m_graph)));
     std::fill(color.storage_begin(), color.storage_end(), boost::white_color);
     boost::depth_first_visit(m_graph, GetVertexIDFromNodeID(from), make_discover_vertex_dfs_visitor([this, mask](vertex_descriptor vertex)
     {

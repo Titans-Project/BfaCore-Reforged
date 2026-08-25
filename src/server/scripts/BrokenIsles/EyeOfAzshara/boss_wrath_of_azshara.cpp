@@ -277,7 +277,7 @@ public:
 
 		void Reset() override
 		{
-			me->SetHealth(me->GetMaxHealth() * 0.2);
+			me->SetHealth(uint64(me->GetMaxHealth() * 0.2));
 
 			DespawnCreature(NPC_MYSTIC_TORNADO);
 			DespawnCreature(NPC_ARCANE_BOMB);
@@ -676,7 +676,7 @@ public:
 			if (targets.empty())
 				return;
 			if (!targets.empty())
-				_targetsSize = targets.size();
+				_targetsSize = uint32(targets.size());
 		}
 
 		void HandleDamage(SpellEffIndex)
@@ -751,7 +751,7 @@ public:
 
 		void FillCirclePath(Position const& center, float radius, float z, Movement::PointsArray& path, bool clockwise)
 		{
-			float step = clockwise ? -M_PI / 8.0f : M_PI / 8.0f;
+			float step = float(clockwise ? -M_PI / 8.0f : M_PI / 8.0f);
 			float angle = center.GetAngle(at->GetPositionX(), at->GetPositionY());
 
 			for (uint8 iter = 0; iter < 16; angle += step, ++iter)
@@ -769,7 +769,7 @@ public:
 			Position center = at->GetPosition();
 
 			std::vector<G3D::Vector3> points;
-			FillCirclePath(center, urand(30,50), at->GetPositionZ(), points, false);
+			FillCirclePath(center, float(urand(30,50)), at->GetPositionZ(), points, false);
 			at->InitSplines(points, 60000);
 		}
 

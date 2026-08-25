@@ -82,7 +82,7 @@ public:
                 radius = urand(0, 6);
             else
                 radius = 7;
-            float angle = M_PI * (urand(0, 7) / 7.f);
+            float angle = float(M_PI * (urand(0, 7) / 7.f));
             float x = 1181.75f + radius * sin(angle);
             float y = 3444.5f + radius * cos(angle);
             float z = 102.9385f;
@@ -568,7 +568,7 @@ public:
         {
             if (damage >= me->GetHealth())
             {
-                damage = me->GetHealth() - 1;
+                damage = uint32(me->GetHealth() - 1);
                 _events.Reset();
                 me->RemoveAllAuras();
                 me->SetFaction(35);
@@ -716,12 +716,12 @@ public:
                 if (caster->GetPositionZ() > 92.0f)
                 {
                     Position const jumpPos = { 1077.019f, 2844.103f, 95.27103f };
-                    caster->GetMotionMaster()->MoveJump(jumpPos, GetSpellInfo()->GetEffect(effIndex)->MiscValue, 10);
+                    caster->GetMotionMaster()->MoveJump(jumpPos, float(GetSpellInfo()->GetEffect(effIndex)->MiscValue), 10);
                 }
                 else
                 {
                     if (GameObject* go = caster->FindNearestGameObject(209576, 8.0f))
-                        caster->GetMotionMaster()->MoveJump(go->GetPosition(), GetSpellInfo()->GetEffect(effIndex)->MiscValue, 5);
+                        caster->GetMotionMaster()->MoveJump(go->GetPosition(), float(GetSpellInfo()->GetEffect(effIndex)->MiscValue), 5);
                 }
             }
         }
@@ -1979,7 +1979,7 @@ public:
             if (HealthAbovePct(85))
                 damage = urand(1, 2);
             else
-                me->SetHealth(me->GetMaxHealth() * 0.85f);
+                me->SetHealth(uint64(me->GetMaxHealth() * 0.85f));
         }
 
         void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override

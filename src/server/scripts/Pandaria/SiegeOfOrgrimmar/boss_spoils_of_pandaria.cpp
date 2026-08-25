@@ -5143,7 +5143,7 @@ class spell_spoils_of_pandaria_eminence : public SpellScriptLoader
                 if (!actor)
                     return;
 
-                int32 healValue = eventInfo.GetDamageInfo()->GetDamage() * 1.5f;
+                int32 healValue = int32(eventInfo.GetDamageInfo()->GetDamage() * 1.5f);
 
                 actor->CastCustomSpell(actor, SPELL_EMINENCE_HEAL, &healValue, NULL, NULL, true);
             }
@@ -5765,11 +5765,11 @@ class spell_spoils_of_pandaria_matter_scramble : public SpellScriptLoader
                     std::list<Unit*> l_Targets;
                     l_Creature->AI()->SelectTargetList(l_Targets, PlayerInRoomTargetCheck(l_Creature, 0.0f, l_Room), l_TargetsCount, SelectAggroTarget::SELECT_TARGET_RANDOM);
 
-                    uint32 l_NoTargetsCount = l_Targets.size() >= l_TargetsCount ? 0 : l_TargetsCount - l_Targets.size();
+                    uint32 l_NoTargetsCount = l_Targets.size() >= l_TargetsCount ? 0 : uint32(l_TargetsCount - l_Targets.size());
                     if (l_NoTargetsCount > l_TargetsCount)
                         l_NoTargetsCount = l_TargetsCount;
 
-                    l_Creature->AI()->SetData(eDatas::DATA_MATTER_SCRAMBLE_COUNT, l_Targets.size());
+                    l_Creature->AI()->SetData(eDatas::DATA_MATTER_SCRAMBLE_COUNT, uint32(l_Targets.size()));
 
                     for (auto l_Target : l_Targets)
                     {
@@ -6250,12 +6250,12 @@ struct spell_area_spoils_of_pandaria_staff_of_resonating_water : AreaTriggerAI
                 int32 l_Heal = 0;
                 if (m_WavePower > l_MissingHealthPct)
                 {
-                    l_Heal = target->CountPctFromMaxHealth((int32)l_MissingHealthPct);
+                    l_Heal = int32(target->CountPctFromMaxHealth((int32)l_MissingHealthPct));
                     m_WavePower -= l_MissingHealthPct;
                 }
                 else
                 {
-                    l_Heal = target->CountPctFromMaxHealth((int32)m_WavePower);
+                    l_Heal = int32(target->CountPctFromMaxHealth((int32)m_WavePower));
                     l_IsEmpty = true;
                 }
 

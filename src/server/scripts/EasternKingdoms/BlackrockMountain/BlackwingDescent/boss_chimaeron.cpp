@@ -588,7 +588,7 @@ public:
             if (!GetTarget())
                 return;
 
-            uint32 curHealth = GetTarget()->GetHealth();
+            uint32 curHealth = uint32(GetTarget()->GetHealth());
 
             if (curHealth >= 10000)
             {

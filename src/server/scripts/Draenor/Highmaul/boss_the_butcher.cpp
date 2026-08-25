@@ -60,11 +60,11 @@ Position ComputeLocationSelection(Creature* source, float searchRange, float min
                 l_Neighboor.insert(playerSecond);
         }
 
-        clusterMap[player->GetGUID().GetCounter()] = Cluster();
-        clusterMap[player->GetGUID().GetCounter()].insert(player);
+        clusterMap[uint32(player->GetGUID().GetCounter())] = Cluster();
+        clusterMap[uint32(player->GetGUID().GetCounter())].insert(player);
 
         for (Player* playerSecond : l_Neighboor)
-            clusterMap[player->GetGUID().GetCounter()].insert(playerSecond);
+            clusterMap[uint32(player->GetGUID().GetCounter())].insert(playerSecond);
     }
 
     size_t size = 0;
@@ -517,7 +517,7 @@ class boss_the_butcher : public CreatureScript
                     {
                         /// Every four waves of adds, The Butcher spawns one add more
                         ++m_AddCount;
-                        uint8 l_Count = floor(float(m_AddCount) / 4.0f) + 1;
+                        uint8 l_Count = uint8(floor(float(m_AddCount) / 4.0f) + 1);
 
                         float radius  = 50.0f;
                         float posX    = me->GetHomePosition().m_positionX;

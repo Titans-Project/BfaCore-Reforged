@@ -917,7 +917,7 @@ class spell_ilgynoth_nightmare_explosion_pct : public SpellScript
                 dmgPct = 5;
                 break;
             }
-            SetHitDamage(GetHitUnit()->CountPctFromMaxHealth(dmgPct));
+            SetHitDamage(int32(GetHitUnit()->CountPctFromMaxHealth(dmgPct)));
         }
     }
 

@@ -733,7 +733,7 @@ public:
                 if (AuraEffect* l_AurEff = l_Target->GetAuraEffect(eSpells::T17Blood4P, EFFECT_0))
                 {
                     int32 l_FutureAbsorb = p_AurEff->GetAmount() - p_AbsorbAmount;
-                    int32 l_MinimaAbsorb = l_Target->CountPctFromMaxHealth(l_AurEff->GetAmount());
+                    int32 l_MinimaAbsorb = int32(l_Target->CountPctFromMaxHealth(l_AurEff->GetAmount()));
 
                     /// We need to add some absorb amount to correct the absorb amount after that, and set it to 3% of max health
                     if (l_FutureAbsorb < l_MinimaAbsorb)
@@ -788,7 +788,7 @@ public:
                 return;
 
 
-            int32 damage = (float)caster->GetTotalAttackPowerValue(BASE_ATTACK) * 7.00f;
+            int32 damage = int32((float)caster->GetTotalAttackPowerValue(BASE_ATTACK) * 7.00f);
             damage = caster->SpellDamageBonusDone(unit, spellInfo, damage, HEAL, effectInfo);
             damage = unit->SpellDamageBonusTaken(caster, spellInfo, damage, HEAL, effectInfo);
 
@@ -809,7 +809,7 @@ public:
 
             if (Aura* aur = caster->GetAura(77513)) // Mastery: Blood Shield
             {
-                int32 bp0 = float(caster->GetMaxHealth() * float(aur->GetEffect(EFFECT_0)->GetAmount() / 100.0f));
+                int32 bp0 = int32(caster->GetMaxHealth() * float(aur->GetEffect(EFFECT_0)->GetAmount() / 100.0f));
 
                 if (Aura* aurShield = caster->GetAura(77535))
                     bp0 += aurShield->GetEffect(0)->GetAmount();
@@ -960,7 +960,7 @@ public:
                 return;
 
             int32 pct = GetSpellInfo()->GetEffect(EFFECT_0)->BasePoints;
-            SetHitDamage(GetHitDamage() + target->CountPctFromMaxHealth(pct));
+            SetHitDamage(int32(GetHitDamage() + target->CountPctFromMaxHealth(pct)));
 
             if (caster->HasAura(SPELL_DK_VORACIOUS))
                 if (!caster->HasAura(SPELL_DK_VORACIOUS_MOD_LEECH))
@@ -986,7 +986,7 @@ public:
 
                 float stack = aur->GetStackAmount();
 
-                int32 damage = (float)caster->ToPlayer()->GetTotalAttackPowerValue(BASE_ATTACK) * 0.8f * stack;
+                int32 damage = int32((float)caster->ToPlayer()->GetTotalAttackPowerValue(BASE_ATTACK) * 0.8f * stack);
                 damage = caster->SpellDamageBonusDone(unit, spellInfo, damage, HEAL, effectInfo);
                 damage = unit->SpellDamageBonusTaken(caster, spellInfo, damage, HEAL, effectInfo);
                 SetHitDamage(damage);
@@ -1021,7 +1021,7 @@ public:
                     for (uint8 i = 0; i < 2 && !runes.empty(); i++)
                     {
                         std::vector<uint8>::iterator itr = runes.begin();
-                        std::advance(itr, urand(0, runes.size() - 1));
+                        std::advance(itr, urand(0, uint32(runes.size() - 1)));
                         uint32 runesState = caster->ToPlayer()->GetRunesState();
                         caster->ToPlayer()->SetRuneCooldown((*itr), 0);
                         if ((caster->ToPlayer()->GetRunesState() & ~runesState) != 0)
@@ -1099,7 +1099,7 @@ class spell_dk_ghoul_explode : public SpellScript
 
     void HandleDamage(SpellEffIndex /*effIndex*/)
     {
-        SetHitDamage(GetCaster()->CountPctFromMaxHealth(GetEffectInfo(EFFECT_2)->CalcValue(GetCaster())));
+        SetHitDamage(int32(GetCaster()->CountPctFromMaxHealth(GetEffectInfo(EFFECT_2)->CalcValue(GetCaster()))));
     }
 
     void Suicide(SpellEffIndex /*effIndex*/)
@@ -1801,7 +1801,7 @@ public:
 
         void CalculateAmount(AuraEffect const* /*aurEff*/, int32& amount, bool & /*canBeRecalculated*/)
         {
-            amount = GetUnitOwner()->CountPctFromMaxHealth(40);
+            amount = int32(GetUnitOwner()->CountPctFromMaxHealth(40));
         }
 
         void Absorb(AuraEffect* /*aurEff*/, DamageInfo& dmgInfo, uint32& absorbAmount)
@@ -1814,7 +1814,7 @@ public:
             Unit* target = GetTarget();
             // Patch 6.0.2 (October 14, 2014): Anti-Magic Shell now restores 2 Runic Power per 1% of max health absorbed.
             float damagePerRp = target->CountPctFromMaxHealth(1) / 2.0f;
-            int32 energizeAmount = (absorbAmount / damagePerRp) * 10.0f;
+            int32 energizeAmount = int32((absorbAmount / damagePerRp) * 10.0f);
             target->CastCustomSpell(target, SPELL_DK_RUNIC_POWER_ENERGIZE, &energizeAmount, nullptr, nullptr, true, nullptr, aurEff);
         }
 
@@ -1874,7 +1874,7 @@ public:
                 for (uint8 i = 0; i < 2 && !runes.empty(); i++)
                 {
                     std::vector<uint8>::iterator itr = runes.begin();
-                    std::advance(itr, urand(0, runes.size() - 1));
+                    std::advance(itr, urand(0, uint32(runes.size() - 1)));
                     uint32 runesState = player->GetRunesState();
                     player->SetRuneCooldown((*itr), 0);
                     if ((player->GetRunesState() & ~runesState) != 0)
@@ -2474,7 +2474,7 @@ public:
                     if (stack > maxStack)
                         stack = maxStack;
 
-                    amount = caster->CountPctFromMaxHealth(GetSpellInfo()->GetEffect(EFFECT_3)->CalcValue(caster)) * stack;
+                    amount = int32(caster->CountPctFromMaxHealth(GetSpellInfo()->GetEffect(EFFECT_3)->CalcValue(caster)) * stack);
                     if (Player* _player = caster->ToPlayer())
                     {
                         if (_player->HasSpell(221699)) // Blood Tap

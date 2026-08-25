@@ -308,7 +308,7 @@ void WardenWin::RequestData()
     buff.hexlike();
 
     // Encrypt with warden RC4 key
-    EncryptData(buff.contents(), buff.size());
+    EncryptData(buff.contents(), uint32(buff.size()));
 
     WorldPacket pkt(SMSG_WARDEN3_DATA, buff.size());
     pkt.append(buff);

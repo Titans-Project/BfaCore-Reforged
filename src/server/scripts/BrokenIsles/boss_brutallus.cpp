@@ -152,7 +152,7 @@ public:
         void FilterTargets(std::list<WorldObject*>& targets)
         {
             if (targets.size() > 1)
-                targetCount = targets.size();
+                targetCount = uint8(targets.size());
         }
 
         void HandleDamage(SpellEffIndex /*effIndex*/)

@@ -143,7 +143,7 @@ void InstanceScript::OnCreatureCreate(Creature* creature)
                     if (CreatureTemplate const* cTemp = sObjectMgr->GetCreatureTemplate(creature->GetEntry()))
                     {
                         if (cTemp->ModHealth == 1)
-                            creature->SetBaseHealth(creature->GetMaxHealth() * multiplier->healthMultiplier);
+                            creature->SetBaseHealth(uint64(creature->GetMaxHealth() * multiplier->healthMultiplier));
                     }
                 break;
             }
@@ -643,10 +643,10 @@ void InstanceScript::UpdateOperations(uint32 const diff)
         }
     }
 
-    uint32 timedDelayedOperationCountToRemove = std::count_if(std::begin(timedDelayedOperations), std::end(timedDelayedOperations), [](const std::pair<int32, std::function<void()>> & pair) -> bool
+    uint32 timedDelayedOperationCountToRemove = uint32(std::count_if(std::begin(timedDelayedOperations), std::end(timedDelayedOperations), [](const std::pair<int32, std::function<void()>> & pair) -> bool
     {
         return pair.second == nullptr;
-    });
+    }));
 
     for (uint32 i = 0; i < timedDelayedOperationCountToRemove; i++)
     {
@@ -1727,7 +1727,7 @@ void InstanceScript::CompleteChallengeMode()
                 l_Statement->setUInt32(1, totalDurations);
                 l_Statement->setUInt32(2, l_NewBestMedal ? _challengeModeLevel : l_Challenge->BestMedal);
                 l_Statement->setUInt32(3, l_NewBestMedal ? uint32(time(nullptr)) : l_Challenge->BestMedalDate);
-                l_Statement->setUInt32(4, player->GetGUID().GetCounter());
+                l_Statement->setUInt32(4, uint32(player->GetGUID().GetCounter()));
                 l_Statement->setUInt32(5, mapChallengeModeEntry->ID);
                 CharacterDatabase.Execute(l_Statement);
 
@@ -1750,7 +1750,7 @@ void InstanceScript::CompleteChallengeMode()
             {
                 CharacterDatabasePreparedStatement* l_Statement = CharacterDatabase.GetPreparedStatement(CHAR_INS_COMPLETED_CHALLENGE);
                 //"INSERT INTO character_completed_challenges (guid, KeyId, MapId, BestCompletion, LastCompletion, Medal, MedalDate) VALUE (?, ?, ?, ?, ?, ?, ?)"
-                l_Statement->setUInt32(0, player->GetGUID().GetCounter());
+                l_Statement->setUInt32(0, uint32(player->GetGUID().GetCounter()));
                 l_Statement->setUInt32(1, mapChallengeModeEntry->ID);
                 l_Statement->setUInt32(2, instance->GetId());
                 l_Statement->setUInt32(3, totalDurations);

@@ -572,7 +572,7 @@ void SpellHistory::ModifyCooldown(uint32 spellId, Clock::duration offset)
         WorldPackets::Spells::ModifyCooldown modifyCooldown;
         modifyCooldown.IsPet = _owner != playerOwner;
         modifyCooldown.SpellID = spellId;
-        modifyCooldown.DeltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(offset).count();
+        modifyCooldown.DeltaTime = int32(std::chrono::duration_cast<std::chrono::milliseconds>(offset).count());
         playerOwner->SendDirectMessage(modifyCooldown.Write());
     }
 }

@@ -1196,7 +1196,7 @@ class spell_algalon_collapse : public SpellScriptLoader
             void HandlePeriodic(AuraEffect const* /*aurEff*/)
             {
                 PreventDefaultAction();
-                GetTarget()->DealDamage(GetTarget(), GetTarget()->CountPctFromMaxHealth(1), nullptr, NODAMAGE);
+                GetTarget()->DealDamage(GetTarget(), uint32(GetTarget()->CountPctFromMaxHealth(1)), nullptr, NODAMAGE);
             }
 
             void Register() override
@@ -1234,7 +1234,7 @@ class spell_algalon_big_bang : public SpellScriptLoader
 
             void CountTargets(std::list<WorldObject*>& targets)
             {
-                _targetCount = targets.size();
+                _targetCount = uint32(targets.size());
             }
 
             void CheckTargets()

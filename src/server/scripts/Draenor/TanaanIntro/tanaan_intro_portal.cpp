@@ -206,7 +206,7 @@ public:
                 {
                     case EVENT_CHECK_ENNEMY:
                     {
-                        uint8 currentEnnemyNumber = summons.size();
+                        uint8 currentEnnemyNumber = uint8(summons.size());
                         while (currentEnnemyNumber++ < ennemyNumber)
                             SpawnEnnemy();
 

@@ -868,7 +868,7 @@ public:
 
         void CheckTargets(std::list<WorldObject*>& targets)
         {
-            targetList = targets.size();
+            targetList = uint32(targets.size());
         }
 
         void RecalculateDamage(SpellEffIndex index)
@@ -983,7 +983,7 @@ public:
 
             float distance = 50.0f;
 
-            SetHitDamage(GetHitDamage() / distance);
+            SetHitDamage(int32(GetHitDamage() / distance));
         }
 
         void Register()

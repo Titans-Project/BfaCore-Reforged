@@ -380,7 +380,7 @@ public:
                     return !pCreature->IsAlive();
                 });
 
-            return heads.size() - 1;
+            return int32(heads.size() - 1);
         }
 
         // Used to add Elemental Bonds to all extra heads of a type.
@@ -434,7 +434,7 @@ public:
         Creature* SpawnNewHead(uint32 uiEntry, bool concealing)
         {
             Position headPos;
-            uint8 offset = urand(0, pairv.size() - 1);
+            uint8 offset = uint8(urand(0, uint32(pairv.size() - 1)));
 
             switch (uiEntry)
             {
@@ -1009,7 +1009,7 @@ public:
                 ++headKills;
 
                 // Remove 15% health each time a head is killed.
-                me->SetHealth(me->GetMaxHealth() - ((0.15 * me->GetMaxHealth()) * headKills));
+                me->SetHealth(uint64(me->GetMaxHealth() - ((0.15 * me->GetMaxHealth()) * headKills)));
 
                 // Check the head positions and find the right position on which to summon the new ones.
                 uint32 summonEntry = summon->GetEntry();
@@ -2843,7 +2843,7 @@ public:
                     if (distance > SAFE_DISTANCE)
                         distance = SAFE_DISTANCE;
 
-                    SetHitDamage(((mindmg / -SAFE_DISTANCE) * distance) + maxdmg);
+                    SetHitDamage(int32(((mindmg / -SAFE_DISTANCE) * distance) + maxdmg));
                 }
             }
         }

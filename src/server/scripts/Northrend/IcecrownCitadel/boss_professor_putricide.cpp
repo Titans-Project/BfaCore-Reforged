@@ -473,7 +473,7 @@ class boss_professor_putricide : public CreatureScript
                             while (!list.empty())
                             {
                                 std::list<Creature*>::iterator itr = list.begin();
-                                std::advance(itr, urand(0, list.size()-1));
+                                std::advance(itr, urand(0, uint32(list.size()-1)));
                                 _oozeFloodDummyGUIDs[i++] = (*itr)->GetGUID();
                                 list.erase(itr);
                             }
@@ -520,7 +520,7 @@ class boss_professor_putricide : public CreatureScript
                                 while (half < targetList.size())
                                 {
                                     std::list<Unit*>::iterator itr = targetList.begin();
-                                    advance(itr, urand(0, targetList.size() - 1));
+                                    advance(itr, urand(0, uint32(targetList.size() - 1)));
                                     (*itr)->CastSpell(*itr, SPELL_OOZE_VARIABLE, true);
                                     targetList.erase(itr);
                                 }
@@ -1633,7 +1633,7 @@ class spell_stinky_precious_decimate : public SpellScriptLoader
             {
                 if (GetHitUnit()->GetHealthPct() > float(GetEffectValue()))
                 {
-                    uint32 newHealth = GetHitUnit()->GetMaxHealth() * uint32(GetEffectValue()) / 100;
+                    uint32 newHealth = uint32(GetHitUnit()->GetMaxHealth() * uint32(GetEffectValue()) / 100);
                     GetHitUnit()->SetHealth(newHealth);
                 }
             }

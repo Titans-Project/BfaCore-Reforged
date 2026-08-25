@@ -549,7 +549,7 @@ public:
         {
             if (who->GetGUID() == me->GetGUID())
                 if (damage >= me->GetHealth())
-                    damage = me->GetHealth() - 1;
+                    damage = uint32(me->GetHealth() - 1);
         }
 
         void MoveInLineOfSight(Unit* who) override
@@ -1035,7 +1035,7 @@ public:
         {
             if (who->GetGUID() == me->GetGUID())
                 if (damage >= me->GetHealth())
-                    damage = me->GetHealth() - 1;
+                    damage = uint32(me->GetHealth() - 1);
         }
 
         void MoveInLineOfSight(Unit* who) override

@@ -213,7 +213,7 @@ public:
     void InitializeArgsVector(std::vector<std::string>& argsVector);
     void CheckOptionalArgs(std::vector<CommandArgsType>& argsTypeVector, uint8 argsVectorSize);
 
-    uint32 Count() { return _args.size(); }
+    uint32 Count() { return uint32(_args.size()); }
 
     template<typename T>
     T GetNextArg() { return GetArg<T>(_pos++); }

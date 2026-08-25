@@ -252,7 +252,7 @@ class spell_ahn_kahet_swarm : public SpellScriptLoader
 
             void CountTargets(std::list<WorldObject*>& targets)
             {
-                _targetCount = targets.size();
+                _targetCount = uint32(targets.size());
             }
 
             void HandleDummy(SpellEffIndex /*effIndex*/)

@@ -790,7 +790,7 @@ class boss_madness_of_deathwing : public CreatureScript
                                 DoZoneInCombat(pDeathwing, 200.0f);
                                 pDeathwing->SetMaxHealth(me->GetMaxHealth());
                                 pDeathwing->SetHealth(me->GetHealth());
-                                healthValue = me->GetHealth();
+                                healthValue = uint32(me->GetHealth());
                                 pDeathwing->RemoveUnitFlag(UnitFlags(UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_NON_ATTACKABLE));
                                 pDeathwing->CastSpell(pDeathwing, SPELL_CORRUPTED_BLOOD_STACKER, true);
                                 pDeathwing->CastSpell(pDeathwing, SPELL_SHRAPNEL_AURA, true);
@@ -1632,7 +1632,7 @@ class npc_madness_of_deathwing_limb_tentacle : public CreatureScript
                         case EVENT_UPDATE_HEALTH:
                             if (Aura* aur = me->GetAura(SPELL_BURNING_BLOOD))
                             {
-                                uint8 newstack = 100 - me->GetHealthPct();
+                                uint8 newstack = uint8(100 - me->GetHealthPct());
                                 if (newstack > 100) newstack = 100;
                                 if (newstack < 1) newstack = 1;
                                 if (aur->GetStackAmount() != newstack)
@@ -2192,13 +2192,13 @@ class npc_madness_of_deathwing_deathwing : public CreatureScript
                     {
                         case EVENT_UPDATE_HEALTH:
                         {
-                            healthValueNew = me->GetHealth();
+                            healthValueNew = uint32(me->GetHealth());
                             if (AuraEffect* aurEff = me->GetAuraEffect(SPELL_CORRUPTED_BLOOD, EFFECT_1))
                             {
                                 int32 newamount = 100 * (phase + 1);
                                 aurEff->SetAmount(newamount);
                             }
-                            uint32 newamount = (float(healthValue - healthValueNew) / float(healthValue)) * 100.0f;
+                            uint32 newamount = uint32((float(healthValue - healthValueNew) / float(healthValue)) * 100.0f);
                             me->SetPower(POWER_ALTERNATE_POWER, newamount);
                             events.ScheduleEvent(EVENT_UPDATE_HEALTH, 500);
                             break;
@@ -3211,7 +3211,7 @@ class spell_madness_of_deathwing_elementium_blast : public SpellScriptLoader
 
                 float distance = GetCaster()->GetExactDist2d(GetHitUnit());
                 if (distance < 5.0f)
-                    SetHitDamage(GetHitDamage() * 1.33f);
+                    SetHitDamage(int32(GetHitDamage() * 1.33f));
                 else
                     SetHitDamage(int32(GetHitDamage() * 1.33f / (distance / 5.0f)));
             }
@@ -3311,7 +3311,7 @@ class spell_madness_of_deathwing_agonizing_pain : public SpellScriptLoader
                 if (!GetCaster() || !GetHitUnit())
                     return;
 
-                int32 damage = GetHitUnit()->CountPctFromMaxHealth(20);
+                int32 damage = int32(GetHitUnit()->CountPctFromMaxHealth(20));
 
                 SetHitDamage(damage);
             }
@@ -3342,7 +3342,7 @@ class spell_madness_of_deathwing_impale_aspect : public SpellScriptLoader
                 if (!GetCaster() || !GetHitUnit())
                     return;
 
-                int32 damage = GetHitUnit()->CountPctFromMaxHealth(25);
+                int32 damage = int32(GetHitUnit()->CountPctFromMaxHealth(25));
 
                 SetHitDamage(damage);
             }
@@ -3456,7 +3456,7 @@ class spell_madness_of_deathwing_unstable_corruption : public SpellScriptLoader
                 if (!GetCaster())
                     return;
 
-                int32 damage = 0.1f * GetCaster()->GetHealth();
+                int32 damage = int32(0.1f * GetCaster()->GetHealth());
 
                 SetHitDamage(damage);
             }
@@ -3620,9 +3620,9 @@ public:
             if (!GetCaster())
                 return;
             if (!GetCaster()->GetMap()->IsHeroic())
-                SetHitDamage(GetHitDamage() * 28.7f);
+                SetHitDamage(int32(GetHitDamage() * 28.7f));
             else
-                SetHitDamage(GetHitDamage() * 14.3f);
+                SetHitDamage(int32(GetHitDamage() * 14.3f));
         }
 
         void Register() override
@@ -3720,7 +3720,7 @@ public:
                 return;
 
             Unit* caster = GetCaster();
-            uint32 HealthMaxValue = caster->GetMaxHealth();
+            uint32 HealthMaxValue = uint32(caster->GetMaxHealth());
             float damage = float(healthValueNew) / float(HealthMaxValue) * 5.0f; //That is the 100% of health, just when the dps start
             if (!damage)
                 return;
@@ -3730,14 +3730,14 @@ public:
                 if (damage < 0.17f)
                     SetHitDamage(urand(21000, 34000));
                 else
-                    SetHitDamage(GetHitDamage() / damage);
+                    SetHitDamage(int32(GetHitDamage() / damage));
             }
             else
             {
                 if (damage < 0.22f)
                     SetHitDamage(urand(25000, 44000));
                 else
-                    SetHitDamage(GetHitDamage() / damage);
+                    SetHitDamage(int32(GetHitDamage() / damage));
             }
 
         }

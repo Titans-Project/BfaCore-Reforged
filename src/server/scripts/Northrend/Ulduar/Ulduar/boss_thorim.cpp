@@ -1001,7 +1001,7 @@ struct npc_thorim_trashAI : public ScriptedAI
                 if ((u->GetHealth() + GetRemainingHealOn(u) + _hp) > u->GetMaxHealth())
                     return false;
 
-                uint32 missingHP = u->GetMaxHealth() - u->GetHealth();
+                uint32 missingHP = uint32(u->GetMaxHealth() - u->GetHealth());
                 if (u->IsAlive() && _referer->IsFriendlyTo(u) && _referer->IsWithinDistInMap(u, _range) && missingHP > _hp)
                 {
                     _hp = missingHP;

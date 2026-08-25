@@ -135,7 +135,7 @@ void PetBattleSystem::JoinQueue(Player* player)
 
     auto ticket = new LFBTicket();
     ticket->State = LFBState::LFB_STATE_QUEUED;
-    ticket->JoinTime = time(nullptr);
+    ticket->JoinTime = uint32(time(nullptr));
     ticket->TicketID = 1;
     ticket->MatchingOpponent = nullptr;
     ticket->ProposalAnswer = LFBAnswer::LFB_ANSWER_PENDING;
@@ -308,8 +308,8 @@ void PetBattleSystem::Update(uint32 diff)
                         l_Left->State = LFBState::LFB_STATE_PROPOSAL;
                         l_Right->State = LFBState::LFB_STATE_PROPOSAL;
 
-                        l_Left->ProposalTime = time(nullptr);
-                        l_Right->ProposalTime = time(nullptr);
+                        l_Left->ProposalTime = uint32(time(nullptr));
+                        l_Right->ProposalTime = uint32(time(nullptr));
 
                         leftPlayer->GetSession()->SendPetBattleQueueStatus(l_Left->JoinTime, l_Left->TicketID, LFBUpdateStatus::LFB_PROPOSAL_BEGIN, _LFBAvgWaitTime);
                         rightPlayer->GetSession()->SendPetBattleQueueStatus(l_Right->JoinTime, l_Right->TicketID, LFBUpdateStatus::LFB_PROPOSAL_BEGIN, _LFBAvgWaitTime);
@@ -359,7 +359,7 @@ void PetBattleSystem::Update(uint32 diff)
                             if (data.Team == l_Left->TeamID)
                                 positions.push_back(data);
 
-                        auto location = positions[urand(0, positions.size() - 1)];
+                        auto location = positions[urand(0, uint32(positions.size() - 1))];
                         std::shared_ptr<BattlePetInstance> playerPets[MAX_PET_BATTLE_SLOTS];
                         std::shared_ptr<BattlePetInstance> playerOpposantPets[MAX_PET_BATTLE_SLOTS];
                         size_t playerPetCount = 0;
@@ -398,7 +398,7 @@ void PetBattleSystem::Update(uint32 diff)
 
                             playerPets[playerPetCount] = std::make_shared<BattlePetInstance>();
                             playerPets[playerPetCount]->CloneFrom(petSlots[i]);
-                            playerPets[playerPetCount]->Slot = playerPetCount;
+                            playerPets[playerPetCount]->Slot = int32(playerPetCount);
                             playerPets[playerPetCount]->OriginalBattlePet = petSlots[i];
 
                             ++playerPetCount;
@@ -416,7 +416,7 @@ void PetBattleSystem::Update(uint32 diff)
 
                             playerOpposantPets[playerOpposantPetCount] = std::make_shared<BattlePetInstance>();
                             playerOpposantPets[playerOpposantPetCount]->CloneFrom(petOpposantSlots[i]);
-                            playerOpposantPets[playerOpposantPetCount]->Slot = playerOpposantPetCount;
+                            playerOpposantPets[playerOpposantPetCount]->Slot = int32(playerOpposantPetCount);
                             playerOpposantPets[playerOpposantPetCount]->OriginalBattlePet = petOpposantSlots[i];
 
                             ++playerOpposantPetCount;
@@ -448,12 +448,12 @@ void PetBattleSystem::Update(uint32 diff)
                         leftPlayer->SetBattlegroundEntryPoint();
                         leftPlayer->ScheduleDelayedOperation(DELAYED_PET_BATTLE_INITIAL);
                         leftPlayer->SaveRecallPosition();
-                        leftPlayer->TeleportTo(location.MapID, location.Positions[PET_BATTLE_TEAM_1].GetPositionX() + 0.01f, location.Positions[PET_BATTLE_TEAM_1].GetPositionY() + 0.01f, location.Positions[PET_BATTLE_TEAM_1].GetPositionZ() + 0.01f, rightPlayer->GetOrientation() - M_PI);
+                        leftPlayer->TeleportTo(location.MapID, float(location.Positions[PET_BATTLE_TEAM_1].GetPositionX() + 0.01f), float(location.Positions[PET_BATTLE_TEAM_1].GetPositionY()) + 0.01f, float(location.Positions[PET_BATTLE_TEAM_1].GetPositionZ()) + 0.01f, float(rightPlayer->GetOrientation() - M_PI));
 
                         rightPlayer->SetBattlegroundEntryPoint();
                         rightPlayer->ScheduleDelayedOperation(DELAYED_PET_BATTLE_INITIAL);
                         rightPlayer->SaveRecallPosition();
-                        rightPlayer->TeleportTo(location.MapID, location.Positions[PET_BATTLE_TEAM_2].GetPositionX() + 0.01f, location.Positions[PET_BATTLE_TEAM_2].GetPositionY() + 0.01f, location.Positions[PET_BATTLE_TEAM_2].GetPositionZ() + 0.01f, leftPlayer->GetOrientation() - M_PI);
+                        rightPlayer->TeleportTo(location.MapID, float(location.Positions[PET_BATTLE_TEAM_2].GetPositionX() + 0.01f), float(location.Positions[PET_BATTLE_TEAM_2].GetPositionY()) + 0.01f, float(location.Positions[PET_BATTLE_TEAM_2].GetPositionZ()) + 0.01f, float(leftPlayer->GetOrientation() - M_PI));
 
                         ticketsToRemove.push_back(l_Left->RequesterGUID);
                         ticketsToRemove.push_back(l_Right->RequesterGUID);

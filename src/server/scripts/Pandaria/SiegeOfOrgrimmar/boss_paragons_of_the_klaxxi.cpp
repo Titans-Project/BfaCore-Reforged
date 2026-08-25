@@ -3920,7 +3920,7 @@ class spell_paragons_of_the_klaxxi_diminish : public SpellScriptLoader
 
                 if (GetHitUnit()->GetHealthPct() > 25.f)
                 {
-                    SetHitDamage(GetHitUnit()->CountPctFromCurHealth(34));
+                    SetHitDamage(int32(GetHitUnit()->CountPctFromCurHealth(34)));
                 }
                 else
                 {
@@ -4139,7 +4139,7 @@ class spell_paragons_of_the_klaxxi_fiery_edge_dmg : public SpellScriptLoader
                 else if (dist < 1.0f)
                     dist = 1.0f;
 
-                int32 reduceDamage = dist * ((FIERY_EDGE_DAMAGE_MAX - FIERY_EDGE_DAMAGE_MIN) / FIERY_EDGE_DAMAGE_DIST_MAX);
+                int32 reduceDamage = int32(dist * ((FIERY_EDGE_DAMAGE_MAX - FIERY_EDGE_DAMAGE_MIN) / FIERY_EDGE_DAMAGE_DIST_MAX));
                 int32 damage = FIERY_EDGE_DAMAGE_MAX - reduceDamage;
                 if (damage < FIERY_EDGE_DAMAGE_MIN)
                     damage = FIERY_EDGE_DAMAGE_MIN;
@@ -4934,7 +4934,7 @@ class spel_paragons_of_the_klaxxi_rapid_fire: public SpellScriptLoader
                 uint32 tick = aurEff->GetTickNumber();
                 if (tick < SONIC_PULSE_SPELLS_COUNT)
                 {
-                    float orientation = (tick + 1) * ((2 * M_PI) / SONIC_PULSE_SPELLS_COUNT);
+                    float orientation = float((tick + 1) * ((2 * M_PI) / SONIC_PULSE_SPELLS_COUNT));
                     GetUnitOwner()->SetFacingTo(orientation);
                     GetUnitOwner()->SetOrientation(orientation);
                     GetUnitOwner()->CastSpell(GetUnitOwner(), sonicPulseSpells[tick], true);

@@ -346,7 +346,7 @@ class boss_anubarak_trial : public CreatureScript
                             * - The correct implementation is more likely the comment below but it needs spell knowledge
                             */
                             GuidList::iterator i = _burrowGUID.begin();
-                            uint32 at = urand(0, _burrowGUID.size()-1);
+                            uint32 at = urand(0, uint32(_burrowGUID.size()-1));
                             for (uint32 k = 0; k < at; k++)
                                 ++i;
                             if (Creature* pBurrow = ObjectAccessor::GetCreature(*me, *i))
@@ -881,7 +881,7 @@ class spell_anubarak_leeching_swarm : public SpellScriptLoader
                 Unit* caster = GetCaster();
                 if (Unit* target = GetTarget())
                 {
-                    int32 lifeLeeched = target->CountPctFromCurHealth(aurEff->GetAmount());
+                    int32 lifeLeeched = int32(target->CountPctFromCurHealth(aurEff->GetAmount()));
                     if (lifeLeeched < 250)
                         lifeLeeched = 250;
                     // Damage

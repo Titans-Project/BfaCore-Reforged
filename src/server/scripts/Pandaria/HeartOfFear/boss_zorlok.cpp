@@ -682,7 +682,7 @@ class boss_zorlok : public CreatureScript
                         else
                         {
                             ++sonicRingCount;
-                            ringOrientation = CorrectAngle(ringOrientation + (clocksideRings ? -M_PI / 6 : M_PI / 6));
+                            ringOrientation = CorrectAngle(ringOrientation + float(clocksideRings ? -M_PI / 6 : M_PI / 6));
                             events.ScheduleEvent(EVENT_SUMMON_RINGS, 1000);
                         }
 
@@ -724,7 +724,7 @@ class boss_zorlok : public CreatureScript
                         else
                         {
                             ++sonicPulseCount;
-                            pulseOrientation = CorrectAngle(pulseOrientation + (clocksideRings ? -M_PI / 6 : M_PI / 6));
+                            pulseOrientation = CorrectAngle(pulseOrientation + float(clocksideRings ? -M_PI / 6 : M_PI / 6));
                             events.ScheduleEvent(EVENT_SONIC_PULSE, 1500);
                         }
 
@@ -929,7 +929,7 @@ class boss_zorlok : public CreatureScript
                             {
                                 if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 60.0f, true))
                                 {
-                                    exhaleTarget = target->GetGUID().GetCounter();
+                                    exhaleTarget = uint32(target->GetGUID().GetCounter());
                                     Talk(TALK_EXHALE);
                                     DoCast(target, SPELL_EXHALE, true);
                                 }
@@ -1294,7 +1294,7 @@ class spell_force_verve : public SpellScriptLoader
                 if (Player* target = GetHitPlayer())
                 {
                     if (target->HasAura(SPELL_NOISE_CANCELLING))
-                        SetHitDamage(GetHitDamage() * 0.25);
+                        SetHitDamage(int32(GetHitDamage() * 0.25));
                 }
             }
 
@@ -1332,7 +1332,7 @@ class spell_sonic_ring : public SpellScriptLoader
                 if (Player* target = GetHitPlayer())
                 {
                     if (target->HasAura(SPELL_NOISE_CANCELLING))
-                        SetHitDamage(GetHitDamage() * 0.4);
+                        SetHitDamage(int32(GetHitDamage() * 0.4));
                 }
             }
 
@@ -1383,7 +1383,7 @@ class spell_sonic_pulse : public SpellScriptLoader
                 if (Player* target = GetHitPlayer())
                 {
                     if (target->HasAura(SPELL_NOISE_CANCELLING))
-                        SetHitDamage(GetHitDamage() * 0.4);
+                        SetHitDamage(int32(GetHitDamage() * 0.4));
                 }
             }
 
@@ -1561,7 +1561,7 @@ class spell_zorlok_exhale_damage : public SpellScriptLoader
                     if (nearestTarget != nullptr && nearestTarget != currentTarget)
                     {
                         // Set Zor'lok's current Exhale target to that nearest player.
-                        uint32 targetLowGuid = nearestTarget->GetGUID().GetCounter();
+                        uint32 targetLowGuid = uint32(nearestTarget->GetGUID().GetCounter());
                         caster->GetAI()->SetData(TYPE_EXHALE_TARGET, targetLowGuid);
                     }
                 }

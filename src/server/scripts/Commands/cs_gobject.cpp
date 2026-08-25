@@ -192,7 +192,7 @@ public:
         /// @todo is it really necessary to add both the real and DB table guid here ?
         sObjectMgr->AddGameobjectToGrid(spawnId, ASSERT_NOTNULL(sObjectMgr->GetGOData(spawnId)));
 
-        player->SetLastTargetedGO(spawnId);
+        player->SetLastTargetedGO(uint32(spawnId));
 
         handler->PSendSysMessage(LANG_GAMEOBJECT_ADD, objectId, objectInfo->name.c_str(), std::to_string(spawnId).c_str(), player->GetPositionX(), player->GetPositionY(), player->GetPositionZ());
         return true;
@@ -227,7 +227,7 @@ public:
 
         if (GameObject* tempGob = player->SummonGameObject(objectId, *player, QuaternionData::fromEulerAnglesZYX(player->GetOrientation(), 0.0f, 0.0f), spawntm))
         {
-            player->SetLastTargetedGO(tempGob->GetGUID().GetCounter());
+            player->SetLastTargetedGO(uint32(tempGob->GetGUID().GetCounter()));
             return true;
         }
 
@@ -337,7 +337,7 @@ public:
 
         GameObject* target = handler->GetObjectFromPlayerMapByDbGuid(guidLow);
 
-        player->SetLastTargetedGO(guidLow);
+        player->SetLastTargetedGO(uint32(guidLow));
         handler->PSendSysMessage(LANG_GAMEOBJECT_DETAIL, std::to_string(guidLow).c_str(), objectInfo->name.c_str(), std::to_string(guidLow).c_str(), id, x, y, z, mapId, o, phaseId, phaseGroup);
 
         if (target)

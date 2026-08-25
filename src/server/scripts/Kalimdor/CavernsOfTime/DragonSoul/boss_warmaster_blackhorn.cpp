@@ -1788,7 +1788,7 @@ class spell_warmaster_blackhorn_twilight_barrage_dmg : public SpellScriptLoader
                     if (Creature* pShip = GetCaster()->FindNearestCreature(NPC_SKYFIRE, 300.0f))
                     {
                         int32 bp0 = GetSpellInfo()->GetEffect(EFFECT_0)->BasePoints;
-                        bp0 *= 1.5f;
+                        bp0 = int32(bp0 * 1.5f);
                         GetCaster()->CastCustomSpell(pShip, SPELL_TWILIGHT_BARRAGE_DMG_2, &bp0, NULL, NULL, true);
                     }
                 }
@@ -1823,7 +1823,7 @@ class spell_warmaster_blackhorn_twilight_onslaught_dmg : public SpellScriptLoade
                 if (Creature* pShip = GetCaster()->FindNearestCreature(NPC_SKYFIRE, 300.0f))
                 {
                     int32 bp0 = GetSpellInfo()->GetEffect(EFFECT_0)->BasePoints;
-                    bp0 /= targets.size() + 1;
+                    bp0 = int32(bp0 / (targets.size() + 1));
                     GetCaster()->CastCustomSpell(pShip, SPELL_TWILIGHT_ONSLAUGHT_DMG_2, &bp0, NULL, NULL, true);
                 }
             }
@@ -2058,7 +2058,7 @@ class spell_warmaster_blackhorn_broadside : public SpellScriptLoader
 
                 if (Creature* pShip = GetCaster()->FindNearestCreature(NPC_SKYFIRE, 300.0f))
                 {
-                    int32 bp0 = pShip->CountPctFromCurHealth(20);
+                    int32 bp0 = int32(pShip->CountPctFromCurHealth(20));
                     GetCaster()->CastCustomSpell(pShip, SPELL_BROADSIDE_DMG, &bp0, NULL, NULL, true);
                 }
             }

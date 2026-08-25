@@ -113,7 +113,7 @@ public:
         {
             if (spellInfo->Id == TanaanSpells::SpellArcaneBarrage)
             {
-                p_Caster->DealDamage(me, me->GetHealth());
+                p_Caster->DealDamage(me, uint32(me->GetHealth()));
                 me->DespawnOrUnsummon();
             }
         }

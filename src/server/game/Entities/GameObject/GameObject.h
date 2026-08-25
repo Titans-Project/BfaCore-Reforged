@@ -215,7 +215,7 @@ public:
         void AddLootMode(uint16 lootMode) { m_LootMode |= lootMode; }
         void RemoveLootMode(uint16 lootMode) { m_LootMode &= ~lootMode; }
         void ResetLootMode() { m_LootMode = LOOT_MODE_DEFAULT; }
-        void SetLootGenerationTime() { m_lootGenerationTime = time(nullptr); }
+        void SetLootGenerationTime() { m_lootGenerationTime = uint32(time(nullptr)); }
         uint32 GetLootGenerationTime() const { return m_lootGenerationTime; }
         void SetInstanceLootMode();
 

@@ -322,7 +322,7 @@ void BattlePet::UpdateStats()
         qualityFactor = aualityInfo->StateMultiplier;
 
     for (size_t i = 0; i < 3; ++i)
-        stats[i] = stats[i] * Level * qualityFactor;
+        stats[i] = int32(stats[i] * Level * qualityFactor);
 
     InfoPower = InfoPower / 100;
     InfoSpeed = InfoSpeed / 100;
@@ -399,7 +399,7 @@ int32 BattlePetInstance::GetSpeed()
 uint32 BattlePetInstance::GetMaxXPForCurrentLevel()
 {
     if (auto xpTable = sBattlePetXPTable.GetRow(Level))
-        return xpTable->Xp * xpTable->Wins;
+        return uint32(xpTable->Xp * xpTable->Wins);
     else
         return 0;
 }

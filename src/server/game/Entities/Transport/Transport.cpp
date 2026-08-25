@@ -59,7 +59,7 @@ bool Transport::Create(ObjectGuid::LowType guidlow, uint32 entry, uint32 mapid, 
         return false;
     }
 
-    Object::_Create(ObjectGuid::Create<HighGuid::Transport>(guidlow));
+    Object::_Create(ObjectGuid::Create<HighGuid::Transport>(uint32(guidlow)));
 
     GameObjectTemplate const* goinfo = sObjectMgr->GetGameObjectTemplate(entry);
     if (!goinfo)

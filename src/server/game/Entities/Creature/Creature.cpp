@@ -925,10 +925,10 @@ void Creature::Regenerate(Powers power)
             {
                 float ManaIncreaseRate = sWorld->getRate(RATE_POWER_MANA);
 
-                addvalue = int32((27.0f / 5.0f + 17.0f) * ManaIncreaseRate);
+                addvalue = (27.0f / 5.0f + 17.0f) * ManaIncreaseRate;
             }
             else
-                addvalue = maxValue / 3;
+                addvalue = float(maxValue / 3);
 
             break;
         }
@@ -953,8 +953,8 @@ void Creature::RegenerateHealth()
     if (!isRegeneratingHealth())
         return;
 
-    uint32 curValue = GetHealth();
-    uint32 maxValue = GetMaxHealth();
+    uint32 curValue = uint32(GetHealth());
+    uint32 maxValue = uint32(GetMaxHealth());
 
     if (curValue >= maxValue)
         return;
@@ -966,13 +966,13 @@ void Creature::RegenerateHealth()
     {
         float HealthIncreaseRate = sWorld->getRate(RATE_HEALTH);
 
-        addvalue = 0.015f * ((float)GetMaxHealth()) * HealthIncreaseRate;
+        addvalue = uint32(0.015f * ((float)GetMaxHealth()) * HealthIncreaseRate);
     }
     else
         addvalue = maxValue/3;
 
     // Apply modifiers (if any).
-    addvalue *= GetTotalAuraMultiplier(SPELL_AURA_MOD_HEALTH_REGEN_PERCENT);
+    addvalue = uint32(addvalue * GetTotalAuraMultiplier(SPELL_AURA_MOD_HEALTH_REGEN_PERCENT));
 
     addvalue += GetTotalAuraModifier(SPELL_AURA_MOD_REGEN) * CREATURE_REGEN_INTERVAL  / (5 * IN_MILLISECONDS);
 
@@ -1399,7 +1399,7 @@ void Creature::SaveToDB(uint32 mapid, std::vector<Difficulty> const& spawnDiffic
     // prevent add data integrity problems
     data.spawndist = GetDefaultMovementType() == IDLE_MOTION_TYPE ? 0.0f : m_respawnradius;
     data.currentwaypoint = 0;
-    data.curhealth = GetHealth();
+    data.curhealth = uint32(GetHealth());
     data.curmana = GetPower(POWER_MANA);
     // prevent add data integrity problems
     data.movementType = !m_respawnradius && GetDefaultMovementType() == RANDOM_MOTION_TYPE
@@ -1452,7 +1452,7 @@ void Creature::SaveToDB(uint32 mapid, std::vector<Difficulty> const& spawnDiffic
     stmt->setUInt32(index++, m_respawnDelay);
     stmt->setFloat(index++, m_respawnradius);
     stmt->setUInt32(index++, 0);
-    stmt->setUInt32(index++, GetHealth());
+    stmt->setUInt32(index++, uint32(GetHealth()));
     stmt->setUInt32(index++, GetPower(POWER_MANA));
     stmt->setUInt8(index++, uint8(GetDefaultMovementType()));
     stmt->setUInt64(index++, npcflag);
@@ -1471,8 +1471,8 @@ void Creature::SelectLevel()
 
     // level
     std::pair<int16, int16> levels = cInfo->GetMinMaxLevel();
-    uint8 minlevel = std::min(levels.first, levels.second);
-    uint8 maxlevel = std::max(levels.first, levels.second);
+    uint8 minlevel = uint8(std::min(levels.first, levels.second));
+    uint8 maxlevel = uint8(std::max(levels.first, levels.second));
     uint8 level = minlevel == maxlevel ? minlevel : urand(minlevel, maxlevel);
 
     if (HasScalableLevels())
@@ -1484,8 +1484,8 @@ void Creature::SelectLevel()
         SetUpdateFieldValue(m_values.ModifyValue(&Unit::m_unitData).ModifyValue(&UF::UnitData::ScalingLevelMin), scaling->MinLevel);
         SetUpdateFieldValue(m_values.ModifyValue(&Unit::m_unitData).ModifyValue(&UF::UnitData::ScalingLevelMax), scaling->MaxLevel);
 
-        int8 mindelta = std::min(scaling->DeltaLevelMax, scaling->DeltaLevelMin);
-        int8 maxdelta = std::max(scaling->DeltaLevelMax, scaling->DeltaLevelMin);
+        int8 mindelta = int8(std::min(scaling->DeltaLevelMax, scaling->DeltaLevelMin));
+        int8 maxdelta = int8(std::max(scaling->DeltaLevelMax, scaling->DeltaLevelMin));
         int8 delta = mindelta == maxdelta ? mindelta : irand(mindelta, maxdelta);
 
         SetUpdateFieldValue(m_values.ModifyValue(&Unit::m_unitData).ModifyValue(&UF::UnitData::ScalingLevelDelta), delta);
@@ -1507,7 +1507,7 @@ void Creature::UpdateLevelDependantStats()
     // health
     float healthmod = _GetHealthMod(rank);
 
-    uint32 basehp = GetMaxHealthByLevel(level);
+    uint32 basehp = uint32(GetMaxHealthByLevel(level));
     uint32 health = uint32(basehp * healthmod);
 
     SetCreateHealth(health);
@@ -1547,8 +1547,8 @@ void Creature::UpdateLevelDependantStats()
     SetBaseWeaponDamage(RANGED_ATTACK, MINDAMAGE, weaponBaseMinDamage);
     SetBaseWeaponDamage(RANGED_ATTACK, MAXDAMAGE, weaponBaseMaxDamage);
 
-    SetModifierValue(UNIT_MOD_ATTACK_POWER, BASE_VALUE, stats->AttackPower);
-    SetModifierValue(UNIT_MOD_ATTACK_POWER_RANGED, BASE_VALUE, stats->RangedAttackPower);
+    SetModifierValue(UNIT_MOD_ATTACK_POWER, BASE_VALUE, float(stats->AttackPower));
+    SetModifierValue(UNIT_MOD_ATTACK_POWER_RANGED, BASE_VALUE, float(stats->RangedAttackPower));
 
     float armor = GetBaseArmorForLevel(level); /// @todo Why is this treated as uint32 when it's a float?
     SetModifierValue(UNIT_MOD_ARMOR, BASE_VALUE, armor);
@@ -1789,7 +1789,7 @@ void Creature::SetSpawnHealth()
     }
     else
     {
-        curhealth = GetMaxHealth();
+        curhealth = uint32(GetMaxHealth());
         SetFullPower(POWER_MANA);
     }
 
@@ -2155,7 +2155,7 @@ void Creature::ForcedDespawn(uint32 timeMSToDespawn, Seconds const& forceRespawn
     bool overrideRespawnTime = true;
     if (forceRespawnTimer > Seconds::zero())
     {
-        SetRespawnTime(forceRespawnTimer.count());
+        SetRespawnTime(uint32(forceRespawnTimer.count()));
         overrideRespawnTime = false;
     }
 
@@ -2840,7 +2840,7 @@ uint64 Creature::GetMaxHealthByLevel(uint8 level) const
 
     float baseHealth = sDB2Manager.EvaluateExpectedStat(ExpectedStatType::CreatureHealth, level, cInfo->GetHealthScalingExpansion(), scaling->ContentTuningID, Classes(cInfo->unit_class));
 
-    return baseHealth * cInfo->ModHealth * cInfo->ModHealthExtra;
+    return uint64(baseHealth * cInfo->ModHealth * cInfo->ModHealthExtra);
 }
 
 float Creature::GetHealthMultiplierForTarget(WorldObject const* target) const
@@ -2852,7 +2852,7 @@ float Creature::GetHealthMultiplierForTarget(WorldObject const* target) const
     if (getLevel() < levelForTarget)
         return 1.0f;
 
-    return double(GetMaxHealthByLevel(levelForTarget)) / double(GetCreateHealth());
+    return float(double(GetMaxHealthByLevel(levelForTarget)) / double(GetCreateHealth()));
 }
 
 float Creature::GetBaseDamageForLevel(uint8 level) const

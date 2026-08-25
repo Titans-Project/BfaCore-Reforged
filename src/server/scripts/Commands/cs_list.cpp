@@ -96,7 +96,7 @@ public:
         uint32 creatureCount = 0;
         result = WorldDatabase.PQuery("SELECT COUNT(guid) FROM creature WHERE id='%u'", creatureId);
         if (result)
-            creatureCount = (*result)[0].GetUInt64();
+            creatureCount = uint32((*result)[0].GetUInt64());
 
         if (handler->GetSession())
         {
@@ -173,7 +173,7 @@ public:
         result = CharacterDatabase.Query(stmt);
 
         if (result)
-            inventoryCount = (*result)[0].GetUInt64();
+            inventoryCount = uint32((*result)[0].GetUInt64());
 
         stmt = CharacterDatabase.GetPreparedStatement(CHAR_SEL_CHAR_INVENTORY_ITEM_BY_ENTRY);
         stmt->setUInt32(0, itemId);
@@ -222,7 +222,7 @@ public:
         result = CharacterDatabase.Query(stmt);
 
         if (result)
-            mailCount = (*result)[0].GetUInt64();
+            mailCount = uint32((*result)[0].GetUInt64());
 
         if (count > 0)
         {
@@ -269,7 +269,7 @@ public:
         result = CharacterDatabase.Query(stmt);
 
         if (result)
-            auctionCount = (*result)[0].GetUInt64();
+            auctionCount = uint32((*result)[0].GetUInt64());
 
         if (count > 0)
         {
@@ -306,7 +306,7 @@ public:
         result = CharacterDatabase.Query(stmt);
 
         if (result)
-            guildCount = (*result)[0].GetUInt64();
+            guildCount = uint32((*result)[0].GetUInt64());
 
         stmt = CharacterDatabase.GetPreparedStatement(CHAR_SEL_GUILD_BANK_ITEM_BY_ENTRY);
         stmt->setUInt32(0, itemId);
@@ -385,7 +385,7 @@ public:
         uint32 objectCount = 0;
         result = WorldDatabase.PQuery("SELECT COUNT(guid) FROM gameobject WHERE id='%u'", gameObjectId);
         if (result)
-            objectCount = (*result)[0].GetUInt64();
+            objectCount = uint32((*result)[0].GetUInt64());
 
         if (handler->GetSession())
         {
@@ -501,7 +501,7 @@ public:
         if (queryResult)
         {
             Field* fields       = queryResult->Fetch();
-            uint32 countMail    = fields[0].GetUInt64();
+            uint32 countMail    = uint32(fields[0].GetUInt64());
 
             std::string nameLink = handler->playerLink(targetName);
             handler->PSendSysMessage(LANG_LIST_MAIL_HEADER, countMail, nameLink.c_str(), targetGuid.ToString().c_str());
@@ -526,7 +526,7 @@ public:
                     uint64 expireTime       = queryFields[7].GetUInt32();
                     uint64 money            = queryFields[8].GetUInt64();
                     uint8 hasItem           = queryFields[9].GetUInt8();
-                    uint32 gold = money / GOLD;
+                    uint32 gold = uint32(money / GOLD);
                     uint32 silv = (money % GOLD) / SILVER;
                     uint32 copp = (money % GOLD) % SILVER;
                     std::string receiverStr = handler->playerLink(receiver);

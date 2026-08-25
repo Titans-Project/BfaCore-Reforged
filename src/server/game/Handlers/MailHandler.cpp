@@ -129,7 +129,7 @@ void WorldSession::HandleSendMail(WorldPackets::Mail::SendMail& packet)
         return;
     }
 
-    uint32 cost = !packet.Info.Attachments.empty() ? 30 * packet.Info.Attachments.size() : 30;  // price hardcoded in client
+    uint32 cost = !packet.Info.Attachments.empty() ? uint32(30 * packet.Info.Attachments.size()) : 30;  // price hardcoded in client
 
     int64 reqmoney = cost + packet.Info.SendMoney;
 
@@ -178,7 +178,7 @@ void WorldSession::HandleSendMail(WorldPackets::Mail::SendMail& packet)
         if (result)
         {
             Field* fields = result->Fetch();
-            mailsCount = fields[0].GetUInt64();
+            mailsCount = uint8(fields[0].GetUInt64());
         }
 
         receiverBnetAccountId = Battlenet::AccountMgr::GetIdByGameAccount(receiverAccountId);

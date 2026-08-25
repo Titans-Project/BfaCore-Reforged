@@ -1046,7 +1046,7 @@ class spell_roiling_deceit_damage : public SpellScript
         if (GetHitUnit()->GetMap()->IsMythic())
         {
             float damageMythic = 44009;
-            SetHitDamage(damageMythic);
+            SetHitDamage(int32(damageMythic));
         }
     }
 

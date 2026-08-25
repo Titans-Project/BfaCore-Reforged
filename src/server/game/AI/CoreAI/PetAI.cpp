@@ -229,7 +229,7 @@ void PetAI::UpdateAI(uint32 diff)
         if (!targetSpellStore.empty())
         {
             TargetSpellList::iterator it = targetSpellStore.begin();
-            std::advance(it, urand(0, targetSpellStore.size() - 1));
+            std::advance(it, urand(0, uint32(targetSpellStore.size() - 1)));
 
             Spell* spell  = (*it).second;
             Unit*  target = (*it).first;
@@ -432,7 +432,7 @@ void PetAI::HandleReturnMovement()
             ClearCharmInfoFlags();
             me->GetCharmInfo()->SetIsReturning(true);
             me->GetMotionMaster()->Clear();
-            me->GetMotionMaster()->MovePoint(me->GetGUID().GetCounter(), x, y, z);
+            me->GetMotionMaster()->MovePoint(uint32(me->GetGUID().GetCounter()), x, y, z);
         }
     }
     else if (me->GetCharmInfo()->HasCommandState(COMMAND_FOLLOW))

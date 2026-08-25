@@ -288,7 +288,7 @@ struct IllidariCouncilBossAI : public BossAI
     void DamageTaken(Unit* who, uint32 &damage) override
     {
         if (damage >= me->GetHealth() && who->GetGUID() != me->GetGUID())
-            damage = me->GetHealth() - 1;
+            damage = uint32(me->GetHealth() - 1);
     }
 
     void KilledUnit(Unit* victim) override
@@ -667,9 +667,9 @@ class spell_illidari_council_empyreal_equivalency : public SpellScriptLoader
             {
                 Unit* target = GetHitUnit();
                 int32 casterHpPct = (int32) GetCaster()->GetHealthPct();
-                uint32 newHp = target->CountPctFromMaxHealth(casterHpPct);
+                uint32 newHp = uint32(target->CountPctFromMaxHealth(casterHpPct));
                 if (newHp <= 0)
-                    newHp = target->GetMaxHealth() - 1;
+                    newHp = uint32(target->GetMaxHealth() - 1);
                 target->SetHealth(newHp);
             }
 

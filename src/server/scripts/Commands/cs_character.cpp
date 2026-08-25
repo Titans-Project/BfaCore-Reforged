@@ -613,7 +613,7 @@ public:
 
         CharacterDatabasePreparedStatement* charStmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_ACCOUNT_BY_GUID);
         charStmt->setUInt32(0, newAccountId);
-        charStmt->setUInt32(1, targetGuid.GetCounter());
+        charStmt->setUInt32(1, uint32(targetGuid.GetCounter()));
         CharacterDatabase.DirectExecute(charStmt);
 
         sWorld->UpdateRealmCharCount(oldAccountId);

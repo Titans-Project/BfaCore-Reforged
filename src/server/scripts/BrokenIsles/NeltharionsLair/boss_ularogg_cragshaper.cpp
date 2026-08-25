@@ -103,7 +103,7 @@ public:
                     if (validPlayers.size() == 0)
                         return;
 
-                    uint8 selectPlr = urand(1, validPlayers.size());
+                    uint8 selectPlr = uint8(urand(1, uint32(validPlayers.size())));
                     uint8 i = 0;
                     for (auto validPlr : validPlayers)
                     {
@@ -281,7 +281,7 @@ public:
 
         int32 round(float v)
         { 
-            return floor(v + 0.5f); 
+            return int32(floor(v + 0.5f));
         }
 
         void FillIdolsPositions(Creature* leftIdol, Creature* centerIdol, Creature* rightIdol, Creature* backIdol, Creature* frontIdol)
@@ -368,7 +368,7 @@ public:
                             if (instance->instance->GetDifficultyID() == DIFFICULTY_MYTHIC)
                                 manaRegenMod = 4;
 
-                            me->SetPower(POWER_MANA, me->GetPower(POWER_MANA)+(me->GetMaxPower(POWER_MANA)*manaRegenMod/100));
+                            me->SetPower(POWER_MANA, me->GetPower(POWER_MANA)+int32(me->GetMaxPower(POWER_MANA)*manaRegenMod/100));
 
                             if (me->GetPower(POWER_MANA) == me->GetMaxPower(POWER_MANA))
                             {
@@ -453,14 +453,14 @@ public:
                     if (centerIdol && leftIdol && rightIdol)
                     {
                         FillIdolsPositions(leftIdol, centerIdol, rightIdol, backIdol, frontIdol);
-                        Position leftIdolPos = SelectRandomIdolPos(urand(0, idolsPositions.size()-1));
+                        Position leftIdolPos = SelectRandomIdolPos(urand(0, uint32(idolsPositions.size()-1)));
 
                         FillIdolsPositions(leftIdol, centerIdol, rightIdol, backIdol, frontIdol);
                         for (std::list<Position>::iterator idPoss = idolsPositions.begin(); idPoss != idolsPositions.end(); ++idPoss)
                             if (*idPoss == leftIdolPos)
                                 idPoss = idolsPositions.erase(idPoss);
 
-                        Position centerIdolPos = SelectRandomIdolPos(urand(0, idolsPositions.size()-1));
+                        Position centerIdolPos = SelectRandomIdolPos(urand(0, uint32(idolsPositions.size()-1)));
 
                         FillIdolsPositions(leftIdol, centerIdol, rightIdol, backIdol, frontIdol);
                         for (std::list<Position>::iterator idPoss = idolsPositions.begin(); idPoss != idolsPositions.end(); ++idPoss)
@@ -472,7 +472,7 @@ public:
                                 idPoss = idolsPositions.erase(idPoss);
                         }
 
-                        Position rightIdolPos = SelectRandomIdolPos(urand(0, idolsPositions.size()-1));
+                        Position rightIdolPos = SelectRandomIdolPos(urand(0, uint32(idolsPositions.size()-1)));
 
                         if (instance && instance->instance->GetDifficultyID() >= 2 && backIdol && frontIdol)
                         {
@@ -489,7 +489,7 @@ public:
                                     idPoss = idolsPositions.erase(idPoss);
                             }
 
-                            Position backIdolPos = SelectRandomIdolPos(urand(0, idolsPositions.size()-1));
+                            Position backIdolPos = SelectRandomIdolPos(urand(0, uint32(idolsPositions.size()-1)));
 
                             FillIdolsPositions(leftIdol, centerIdol, rightIdol, backIdol, frontIdol);
                             for (std::list<Position>::iterator idPoss = idolsPositions.begin(); idPoss != idolsPositions.end(); ++idPoss)
@@ -507,7 +507,7 @@ public:
                                     idPoss = idolsPositions.erase(idPoss);
                             }
 
-                            Position frontIdolPos = SelectRandomIdolPos(urand(0, idolsPositions.size()-1));
+                            Position frontIdolPos = SelectRandomIdolPos(urand(0, uint32(idolsPositions.size()-1)));
                             frontIdol->GetMotionMaster()->MovePoint(idolsPoint, frontIdolPos);
                             backIdol->GetMotionMaster()->MovePoint(idolsPoint, backIdolPos);
                         }
@@ -614,7 +614,7 @@ public:
                         if (validPlayers.size() == 0)
                             return;
 
-                        uint8 selectPlr = urand(1, validPlayers.size());
+                        uint8 selectPlr = uint8(urand(1, uint32(validPlayers.size())));
                         uint8 i = 0;
                         for (auto validPlr : validPlayers)
                         {
@@ -683,7 +683,7 @@ public:
                     if (validPlayers.size() == 0)
                         return;
 
-                    uint8 selectPlr = urand(1, validPlayers.size());
+                    uint8 selectPlr = uint8(urand(1, uint32(validPlayers.size())));
                     uint8 i = 0;
                     for (auto validPlr : validPlayers)
                     {

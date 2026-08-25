@@ -349,7 +349,7 @@ public:
             return false;
         }
 
-        uint32 itemId = atoull(pitem);
+        uint32 itemId = uint32(atoull(pitem));
         if (!itemId)
             return false;
 

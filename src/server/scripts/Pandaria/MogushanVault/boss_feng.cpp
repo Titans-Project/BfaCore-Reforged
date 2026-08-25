@@ -908,7 +908,7 @@ class mob_siphon_shield : public CreatureScript
                                     itr = potenTargets.begin();
                             }
 
-                            soulsCount = potenTargets.size();
+                            soulsCount = uint8(potenTargets.size());
 
                             // Attacking targets -- Souls are summoned by player
                             for (auto target : potenTargets)
@@ -1438,7 +1438,7 @@ class spell_mogu_arcane_resonance : public SpellScriptLoader
 
             void FilterTargets(std::list<WorldObject*>& targets)
             {
-                targetCount = targets.size();
+                targetCount = uint8(targets.size());
             }
 
             void DealDamage()

@@ -275,7 +275,7 @@ public:
                 _points.push_back(point);
             }
 
-            at->InitSplines(_points, at->GetDuration() * 0.85);
+            at->InitSplines(_points, uint32(at->GetDuration() * 0.85));
 
         }
 

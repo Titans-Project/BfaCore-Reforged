@@ -461,7 +461,7 @@ public:
 
     uint32 GetPlayerTestsCount() const
     {
-        return m_testPlayers.size();
+        return uint32(m_testPlayers.size());
     }
 
     void RemoveAllPlayerTests()
@@ -1562,7 +1562,7 @@ public:
         {
             if (Creature* pAmalgam = GetAmalgam())
             {
-                uint32 damageCopy = damage > me->GetHealth() ? me->GetHealth() : damage;
+                uint32 damageCopy = damage > me->GetHealth() ? uint32(me->GetHealth()) : damage;
                 me->DealDamage(pAmalgam, pAmalgam->GetHealth() > damageCopy ? damageCopy : 0);
             }
         }
@@ -1680,7 +1680,7 @@ public:
         {
             if (Creature* pAmalgam = GetAmalgam())
             {
-                uint32 damageCopy = damage > me->GetHealth() ? me->GetHealth() : damage;
+                uint32 damageCopy = damage > me->GetHealth() ? uint32(me->GetHealth()) : damage;
                 me->DealDamage(pAmalgam, pAmalgam->GetHealth() > damageCopy ? damageCopy : 0);
             }
         }
@@ -1799,7 +1799,7 @@ public:
         {
             if (Creature* pAmalgam = GetAmalgam())
             {
-                uint32 damageCopy = damage > me->GetHealth() ? me->GetHealth() : damage;
+                uint32 damageCopy = damage > me->GetHealth() ? uint32(me->GetHealth()) : damage;
                 me->DealDamage(pAmalgam, pAmalgam->GetHealth() > damageCopy ? damageCopy : 0);
             }
         }*/
@@ -1902,7 +1902,7 @@ public:
         {
             if (Creature* pAmalgam = GetAmalgam())
             {
-                uint32 damageCopy = damage > me->GetHealth() ? me->GetHealth() : damage;
+                uint32 damageCopy = damage > me->GetHealth() ? uint32(me->GetHealth()) : damage;
                 me->DealDamage(pAmalgam, pAmalgam->GetHealth() > damageCopy ? damageCopy : 0);
             }
         }*/
@@ -2636,7 +2636,7 @@ public:
 
             float multiplier = 1.0f + (100.0f - GetCaster()->GetHealthPct()) / 100.0f;
 
-            SetHitDamage(GetHitDamage() * multiplier);
+            SetHitDamage(int32(GetHitDamage() * multiplier));
         }
 
         void Register()

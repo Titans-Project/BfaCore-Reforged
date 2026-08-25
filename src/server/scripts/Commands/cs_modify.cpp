@@ -861,7 +861,7 @@ public:
             return false;
 
         char const* gender_str = (char*)args;
-        int gender_len = strlen(gender_str);
+        int gender_len = int(strlen(gender_str));
 
         Gender gender;
 

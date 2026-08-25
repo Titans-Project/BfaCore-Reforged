@@ -165,7 +165,7 @@ public:
                 Position pos;
                 for (uint8 i = 0; i < 6; i++)
                 {
-                    target->GetNearPosition(5.0f, i * 1.2);
+                    target->GetNearPosition(5.0f, float(i * 1.2));
                     me->CastSpell(pos.GetPositionX(), pos.GetPositionY(), pos.GetPositionZ(), SPELL_LAVA_WREATH_TRIG, true);
                 }
             }

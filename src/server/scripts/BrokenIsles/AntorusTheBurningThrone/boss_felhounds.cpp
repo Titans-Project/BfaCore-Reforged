@@ -211,7 +211,7 @@ struct boss_shatug : public boss_shatug_fhargAI
         case SPELL_SIPHONED:
         {
             //random
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_SIPHONED, false);
             events.Repeat(10s, 15s);
             break;
@@ -219,14 +219,14 @@ struct boss_shatug : public boss_shatug_fhargAI
         case SPELL_CONSUMING_SPHERE:
         {
             //random
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_CONSUMING_SPHERE, false);
             events.Repeat(10s, 15s);
             break;
         }
         case SPELL_WEIGHT_OF_DARKNESS:
         {
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_WEIGHT_OF_DARKNESS, false);
             events.Repeat(30s, 45s);
             break;
@@ -292,14 +292,14 @@ struct boss_fharg : public boss_shatug_fhargAI
         case SPELL_CONSUMING_SPHERE:
         {
             //random
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_CONSUMING_SPHERE, false);
             events.Repeat(10s, 15s);
             break;
         }
         case SPELL_MOLTEN_TOUCH:
         {
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_MOLTEN_TOUCH, false);
             events.Repeat(30s, 45s);
             break;

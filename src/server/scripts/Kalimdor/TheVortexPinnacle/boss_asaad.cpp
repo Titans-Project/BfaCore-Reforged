@@ -294,21 +294,21 @@ class npc_asaad_grounding_field_trigger : public CreatureScript
             void GenerateTrianglePos()
             {
                 float x, y;
-                me->GetNearPoint2D(x, y, urand(5.0f, 7.0f), me->GetOrientation());
+                me->GetNearPoint2D(x, y, float(urand(uint32(5.0f), uint32(7.0f))), me->GetOrientation());
 
                 _trianglePos[0].m_positionX = x;
                 _trianglePos[0].m_positionY = y;
                 _trianglePos[0].m_positionZ = me->GetPositionZ();
                 _trianglePos[0].SetOrientation(0.0f);
 
-                me->GetNearPoint2D(x, y, urand(5.0f, 7.0f), me->GetOrientation() + M_PI / 2);
+                me->GetNearPoint2D(x, y, float(urand(uint32(5.0f), uint32(7.0f))), float(me->GetOrientation() + M_PI / 2));
 
                 _trianglePos[1].m_positionX = x;
                 _trianglePos[1].m_positionY = y;
                 _trianglePos[1].m_positionZ = me->GetPositionZ();
                 _trianglePos[1].SetOrientation(0.0f);
 
-                me->GetNearPoint2D(x, y, urand(5.0f, 7.0f), me->GetOrientation() + M_PI);
+                me->GetNearPoint2D(x, y, float(urand(uint32(5.0f), uint32(7.0f))), float(me->GetOrientation() + M_PI));
 
                 _trianglePos[2].m_positionX = x;
                 _trianglePos[2].m_positionY = y;

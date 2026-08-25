@@ -291,7 +291,7 @@ public:
                         die = true;
                         withbody = true;
                         wait = 300;
-                        damage = me->GetHealth() - me->CountPctFromMaxHealth(1);
+                        damage = uint32(me->GetHealth() - me->CountPctFromMaxHealth(1));
                         me->AddUnitFlag(UNIT_FLAG_NON_ATTACKABLE);
                         me->StopMoving();
                         //me->GetMotionMaster()->MoveIdle();
@@ -620,7 +620,7 @@ public:
             {
                 withhead = false;
                 returned = false;
-                damage = me->GetHealth() - me->CountPctFromMaxHealth(1);
+                damage = uint32(me->GetHealth() - me->CountPctFromMaxHealth(1));
                 me->RemoveAllAuras();
                 me->SetName("Headless Horseman, Unhorsed");
 

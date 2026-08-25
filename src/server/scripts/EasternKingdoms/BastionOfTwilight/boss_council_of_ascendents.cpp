@@ -710,7 +710,7 @@ public:
                     case EVENT_LIGHTNING_BLAST:
                         if (prevtarget && ascendant[2] != NULL)
                         {
-                            me->NearTeleportTo(urand(-1019,-975), urand(-624,-535), me->GetPositionZ(), me->GetOrientation());
+                            me->NearTeleportTo(float(urand(-1019,-975)), float(urand(-624,-535)), me->GetPositionZ(), me->GetOrientation());
                             ascendant[2]->SetVisible(true);
                             ascendant[2]->RemoveUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));
                             ascendant[2]->CastSpell(prevtarget, SPELL_LIGHTNING_BLAST, false);
@@ -1238,9 +1238,9 @@ public:
         void DamageTaken(Unit* who, uint32& damage) override
         {
             if (me->GetEntry() == BOSS_FELUDIUS && who->HasAura(SPELL_FIRE_IMBUED))
-                damage *=1.5;
+                damage = uint32(damage * 1.5);
             else if (me->GetEntry() == BOSS_IGNACIOUS && who->HasAura(SPELL_FROST_IMBUED))
-                damage *=1.5;
+                damage = uint32(damage * 1.5);
 
             if (Creature* elementium = instance->GetCreature(DATA_MONSTROSITY))
             {
@@ -1457,7 +1457,7 @@ public: npc_council_frozen_orb() : CreatureScript("npc_council_frozen_orb") { }
                 me->SetSpeed(MOVE_WALK,   speed);
                 me->SetSpeed(MOVE_RUN,    speed);
                 me->SetSpeed(MOVE_FLIGHT, speed);
-                speed =  speed * 1.05;
+                speed = float(speed * 1.05);
                 checkTimer = 1000;
                 if(me->GetDistance2d(flamestrike) < 3.0f)
                 {

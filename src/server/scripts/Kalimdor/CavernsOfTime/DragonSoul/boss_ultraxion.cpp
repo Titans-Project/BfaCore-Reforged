@@ -1173,7 +1173,7 @@ class spell_ultraxion_time_loop : public SpellScriptLoader
             void Absorb(AuraEffect* aurEff, DamageInfo & dmgInfo, uint32 & absorbAmount)
             {
                 Unit* victim = GetTarget();
-                int32 remainingHealth = victim->GetHealth() - dmgInfo.GetDamage();
+                int32 remainingHealth = int32(victim->GetHealth() - dmgInfo.GetDamage());
 
                 if (remainingHealth <= 0)
                 {
@@ -1232,7 +1232,7 @@ public:
             if (PlayerList.empty())
                 return;
 
-            uint32 countTarget = PlayerList.size();
+            uint32 countTarget = uint32(PlayerList.size());
 
             if (countTarget == 0)
                 return;

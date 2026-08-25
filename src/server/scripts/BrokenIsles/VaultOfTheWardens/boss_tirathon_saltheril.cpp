@@ -589,7 +589,7 @@ class spell_tirathon_darkstrike : public SpellScript
      //   if (!GetCaster() || !GetHitUnit() || GetHitUnit()->IsActiveMitigation())
         //    return;
 
-        float damage = GetHitDamage();
+        float damage = float(GetHitDamage());
 
         if (auto auraEff = GetCaster()->GetAuraEffect(SPELL_DARK_ENERGIES_ABSORB, EFFECT_0))
         {

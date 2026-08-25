@@ -1006,7 +1006,7 @@ public:
                     if (staggerAmount)
                     {
                         int32 newStagger = staggerAmount->GetEffect(EFFECT_1)->GetAmount();
-                        newStagger = newStagger * 0.5;
+                        newStagger = int32(newStagger * 0.5);
                         staggerAmount->GetEffect(EFFECT_1)->ChangeAmount(newStagger);
                     }
                 }
@@ -1893,7 +1893,7 @@ public:
                 staggerAmount += currentTotalAmount;
                 staggerPerTick = staggerAmount / ticks;
 
-                float healthPercent = staggerAmount * 100 / caster->GetMaxHealth();
+                float healthPercent = float(staggerAmount * 100 / caster->GetMaxHealth());
 
                 uint32 staggerVisualSpellId;
 
@@ -3209,7 +3209,7 @@ public:
             if (l_Target == nullptr || l_Player == nullptr)
                 return;
 
-            int32 l_Damage = l_Player->GetTotalAttackPowerValue(BASE_ATTACK) * 5.25f;
+            int32 l_Damage = int32(l_Player->GetTotalAttackPowerValue(BASE_ATTACK) * 5.25f);
             l_Damage = l_Player->SpellDamageBonusDone(l_Target, GetSpellInfo(), l_Damage, SPELL_DIRECT_DAMAGE, GetSpellInfo()->GetEffect(EFFECT_0));
             l_Damage = l_Target->SpellDamageBonusTaken(l_Player, GetSpellInfo(), l_Damage, SPELL_DIRECT_DAMAGE, GetSpellInfo()->GetEffect(EFFECT_0));
 
@@ -3402,9 +3402,9 @@ public:
         if(!victim->HasAura(SPELL_MONK_GIFT_OF_THE_OX_AURA))
             return;
 
-        uint32 spellToCast = spellsToCast[urand(0, (spellsToCast.size() - 1))];
+        uint32 spellToCast = spellsToCast[urand(0, uint32(spellsToCast.size() - 1))];
 
-        if(roll_chance_i((0.75 * damage / victim->GetMaxHealth()) * (3 - 2 * (victim->GetHealthPct() / 100)) * 100))
+        if(roll_chance_i(int((0.75 * damage / victim->GetMaxHealth()) * (3 - 2 * (victim->GetHealthPct() / 100)) * 100)))
         {
             if (!victim->HasAura(SPELL_MONK_HEALING_SPHERE_COOLDOWN))
             {
@@ -3483,7 +3483,7 @@ public:
         void Absorb(AuraEffect* auraEffect, DamageInfo& dmgInfo, uint32& absorbAmount)
         {
             Unit* target = GetTarget();
-            uint32 health = target->CountPctFromMaxHealth(healthPct);
+            uint32 health = uint32(target->CountPctFromMaxHealth(healthPct));
             if (dmgInfo.GetDamage() < health)
                 return;
 
@@ -3554,7 +3554,7 @@ public:
             if (!effectInfo)
                 return;
 
-            int32 damage = (float)caster->GetTotalAttackPowerValue(BASE_ATTACK) * 4.125f;
+            int32 damage = int32((float)caster->GetTotalAttackPowerValue(BASE_ATTACK) * 4.125f);
             damage = caster->SpellDamageBonusDone(unit, spellInfo, damage, HEAL, effectInfo);
             damage = unit->SpellDamageBonusTaken(caster, spellInfo, damage, HEAL, effectInfo);
 
@@ -3810,7 +3810,7 @@ public:
             if (!caster)
                 return;
 
-            amount = (caster->GetTotalAttackPowerValue(BASE_ATTACK) * 18);
+            amount = int32(caster->GetTotalAttackPowerValue(BASE_ATTACK) * 18);
         }
 
         void Register() override

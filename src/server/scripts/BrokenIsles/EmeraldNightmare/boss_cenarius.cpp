@@ -1528,7 +1528,7 @@ class spell_cenarius_spear_of_nightmares : public SpellScript
         if (!GetCaster() || !GetHitUnit())
             return;
 
-        float scale = GetHitDamage() / GetSpellInfo()->GetEffect(EFFECT_0, GetCaster()->GetMap()->GetDifficultyID())->CalcValue();
+        float scale = float(GetHitDamage() / GetSpellInfo()->GetEffect(EFFECT_0, GetCaster()->GetMap()->GetDifficultyID())->CalcValue());
        // GetCaster()->CastCustomSpell(GetHitUnit(), SPELL_NIGHTMARES_AT, &scale, nullptr, nullptr, true);
     }
 

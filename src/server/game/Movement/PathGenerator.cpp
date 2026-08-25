@@ -929,7 +929,7 @@ void PathGenerator::ReducePathLenghtByDist(float dist)
     if (_pathPoints.size() < 2) // path building failure
         return;
 
-    uint32 i = _pathPoints.size();
+    uint32 i = uint32(_pathPoints.size());
     G3D::Vector3 nextVec = _pathPoints[--i];
     while (i > 0)
     {

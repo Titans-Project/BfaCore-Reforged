@@ -171,7 +171,7 @@ public:
             uint32 entry = uint32(GetSpellInfo()->GetEffect(effIndex)->MiscValue);
             for(uint8 i = 0; i < 6; ++i)
             {
-                float angle = -5 * M_PI / 24 + M_PI * i / 12;
+                float angle = float(-5 * M_PI / 24 + M_PI * i / 12);
                 float x, y, z;
                 GetCaster()->GetClosePoint(x, y, z, GetCaster()->GetObjectSize(), 30.0f, angle);
                 GetCaster()->SummonCreature(entry, x, y, z, 0, TEMPSUMMON_TIMED_DESPAWN, 10000);

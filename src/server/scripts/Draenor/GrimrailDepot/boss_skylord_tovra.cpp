@@ -520,7 +520,7 @@ class grimrail_depot_skylord_tovra_creature_rkuna : public CreatureScript
                         for (uint8 l_I = 0; l_I < urand(5, 7); l_I++)
                         {
                             std::list<Creature*>::const_iterator l_Itr = l_ListCreatures.begin();
-                            std::advance(l_Itr, urand(0, l_ListCreatures.size() - 1));
+                            std::advance(l_Itr, urand(0, uint32(l_ListCreatures.size() - 1)));
 
                             me->CastSpell((*l_Itr), eDiffusedEnergy::SpellDiffusedEnergyAreaTrigger);
                         }

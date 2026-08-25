@@ -163,7 +163,7 @@ public:
             if (!player)
                 handler->PSendSysMessage("Player doesn't exist");
             else
-                sAnticheatMgr->AnticheatDeleteCommand(player->GetGUID().GetCounter());
+                sAnticheatMgr->AnticheatDeleteCommand(uint32(player->GetGUID().GetCounter()));
         }
 
         return true;
@@ -189,12 +189,12 @@ public:
             player = ObjectAccessor::FindPlayerByName(strCommand.c_str()); // get player by name
 
             if (player)
-                guid = player->GetGUID().GetCounter();
+                guid = uint32(player->GetGUID().GetCounter());
         }else
         {
             player = handler->getSelectedPlayer();
             if (player)
-                guid = player->GetGUID().GetCounter();
+                guid = uint32(player->GetGUID().GetCounter());
         }
 
         if (!guid)

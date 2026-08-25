@@ -166,7 +166,7 @@ struct boss_trixie_naeno : public BossAI
             if (Creature* stalker = me->FindNearestCreature(NPC_JUMP_POINT_STALKER, 25.0f, true))
             {                
                 //me->CastSpell(stalker->GetPosition(), SPELL_ELECTRIC_SLIDE, false);
-                me->GetMotionMaster()->MoveJump(stalker->GetPosition(), 0.8F, 30.0f, 30.0f, true);
+                me->GetMotionMaster()->MoveJump(stalker->GetPosition(), 0.8F, 30.0f, uint32(30.0f), true);
                 me->GetScheduler().Schedule(3s, [this] (TaskContext context)
                 {
                     me->RemoveAura(SPELL_ELECTRIC_SLIDE);

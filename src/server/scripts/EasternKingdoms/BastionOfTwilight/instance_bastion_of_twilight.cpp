@@ -272,7 +272,7 @@ public:
                     wayid = WALK_FELUDIUS;
                     break;
                 }
-                creature->AI()->Talk(talkid);
+                creature->AI()->Talk(uint8(talkid));
                 creature->UpdateWaypointID(wayid);
             }
             if (active)

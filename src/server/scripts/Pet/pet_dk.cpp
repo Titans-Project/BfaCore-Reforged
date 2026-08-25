@@ -136,7 +136,7 @@ class spell_dk_gargoyle_strike : public SpellScript
     {
         if (Unit* owner = GetCaster()->GetOwner())
         {
-            int32 damage = GetCaster()->GetOwner()->m_unitData->AttackPower / 100 * 15.0f;
+            int32 damage = int32(GetCaster()->GetOwner()->m_unitData->AttackPower / 100 * 15.0f);
             SetHitDamage(damage);
         }
     }

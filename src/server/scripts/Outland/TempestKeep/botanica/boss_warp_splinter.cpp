@@ -109,7 +109,7 @@ class npc_warp_splinter_treant : public CreatureScript
                             {
                                 int32 CurrentHP_Treant = (int32)me->GetHealth();
                                 Warp->CastCustomSpell(Warp, SPELL_HEAL_FATHER, &CurrentHP_Treant, nullptr, nullptr, true, nullptr, nullptr, me->GetGUID());
-                                me->DealDamage(me, me->GetHealth(), nullptr, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
+                                me->DealDamage(me, uint32(me->GetHealth()), nullptr, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
                                 return;
                             }
                             me->GetMotionMaster()->MoveFollow(Warp, 0, 0);

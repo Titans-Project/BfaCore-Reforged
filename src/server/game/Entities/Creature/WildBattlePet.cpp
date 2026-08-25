@@ -113,7 +113,7 @@ void WildBattlePetMgr::Populate(WildPetPoolTemplate* wTemplate, WildBattlePetPoo
 
     std::shuffle(availableForReplacement.begin(), availableForReplacement.end(), std::mt19937(std::random_device()()));
 
-    uint32 replaceCount = wTemplate->Max - pTemplate->Replaced.size();
+    uint32 replaceCount = uint32(wTemplate->Max - pTemplate->Replaced.size());
     for (size_t y = 0; y < availableForReplacement.size() && y < replaceCount; y++)
         ReplaceCreature(availableForReplacement[y], wTemplate, pTemplate);
 }

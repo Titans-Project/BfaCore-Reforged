@@ -50,9 +50,9 @@ struct instance_free_hold : public InstanceScript
     void OnCreatureCreate(Creature* creature) override
     {
         if (instance->IsHeroic())
-            creature->SetBaseHealth(creature->GetMaxHealth() * 2.f);
+            creature->SetBaseHealth(uint64(creature->GetMaxHealth() * 2.f));
         if (instance->IsMythic())
-            creature->SetBaseHealth(creature->GetMaxHealth() * 1.33f);
+            creature->SetBaseHealth(uint64(creature->GetMaxHealth() * 1.33f));
 
         switch (creature->GetEntry())
         {

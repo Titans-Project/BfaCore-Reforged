@@ -1879,7 +1879,7 @@ public:
                 if (Player* player = i->GetSource())
                 {
                     player->AddAura(136577, player);
-                    player->GetMotionMaster()->MoveCharge(me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), 30.0f, 35.0f);
+                    player->GetMotionMaster()->MoveCharge(me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), 30.0f, uint32(35.0f));
                 }
         }
     };
@@ -2033,7 +2033,7 @@ public:
 
         void CheckTargets(std::list<WorldObject*>& targets)
         {
-            targetsPlayers = targets.size();
+            targetsPlayers = uint8(targets.size());
         }
 
         void RecalculateDamage(SpellEffIndex effIndex)
@@ -2072,7 +2072,7 @@ public:
                 if (!eventInfo.GetDamageInfo())
                     return;
 
-                int32 uiDamages = eventInfo.GetDamageInfo()->GetDamage() * 0.10f; // 10% of damages returned to the player
+                int32 uiDamages = int32(eventInfo.GetDamageInfo()->GetDamage() * 0.10f); // 10% of damages returned to the player
 
                 if (Unit* pVictim = eventInfo.GetActionTarget())
                 {

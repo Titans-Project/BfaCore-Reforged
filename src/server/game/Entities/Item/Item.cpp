@@ -469,7 +469,7 @@ bool Item::Create(ObjectGuid::LowType guidlow, uint32 itemId, ItemContext contex
 
     for (std::size_t i = 0; i < itemProto->Effects.size(); ++i)
         if (i < 5)
-            SetSpellCharges(i, itemProto->Effects[i]->Charges);
+            SetSpellCharges(uint8(i), itemProto->Effects[i]->Charges);
 
     SetExpiration(itemProto->GetDuration());
     SetCreatePlayedTime(0);
@@ -848,7 +848,7 @@ bool Item::LoadFromDB(ObjectGuid::LowType guid, ObjectGuid ownerGuid, Field* fie
         need_save = true;
     }
 
-    Tokenizer tokens(fields[6].GetString(), ' ', proto->Effects.size());
+    Tokenizer tokens(fields[6].GetString(), ' ', uint32(proto->Effects.size()));
     if (tokens.size() == proto->Effects.size())
         for (uint8 i = 0; i < proto->Effects.size(); ++i)
             SetSpellCharges(i, atoi(tokens[i]));
@@ -1177,7 +1177,7 @@ void AddItemToUpdateQueueOf(Item* item, Player* player)
         return;
 
     player->m_itemUpdateQueue.push_back(item);
-    item->uQueuePos = player->m_itemUpdateQueue.size() - 1;
+    item->uQueuePos = int16(player->m_itemUpdateQueue.size() - 1);
 }
 
 void RemoveItemFromUpdateQueueOf(Item* item, Player* player)
@@ -1427,7 +1427,7 @@ void Item::SetGem(uint16 slot, ItemDynamicFieldGems const* gem, uint32 gemScalin
 
                 uint32 gemBaseItemLevel = gemTemplate->GetBaseItemLevel();
                 if (ScalingStatDistributionEntry const* ssd = sScalingStatDistributionStore.LookupEntry(gemBonus.ScalingStatDistribution))
-                    if (uint32 scaledIlvl = uint32(sDB2Manager.GetCurveValueAt(ssd->PlayerLevelToItemLevelCurveID, gemScalingLevel)))
+                    if (uint32 scaledIlvl = uint32(sDB2Manager.GetCurveValueAt(ssd->PlayerLevelToItemLevelCurveID, float(gemScalingLevel))))
                         gemBaseItemLevel = scaledIlvl;
 
                 _bonusData.GemRelicType[slot] = gemBonus.RelicType;
@@ -1446,7 +1446,7 @@ void Item::SetGem(uint16 slot, ItemDynamicFieldGems const* gem, uint32 gemScalin
                         }
                         case ITEM_ENCHANTMENT_TYPE_BONUS_LIST_CURVE:
                         {
-                            if (uint32 bonusListId = sDB2Manager.GetItemBonusListForItemLevelDelta(int16(sDB2Manager.GetCurveValueAt(CURVE_ID_ARTIFACT_RELIC_ITEM_LEVEL_BONUS, gemBaseItemLevel + gemBonus.ItemLevelBonus))))
+                            if (uint32 bonusListId = sDB2Manager.GetItemBonusListForItemLevelDelta(int16(sDB2Manager.GetCurveValueAt(CURVE_ID_ARTIFACT_RELIC_ITEM_LEVEL_BONUS, float(gemBaseItemLevel + gemBonus.ItemLevelBonus)))))
                                 if (DB2Manager::ItemBonusList const* bonuses = sDB2Manager.GetItemBonusList(bonusListId))
                                     for (ItemBonusEntry const* itemBonus : *bonuses)
                                         if (itemBonus->Type == ITEM_BONUS_ITEM_LEVEL)
@@ -1629,7 +1629,7 @@ void Item::BuildValuesCreate(ByteBuffer* data, Player const* target) const
     *data << uint8(flags);
     m_objectData->WriteCreate(*data, flags, this, target);
     m_itemData->WriteCreate(*data, flags, this, target);
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void Item::BuildValuesUpdate(ByteBuffer* data, Player const* target) const
@@ -1645,7 +1645,7 @@ void Item::BuildValuesUpdate(ByteBuffer* data, Player const* target) const
     if (m_values.HasChanged(TYPEID_ITEM))
         m_itemData->WriteUpdate(*data, flags, this, target);
 
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void Item::BuildValuesUpdateWithFlag(ByteBuffer* data, UF::UpdateFieldFlag flags, Player const* target) const
@@ -1661,7 +1661,7 @@ void Item::BuildValuesUpdateWithFlag(ByteBuffer* data, UF::UpdateFieldFlag flags
     m_itemData->AppendAllowedFieldsMaskForFlag(mask, flags);
     m_itemData->WriteUpdate(*data, mask, true, this, target);
 
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void Item::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::ObjectData::Mask const& requestedObjectMask,
@@ -1688,7 +1688,7 @@ void Item::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::ObjectData::
     if (valuesMask[TYPEID_ITEM])
         m_itemData->WriteUpdate(buffer, itemMask, true, this, target);
 
-    buffer.put<uint32>(sizePos, buffer.wpos() - sizePos - 4);
+    buffer.put<uint32>(sizePos, uint32(buffer.wpos() - sizePos - 4));
 
     data->AddUpdateBlock(buffer);
 }
@@ -2158,7 +2158,7 @@ uint32 Item::GetSellPrice(ItemTemplate const* proto, uint32 quality, uint32 item
             if (ItemClassEntry const* classEntry = sDB2Manager.GetItemClassByOldEnum(proto->GetClass()))
             {
                 uint32 buyCount = std::max(proto->GetBuyCount(), 1u);
-                return cost * classEntry->PriceModifier / buyCount;
+                return uint32(cost * classEntry->PriceModifier / buyCount);
             }
 
             return 0;
@@ -2205,7 +2205,7 @@ uint32 Item::GetItemLevel(ItemTemplate const* itemTemplate, BonusData const& bon
             if ((contentTuning->Flags & 2 || contentTuning->MinLevel || contentTuning->MaxLevel) && !(contentTuning->Flags & 4))
                 level = std::min(std::max(int32(level), contentTuning->MinLevel), contentTuning->MaxLevel);
 
-        if (uint32 heirloomIlvl = uint32(sDB2Manager.GetCurveValueAt(ssd->PlayerLevelToItemLevelCurveID, level)))
+        if (uint32 heirloomIlvl = uint32(sDB2Manager.GetCurveValueAt(ssd->PlayerLevelToItemLevelCurveID, float(level))))
             itemLevel = heirloomIlvl;
     }
 

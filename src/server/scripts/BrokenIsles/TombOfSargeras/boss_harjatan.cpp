@@ -335,7 +335,7 @@ public:
                                 }
                         }
                         else
-                            if (Creature* egg = instance->instance->GetCreature(eggs[i][urand(0, eggs[i].size())]))
+                            if (Creature* egg = instance->instance->GetCreature(eggs[i][urand(0, uint32(eggs[i].size()))]))
                             {
                                 if (!egg->IsAlive())
                                     egg->Respawn(true);

@@ -189,7 +189,7 @@ void BattlePetDataStoreMgr::ComputeBattlePetSpawns()
             continue;
         }
 
-        if (!MapManager::IsValidMapCoord(mapID, xPos, yPos))
+        if (!MapManager::IsValidMapCoord(mapID, float(xPos), float(yPos)))
         {
             printf("Map %u Zone %u Npc %u X %f Y %F invalid map coord\n", mapID, zoneID, battlePetNpcID, xPos, yPos);
             continue;
@@ -229,7 +229,7 @@ void BattlePetDataStoreMgr::ComputeBattlePetSpawns()
         {
             uint32 respawnTime = 60;
             uint32 replace = battlePetToCritter[itr->first];
-            uint32 max = float(itr->second) > 1 ? (float(itr->second) * 0.95f) : 1;
+            uint32 max = uint32(float(itr->second) > 1 ? (float(itr->second) * 0.95f) : 1);
 
             if (battlePetToCritter[itr->first] == itr->first)
                 max = itr->second;

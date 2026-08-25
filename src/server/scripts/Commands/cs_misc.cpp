@@ -654,7 +654,7 @@ public:
             if (sWorld->getBoolConfig(CONFIG_DIE_COMMAND_MODE))
                 handler->GetSession()->GetPlayer()->Kill(target);
             else
-                handler->GetSession()->GetPlayer()->DealDamage(target, target->GetHealth(), nullptr, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
+                handler->GetSession()->GetPlayer()->DealDamage(target, uint32(target->GetHealth()), nullptr, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
         }
 
         return true;
@@ -1583,7 +1583,7 @@ public:
 
         // If our target does not yet have the skill they are trying to add to them, the chosen level also becomes
         // the max level of the new profession.
-        uint16 max = maxPureSkill ? atoul(maxPureSkill) : targetHasSkill ? target->GetPureMaxSkillValue(skill) : uint16(level);
+        uint16 max = maxPureSkill ? uint16(atoul(maxPureSkill)) : targetHasSkill ? target->GetPureMaxSkillValue(skill) : uint16(level);
 
         if (level == 0 || level > max || max <= 0)
             return false;
@@ -1920,7 +1920,7 @@ public:
             PhasingHandler::PrintToChat(handler, target->GetPhaseShift());
 
         // Output XIV. LANG_PINFO_CHR_MONEY
-        uint32 gold                   = money / GOLD;
+        uint32 gold                   = uint32(money / GOLD);
         uint32 silv                   = (money % GOLD) / SILVER;
         uint32 copp                   = (money % GOLD) % SILVER;
         handler->PSendSysMessage(LANG_PINFO_CHR_MONEY, gold, silv, copp);

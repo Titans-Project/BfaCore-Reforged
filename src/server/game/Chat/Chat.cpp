@@ -349,12 +349,12 @@ bool ChatHandler::ExecuteCommandInTable(std::vector<ChatCommand> const& table, c
                 CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_LOG_GM_COMMAND);
                 stmt->setUInt32(index++, player->GetSession()->GetAccountId());
                 stmt->setString(index++, player->GetSession()->GetBattlenetAccountName());
-                stmt->setUInt32(index++, player->GetGUID().GetCounter());
+                stmt->setUInt32(index++, uint32(player->GetGUID().GetCounter()));
                 stmt->setString(index++, player->GetName());
                 stmt->setString(index++, player->GetSession()->GetRemoteAddress());
                 stmt->setUInt32(index++, !playerTarget ? 0  : playerTarget->GetSession()->GetAccountId());
                 stmt->setString(index++, !playerTarget ? "" : playerTarget->GetSession()->GetBattlenetAccountName());
-                stmt->setUInt32(index++, !playerTarget ? 0  : playerTarget->GetGUID().GetCounter());
+                stmt->setUInt32(index++, !playerTarget ? 0  : uint32(playerTarget->GetGUID().GetCounter()));
                 stmt->setString(index++, !playerTarget ? "" : playerTarget->GetName());
                 stmt->setString(index++, !playerTarget ? "" : playerTarget->GetSession()->GetRemoteAddress());
                 stmt->setString(index++, Trinity::StringFormat("Command: %s [X: %f Y: %f Z: %f Map: %u (%s) Area: %u (%s) Zone: %s Selected: %s (%s)]",
@@ -1236,7 +1236,7 @@ void CommandArgs::Initialize(std::initializer_list<CommandArgsType> argsType)
 
         std::vector<std::string> argsVector;
         InitializeArgsVector(argsVector);
-        CheckOptionalArgs(argsTypeVector, argsVector.size());
+        CheckOptionalArgs(argsTypeVector, uint8(argsVector.size()));
 
         // Finally, we cast all our args to their types
         for (uint8 typeIndex = 0, argIndex = 0; typeIndex < argsTypeVector.size(); ++typeIndex, ++argIndex)
@@ -1306,7 +1306,7 @@ void CommandArgs::Initialize(std::initializer_list<CommandArgsType> argsType)
 void CommandArgs::InitializeArgsVector(std::vector<std::string>& argsVector)
 {
     std::ostringstream arg;
-    uint32 argsLength = strlen(_charArgs);
+    uint32 argsLength = uint32(strlen(_charArgs));
 
     for (size_t i = 0; i < argsLength; i++)
     {
@@ -1342,7 +1342,7 @@ void CommandArgs::InitializeArgsVector(std::vector<std::string>& argsVector)
 // and reduce argsTypeVector accordingly
 void CommandArgs::CheckOptionalArgs(std::vector<CommandArgsType>& argsTypeVector, uint8 argsVectorSize)
 {
-    uint8 argsTypeVectorSize = argsTypeVector.size();
+    uint8 argsTypeVectorSize = uint8(argsTypeVector.size());
 
     // Check if any parameter is optionnal
     if (argsVectorSize == argsTypeVectorSize)

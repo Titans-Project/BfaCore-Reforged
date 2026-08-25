@@ -74,7 +74,7 @@ public:
     void Initialize(int32 marketId)
     {
         _marketId = marketId;
-        _startTime = time(nullptr);
+        _startTime = uint32(time(nullptr));
     }
 
     BlackMarketTemplate const* GetTemplate() const;
@@ -92,7 +92,7 @@ public:
     uint32 GetStartTime() const { return _startTime; }
     void SetStartTime(uint32 startTime) { _startTime = startTime; }
 
-    uint32 GetDuration() const { return GetTemplate()->Duration; }
+    uint32 GetDuration() const { return uint32(GetTemplate()->Duration); }
 
     uint32 GetSecondsRemaining() const; // Get seconds remaining relative to now
     time_t GetExpirationTime() const;

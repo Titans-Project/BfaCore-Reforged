@@ -720,11 +720,11 @@ class instance_icecrown_citadel : public InstanceMapScript
                 switch (type)
                 {
                     case DATA_SINDRAGOSA_FROSTWYRMS:
-                        return FrostwyrmGUIDs.size();
+                        return uint32(FrostwyrmGUIDs.size());
                     case DATA_SPINESTALKER:
-                        return SpinestalkerTrash.size();
+                        return uint32(SpinestalkerTrash.size());
                     case DATA_RIMEFANG:
-                        return RimefangTrash.size();
+                        return uint32(RimefangTrash.size());
                     case DATA_COLDFLAME_JETS:
                         return ColdflameJetsState;
                     case DATA_UPPERSPIRE_TELE_ACT:

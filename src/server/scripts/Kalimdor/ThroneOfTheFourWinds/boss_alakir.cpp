@@ -331,7 +331,7 @@ public:
                 {
                     centerTrigger->AI()->SetData(0, DATA_CLOUDS_DEAL_DMG);
                     int number = 8;
-                    float intervale = (2 * M_PI) / number;
+                    float intervale = float((2 * M_PI) / number);
                     float x, y, z;
 
                     for (float distance = 30.0f; distance < 151.0f; distance += 30.0f)
@@ -342,7 +342,7 @@ public:
                             me->SummonCreature(NPC_LIGHTNING_CLOUD_TRIGGER, x, y, z, 0.0f, TEMPSUMMON_TIMED_DESPAWN, 45000);
                         }
                         number += 4;
-                        intervale = (2 * M_PI) / number;
+                        intervale = float((2 * M_PI) / number);
                     }
                 }
             }

@@ -730,8 +730,8 @@ public:
             else
                 base_multiplier = 0;
 
-            int32 totalAmount = base_multiplier * carapaceCasted;
-            amount += GetCaster()->CountPctFromMaxHealth(40) * totalAmount;
+            int32 totalAmount = int32(base_multiplier * carapaceCasted);
+            amount += int32(GetCaster()->CountPctFromMaxHealth(40)) * totalAmount;
         }
 
         void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
@@ -803,7 +803,7 @@ public:
             {
                 if (Aura* carapace = lady->GetAura(SPELL_HARDENED_CARAPACE))
                 {
-                    int32 newAmount = lady->CountPctFromMaxHealth(10); // 10% to add
+                    int32 newAmount = int32(lady->CountPctFromMaxHealth(10)); // 10% to add
                     int32 base = carapace->GetEffect(EFFECT_0)->GetAmount(); // current amount
                     uint32 totalAmountToAdd = base + newAmount; // ++
                     carapace->GetEffect(EFFECT_0)->SetAmount(totalAmountToAdd);
@@ -928,7 +928,7 @@ public:
             {
                 if (Aura* carapace = lady->GetAura(SPELL_HARDENED_CARAPACE))
                 {
-                    int32 newAmount = lady->CountPctFromMaxHealth(10); // 10% to add
+                    int32 newAmount = int32(lady->CountPctFromMaxHealth(10)); // 10% to add
                     int32 base = carapace->GetEffect(EFFECT_0)->GetAmount(); // current amount
                     uint32 totalAmountToAdd = base + newAmount; // ++
                     carapace->GetEffect(EFFECT_0)->SetAmount(totalAmountToAdd);

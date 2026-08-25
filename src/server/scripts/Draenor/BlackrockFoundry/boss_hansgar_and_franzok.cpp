@@ -282,7 +282,7 @@ class boss_hansgar : public CreatureScript
                     case eSpells::JumpSlamSearcher:
                     {
                         /// Red arrow on affected target
-                        me->SendPlaySpellVisual(Position(),0.0f,uint32 (eVisuals::BodySlamVisual),0.f,0.f ,20.0f);
+                        me->SendPlaySpellVisual(Position(),0.0f,uint32 (eVisuals::BodySlamVisual),0,0 ,20.0f);
                         me->CastSpell(p_Target, eSpells::JumpSlamCast, false);
 
                         me->SetFacingTo(me->GetAngle(p_Target));
@@ -382,14 +382,14 @@ class boss_hansgar : public CreatureScript
                 {
                     //me->AddAura(VEHICLE_SPELL_RIDE_HARDCODED, p_Passenger);
 
-                    m_TankHealths[eDatas::DataMainTankHealth] = p_Passenger->GetMaxHealth();
+                    m_TankHealths[eDatas::DataMainTankHealth] = uint32(p_Passenger->GetMaxHealth());
 
                    // AddTimedDelayedOperation(3 * TimeConstants::IN_MILLISECONDS, [this]() -> void
                    // {
                         if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 0.0f, true, -VEHICLE_SPELL_RIDE_HARDCODED))
                         {
                             m_ExitTankGuid = l_Target->GetGUID();
-                            m_TankHealths[eDatas::DataOffTankHealth] = l_Target->GetMaxHealth();
+                            m_TankHealths[eDatas::DataOffTankHealth] = uint32(l_Target->GetMaxHealth());
 
                             //me->CastSpell(l_Target, eSpells::CripplingSuplexThrow, false);
                         }
@@ -1353,14 +1353,14 @@ class boss_franzok : public CreatureScript
                 {
                     //me->AddAura(VEHICLE_SPELL_RIDE_HARDCODED, p_Passenger);
 
-                    m_TankHealths[eDatas::DataMainTankHealth] = p_Passenger->GetMaxHealth();
+                    m_TankHealths[eDatas::DataMainTankHealth] = uint32(p_Passenger->GetMaxHealth());
 
                    // AddTimedDelayedOperation(3 * TimeConstants::IN_MILLISECONDS, [this]() -> void
                    // {
                         if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 0.0f, true, -VEHICLE_SPELL_RIDE_HARDCODED))
                         {
                             m_ExitTankGuid = l_Target->GetGUID();
-                            m_TankHealths[eDatas::DataOffTankHealth] = l_Target->GetMaxHealth();
+                            m_TankHealths[eDatas::DataOffTankHealth] = uint32(l_Target->GetMaxHealth());
 
                             //me->CastSpell(l_Target, eSpells::CripplingSuplexThrow, false);
                         }

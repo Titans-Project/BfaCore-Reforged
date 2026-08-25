@@ -813,7 +813,7 @@ void Battleground::EndBattleground(uint32 winner)
             stmt = CharacterDatabase.GetPreparedStatement(CHAR_INS_PVPSTATS_PLAYER);
             BattlegroundScoreMap::const_iterator score = PlayerScores.find(player->GetGUID());
 
-            stmt->setUInt32(0,  battlegroundId);
+            stmt->setUInt32(0,  uint32(battlegroundId));
             stmt->setUInt64(1,  player->GetGUID().GetCounter());
             stmt->setBool  (2,  team == winner);
             stmt->setUInt32(3,  score->second->GetKillingBlows());
@@ -1709,7 +1709,7 @@ void Battleground::HandleTriggerBuff(ObjectGuid go_guid)
         return;
 
     // Change buff type, when buff is used:
-    int32 index = BgObjects.size() - 1;
+    int32 index = int32(BgObjects.size() - 1);
     while (index >= 0 && BgObjects[index] != go_guid)
         index--;
     if (index < 0)

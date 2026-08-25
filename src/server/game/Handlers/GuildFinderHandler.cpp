@@ -125,8 +125,8 @@ void WorldSession::HandleGuildFinderGetApplications(WorldPackets::GuildFinder::L
         applicationData.ClassRoles = guildSettings.GetClassRoles();
         applicationData.PlayStyle = guildSettings.GetInterests();
         applicationData.Availability = guildSettings.GetAvailability();
-        applicationData.SecondsSinceCreated = time(nullptr) - application->GetSubmitTime();
-        applicationData.SecondsUntilExpiration = application->GetExpiryTime() - time(nullptr);
+        applicationData.SecondsSinceCreated = uint32(time(nullptr) - application->GetSubmitTime());
+        applicationData.SecondsUntilExpiration = uint32(application->GetExpiryTime() - time(nullptr));
         applicationData.Comment = application->GetComment();
     }
 
@@ -181,8 +181,8 @@ void WorldSession::HandleGuildFinderGetRecruits(WorldPackets::GuildFinder::LFGui
             recruitData.ClassRoles = recruitRequestPair.second.GetClassRoles();
             recruitData.PlayStyle = recruitRequestPair.second.GetInterests();
             recruitData.Availability = recruitRequestPair.second.GetAvailability();
-            recruitData.SecondsSinceCreated = now - recruitRequestPair.second.GetSubmitTime();
-            recruitData.SecondsUntilExpiration = recruitRequestPair.second.GetExpiryTime() - now;
+            recruitData.SecondsSinceCreated = uint32(now - recruitRequestPair.second.GetSubmitTime());
+            recruitData.SecondsUntilExpiration = uint32(recruitRequestPair.second.GetExpiryTime() - now);
             if (CharacterCacheEntry const* charInfo = sCharacterCache->GetCharacterCacheByGuid(recruitRequestPair.first))
             {
                 recruitData.Name = charInfo->Name;

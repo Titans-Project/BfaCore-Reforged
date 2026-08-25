@@ -118,8 +118,8 @@ class boss_skeram : public CreatureScript
                 else
                     ImageHealthPct = 0.10f;
 
-                creature->SetMaxHealth(me->GetMaxHealth() * ImageHealthPct);
-                creature->SetHealth(creature->GetMaxHealth() * (me->GetHealthPct() / 100.0f));
+                creature->SetMaxHealth(uint64(me->GetMaxHealth() * ImageHealthPct));
+                creature->SetHealth(uint64(creature->GetMaxHealth() * (me->GetHealthPct() / 100.0f)));
             }
 
             void JustDied(Unit* /*killer*/) override

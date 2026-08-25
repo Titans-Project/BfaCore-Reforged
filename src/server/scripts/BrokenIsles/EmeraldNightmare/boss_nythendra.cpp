@@ -50,14 +50,14 @@ enum Spells
 class EntryCheckWithPlayerNearPredicate
 {
 public:
-    EntryCheckWithPlayerNearPredicate(Unit* owner, uint32 entry, float distance) : _owner(owner), _entry(entry), _distance(distance) { }
+    EntryCheckWithPlayerNearPredicate(Unit* owner, uint32 entry, float distance) : _owner(owner), _entry(entry), _distance(uint32(distance)) { }
     bool operator()(ObjectGuid const& guid) const
     {
         if (guid.GetEntry() != _entry)
             return false;
 
         Creature* summon = ObjectAccessor::GetCreature(*_owner, guid);
-        return summon && summon->SelectNearestPlayer(_distance);
+        return summon && summon->SelectNearestPlayer(float(_distance));
     }
 
 private:
@@ -388,7 +388,7 @@ class spell_nythendra_volatile_rot_damage : public SpellScript
         float castertoTargetDist = GetCaster()->GetDistance2d(target);
 
         int32 damage = GetHitDamage();
-        SetHitDamage(damage * (1 / castertoTargetDist));
+        SetHitDamage(int32(damage * (1 / castertoTargetDist)));
     }
 
     void Register() override

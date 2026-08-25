@@ -690,19 +690,19 @@ public:
             static const float k_Radius = 3.0f;
 
             float l_x1 = p_Area->GetPositionX() + cos(m_angle);
-            float l_x2 = p_Area->GetPositionX() + cos(m_angle - M_PI);
+            float l_x2 = float(p_Area->GetPositionX() + cos(m_angle - M_PI));
             float l_y1 = p_Area->GetPositionY() + sin(m_angle);
-            float l_y2 = p_Area->GetPositionY() + sin(m_angle - M_PI);
+            float l_y2 = float(p_Area->GetPositionY() + sin(m_angle - M_PI));
 
             float l_dx = l_x2 - l_x1;
             float l_dy = l_y2 - l_y1;
 
             bool l_b1 = std::abs(l_dy * p_Unit->GetPositionX() - l_dx * p_Unit->GetPositionY() - l_x1 * l_y2 + l_x2 * l_y1) / std::sqrt(l_dx * l_dx + l_dy * l_dy) < k_Radius;
 
-            l_x1 = p_Area->GetPositionX() + cos(m_angle + M_PI / 2);
-            l_x2 = p_Area->GetPositionX() + cos(m_angle - M_PI / 2);
-            l_y1 = p_Area->GetPositionY() + sin(m_angle + M_PI / 2);
-            l_y2 = p_Area->GetPositionY() + sin(m_angle - M_PI / 2);
+            l_x1 = float(p_Area->GetPositionX() + cos(m_angle + M_PI / 2));
+            l_x2 = float(p_Area->GetPositionX() + cos(m_angle - M_PI / 2));
+            l_y1 = float(p_Area->GetPositionY() + sin(m_angle + M_PI / 2));
+            l_y2 = float(p_Area->GetPositionY() + sin(m_angle - M_PI / 2));
 
             l_dx = l_x2 - l_x1;
             l_dy = l_y2 - l_y1;
@@ -727,7 +727,7 @@ public:
         void OnCreate() override
         {
             m_IsSpellAt2 = at->GetSpellId() == uint32(Spells::FOUR_WINDS_AT_2);
-            m_angle = (m_IsSpellAt2 ? M_PI / +72 : M_PI / 7) + (m_IsSpellAt2 ? M_PI / 36 : -M_PI / 72); // Magic values ! Taken from tests IG.}
+            m_angle = float((m_IsSpellAt2 ? M_PI / +72 : M_PI / 7) + (m_IsSpellAt2 ? M_PI / 36 : -M_PI / 72)); // Magic values ! Taken from tests IG.}
         }
 
         void OnUpdate(uint32 diff) override
@@ -906,9 +906,9 @@ public:
             static const float k_Radius = 2.0f;
 
             float l_x1 = p_Area->GetPositionX() + cos(m_angle);
-            float l_x2 = p_Area->GetPositionX() + cos(m_angle - M_PI);
+            float l_x2 = float(p_Area->GetPositionX() + cos(m_angle - M_PI));
             float l_y1 = p_Area->GetPositionY() + sin(m_angle);
-            float l_y2 = p_Area->GetPositionY() + sin(m_angle - M_PI);
+            float l_y2 = float(p_Area->GetPositionY() + sin(m_angle - M_PI));
 
             float l_dx = l_x2 - l_x1;
             float l_dy = l_y2 - l_y1;
@@ -1473,13 +1473,13 @@ public:
             if (GetCaster() && GetHitUnit())
             {
                 GetCaster()->CastSpell(GetHitUnit(), uint32(Spells::SPINNING_BLADE_4), true);
-                GetCaster()->SetOrientation(GetCaster()->GetOrientation() + M_PI / 2);
+                GetCaster()->SetOrientation(float(GetCaster()->GetOrientation() + M_PI / 2));
                 GetCaster()->CastSpell(GetHitUnit(), uint32(Spells::SPINNING_BLADE_5), true);
-                GetCaster()->SetOrientation(GetCaster()->GetOrientation() + M_PI / 2);
+                GetCaster()->SetOrientation(float(GetCaster()->GetOrientation() + M_PI / 2));
                 GetCaster()->CastSpell(GetHitUnit(), uint32(Spells::SPINNING_BLADE_6), true);
-                GetCaster()->SetOrientation(GetCaster()->GetOrientation() + M_PI / 2);
+                GetCaster()->SetOrientation(float(GetCaster()->GetOrientation() + M_PI / 2));
                 GetCaster()->CastSpell(GetHitUnit(), uint32(Spells::SPINNING_BLADE_7), true);
-                GetCaster()->SetOrientation(GetCaster()->GetOrientation() + M_PI / 2);
+                GetCaster()->SetOrientation(float(GetCaster()->GetOrientation() + M_PI / 2));
             }
         }
 

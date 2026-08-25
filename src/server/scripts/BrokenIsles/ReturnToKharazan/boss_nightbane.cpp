@@ -499,7 +499,7 @@ class spell_nightbane_ignite_soul : public SpellScriptLoader
                         return;
 
                     Unit* && owner = GetUnitOwner();
-                    owner->CastCustomSpell(SPELL_IGNITE_SOUL_DMG, SPELLVALUE_BASE_POINT0, owner->GetHealth(), owner, true);
+                    owner->CastCustomSpell(SPELL_IGNITE_SOUL_DMG, SPELLVALUE_BASE_POINT0, int32(owner->GetHealth()), owner, true);
                 }
 
                 void Register() override

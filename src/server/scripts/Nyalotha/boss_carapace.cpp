@@ -257,7 +257,7 @@ private:
 			me->GetCreatureListWithEntryInGrid(nightmareAntigenList, NPC_NIGHTMARE_ANTIGEN, 150.0f);
 			for (auto& antigens : nightmareAntigenList)
 			{
-				me->CastCustomSpell(SPELL_ADAPTIVE_MEMBRANE_ABSORB, SPELLVALUE_BASE_POINT0, antigens->GetMaxHealth() * 0.5, antigens);
+				me->CastCustomSpell(SPELL_ADAPTIVE_MEMBRANE_ABSORB, SPELLVALUE_BASE_POINT0, int32(antigens->GetMaxHealth() * 0.5), antigens);
 			}
 			break;
 		}

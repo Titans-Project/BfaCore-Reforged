@@ -236,7 +236,7 @@ WorldPacket const* WorldPackets::Loot::DisplayToast::Write()
         {
             _worldPacket << uint8(1); // Indexes (works in case of 1 bonus, possibly should be bit mask of indexes?)
 
-            uint32 bonusCount = bonusListIDs.size();
+            uint32 bonusCount = uint32(bonusListIDs.size());
             _worldPacket << uint32(bonusCount);
             for (uint32 j = 0; j < bonusCount; ++j)
                 _worldPacket << uint32(bonusListIDs[j]);

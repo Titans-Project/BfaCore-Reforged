@@ -509,7 +509,7 @@ public:
                                 creature->GetAI()->DoAction(2); //ACTION_ATTACK
 
                             std::list<ObjectGuid>::iterator itr = grunts.begin();
-                            std::advance(itr, urand(0, grunts.size() - 1));
+                            std::advance(itr, urand(0, uint32(grunts.size() - 1)));
 
                             Creature* grunt = instance->GetCreature(*itr);
                             if (creature && grunt)
@@ -523,7 +523,7 @@ public:
                                 creature->GetAI()->DoAction(2); //ACTION_ATTACK
 
                             std::list<ObjectGuid>::iterator itr = scrappers.begin();
-                            std::advance(itr, urand(0, scrappers.size() - 1));
+                            std::advance(itr, urand(0, uint32(scrappers.size() - 1)));
 
                             Creature* scrapper = instance->GetCreature(*itr);
                             if (creature && scrapper)
@@ -541,7 +541,7 @@ public:
                                 std::list<ObjectGuid>::iterator itr = adepts.begin();
 
                                 if (adepts.size() > 1)
-                                    std::advance(itr, urand(0, adepts.size() - 1));
+                                    std::advance(itr, urand(0, uint32(adepts.size() - 1)));
 
                                 Creature* adept = instance->GetCreature(*itr);
                                 if (creature && adept)

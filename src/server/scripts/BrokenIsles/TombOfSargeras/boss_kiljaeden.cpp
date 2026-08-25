@@ -1350,7 +1350,7 @@ class spell_tos_focused_dreadflame : public SpellScript
             return false;
         });
 
-        count = targets.size();
+        count = uint8(targets.size());
     }
 
     void HandleDamage(SpellEffIndex /*effIndex*/)

@@ -115,7 +115,7 @@ public:
         cyclic = false;
         points.assign(_points.begin(), _points.end());
         lo = 1;
-        hi = points.size() - 2;
+        hi = int(points.size() - 2);
     }
 
     Movement::PointsArray& _points;
@@ -155,7 +155,7 @@ void TransportMgr::GeneratePath(GameObjectTemplate const* goInfo, TransportTempl
             {
                 KeyFrame k(node_i);
                 G3D::Vector3 h;
-                orientationSpline.evaluate_derivative(i + 1, 0.0f, h);
+                orientationSpline.evaluate_derivative(Movement::SplineBase::index_type(i + 1), 0.0f, h);
                 k.InitialOrientation = Position::NormalizeOrientation(std::atan2(h.y, h.x) + float(M_PI));
 
                 keyFrames.push_back(k);
@@ -225,12 +225,12 @@ void TransportMgr::GeneratePath(GameObjectTemplate const* goInfo, TransportTempl
         {
             size_t extra = !keyFrames[i - 1].Teleport ? 1 : 0;
             std::shared_ptr<TransportSpline> spline = std::make_shared<TransportSpline>();
-            spline->init_spline(&splinePath[start], i - start + extra, Movement::SplineBase::ModeCatmullrom);
+            spline->init_spline(&splinePath[start], Movement::SplineBase::index_type(i - start + extra), Movement::SplineBase::ModeCatmullrom);
             spline->initLengths();
             for (size_t j = start; j < i + extra; ++j)
             {
-                keyFrames[j].Index = j - start + 1;
-                keyFrames[j].DistFromPrev = float(spline->length(j - start, j + 1 - start));
+                keyFrames[j].Index = uint32(j - start + 1);
+                keyFrames[j].DistFromPrev = float(spline->length(Movement::SplineBase::index_type(j - start), Movement::SplineBase::index_type(j + 1 - start)));
                 if (j > 0)
                     keyFrames[j - 1].NextDistFromPrev = keyFrames[j].DistFromPrev;
                 keyFrames[j].Spline = spline;
@@ -238,7 +238,7 @@ void TransportMgr::GeneratePath(GameObjectTemplate const* goInfo, TransportTempl
 
             if (keyFrames[i - 1].Teleport)
             {
-                keyFrames[i].Index = i - start + 1;
+                keyFrames[i].Index = uint32(i - start + 1);
                 keyFrames[i].DistFromPrev = 0.0f;
                 keyFrames[i - 1].NextDistFromPrev = 0.0f;
                 keyFrames[i].Spline = spline;
@@ -251,8 +251,8 @@ void TransportMgr::GeneratePath(GameObjectTemplate const* goInfo, TransportTempl
         {
             // remember first stop frame
             if (firstStop == -1)
-                firstStop = i;
-            lastStop = i;
+                firstStop = int32(i);
+            lastStop = int32(i);
         }
     }
 
@@ -267,7 +267,7 @@ void TransportMgr::GeneratePath(GameObjectTemplate const* goInfo, TransportTempl
     float tmpDist = 0.0f;
     for (size_t i = 0; i < keyFrames.size(); ++i)
     {
-        int32 j = (i + lastStop) % keyFrames.size();
+        int32 j = int32((i + lastStop) % keyFrames.size());
         if (keyFrames[j].IsStopFrame() || j == lastStop)
             tmpDist = 0.0f;
         else
@@ -317,7 +317,7 @@ void TransportMgr::GeneratePath(GameObjectTemplate const* goInfo, TransportTempl
     float segmentTime = 0.0f;
     for (size_t i = 0; i < keyFrames.size(); ++i)
     {
-        int32 j = (i + lastStop) % keyFrames.size();
+        int32 j = int32((i + lastStop) % keyFrames.size());
         if (keyFrames[j].IsStopFrame() || j == lastStop)
             segmentTime = keyFrames[j].TimeTo;
         keyFrames[j].TimeFrom = segmentTime - keyFrames[j].TimeTo;

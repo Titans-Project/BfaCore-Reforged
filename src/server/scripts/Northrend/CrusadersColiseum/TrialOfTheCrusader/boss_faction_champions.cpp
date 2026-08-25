@@ -418,7 +418,7 @@ class boss_toc_champion_controller : public CreatureScript
                     healersSubtracted = 1;
                 for (uint8 i = 0; i < healersSubtracted; ++i)
                 {
-                    uint8 pos = urand(0, vHealersEntries.size() - 1);
+                    uint8 pos = uint8(urand(0, uint32(vHealersEntries.size() - 1)));
                     switch (vHealersEntries[pos])
                     {
                         case NPC_ALLIANCE_DRUID_RESTORATION:
@@ -453,7 +453,7 @@ class boss_toc_champion_controller : public CreatureScript
 
                 if (!Is25ManRaid())
                     for (uint8 i = 0; i < 4; ++i)
-                        vOtherEntries.erase(vOtherEntries.begin() + urand(0, vOtherEntries.size() - 1));
+                        vOtherEntries.erase(vOtherEntries.begin() + urand(0, uint32(vOtherEntries.size() - 1)));
 
                 std::vector<uint32> vChampionEntries;
                 vChampionEntries.clear();
@@ -482,8 +482,8 @@ class boss_toc_champion_controller : public CreatureScript
 
                 for (uint8 i = 0; i < vChampionEntries.size(); ++i)
                 {
-                    uint8 pos = urand(0, vChampionJumpTarget.size()-1);
-                    if (Creature* champion = me->SummonCreature(vChampionEntries[i], vChampionJumpOrigin[urand(0, vChampionJumpOrigin.size()-1)], TEMPSUMMON_MANUAL_DESPAWN))
+                    uint8 pos = uint8(urand(0, uint32(vChampionJumpTarget.size()-1)));
+                    if (Creature* champion = me->SummonCreature(vChampionEntries[i], vChampionJumpOrigin[urand(0, uint32(vChampionJumpOrigin.size()-1))], TEMPSUMMON_MANUAL_DESPAWN))
                     {
                         _summons.Summon(champion);
                         champion->SetReactState(REACT_PASSIVE);
@@ -618,7 +618,7 @@ struct boss_faction_championsAI : public BossAI
             {
                 if (unit->GetTypeId() == TYPEID_PLAYER)
                 {
-                    float threat = CalculateThreat(me->GetDistance2d(unit), (float)unit->GetArmor(), unit->GetHealth());
+                    float threat = CalculateThreat(me->GetDistance2d(unit), (float)unit->GetArmor(), uint32(unit->GetHealth()));
                     me->getThreatManager().modifyThreatPercent(unit, -100);
                     me->AddThreat(unit, 1000000.0f * threat);
                 }

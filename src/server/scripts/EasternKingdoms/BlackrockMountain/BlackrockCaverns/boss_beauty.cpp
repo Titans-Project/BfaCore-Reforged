@@ -122,7 +122,7 @@ class spell_defiled_earth_rager_meteor : public SpellScript
 
     void FilterTargets(std::list<WorldObject*>& targets)
     {
-        targetsCount = targets.size();
+        targetsCount = uint8(targets.size());
     }
 
     void HandleDamage(SpellEffIndex /*effectIndex*/)

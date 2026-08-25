@@ -438,7 +438,7 @@ class ThokEnergyRegenerator
             }
             else
             {
-                m_PhaseDuration = DEFAULT_ENERGY_REGEN_DURATION - decreaseDuration;
+                m_PhaseDuration = float(DEFAULT_ENERGY_REGEN_DURATION - decreaseDuration);
             }
         }
 
@@ -1713,7 +1713,7 @@ class spell_thok_the_bloodthirsty_bloodied_wounds : public SpellScriptLoader
                 //GetUnitOwner()->VisitNearbyWorldObject(bloodiedRange, searcher);
                 Cell::VisitWorldObjects(GetUnitOwner(), searcher, bloodiedRange);
 
-                return players.size();
+                return uint32(players.size());
             }
 
             Creature* GetThokTheBloodthirsty(WorldObject* const searcher)

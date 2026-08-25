@@ -521,7 +521,7 @@ public:
                 }
 
                 me->AddAura(SPELL_BROKEN_LEG, me);
-                me->DealDamage(me, me->GetMaxHealth() * 0.03);
+                me->DealDamage(me, uint32(me->GetMaxHealth() * 0.03));
             }
 
             if (p_Id == GUID_MENDED_LEG)
@@ -667,7 +667,7 @@ public:
             // Players cannot actually kill the legs, they damage them enough and they become unselectable etc.
             if (me->GetHealth() <= damage)
             {
-                damage = me->GetHealth() - 1;
+                damage = uint32(me->GetHealth() - 1);
                 // Players "kill" the leg.
                 if (!died)
                     DoAction(ACTION_LEG_DIED);

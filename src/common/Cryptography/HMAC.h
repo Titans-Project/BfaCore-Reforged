@@ -98,7 +98,7 @@ namespace Impl
 
             GenericHMAC(uint8 const* seed, size_t len) : _ctx(HMACImpl::MakeCTX())
             {
-                int result = HMAC_Init_ex(_ctx, seed, len, HashCreator(), nullptr);
+                int result = HMAC_Init_ex(_ctx, seed, int(len), HashCreator(), nullptr);
                 ASSERT(result == 1);
             }
             template <typename Container>

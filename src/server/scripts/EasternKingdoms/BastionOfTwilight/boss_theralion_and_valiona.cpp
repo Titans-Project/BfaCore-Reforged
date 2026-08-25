@@ -221,7 +221,7 @@ class boss_theralion : public CreatureScript
 
                 if (instance)
                 {
-                    instance->SetData(DATA_VALIONA_TERALION_HP, me->GetMaxHealth());
+                    instance->SetData(DATA_VALIONA_TERALION_HP, uint32(me->GetMaxHealth()));
                     instance->SetData(DATA_VALIONA_THERALION_EVENT, NOT_STARTED);
                 }
             }
@@ -287,7 +287,7 @@ class boss_theralion : public CreatureScript
                     return;
 
                 if (instance){
-                    instance->SetData(DATA_VALIONA_TERALION_HP, me->GetHealth() >= damage ? me->GetHealth() - damage : 0);
+                    instance->SetData(DATA_VALIONA_TERALION_HP, me->GetHealth() >= damage ? uint32(me->GetHealth() - damage) : 0);
                     }
 
                 if (damage > me->GetHealth() )
@@ -670,7 +670,7 @@ class boss_valiona : public CreatureScript
 
                 if (instance)
                 {
-                    instance->SetData(DATA_VALIONA_TERALION_HP, me->GetMaxHealth());
+                    instance->SetData(DATA_VALIONA_TERALION_HP, uint32(me->GetMaxHealth()));
                     instance->SetData(DATA_VALIONA_THERALION_EVENT, NOT_STARTED);
                 }
             }
@@ -692,7 +692,7 @@ class boss_valiona : public CreatureScript
 
                 if (instance)
                 {
-                    instance->SetData(DATA_VALIONA_TERALION_HP, me->GetHealth() >= damage ? me->GetHealth() - damage : 0);
+                    instance->SetData(DATA_VALIONA_TERALION_HP, me->GetHealth() >= damage ? uint32(me->GetHealth() - damage) : 0);
                 }
 
                 if (damage > me->GetHealth())

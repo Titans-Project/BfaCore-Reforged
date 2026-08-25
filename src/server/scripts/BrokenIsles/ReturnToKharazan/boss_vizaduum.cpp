@@ -934,7 +934,7 @@ class at_kara_explosive_shadows : public AreaTriggerEntityScript
                     points.push_back(src);
                 }
 
-                at->InitSplines(points, at->GetDuration() * 0.5);
+                at->InitSplines(points, uint32(at->GetDuration() * 0.5));
             }
 
             void OnInitialize() override

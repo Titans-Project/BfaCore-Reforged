@@ -410,7 +410,7 @@ public:
             if (creatures.empty())
                 return GetNextEgg();
             uint32 c = 0;
-            uint32 r = urand(0,creatures.size());
+            uint32 r = urand(0, uint32(creatures.size()));
             for (std::list<Creature*>::iterator iter = creatures.begin(); iter != creatures.end(); ++iter)
             {
                 if (c == r)

@@ -375,7 +375,7 @@ public:
                 if (me->HealthBelowPctDamaged(5, damage))
                     damage = 0;
                 else
-                    damage *= (me->GetHealthPct()-5.0f)/ 65.0f;
+                    damage = uint32(damage * (me->GetHealthPct()-5.0f)/ 65.0f);
             }
         }
 

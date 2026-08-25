@@ -262,7 +262,7 @@ TC_GAME_API void LoadM2Cameras(std::string const& dataPath)
 
         // Get camera(s) - Main header, then dump them.
         M2Camera const* cam = reinterpret_cast<M2Camera const*>(buffer.data() + m2start + header->ofsCameras);
-        if (!readCamera(cam, fileSize - m2start, header, cameraEntry))
+        if (!readCamera(cam, uint32(fileSize - m2start), header, cameraEntry))
             TC_LOG_ERROR("server.loading", "Camera file %s is damaged. Camera references position beyond file end", filename.string().c_str());
     }
     TC_LOG_INFO("server.loading", ">> Loaded " SZFMTD " cinematic waypoint sets in %u ms", sFlyByCameraStore.size(), GetMSTimeDiffToNow(oldMSTime));

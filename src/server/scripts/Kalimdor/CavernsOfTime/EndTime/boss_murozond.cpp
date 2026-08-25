@@ -346,7 +346,7 @@ class npc_murozond_trash : public CreatureScript
                         if (WorldObject* hourglass = GetClosestGameObjectWithEntry(me, 209249, 300.0f))
                         {
                             if (me->IsWithinDist(hourglass, 32.0f))
-                                _instance->SetData(DATA_MUROZOND_TRASH, me->GetSpawnId());  // this cannot be in Reset because reset also happens on evade
+                                _instance->SetData(DATA_MUROZOND_TRASH, uint32(me->GetSpawnId()));  // this cannot be in Reset because reset also happens on evade
                         }
                         Reset();
                     }

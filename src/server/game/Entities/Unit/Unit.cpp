@@ -285,7 +285,7 @@ SpellSchoolMask ProcEventInfo::GetSchoolMask() const
 
 SpellNonMeleeDamage::SpellNonMeleeDamage(Unit* _attacker, Unit* _target, uint32 _SpellID, uint32 _SpellXSpellVisualID, uint32 _schoolMask, ObjectGuid _castId)
     : target(_target), attacker(_attacker), castId(_castId), SpellID(_SpellID), SpellXSpellVisualID(_SpellXSpellVisualID), damage(0), originalDamage(0),
-    schoolMask(_schoolMask), absorb(0), resist(0), periodicLog(false), blocked(0), HitInfo(0), cleanDamage(0), fullBlock(false), preHitHealth(_target->GetHealth())
+    schoolMask(_schoolMask), absorb(0), resist(0), periodicLog(false), blocked(0), HitInfo(0), cleanDamage(0), fullBlock(false), preHitHealth(uint32(_target->GetHealth()))
 {
 }
 
@@ -735,7 +735,7 @@ void Unit::DealDamageMods(Unit const* victim, uint32& damage, uint32* absorb, Da
     }
 
     // damage multiplier
-    damage *= GetDamageMultiplierForTarget(victim);
+    damage = uint32(damage * GetDamageMultiplierForTarget(victim));
 
     // damage multiplier based on instance difficulty
     if (damagetype == DIRECT_DAMAGE)
@@ -743,7 +743,7 @@ void Unit::DealDamageMods(Unit const* victim, uint32& damage, uint32* absorb, Da
         Difficulty difficulty = GetMap()->GetDifficultyID();
         if (difficulty != DIFFICULTY_NONE)
             if (InstanceDifficultyMultiplier const* multiplier = sObjectMgr->GetInstanceDifficultyMultiplier(GetMapId(), difficulty))
-                damage *= multiplier->damageMultiplier;
+                damage = uint32(damage * multiplier->damageMultiplier);
     }
 }
 
@@ -864,7 +864,7 @@ uint32 Unit::DealDamage(Unit* victim, uint32 damage, CleanDamage const* cleanDam
 
     TC_LOG_DEBUG("entities.unit", "DealDamageStart");
 
-    uint32 health = victim->GetHealth();
+    uint32 health = uint32(victim->GetHealth());
     TC_LOG_DEBUG("entities.unit", "%s dealt %u damage to %s", GetGUID().ToString().c_str(), damage, victim->GetGUID().ToString().c_str());
 
     // duel ends when player has 1 or less hp
@@ -909,7 +909,7 @@ uint32 Unit::DealDamage(Unit* victim, uint32 damage, CleanDamage const* cleanDam
     if (victim->IsPlayer())
         victim->ToPlayer()->UpdateCriteria(CRITERIA_TYPE_HIGHEST_HIT_RECEIVED, damage);
 
-    damage /= victim->GetHealthMultiplierForTarget(this);
+    damage = uint32(damage / victim->GetHealthMultiplierForTarget(this));
 
     if (!victim->IsControlledByPlayer() || victim->IsVehicle())
     {
@@ -1760,7 +1760,7 @@ uint32 Unit::CalcArmorReducedDamage(Unit* attacker, Unit* victim, const uint32 d
         return damage;
 
     float mitigation = std::min(armor / (armor + armorConstant), 0.85f);
-    return std::max<uint32>(damage * (1.0f - mitigation), 1);
+    return std::max<uint32>(uint32(damage * (1.0f - mitigation)), 1);
 }
 
 uint32 Unit::CalcSpellResistedDamage(Unit* attacker, Unit* victim, uint32 damage, SpellSchoolMask schoolMask, SpellInfo const* spellInfo)
@@ -1824,11 +1824,11 @@ uint32 Unit::CalcSpellResistedDamage(Unit* attacker, Unit* victim, uint32 damage
             uint32 damageAfterArmor = CalcArmorReducedDamage(attacker, victim, damage, spellInfo, BASE_ATTACK);
             uint32 armorReduction = damage - damageAfterArmor;
             if (armorReduction < damageResisted) // pick the lower one, the weakest resistance counts
-                damageResisted = armorReduction;
+                damageResisted = float(armorReduction);
         }
     }
 
-    return damageResisted;
+    return uint32(damageResisted);
 }
 
 float Unit::GetEffectiveResistChance(Unit const* owner, SpellSchoolMask schoolMask, Unit const* victim, SpellInfo const* spellInfo)
@@ -1882,7 +1882,7 @@ void Unit::CalcAbsorbResist(DamageInfo& damageInfo)
     damageInfo.ResistDamage(resistedDamage);
 
     // Ignore Absorption Auras
-    float auraAbsorbMod(GetMaxPositiveAuraModifierByMiscMask(SPELL_AURA_MOD_TARGET_ABSORB_SCHOOL, damageInfo.GetSchoolMask()));
+    float auraAbsorbMod(float(GetMaxPositiveAuraModifierByMiscMask(SPELL_AURA_MOD_TARGET_ABSORB_SCHOOL, damageInfo.GetSchoolMask())));
     auraAbsorbMod = std::max(auraAbsorbMod, static_cast<float>(GetMaxPositiveAuraModifier(SPELL_AURA_MOD_TARGET_ABILITY_ABSORB_SCHOOL, [&damageInfo](AuraEffect const* aurEff) -> bool
     {
         if (!(aurEff->GetMiscValue() & damageInfo.GetSchoolMask()))
@@ -5667,12 +5667,12 @@ void Unit::SendAttackStateUpdate(CalcDamageInfo* damageInfo)
     packet.VictimGUID = damageInfo->target->GetGUID();
     packet.Damage = damageInfo->damage;
     packet.OriginalDamage = damageInfo->originalDamage;
-    int32 overkill = damageInfo->damage - damageInfo->target->GetHealth();
+    int32 overkill = int32(damageInfo->damage - damageInfo->target->GetHealth());
     packet.OverDamage = (overkill < 0 ? -1 : overkill);
 
     packet.SubDmg = boost::in_place();
     packet.SubDmg->SchoolMask = damageInfo->damageSchoolMask;   // School of sub damage
-    packet.SubDmg->FDamage = damageInfo->damage;                // sub damage
+    packet.SubDmg->FDamage = float(damageInfo->damage);                // sub damage
     packet.SubDmg->Damage = damageInfo->damage;                 // Sub Damage
     packet.SubDmg->Absorbed = damageInfo->absorb;
     packet.SubDmg->Resisted = damageInfo->resist;
@@ -6698,7 +6698,7 @@ void Unit::DealHeal(HealInfo& healInfo)
         GetAI()->HealDone(victim, addhealth);
 
     if (addhealth)
-        gain = victim->ModifyHealth(int32(addhealth));
+        gain = int32(victim->ModifyHealth(int32(addhealth)));
 
     // Hook for OnHeal Event
     sScriptMgr->OnHeal(this, victim, (uint32&)gain);
@@ -6895,7 +6895,7 @@ Unit* Unit::GetNextRandomRaidMemberOrPet(float radius)
     if (nearMembers.empty())
         return nullptr;
 
-    uint32 randTarget = urand(0, nearMembers.size()-1);
+    uint32 randTarget = urand(0, uint32(nearMembers.size()-1));
     return nearMembers[randTarget];
 }
 
@@ -7601,7 +7601,7 @@ float Unit::SpellHealingPctDone(Unit* victim, SpellInfo const* spellProto) const
     AuraEffectList const& healingVsHealthTargetLost = GetAuraEffectsByType(SPELL_AURA_MOD_HEALING_VS_HEALTH_TARGET_LOST);
     for (auto itr : healingVsHealthTargetLost)
     {
-        int32 amount = itr->GetAmount() * (1.0f - (victim->GetHealthPct() / 100.0f));
+        int32 amount = int32(itr->GetAmount() * (1.0f - (victim->GetHealthPct() / 100.0f)));
         AddPct(DoneTotalMod, amount);
     }
 
@@ -10328,8 +10328,8 @@ void Unit::CheckPowerProc(Powers power, int32 oldVal, int32 newVal, AuraEffectLi
     {
         if (effect->GetMiscValue() == power)
         {
-            float oldValueCheck = oldVal;
-            float newValueCheck = newVal;
+            float oldValueCheck = float(oldVal);
+            float newValueCheck = float(newVal);
 
             if (effect->GetAuraType() == SPELL_AURA_TRIGGER_SPELL_ON_POWER_PCT)
             {
@@ -11501,7 +11501,7 @@ uint32 Unit::GetCastingTimeForBonus(SpellInfo const* spellProto, DamageEffectTyp
 
     // -5% of total per any additional effect
     for (uint8 i = 0; i < effects; ++i)
-        CastingTime *= 0.95f;
+        CastingTime = uint32(CastingTime * 0.95f);
 
     return CastingTime;
 }
@@ -13989,7 +13989,7 @@ void Unit::SendRemoveFromThreatListOpcode(HostileReference* pHostileReference)
 // baseRage means damage taken when attacker = false
 void Unit::RewardRage(uint32 baseRage)
 {
-    float addRage = baseRage;
+    float addRage = float(baseRage);
 
     // talent who gave more rage on attack
     AddPct(addRage, GetTotalAuraModifier(SPELL_AURA_MOD_RAGE_FROM_DAMAGE_DEALT));
@@ -14631,7 +14631,7 @@ void Unit::ApplyMovementForce(ObjectGuid id, Position origin, float magnitude, u
     force.Origin = origin;
     force.Direction = direction;
     if (transportGuid.IsMOTransport())
-        force.TransportID = transportGuid.GetCounter();
+        force.TransportID = uint32(transportGuid.GetCounter());
 
     force.Magnitude = magnitude;
     force.Type = type;
@@ -14806,7 +14806,7 @@ void Unit::BuildValuesCreate(ByteBuffer* data, Player const* target) const
     *data << uint8(flags);
     m_objectData->WriteCreate(*data, flags, this, target);
     m_unitData->WriteCreate(*data, flags, this, target);
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void Unit::SetEclipsePower(int32 power, bool send)
@@ -14904,7 +14904,7 @@ void Unit::BuildValuesUpdate(ByteBuffer* data, Player const* target) const
     if (m_values.HasChanged(TYPEID_UNIT))
         m_unitData->WriteUpdate(*data, flags, this, target);
 
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void Unit::BuildValuesUpdateWithFlag(ByteBuffer* data, UF::UpdateFieldFlag flags, Player const* target) const
@@ -14920,7 +14920,7 @@ void Unit::BuildValuesUpdateWithFlag(ByteBuffer* data, UF::UpdateFieldFlag flags
     m_unitData->AppendAllowedFieldsMaskForFlag(mask, flags);
     m_unitData->WriteUpdate(*data, mask, true, this, target);
 
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void Unit::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::ObjectData::Mask const& requestedObjectMask,
@@ -14947,7 +14947,7 @@ void Unit::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::ObjectData::
     if (valuesMask[TYPEID_UNIT])
         m_unitData->WriteUpdate(buffer, unitMask, true, this, target);
 
-    buffer.put<uint32>(sizePos, buffer.wpos() - sizePos - 4);
+    buffer.put<uint32>(sizePos, uint32(buffer.wpos() - sizePos - 4));
 
     data->AddUpdateBlock(buffer);
 }

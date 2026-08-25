@@ -112,7 +112,7 @@ void WorldSession::HandleGarrisonOpenMissionNpc(WorldPackets::Garrison::Garrison
             WorldPackets::Garrison::GarrisonOpenMissionNpc garrisonOpenMissionNpc;
             for (auto const& p : garrison->GetMissions())
             {
-                garrisonOpenMissionNpc.Missions.push_back(p.first);
+                garrisonOpenMissionNpc.Missions.push_back(int32(p.first));
             }
             SendPacket(garrisonOpenMissionNpc.Write());
         }

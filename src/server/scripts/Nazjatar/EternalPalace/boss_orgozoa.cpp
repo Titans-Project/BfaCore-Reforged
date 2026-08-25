@@ -1046,7 +1046,7 @@ public:
 
         void CheckTargets(std::list<WorldObject*>& targets)
         {
-            targetList = targets.size();
+            targetList = uint32(targets.size());
         }
 
         void RecalculateDamage(SpellEffIndex index)

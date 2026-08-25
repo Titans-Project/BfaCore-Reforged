@@ -220,7 +220,7 @@ public:
                         if (!triggers.empty())
                         {
                             std::list<Creature*>::iterator it = triggers.begin();
-                            std::advance(it, urand(0, triggers.size()-1));
+                            std::advance(it, urand(0, uint32(triggers.size()-1)));
                             (*it)->CastSpell(*it, SPELL_SUMMON_DARTER, true);
                             events.Repeat(Seconds(11));
                         }

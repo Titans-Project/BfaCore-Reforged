@@ -125,7 +125,7 @@ public:
             {
                 orient += 2.0f * float(M_PI) / NB_STARS;
                 float x, y;
-                me->GetNearPoint2D(x, y, radius, orient);
+                me->GetNearPoint2D(x, y, float(radius), orient);
                 me->SummonCreature(NPC_STAR, x, y, me->GetPositionZ(), 0.0f, TEMPSUMMON_MANUAL_DESPAWN);
             }
             me->AddUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));
@@ -194,7 +194,7 @@ public:
                     {
                         float x,y;
                         orient += 2.0f * float(M_PI) / NB_STARS;
-                        me->GetNearPoint2D(x, y, radius, orient);
+                        me->GetNearPoint2D(x, y, float(radius), orient);
                         vortex->GetMotionMaster()->Clear();
                         vortex->GetMotionMaster()->MovePoint(0, x, y,  me->GetPositionZ());
                     }

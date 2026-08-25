@@ -138,7 +138,7 @@ class boss_gekkan : public CreatureScript
                         {
                             //Cast on a random entourage the inspiration.
                             std::list<ObjectGuid>::iterator itr = entourage.begin();
-                            std::advance(itr, urand(0, entourage.size() - 1));
+                            std::advance(itr, urand(0, uint32(entourage.size() - 1)));
                             ObjectGuid guid = *itr;
                             Creature* c = me->GetMap()->GetCreature(guid);
                             if (c)

@@ -97,7 +97,7 @@ bool BattlegroundQueue::SelectionPool::KickGroup(uint32 size)
         //update player count
         GroupQueueInfo* ginfo = (*groupToKick);
         SelectedGroups.erase(groupToKick);
-        PlayerCount -= ginfo->Players.size();
+        PlayerCount = uint32(PlayerCount - ginfo->Players.size());
         //return false if we kicked smaller group or there are enough players in selection pool
         if (ginfo->Players.size() <= size + 1)
             return false;
@@ -116,7 +116,7 @@ bool BattlegroundQueue::SelectionPool::AddGroup(GroupQueueInfo* ginfo, uint32 de
     {
         SelectedGroups.push_back(ginfo);
         // increase selected players count
-        PlayerCount += ginfo->Players.size();
+        PlayerCount = uint32(PlayerCount + ginfo->Players.size());
         return true;
     }
     if (PlayerCount < desiredCount)
@@ -212,10 +212,10 @@ GroupQueueInfo* BattlegroundQueue::AddGroup(Player* leader, Group* grp, Battlegr
                 GroupsQueueType::const_iterator itr;
                 for (itr = m_QueuedGroups[bracketId][BG_QUEUE_NORMAL_ALLIANCE].begin(); itr != m_QueuedGroups[bracketId][BG_QUEUE_NORMAL_ALLIANCE].end(); ++itr)
                     if (!(*itr)->IsInvitedToBGInstanceGUID)
-                        qAlliance += (*itr)->Players.size();
+                        qAlliance = uint32(qAlliance + (*itr)->Players.size());
                 for (itr = m_QueuedGroups[bracketId][BG_QUEUE_NORMAL_HORDE].begin(); itr != m_QueuedGroups[bracketId][BG_QUEUE_NORMAL_HORDE].end(); ++itr)
                     if (!(*itr)->IsInvitedToBGInstanceGUID)
-                        qHorde += (*itr)->Players.size();
+                        qHorde = uint32(qHorde + (*itr)->Players.size());
 
                 // Show queue status to player only (when joining queue)
                 if (sWorld->getBoolConfig(CONFIG_BATTLEGROUND_QUEUE_ANNOUNCER_PLAYERONLY))
@@ -493,8 +493,8 @@ void BattlegroundQueue::FillPlayersToBG(Battleground* bg, BattlegroundBracketId 
 {
     int32 hordeFree = bg->GetFreeSlotsForTeam(HORDE);
     int32 aliFree   = bg->GetFreeSlotsForTeam(ALLIANCE);
-    uint32 aliCount   = m_QueuedGroups[bracket_id][BG_QUEUE_NORMAL_ALLIANCE].size();
-    uint32 hordeCount = m_QueuedGroups[bracket_id][BG_QUEUE_NORMAL_HORDE].size();
+    uint32 aliCount   = uint32(m_QueuedGroups[bracket_id][BG_QUEUE_NORMAL_ALLIANCE].size());
+    uint32 hordeCount = uint32(m_QueuedGroups[bracket_id][BG_QUEUE_NORMAL_HORDE].size());
 
     // try to get even teams
     if (sWorld->getIntConfig(CONFIG_BATTLEGROUND_INVITATION_TYPE) == BG_QUEUE_INVITATION_TYPE_EVEN)

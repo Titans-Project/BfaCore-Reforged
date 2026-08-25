@@ -412,7 +412,7 @@ bool SmartAI::IsEscortInvokerInRange()
     ObjectList* targets = GetScript()->GetTargetList(SMART_ESCORT_TARGETS);
     if (targets)
     {
-        float checkDist = me->GetInstanceScript() ? SMART_ESCORT_MAX_PLAYER_DIST * 2 : SMART_ESCORT_MAX_PLAYER_DIST;
+        float checkDist = float(me->GetInstanceScript() ? SMART_ESCORT_MAX_PLAYER_DIST * 2 : SMART_ESCORT_MAX_PLAYER_DIST);
         if (targets->size() == 1 && GetScript()->IsPlayer((*targets->begin())))
         {
             Player* player = (*targets->begin())->ToPlayer();
@@ -689,7 +689,7 @@ void SmartAI::DamageTaken(Unit* doneBy, uint32& damage)
         return;
 
     if (mInvincibilityHpLevel && (damage >= me->GetHealth() - mInvincibilityHpLevel))
-        damage = me->GetHealth() - mInvincibilityHpLevel; // damage should not be nullified, because of player damage req.
+        damage = uint32(me->GetHealth() - mInvincibilityHpLevel); // damage should not be nullified, because of player damage req.
 }
 
 void SmartAI::HealReceived(Unit* doneBy, uint32& addhealth)

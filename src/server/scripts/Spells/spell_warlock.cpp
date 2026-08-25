@@ -566,7 +566,7 @@ class spell_warl_immolate_aura : public AuraScript
         if (eventInfo.GetSpellInfo() && eventInfo.GetSpellInfo()->Id == SPELL_WARLOCK_IMMOLATE_DOT)
         {
             int32 rollChance = GetSpellInfo()->GetEffect(EFFECT_0)->BasePoints;
-            rollChance = GetCaster()->ModifyPower(POWER_SOUL_SHARDS, 2.5f);
+            rollChance = GetCaster()->ModifyPower(POWER_SOUL_SHARDS, int32(2.5f));
             bool crit = (eventInfo.GetHitMask() & PROC_HIT_CRITICAL) != 0;
             return crit ? roll_chance_i(rollChance * 2) : roll_chance_i(rollChance);
         }
@@ -648,7 +648,7 @@ class spell_warl_conflagrate : public SpellScript
         if (caster->HasAura(SPELL_WARLOCK_BACKDRAFT_AURA))
             caster->CastSpell(caster, SPELL_WARLOCK_BACKDRAFT, true);
 
-        caster->ModifyPower(POWER_SOUL_SHARDS, 7.5f);
+        caster->ModifyPower(POWER_SOUL_SHARDS, int32(7.5f));
 
         if (caster->HasAura(SPELL_WARLOCK_ROARING_BLAZE))
         {
@@ -933,7 +933,7 @@ class spell_warl_health_funnel : public AuraScript
             return;
 
         CustomSpellValues values;
-        int32 damage = caster->CountPctFromMaxHealth(4);
+        int32 damage = int32(caster->CountPctFromMaxHealth(4));
         values.AddSpellMod(SPELLVALUE_BASE_POINT0, damage);
         values.AddSpellMod(SPELLVALUE_BASE_POINT1, damage * 2);
 
@@ -1074,7 +1074,7 @@ class spell_warl_soul_leech_aura : public AuraScript
             return false;
 
         int32 basePoints = GetSpellInfo()->GetEffect(EFFECT_0)->BasePoints;
-        int32 absorb = ((eventInfo.GetDamageInfo() ? eventInfo.GetDamageInfo()->GetDamage() : 0) * basePoints) / 100.f;
+        int32 absorb = int32(((eventInfo.GetDamageInfo() ? eventInfo.GetDamageInfo()->GetDamage() : 0) * basePoints) / 100.f);
 
         // Add remaining amount if already applied
         if (Aura* aur = caster->GetAura(SPELL_WARLOCK_SOUL_LEECH_ABSORB))
@@ -1085,7 +1085,7 @@ class spell_warl_soul_leech_aura : public AuraScript
         int32 basePointNormal = GetSpellInfo()->GetEffect(EFFECT_1)->BasePoints;
         int32 basePointDS = sSpellMgr->GetSpellInfo(SPELL_WARLOCK_DEMONSKIN)->GetEffect(EFFECT_1)->BasePoints;
         int32 totalBP = caster->HasAura(SPELL_WARLOCK_DEMONSKIN) ? basePointDS : basePointNormal;
-        int32 threshold = (caster->GetMaxHealth() * totalBP) / 100.f;
+        int32 threshold = int32((caster->GetMaxHealth() * totalBP) / 100.f);
         absorb = std::min(absorb, threshold);
 
         caster->CastCustomSpell(SPELL_WARLOCK_SOUL_LEECH_ABSORB, SPELLVALUE_BASE_POINT0, absorb, caster, TRIGGERED_FULL_MASK);
@@ -1736,7 +1736,7 @@ public:
         void CalculateAmount(const AuraEffect*, int32& amount, bool &)
         {
             if (Unit* caster = GetCaster())
-                amount = caster->CountPctFromMaxHealth(amount);
+                amount = int32(caster->CountPctFromMaxHealth(amount));
         }
         void Register() override
         {
@@ -2022,12 +2022,12 @@ class spell_warl_dark_pact : public AuraScript
 
             if (Guardian* guardian = caster->GetGuardianPet())
             {
-                sacrifiedHealth = guardian->CountPctFromCurHealth(GetSpellInfo()->GetEffect(EFFECT_1)->BasePoints);
+                sacrifiedHealth = int32(guardian->CountPctFromCurHealth(GetSpellInfo()->GetEffect(EFFECT_1)->BasePoints));
                 guardian->ModifyHealth(-sacrifiedHealth);
             }
             else
             {
-                sacrifiedHealth = caster->CountPctFromCurHealth(GetSpellInfo()->GetEffect(EFFECT_1)->BasePoints);
+                sacrifiedHealth = int32(caster->CountPctFromCurHealth(GetSpellInfo()->GetEffect(EFFECT_1)->BasePoints));
                 caster->ModifyHealth(-sacrifiedHealth);
             }
 
@@ -2729,13 +2729,13 @@ public:
 
         AddPct(absorb, caster->GetAuraEffectAmount(SPELL_ARENA_DAMPENING, EFFECT_0));
 
-        float threshold = caster->CountPctFromMaxHealth(GetEffect(EFFECT_1)->GetAmount());
+        float threshold = float(caster->CountPctFromMaxHealth(GetEffect(EFFECT_1)->GetAmount()));
         absorb = std::min(absorb, threshold);
 
         if (soulLeechShield)
-            soulLeechShield->SetAmount(absorb);
+            soulLeechShield->SetAmount(int32(absorb));
         else
-            caster->CastCustomSpell(SPELL_WARLOCK_SOUL_LEECH_SHIELD, SPELLVALUE_BASE_POINT0, absorb, caster, TRIGGERED_FULL_MASK);
+            caster->CastCustomSpell(SPELL_WARLOCK_SOUL_LEECH_SHIELD, SPELLVALUE_BASE_POINT0, int32(absorb), caster, TRIGGERED_FULL_MASK);
     }
 
     void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
@@ -3435,7 +3435,7 @@ class spell_warl_incinerate : public SpellScript
 
     void HandleOnHitMainTarget(SpellEffIndex /*effIndex*/)
     {
-        GetCaster()->ModifyPower(POWER_SOUL_SHARDS, 5.0f);
+        GetCaster()->ModifyPower(POWER_SOUL_SHARDS, int32(5.0f));
     }
 
     void HandleOnHitTarget(SpellEffIndex /*effIndex*/)
@@ -3721,7 +3721,7 @@ public:
             int32 healthPct = GetSpellInfo()->GetEffect(EFFECT_1)->CalcValue(originalCaster);
             int32 manaPct = GetSpellInfo()->GetEffect(EFFECT_0)->CalcValue(originalCaster);
 
-            uint32 health = player->CountPctFromMaxHealth(healthPct);
+            uint32 health = uint32(player->CountPctFromMaxHealth(healthPct));
             uint32 mana = 0;
             if (player->GetMaxPower(POWER_MANA) > 0)
                 mana = CalculatePct(player->GetMaxPower(POWER_MANA), manaPct);
@@ -4366,7 +4366,7 @@ public:
 
             int32 basePoints = GetSpellInfo()->GetEffect(EFFECT_1)->BasePoints;
             for (WorldObject* pet : targets)
-                damage += pet->ToUnit()->CountPctFromMaxHealth(basePoints);
+                damage += int32(pet->ToUnit()->CountPctFromMaxHealth(basePoints));
         }
 
         void Register() override
@@ -4443,8 +4443,8 @@ public:
                     uint32 dmg = CalculatePct(spellPower, isLordSummon ? 30 : 50);
                     uint32 diff = CalculatePct(dmg, 10);
                    
-                    me->SetBaseWeaponDamage(BASE_ATTACK, MINDAMAGE, dmg - diff);
-                    me->SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, dmg + diff);
+                    me->SetBaseWeaponDamage(BASE_ATTACK, MINDAMAGE, float(dmg - diff));
+                    me->SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, float(dmg + diff));
                    
 
                     if (isLordSummon)
@@ -4527,7 +4527,7 @@ public:
         void HandleHit(SpellEffIndex effIndex)
         {
             Unit * caster = GetCaster();
-            uint32 heal = caster->SpellHealingBonusDone(caster, GetSpellInfo(), caster->CountPctFromMaxHealth(GetSpellInfo()->GetEffect(effIndex)->BasePoints), HEAL, GetEffectInfo());
+            uint32 heal = caster->SpellHealingBonusDone(caster, GetSpellInfo(), uint32(caster->CountPctFromMaxHealth(GetSpellInfo()->GetEffect(effIndex)->BasePoints)), HEAL, GetEffectInfo());
             heal /= 100; // 0.5%
             heal = caster->SpellHealingBonusTaken(caster, GetSpellInfo(), heal, HEAL, GetEffectInfo());
             SetHitHeal(heal);
@@ -4558,7 +4558,7 @@ public:
 
         void CalculateAmount(AuraEffect const* /*aurEff*/, int32 & amount, bool &)
         {
-            int32 sacrifiedHealth = GetCaster()->CountPctFromCurHealth(GetSpellInfo()->GetEffect(EFFECT_1)->BasePoints);
+            int32 sacrifiedHealth = int32(GetCaster()->CountPctFromCurHealth(GetSpellInfo()->GetEffect(EFFECT_1)->BasePoints));
             GetCaster()->ModifyHealth(-sacrifiedHealth);
             amount = CalculatePct(sacrifiedHealth, GetSpellInfo()->GetEffect(EFFECT_2)->BasePoints);
         }
@@ -4835,7 +4835,7 @@ public:
                     int32 maxHealthPct = GetEffect(EFFECT_1)->GetAmount();
                     if (uint32 demonskinBonus = caster->GetAuraEffectAmount(SPELL_WARLOCK_DEMON_SKIN, EFFECT_1))
                         maxHealthPct = demonskinBonus;
-                    finalAmount = std::min<uint32>(finalAmount, CalculatePct(target->GetMaxHealth(), maxHealthPct));
+                    finalAmount = std::min<uint32>(finalAmount, uint32(CalculatePct(target->GetMaxHealth(), maxHealthPct)));
                     target->CastCustomSpell(target, SPELL_WARLOCK_SOUL_LEECH_SHIELD, &finalAmount, nullptr, nullptr, true);
 
                     if (target->ToPlayer() && target->HasAura(SPELL_WARLOCK_SOUL_LINK_BUFF))
@@ -4973,7 +4973,7 @@ public:
             if (!caster || !actor)
                 return;
 
-            caster->CastCustomSpell(SPELL_WARLOCK_LASERBEAM, SPELLVALUE_BASE_POINT0, actor->CountPctFromMaxHealth(5), actor, true);
+            caster->CastCustomSpell(SPELL_WARLOCK_LASERBEAM, SPELLVALUE_BASE_POINT0, int32(actor->CountPctFromMaxHealth(5)), actor, true);
         }
 
         void Register() override

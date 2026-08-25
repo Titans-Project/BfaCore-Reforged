@@ -1905,7 +1905,7 @@ class npc_highmaul_ravenous_bloodmaw : public CreatureScript
 
             void FillCirclePath(Position const& p_Center, float radius, float p_Z, Movement::PointsArray& p_Path, bool p_Clockwise)
             {
-                float l_Step = p_Clockwise ? -M_PI / 8.0f : float(M_PI) / 8.0f;
+                float l_Step = float(p_Clockwise ? -M_PI / 8.0f : float(M_PI) / 8.0f);
                 float l_Angle = p_Center.GetAngle(me->GetPositionX(), me->GetPositionY());
 
                 for (uint8 itr = 0; itr < 16; l_Angle += l_Step, ++itr)
@@ -2570,9 +2570,9 @@ class npc_highmaul_highmaul_sweeper : public CreatureScript
                     Position l_SecondPos = g_SweeperJumpPos[m_SweeperType][1];
 
                     if (me->GetDistance(l_FirstPos) > me->GetDistance(l_SecondPos))
-                        target->GetMotionMaster()->MoveJump(l_SecondPos, 15.0f, 25.0f, target->GetOrientation());
+                        target->GetMotionMaster()->MoveJump(l_SecondPos, 15.0f, 25.0f, uint32(target->GetOrientation()));
                     else
-                        target->GetMotionMaster()->MoveJump(l_FirstPos, 15.0f, 25.0f, target->GetOrientation());
+                        target->GetMotionMaster()->MoveJump(l_FirstPos, 15.0f, 25.0f, uint32(target->GetOrientation()));
                 }
             }
         };

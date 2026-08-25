@@ -818,7 +818,7 @@ class bfa_spell_toes_terrorize_periodic_player : public SpellScriptLoader
         void HandleDummy(SpellEffIndex /*effIndex*/)
         {
             if (Unit* target = GetHitUnit())
-                SetHitDamage(target->CountPctFromCurHealth(GetHitDamage()));
+                SetHitDamage(int32(target->CountPctFromCurHealth(GetHitDamage())));
         }
 
         void Register()
@@ -1344,7 +1344,7 @@ public:
         {
             Unit* caster = GetCaster();
 
-            int32 damage = (GetCaster()->CountPctFromCurHealth(15));
+            int32 damage = int32(GetCaster()->CountPctFromCurHealth(15));
             caster->CastCustomSpell(caster, 122907, &damage, 0, 0, true);
         }
 

@@ -258,7 +258,7 @@ class instance_stratholme : public InstanceMapScript
                         {
                             HandleGameObject(portGauntletGUID, false);
 
-                            uint32 count = abomnationGUID.size();
+                            uint32 count = uint32(abomnationGUID.size());
                             for (GuidSet::const_iterator i = abomnationGUID.begin(); i != abomnationGUID.end(); ++i)
                             {
                                 if (Creature* pAbom = instance->GetCreature(*i))

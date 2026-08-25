@@ -103,12 +103,12 @@ struct boss_fenryr : public BossAI
 
     void RegenerateHeal()
     {
-        uint32 health = me->GetHealth();
+        uint32 health = uint32(me->GetHealth());
 
         if (!health)
             return;
 
-        health *= 1.0f;
+        health = uint32(health * 1.0f);
 
         me->SetHealth(health);
     }

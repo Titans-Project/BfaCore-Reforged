@@ -119,7 +119,7 @@ struct boss_varimathras : public BossAI
         {
             DoCast(SPELL_SHADOW_STRIKE);
             //257644
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, 257644, false);
             events.Repeat(9s);
             break;
@@ -128,17 +128,17 @@ struct boss_varimathras : public BossAI
         {
             GetTalkData(SPELL_DARK_FISSURE);
             DoCast(SPELL_DARK_FISSURE);
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
             {
                 me->CastSpell(target1, SPELL_DARK_FISSURE_VISUAL, false);
                 me->CastSpell(target1, SPELL_DARK_FISSURE_DMG, false);
             }
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
             {
                 me->CastSpell(target1, SPELL_DARK_FISSURE_VISUAL, false);
                 me->CastSpell(target1, SPELL_DARK_FISSURE_DMG, false);
             }
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
             {
                 me->CastSpell(target1, SPELL_DARK_FISSURE_VISUAL, false);
                 me->CastSpell(target1, SPELL_DARK_FISSURE_DMG, false);

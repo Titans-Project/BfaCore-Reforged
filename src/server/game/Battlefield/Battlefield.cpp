@@ -947,7 +947,7 @@ bool BfCapturePoint::SetCapturePointData(GameObject* capturePoint)
     }
 
     // get the needed values from goinfo
-    m_maxValue = goinfo->controlZone.maxTime;
+    m_maxValue = float(goinfo->controlZone.maxTime);
     m_maxSpeed = m_maxValue / (goinfo->controlZone.minTime ? goinfo->controlZone.minTime : 60);
     m_neutralValuePct = goinfo->controlZone.neutralPercent;
     m_minValue = m_maxValue * goinfo->controlZone.neutralPercent / 100;
@@ -994,7 +994,7 @@ bool BfCapturePoint::Update(uint32 diff)
 
     if (GameObject* capturePoint = m_Bf->GetGameObject(m_capturePointGUID))
     {
-        float radius = capturePoint->GetGOInfo()->controlZone.radius;
+        float radius = float(capturePoint->GetGOInfo()->controlZone.radius);
 
         for (uint8 team = 0; team < BG_TEAMS_COUNT; ++team)
         {

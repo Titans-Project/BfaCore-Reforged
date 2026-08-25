@@ -2825,7 +2825,7 @@ class npc_foundry_thunderlord_beast_tender : public CreatureScript
                     {
                         if (!m_IronhoofGuards.empty())
                         {
-                            if (Creature* l_Ironhoof = ObjectAccessor::GetCreature(*me, m_IronhoofGuards[urand(0, m_IronhoofGuards.size() - 1)]))
+                            if (Creature* l_Ironhoof = ObjectAccessor::GetCreature(*me, m_IronhoofGuards[urand(0, uint32(m_IronhoofGuards.size() - 1))]))
                                 me->CastSpell(l_Ironhoof, eSpells::BestialWrath, false);
                         }
 
@@ -4504,7 +4504,7 @@ class spell_foundry_slag_breath : public SpellScriptLoader
                 if (l_Caster == nullptr)
                     return;
 
-                float l_Angle = 2 * M_PI / 360 * l_Restriction->ConeDegrees;
+                float l_Angle = float(2 * M_PI / 360 * l_Restriction->ConeDegrees);
                 p_Targets.remove_if([l_Caster, l_Angle](WorldObject* p_Object) -> bool
                 {
                     if (p_Object == nullptr)
@@ -4803,7 +4803,7 @@ class spell_foundry_rending_slash : public SpellScriptLoader
                 if (l_Caster == nullptr)
                     return;
 
-                float l_Angle = 2 * M_PI / 360 * l_Restriction->ConeDegrees;
+                float l_Angle = float(2 * M_PI / 360 * l_Restriction->ConeDegrees);
                 p_Targets.remove_if([l_Caster, l_Angle](WorldObject* p_Object) -> bool
                 {
                     if (p_Object == nullptr)
@@ -4856,7 +4856,7 @@ class spell_foundry_crushing_slam : public SpellScriptLoader
                 if (l_Caster == nullptr)
                     return;
 
-                float l_Angle = 2 * M_PI / 360 * l_Restriction->ConeDegrees;
+                float l_Angle = float(2 * M_PI / 360 * l_Restriction->ConeDegrees);
                 p_Targets.remove_if([l_Caster, l_Angle](WorldObject* p_Object) -> bool
                 {
                     if (p_Object == nullptr)

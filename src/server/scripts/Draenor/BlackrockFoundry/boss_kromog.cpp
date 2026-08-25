@@ -604,7 +604,7 @@ class npc_foundry_rippling_smash : public CreatureScript
                     float l_Y = me->m_positionY + 2.0f;// *sin(me->m_orientation);
                         float l_Z = 105.055f;
 
-                        me->SendPlaySpellVisual({ l_X, l_Y, l_Z },0.0f, eVisual::RipplingSmashVisual, 0.f,0.f, 5.0f,  true);
+                        me->SendPlaySpellVisual({ l_X, l_Y, l_Z },0.0f, eVisual::RipplingSmashVisual, 0,0, 5.0f,  true);
                    // });
                 }
             }

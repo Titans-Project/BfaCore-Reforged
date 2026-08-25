@@ -173,14 +173,14 @@ public:
             return;
 
         for (uint8 i = 0; i < MAX_IRON_BASTION_PROGRESS; ++i)
-            if (player->GetPositionX() < m_minX[i] && !player->HasAura(m_Auras[i]))
-                player->AddAura(m_Auras[i], player);
+            if (player->GetPositionX() < m_minX[i] && !player->HasAura(uint32(m_Auras[i])))
+                player->AddAura(uint32(m_Auras[i]), player);
     }
 
     void Clean(Player* player)
     {
         for (uint8 i = 0; i < MAX_IRON_BASTION_PROGRESS; ++i)
-            player->RemoveAurasDueToSpell(m_Auras[i]);
+            player->RemoveAurasDueToSpell(uint32(m_Auras[i]));
     }
 };
 
@@ -567,7 +567,7 @@ public:
     {
         if (quest->GetQuestId() == TanaanQuests::QuestATasteOfIron)
         {
-            // On enlève Thaelin avant le début de la cinématique, pour qu'il revienne correctement après coté client
+            // On enlï¿½ve Thaelin avant le dï¿½but de la cinï¿½matique, pour qu'il revienne correctement aprï¿½s cotï¿½ client
             player->RemoveAurasDueToSpell(TanaanPhases::PhaseFinalThaelinCanon);
 
             player->GetSceneMgr().PlaySceneByPackageId(TanaanSceneObjects::SceneShootingGallery, SCENEFLAG_NOT_CANCELABLE | SCENEFLAG_UNK16);

@@ -493,8 +493,8 @@ private:
     {
         double angle = rand_norm() * 2.0 * M_PI;
         float randomRadius = frand(15.0f, 30.0f);
-        float x = center.GetPositionX() + std::sin(angle) * randomRadius;
-        float y = center.GetPositionY() + std::cos(angle) * randomRadius;
+        float x = float(center.GetPositionX() + std::sin(angle) * randomRadius);
+        float y = float(center.GetPositionY() + std::cos(angle) * randomRadius);
         float z = center.GetPositionZ();
         unit->UpdateAllowedPositionZ(x, y, z);
         return Position(x, y, z);
@@ -583,7 +583,7 @@ struct npc_ludwig_von_tortollan : public ScriptedAI
             {
             case RingOfBootyEvents::EventsShellBounce:
             {
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                     me->CastSpell(target, RingOfBootySpells::ShellBounce, false);
                 events.Repeat(8000);
                 break;

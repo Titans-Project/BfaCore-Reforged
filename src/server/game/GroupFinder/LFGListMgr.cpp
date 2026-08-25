@@ -138,7 +138,7 @@ void LFGListMgr::SendLFGListStatusUpdate(LFGListEntry* lfgEntry, WorldSession* w
     if (auto v = lfgEntry->ApplicationGroup)
     {
         status.ApplicationTicket.RequesterGuid = v->GetGUID();
-        status.ApplicationTicket.Id = v->GetGUID().GetCounter();
+        status.ApplicationTicket.Id = uint32(v->GetGUID().GetCounter());
         status.ApplicationTicket.Type = WorldPackets::LFG::RideType::LfgListApplication;
         status.ApplicationTicket.Time = lfgEntry->CreationTime;
     }
@@ -499,7 +499,7 @@ void LFGListMgr::SendLfgListJoinResult(LFGListEntry const* entry, LFGListStatus 
 
     WorldPackets::LfgList::LfgListJoinResult result;
     result.ApplicationTicket.RequesterGuid = group->GetGUID();
-    result.ApplicationTicket.Id = group->GetGUID().GetCounter();
+    result.ApplicationTicket.Id = uint32(group->GetGUID().GetCounter());
     result.ApplicationTicket.Type = WorldPackets::LFG::RideType::LfgListApplication;
     result.ApplicationTicket.Time = entry->CreationTime;
     result.Status = AsUnderlyingType(status);
@@ -532,12 +532,12 @@ void LFGListMgr::SendLfgListApplyForGroupResult(LFGListEntry const* lfgEntry, LF
     auto activityID = lfgEntry->GroupFinderActivityData->ID;
 
     responce.ApplicationTicket.RequesterGuid = group->GetGUID();
-    responce.ApplicationTicket.Id = group->GetGUID().GetCounter();
+    responce.ApplicationTicket.Id = uint32(group->GetGUID().GetCounter());
     responce.ApplicationTicket.Type = WorldPackets::LFG::RideType::LfgListApplication;
     responce.ApplicationTicket.Time = lfgEntry->CreationTime;
 
     responce.SearchResult.ApplicationTicket.RequesterGuid = group->GetGUID();
-    responce.SearchResult.ApplicationTicket.Id = group->GetGUID().GetCounter();
+    responce.SearchResult.ApplicationTicket.Id = uint32(group->GetGUID().GetCounter());
     responce.SearchResult.ApplicationTicket.Type = WorldPackets::LFG::RideType::LfgListApplication;
     responce.SearchResult.ApplicationTicket.Time = lfgEntry->CreationTime;
     responce.SearchResult.UnkGuid1 = group->GetLeaderGUID();
@@ -560,7 +560,7 @@ void LFGListMgr::SendLfgListApplyForGroupResult(LFGListEntry const* lfgEntry, LF
 
     for (auto const& member : group->GetMemberSlots())
     {
-        uint8 role = member.roles >= 2 ? std::log2(member.roles) - 1 : member.roles;
+        uint8 role = uint8(member.roles >= 2 ? std::log2(member.roles) - 1 : member.roles);
         responce.SearchResult.Members.emplace_back(member._class, member.roles);
     }
     for (auto const& member : lfgEntry->ApplicationsContainer)

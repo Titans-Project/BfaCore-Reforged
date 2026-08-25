@@ -305,10 +305,10 @@ public:
                     {
                         case EVENT_NIGHTFALL:
                         {
-                            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                                 me->CastSpell(target1, SPELL_NIGHTFALL_MISSILE, false);
 
-                            if (Unit* target2 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                            if (Unit* target2 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                                 me->CastSpell(target2, SPELL_NIGHTFALL_MISSILE, false);
 
                             events.Repeat(14500, 17500);

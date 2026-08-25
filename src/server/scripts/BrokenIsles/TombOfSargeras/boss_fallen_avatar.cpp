@@ -1192,9 +1192,9 @@ class spell_tos_rupture_realistic : public SpellScript
 
         float dist = caster->GetDistance(target);
         if (dist < 40.0f)
-            SetHitDamage(GetHitDamage() * (0.1f + 0.9f*(40.0f - dist) / 40.0f));
+            SetHitDamage(int32(GetHitDamage() * (0.1f + 0.9f*(40.0f - dist) / 40.0f)));
         else
-            SetHitDamage(GetHitDamage() * 0.1f);
+            SetHitDamage(int32(GetHitDamage() * 0.1f));
     }
 
     void Register() override

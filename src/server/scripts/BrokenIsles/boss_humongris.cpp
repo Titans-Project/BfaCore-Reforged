@@ -95,7 +95,7 @@ struct boss_humongris : public ScriptedAI
             break;
 
         case EVENT_ICE_FIST:
-            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0.0f, 10.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 10.0f, true))
             {
                 Talk(TALK_H_ICE_FIST);
                 DoCast(target, SPELL_ICE_FIST_DAMAGE);
@@ -110,7 +110,7 @@ struct boss_humongris : public ScriptedAI
             break;
 
         case EVENT_YOU_GO_BANG:
-            if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0.0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
                 DoCast(target, SPELL_YOU_GO_BANG_TARGET, false);
             events.Repeat(24400);
             break;

@@ -91,7 +91,7 @@ struct scenario_artifact_restoacqusition : public InstanceScript
             case NPC_SKYLORD_OMNURON_104620:
             {
                 _omnuronGUID = creature->GetGUID();
-                creature->SetHealth(creature->GetMaxHealth() * 0.8f);
+                creature->SetHealth(uint64(creature->GetMaxHealth() * 0.8f));
                 break;
             }
             case NPC_ZEN_TABRA_104658:
@@ -102,13 +102,13 @@ struct scenario_artifact_restoacqusition : public InstanceScript
             case NPC_CELESTINE_OF_THE_HARVEST_104657:
             {
                 _cothGUID = creature->GetGUID();
-                creature->SetHealth(creature->GetMaxHealth() * 0.15f);
+                creature->SetHealth(uint64(creature->GetMaxHealth() * 0.15f));
                 break;
             }
             case NPC_ARCHDRUID_HAMUUL_RUNETOTEM_104659:
             {
                 _hamuulGUID = creature->GetGUID();
-                creature->SetHealth(creature->GetMaxHealth() * 0.2f);
+                creature->SetHealth(uint64(creature->GetMaxHealth() * 0.2f));
                 break;
             }
             case NPC_LYESSA_BLOOMWATCHER_104628:
@@ -439,7 +439,7 @@ struct npc_celestine_of_the_harvest_104657 : public ScriptedAI
         sayhelp = false;
         issaved = false;
         isstart = false;
-        me->SetHealth(me->GetMaxHealth()*0.15f);
+        me->SetHealth(uint64(me->GetMaxHealth()*0.15f));
         me->CastSpell(me, 207106, true);
     }
 
@@ -515,7 +515,7 @@ struct npc_archdruid_hamuul_runetotem_104659 : public ScriptedAI
         sayhelp = false;
         issaved = false;
         isstart = false;
-        me->SetHealth(me->GetMaxHealth()*0.15f);
+        me->SetHealth(uint64(me->GetMaxHealth()*0.15f));
         me->CastSpell(me, 207106, true);
     }
 

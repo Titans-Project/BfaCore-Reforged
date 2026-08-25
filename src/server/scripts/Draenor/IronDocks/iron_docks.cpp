@@ -867,7 +867,7 @@ public:
                 if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 50.0F, true))
                 {
                     me->CastSpell(l_Target, eGwarnokSpells::SpellChainDrag);
-                    l_Target->GetMotionMaster()->MoveJump(*me, 8.0f, 5.0f, 10.0f);
+                    l_Target->GetMotionMaster()->MoveJump(*me, 8.0f, 5.0f, uint32(10.0f));
                 }
                 events.ScheduleEvent(eGwarnokEvents::EventBladestorm, 2 * TimeConstants::IN_MILLISECONDS);
                 events.ScheduleEvent(eGwarnokEvents::EventChainDrag, 25 * TimeConstants::IN_MILLISECONDS);

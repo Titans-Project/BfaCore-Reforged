@@ -96,7 +96,7 @@ void WorldSession::HandlePetitionBuy(WorldPackets::Petition::PetitionBuy& packet
     if (!charter)
         return;
 
-    charter->SetPetitionId(charter->GetGUID().GetCounter());
+    charter->SetPetitionId(uint32(charter->GetGUID().GetCounter()));
     charter->SetState(ITEM_CHANGED, _player);
     _player->SendNewItem(charter, 1, true, false);
 
@@ -349,7 +349,7 @@ void WorldSession::HandleSignPetition(WorldPackets::Petition::SignPetition& pack
 
     if (Item* item = _player->GetItemByGuid(packet.PetitionGUID))
     {
-        item->SetPetitionNumSignatures(signs);
+        item->SetPetitionNumSignatures(uint32(signs));
         item->SetState(ITEM_CHANGED, _player);
     }
 

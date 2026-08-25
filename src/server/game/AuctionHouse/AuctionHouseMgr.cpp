@@ -276,7 +276,7 @@ private:
         case AuctionHouseSortOrder::Price:
         case AuctionHouseSortOrder::Bid:
         case AuctionHouseSortOrder::Buyout:
-            return int64(left->MinPrice) - int64(right->MinPrice);
+            return int32(int64(left->MinPrice) - int64(right->MinPrice));
         case AuctionHouseSortOrder::Name:
             return left->FullName[_locale].compare(right->FullName[_locale]);
         case AuctionHouseSortOrder::Level:
@@ -324,7 +324,7 @@ private:
         {
             int64 leftPrice = left->BuyoutOrUnitPrice ? left->BuyoutOrUnitPrice : (left->BidAmount ? left->BidAmount : left->MinBid);
             int64 rightPrice = right->BuyoutOrUnitPrice ? right->BuyoutOrUnitPrice : (right->BidAmount ? right->BidAmount : right->MinBid);
-            return leftPrice - rightPrice;
+            return int32(leftPrice - rightPrice);
         }
         case AuctionHouseSortOrder::Name:
             return left->Bucket->FullName[_locale].compare(right->Bucket->FullName[_locale]);
@@ -339,9 +339,9 @@ private:
             return leftLevel - rightLevel;
         }
         case AuctionHouseSortOrder::Bid:
-            return int64(left->BidAmount) - int64(right->BidAmount);
+            return int32(int64(left->BidAmount) - int64(right->BidAmount));
         case AuctionHouseSortOrder::Buyout:
-            return int64(left->BuyoutOrUnitPrice) - int64(right->BuyoutOrUnitPrice);
+            return int32(int64(left->BuyoutOrUnitPrice) - int64(right->BuyoutOrUnitPrice));
         default:
             break;
         }
@@ -902,7 +902,7 @@ void AuctionHouseObject::AddAuction(CharacterDatabaseTransaction trans, AuctionP
         {
         case ITEM_CLASS_WEAPON:
         case ITEM_CLASS_ARMOR:
-            bucket->SortLevel = key.ItemLevel;
+            bucket->SortLevel = uint8(key.ItemLevel);
             break;
         case ITEM_CLASS_CONTAINER:
             bucket->SortLevel = itemTemplate->GetContainerSlots();
@@ -1748,7 +1748,7 @@ bool AuctionHouseObject::BuyCommodity(CharacterDatabaseTransaction trans, Player
         }
 
         MailDraft(AuctionHouseMgr::BuildCommodityAuctionMailSubject(AuctionMailType::Sold, itemId, boughtFromAuction),
-            AuctionHouseMgr::BuildAuctionSoldMailBody(player->GetGUID(), auction->BuyoutOrUnitPrice * boughtFromAuction, boughtFromAuction, depositPart, auctionHouseCut))
+            AuctionHouseMgr::BuildAuctionSoldMailBody(player->GetGUID(), auction->BuyoutOrUnitPrice * boughtFromAuction, boughtFromAuction, uint32(depositPart), auctionHouseCut))
             .AddMoney(profit)
             .SendMailTo(trans, MailReceiver(ObjectAccessor::FindConnectedPlayer(auction->Owner), auction->Owner), this, MAIL_CHECK_MASK_COPIED, sWorld->getIntConfig(CONFIG_MAIL_DELIVERY_DELAY));
     }
@@ -1917,7 +1917,7 @@ void AuctionHouseObject::SendAuctionSold(AuctionPosting const* auction, Player* 
         }
 
         MailDraft(AuctionHouseMgr::BuildItemAuctionMailSubject(AuctionMailType::Sold, auction),
-            AuctionHouseMgr::BuildAuctionSoldMailBody(auction->Bidder, auction->BidAmount, auction->BuyoutOrUnitPrice, auction->Deposit, auctionHouseCut))
+            AuctionHouseMgr::BuildAuctionSoldMailBody(auction->Bidder, auction->BidAmount, auction->BuyoutOrUnitPrice, uint32(auction->Deposit), auctionHouseCut))
             .AddMoney(profit)
             .SendMailTo(trans, MailReceiver(owner, auction->Owner), this, MAIL_CHECK_MASK_COPIED, sWorld->getIntConfig(CONFIG_MAIL_DELIVERY_DELAY));
     }
@@ -1991,7 +1991,7 @@ void AuctionHouseObject::SendAuctionInvoice(AuctionPosting const* auction, Playe
         uint32 eta = tempBuffer.read<uint32>();
 
         MailDraft(AuctionHouseMgr::BuildItemAuctionMailSubject(AuctionMailType::Invoice, auction),
-            AuctionHouseMgr::BuildAuctionInvoiceMailBody(auction->Bidder, auction->BidAmount, auction->BuyoutOrUnitPrice, auction->Deposit,
+            AuctionHouseMgr::BuildAuctionInvoiceMailBody(auction->Bidder, auction->BidAmount, auction->BuyoutOrUnitPrice, uint32(auction->Deposit),
                 CalcualteAuctionHouseCut(auction->BidAmount), sWorld->getIntConfig(CONFIG_MAIL_DELIVERY_DELAY), eta))
             .SendMailTo(trans, MailReceiver(owner, auction->Owner), this, MAIL_CHECK_MASK_COPIED);
     }

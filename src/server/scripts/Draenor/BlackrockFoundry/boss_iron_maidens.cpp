@@ -1249,7 +1249,7 @@ class boss_enforcer_sorka : public CreatureScript
                         }
 
                         auto l_Iter = l_PossibleTargets.begin();
-                        std::advance(l_Iter, urand(0, l_PossibleTargets.size() - 1));
+                        std::advance(l_Iter, urand(0, uint32(l_PossibleTargets.size() - 1)));
 
                         DashToTarget(*l_Iter);
                         break;

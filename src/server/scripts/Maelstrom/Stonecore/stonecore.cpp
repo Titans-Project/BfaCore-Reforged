@@ -120,7 +120,7 @@ class npc_sc_millhouse_manastorm : public CreatureScript
             void DamageTaken(Unit* /*attacker*/, uint32& damage) override
             {
                 if (damage >= me->GetHealth())
-                    damage = me->GetHealth() - 1;
+                    damage = uint32(me->GetHealth() - 1);
 
                 if (!HealthBelowPct(50) || me->HasAura(SPELL_BLUR))
                     return;

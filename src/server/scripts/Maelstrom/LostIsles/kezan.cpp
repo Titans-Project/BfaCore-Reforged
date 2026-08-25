@@ -1399,7 +1399,7 @@ public:
                 return;
             }
             _will_aura = urand(1, 5);
-            int sc_text = _will_aura;
+            int sc_text = int(_will_aura);
             if (player)
                 Talk(sc_text, player);
         }

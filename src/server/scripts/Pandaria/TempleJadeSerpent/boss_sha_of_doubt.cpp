@@ -269,7 +269,7 @@ class mob_figment_of_doubt : public CreatureScript
                             {
                                 me->CastSpell(me, SPELL_RELEASE_DOUBT, false);
                                 me->RemoveAura(SPELL_GATHERING_DOUBT);
-                                me->DealDamage(me, me->GetMaxHealth());
+                                me->DealDamage(me, uint32(me->GetMaxHealth()));
 
                                 me->ForcedDespawn(5000);
 

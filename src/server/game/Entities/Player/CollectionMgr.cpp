@@ -863,7 +863,7 @@ std::unordered_set<uint32> CollectionMgr::GetAppearanceIds() const
     std::size_t id = _appearances->find_first();
     while (id != boost::dynamic_bitset<uint32>::npos)
     {
-        appearances.insert(sItemModifiedAppearanceStore.AssertEntry(id)->ItemAppearanceID);
+        appearances.insert(sItemModifiedAppearanceStore.AssertEntry(uint32(id))->ItemAppearanceID);
         id = _appearances->find_next(id);
     }
 

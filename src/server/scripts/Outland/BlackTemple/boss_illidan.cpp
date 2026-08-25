@@ -1194,7 +1194,7 @@ public:
             {
                 if (Creature* illidan = ObjectAccessor::GetCreature(*me, IllidanGUID))
                     if (illidan->GetVictim() == me)
-                        damage = me->CountPctFromMaxHealth(10);
+                        damage = uint32(me->CountPctFromMaxHealth(10));
 
                 if (damage >= me->GetHealth())
                     damage = 0;
@@ -1935,7 +1935,7 @@ void boss_illidan_stormrage::boss_illidan_stormrageAI::HandleTalkSequence()
         }
         break;
     case 21: // Kill ourself.
-        me->DealDamage(me, me->GetHealth(), nullptr, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
+        me->DealDamage(me, uint32(me->GetHealth()), nullptr, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
         break;
     default:
         break;
@@ -2006,7 +2006,7 @@ public:
             if (DespawnTimer)
             {
                 if (DespawnTimer <= diff)
-                    me->DealDamage(me, me->GetHealth(), nullptr, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
+                    me->DealDamage(me, uint32(me->GetHealth()), nullptr, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
                 else DespawnTimer -= diff;
             }
 

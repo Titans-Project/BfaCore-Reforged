@@ -111,7 +111,7 @@ class npc_whack_gnoll_bunny : public CreatureScript
                 while (tempList.size())
                 {
                     auto it = tempList.begin();
-                    std::advance(it, urand(0, tempList.size() - 1));
+                    std::advance(it, urand(0, uint32(tempList.size() - 1)));
 
                     if (Creature* barrel = ObjectAccessor::GetCreature(*me, *it))
                     {

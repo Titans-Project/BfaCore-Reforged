@@ -697,7 +697,7 @@ void InstanceSaveManager::_ResetOrWarnAll(uint32 mapid, Difficulty difficulty, b
         // Update it in the DB
         stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_GLOBAL_INSTANCE_RESETTIME);
 
-        stmt->setUInt32(0, next_reset);
+        stmt->setUInt32(0, uint32(next_reset));
         stmt->setUInt16(1, uint16(mapid));
         stmt->setUInt8(2, uint8(difficulty));
 

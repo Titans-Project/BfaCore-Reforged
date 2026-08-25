@@ -380,7 +380,7 @@ public:
 
             if (me->GetHealth() <= damage)
             {
-                damage = me->GetHealth() - 1;
+                damage = uint32(me->GetHealth() - 1);
 
                 if (!Killed)
                 {

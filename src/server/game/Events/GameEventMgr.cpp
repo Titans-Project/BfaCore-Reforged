@@ -144,7 +144,7 @@ bool GameEventMgr::StartEvent(uint16 event_id, bool overwrite)
         }
 
         // When event is started, set its worldstate to current time
-        sWorld->setWorldState(event_id, time(nullptr));
+        sWorld->setWorldState(event_id, uint32(time(nullptr)));
         return false;
     }
     else
@@ -245,8 +245,8 @@ void GameEventMgr::LoadFromDB()
             pGameEvent.start        = time_t(starttime);
             uint64 endtime          = fields[2].GetUInt64();
             pGameEvent.end          = time_t(endtime);
-            pGameEvent.occurence    = fields[3].GetUInt64();
-            pGameEvent.length       = fields[4].GetUInt64();
+            pGameEvent.occurence    = uint32(fields[3].GetUInt64());
+            pGameEvent.length       = uint32(fields[4].GetUInt64());
             pGameEvent.holiday_id   = HolidayIds(fields[5].GetUInt32());
 
             pGameEvent.state        = (GameEventState)(fields[7].GetUInt8());
@@ -389,7 +389,7 @@ void GameEventMgr::LoadFromDB()
                 ObjectGuid::LowType guid = fields[0].GetUInt64();
                 int16 event_id = fields[1].GetInt8();
 
-                int32 internal_event_id = mGameEvent.size() + event_id - 1;
+                int32 internal_event_id = int32(mGameEvent.size() + event_id - 1);
 
                 CreatureData const* data = sObjectMgr->GetCreatureData(guid);
                 if (!data)
@@ -435,7 +435,7 @@ void GameEventMgr::LoadFromDB()
                 ObjectGuid::LowType guid = fields[0].GetUInt64();
                 int16 event_id = fields[1].GetInt8();
 
-                int32 internal_event_id = mGameEvent.size() + event_id - 1;
+                int32 internal_event_id = int32(mGameEvent.size() + event_id - 1);
 
                 GameObjectData const* data = sObjectMgr->GetGOData(guid);
                 if (!data)
@@ -820,7 +820,7 @@ void GameEventMgr::LoadFromDB()
                 {
                     if (itr->first == guid)
                     {
-                        event_npc_flag = itr->second;
+                        event_npc_flag = uint32(itr->second);
                         break;
                     }
                 }
@@ -911,7 +911,7 @@ void GameEventMgr::LoadFromDB()
                 uint32 entry   = fields[0].GetUInt32();
                 int16 event_id = fields[1].GetInt8();
 
-                int32 internal_event_id = mGameEvent.size() + event_id - 1;
+                int32 internal_event_id = int32(mGameEvent.size() + event_id - 1);
 
                 if (internal_event_id < 0 || internal_event_id >= int32(mGameEventPoolIds.size()))
                 {
@@ -1235,7 +1235,7 @@ void GameEventMgr::UpdateEventNPCVendor(uint16 event_id, bool activate)
 
 void GameEventMgr::GameEventSpawn(int16 event_id)
 {
-    int32 internal_event_id = mGameEvent.size() + event_id - 1;
+    int32 internal_event_id = int32(mGameEvent.size() + event_id - 1);
 
     if (internal_event_id < 0 || internal_event_id >= int32(mGameEventCreatureGuids.size()))
     {
@@ -1304,7 +1304,7 @@ void GameEventMgr::GameEventSpawn(int16 event_id)
 
 void GameEventMgr::GameEventUnspawn(int16 event_id)
 {
-    int32 internal_event_id = mGameEvent.size() + event_id - 1;
+    int32 internal_event_id = int32(mGameEvent.size() + event_id - 1);
 
     if (internal_event_id < 0 || internal_event_id >= int32(mGameEventCreatureGuids.size()))
     {
@@ -1469,7 +1469,7 @@ bool GameEventMgr::hasCreatureActiveEventExcept(ObjectGuid::LowType creature_id,
     {
         if ((*e_itr) != event_id)
         {
-            int32 internal_event_id = mGameEvent.size() + (*e_itr) - 1;
+            int32 internal_event_id = int32(mGameEvent.size() + (*e_itr) - 1);
             for (GuidList::iterator itr = mGameEventCreatureGuids[internal_event_id].begin();
                 itr != mGameEventCreatureGuids[internal_event_id].end();
                 ++ itr)
@@ -1485,7 +1485,7 @@ bool GameEventMgr::hasGameObjectActiveEventExcept(ObjectGuid::LowType go_id, uin
     {
         if ((*e_itr) != event_id)
         {
-            int32 internal_event_id = mGameEvent.size() + (*e_itr) - 1;
+            int32 internal_event_id = int32(mGameEvent.size() + (*e_itr) - 1);
             for (GuidList::iterator itr = mGameEventGameobjectGuids[internal_event_id].begin();
                 itr != mGameEventGameobjectGuids[internal_event_id].end();
                 ++ itr)

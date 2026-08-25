@@ -84,7 +84,7 @@ class spell_mastery_icicles_proc : public AuraScript
                     icilesAddSecond = true;
             }
 
-            hitDamage *= (player->m_activePlayerData->Mastery * 2.25f) / 100.0f;
+            hitDamage = int32(hitDamage * (player->m_activePlayerData->Mastery * 2.25f) / 100.0f);
 
             // Prevent huge hits on player after hitting low level creatures
             if (player->getLevel() > target->getLevel())
@@ -468,7 +468,7 @@ public:
                 else
                 {                    
                     //and is a guaranteed Critical Strike when the target is below 30 % health.
-                    int32 critChance = caster->ToPlayer()->GetRatingBonusValue(CR_CRIT_SPELL) * 100;
+                    int32 critChance = int32(caster->ToPlayer()->GetRatingBonusValue(CR_CRIT_SPELL) * 100);
                     SetHitDamage(GetHitDamage() + GetHitDamage() / 2 + critChance);
                 }
             }
@@ -493,7 +493,7 @@ public:
                                 basePoints = int32(CalculatePct(basePoints, masteryValue));
 
                                 if (igniteAura->GetEffect(EFFECT_0)->Amplitude > 0)
-                                    basePoints = basePoints / (igniteAura->GetMaxDuration() / igniteAura->GetEffect(EFFECT_0)->Amplitude);
+                                    basePoints = int32(basePoints / (igniteAura->GetMaxDuration() / igniteAura->GetEffect(EFFECT_0)->Amplitude));
 
                                 if (Aura* previousIgnite = target->GetAura(SPELL_MAGE_IGNITE_AURA, caster->GetGUID()))
                                 {
@@ -537,9 +537,9 @@ public:
         float valA = 0;
         float valB = 0;
         if (AuraEffect* eff = objA->GetAuraEffect(SPELL_MAGE_IGNITE_AURA, EFFECT_0, _base->GetGUID()))
-            valA = eff->GetDamage();
+            valA = float(eff->GetDamage());
         if (AuraEffect* eff = objB->GetAuraEffect(SPELL_MAGE_IGNITE_AURA, EFFECT_0, _base->GetGUID()))
-            valB = eff->GetDamage();
+            valB = float(eff->GetDamage());
         return _ascending ? valA < valB : valA > valB;
     }
 

@@ -168,7 +168,7 @@ void PetBattleAura::Apply(PetBattle* petBattle)
         float healthPct = float(pet->Health) / float(pet->GetMaxHealth() - 5 * pet->Level);
 
         pet->InfoMaxHealth = pet->GetMaxHealth();
-        pet->Health = healthPct * float(pet->GetMaxHealth());
+        pet->Health = int32(healthPct * float(pet->GetMaxHealth()));
 
         PetBattleEvent eventSetMaxHealth(PETBATTLE_EVENT_SET_MAX_HEALTH, CasterPetID, 0, 577, petBattle->RoundTurn, 0, 1);
         eventSetMaxHealth.UpdateMaxHealth(TargetPetID, pet->InfoMaxHealth);
@@ -196,7 +196,7 @@ void PetBattleAura::Remove(PetBattle* petBattle)
         float healthPct = float(pet->Health) / float(pet->GetMaxHealth() + 5 * pet->Level);
 
         pet->InfoMaxHealth = pet->GetMaxHealth();
-        pet->Health = healthPct * float(pet->GetMaxHealth());
+        pet->Health = int32(healthPct * float(pet->GetMaxHealth()));
 
         PetBattleEvent eventSetHealth(PETBATTLE_EVENT_SET_HEALTH, CasterPetID, 0, 577, petBattle->RoundTurn, Turn, 1);
         eventSetHealth.UpdateHealth(TargetPetID, pet->Health);
@@ -625,7 +625,7 @@ void PetBattle::AddPet(uint32 teamID, std::shared_ptr<BattlePetInstance> pet)
     // Primary stats is scaled with level and quality
     if (auto qualityInfo = sBattlePetBreedQualityStore.LookupEntry(7 + pet->Quality))
         for (size_t i = 0; i < 3; ++i)
-            pet->States[BATTLE_PET_STATE_Stat_Power + i] *= pet->Level * qualityInfo->StateMultiplier;
+            pet->States[BATTLE_PET_STATE_Stat_Power + i] = int32(pet->States[BATTLE_PET_STATE_Stat_Power + i] * pet->Level * qualityInfo->StateMultiplier);
 
     // Populate infos
     pet->InfoPower = pet->States[BATTLE_PET_STATE_Stat_Power] / 100;
@@ -847,7 +847,7 @@ void PetBattle::Finish(uint32 winnerTeamID, bool aborted, bool ignoreAbandonPena
 
         sScriptMgr->OnPetBattleFinish(player);
 
-        uint32 availablePetCount = Teams[currentTeamID]->GetAvailablesPets().size();
+        uint32 availablePetCount = uint32(Teams[currentTeamID]->GetAvailablesPets().size());
 
         for (size_t currentPetID = 0; currentPetID < Teams[currentTeamID]->TeamPetCount; ++currentPetID)
         {
@@ -871,7 +871,7 @@ void PetBattle::Finish(uint32 winnerTeamID, bool aborted, bool ignoreAbandonPena
                     if (!Teams[PET_BATTLE_PVE_TEAM_ID]->TeamPets[opponentTeamCurrentPet] || FightedPets.find(Teams[PET_BATTLE_PVE_TEAM_ID]->TeamPets[opponentTeamCurrentPet]->ID) == FightedPets.end())
                         continue;
 
-                    xpEarn += float(currentPet->GetXPEarn(Teams[PET_BATTLE_PVE_TEAM_ID]->TeamPets[opponentTeamCurrentPet]->ID)) * xpMod[opponentTeamCurrentPet] / availablePetCount;
+                    xpEarn = uint32(xpEarn + float(currentPet->GetXPEarn(Teams[PET_BATTLE_PVE_TEAM_ID]->TeamPets[opponentTeamCurrentPet]->ID)) * xpMod[opponentTeamCurrentPet] / availablePetCount);
                 }
 
                 AddPct(xpEarn, player->GetTotalAuraModifier(SPELL_AURA_MOD_BATTLE_PET_XP_PCT));

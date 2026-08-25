@@ -181,7 +181,7 @@ public:
                         {
                             if (medivh->IsAlive())
                             {
-                                medivh->DealDamage(medivh, medivh->GetHealth(), nullptr, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
+                                medivh->DealDamage(medivh, uint32(medivh->GetHealth()), nullptr, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
                                 m_auiEncounter[0] = FAIL;
                                 m_auiEncounter[1] = NOT_STARTED;
                             }

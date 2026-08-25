@@ -355,7 +355,7 @@ class spell_kara_arc_lightning_dmg : public SpellScriptLoader
                 void HandleDamage(SpellEffIndex /**/)
                 {
                     if (Aura* aura = GetCaster()->GetAura(SPELL_ARC_LIGHTNING_DMG))
-                        SetHitDamage(GetEffectInfo(EFFECT_0)->BasePoints * (1.0f + aura->GetStackAmount()));
+                        SetHitDamage(int32(GetEffectInfo(EFFECT_0)->BasePoints * (1.0f + aura->GetStackAmount())));
                 }
 
                 void Register() override

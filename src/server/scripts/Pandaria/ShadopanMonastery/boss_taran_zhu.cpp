@@ -80,7 +80,7 @@ class boss_taran_zhu : public CreatureScript
             {
                 if (Player* player = target->ToPlayer())
                 {
-                    uint32 newPower = player->GetPower(POWER_ALTERNATE_POWER) + std::floor(damage / 1000);
+                    uint32 newPower = uint32(player->GetPower(POWER_ALTERNATE_POWER) + std::floor(damage / 1000));
                     player->SetPower(POWER_ALTERNATE_POWER, newPower > 100 ? 100: newPower);
                 }
             }

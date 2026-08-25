@@ -241,7 +241,7 @@ struct npc_cannon_viq : public ScriptedAI
 				me->CastSpell(viqgoth, BLAST_SS, true);
 				me->CastSpell(viqgoth, BLAST_MISSILE, true);
 				float viqGothPct = (float)(this->cannon_count * 33) / 100;
-				uint64 viqGothHealth = (viqgoth->GetMaxHealth() - (viqgoth->GetMaxHealth() * viqGothPct));
+				uint64 viqGothHealth = uint64((viqgoth->GetMaxHealth() - (viqgoth->GetMaxHealth() * viqGothPct)));
 				viqgoth->SetHealth(viqGothHealth);
 				//player->Kill(me);
 				this->cannon_count++;

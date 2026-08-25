@@ -171,7 +171,7 @@ struct instance_battle_of_dazaralor : public InstanceScript
 
 		case NPC_DARKFORGED_CRUSADER:
 		case NPC_ZANDALARI_CRUSADER:
-			creature->SetBaseHealth(creature->GetMaxHealth() * 4.0f);
+			creature->SetBaseHealth(uint64(creature->GetMaxHealth() * 4.0f));
 			break;
 
 		case 146369:

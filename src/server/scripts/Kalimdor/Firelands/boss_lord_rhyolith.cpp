@@ -188,7 +188,7 @@ class boss_lord_rhyolith : public CreatureScript
                 phase = 0;
 
                 instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_BALANCE_BAR);
-                instance->SetData(DATA_RHYOLITH_HEALTH_SHARED, me->GetMaxHealth() / 2);
+                instance->SetData(DATA_RHYOLITH_HEALTH_SHARED, uint32(me->GetMaxHealth() / 2));
 
                 controllerGUID  = ObjectGuid::Empty;
                 leftFootGUID    = ObjectGuid::Empty;
@@ -236,7 +236,7 @@ class boss_lord_rhyolith : public CreatureScript
                     me->SetWalk(true);
                     me->GetMotionMaster()->MoveFollow(controller, 0.0f, 0.0f);
                 }
-                instance->SetData(DATA_RHYOLITH_HEALTH_SHARED, me->GetMaxHealth() / 2);
+                instance->SetData(DATA_RHYOLITH_HEALTH_SHARED, uint32(me->GetMaxHealth() / 2));
 
                 events.ScheduleEvent(EVENT_CHECK_MOVE, 1000);
                 events.ScheduleEvent(EVENT_CONCLUSIVE_STOMP, 10000);
@@ -312,7 +312,7 @@ class boss_lord_rhyolith : public CreatureScript
                     me->StopMoving();
                     events.Reset();
 
-                    uint32 _health = me->GetHealth();
+                    uint32 _health = uint32(me->GetHealth());
 
                     if (Creature* pRhyolith = me->SummonCreature(NPC_RHYOLITH_2, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ()))
                     {
@@ -717,7 +717,7 @@ class npc_lord_rhyolith_right_foot : public CreatureScript
                 m_hits[0]++;
 
                 if (pInstance)
-                    pInstance->SetData(DATA_RHYOLITH_HEALTH_SHARED, me->GetHealth() > damage ? me->GetHealth() - damage : 0);
+                    pInstance->SetData(DATA_RHYOLITH_HEALTH_SHARED, me->GetHealth() > damage ? uint32(me->GetHealth() - damage) : 0);
             }
 
             void UpdateAI(uint32 diff) override
@@ -816,7 +816,7 @@ class npc_lord_rhyolith_left_foot : public CreatureScript
                 m_hits[0]++;
 
                 if (pInstance)
-                    pInstance->SetData(DATA_RHYOLITH_HEALTH_SHARED, me->GetHealth() > damage ? me->GetHealth() - damage : 0);
+                    pInstance->SetData(DATA_RHYOLITH_HEALTH_SHARED, me->GetHealth() > damage ? uint32(me->GetHealth() - damage) : 0);
             }
 
             void UpdateAI(uint32 diff) override

@@ -301,7 +301,7 @@ class spell_pri_power_word_shield_AuraScript : public AuraScript
                         absorbAmount += CalculatePct(absorbAmount, eff0->GetAmount());
 
                 if (player->HasAura(SPELL_SHADOW_PRIEST_BASE_AURA))
-                    absorbAmount *= 1.36f;
+                    absorbAmount = int32(absorbAmount * 1.36f);
                 amount += absorbAmount;
             }
         }
@@ -2056,8 +2056,8 @@ public:
                     int64 playerPct;
                     int64 targetPct;
 
-                    playerPct = _player->GetHealthPct();
-                    targetPct = target->GetHealthPct();
+                    playerPct = int64(_player->GetHealthPct());
+                    targetPct = int64(target->GetHealthPct());
 
                     if (playerPct < 25)
                         playerPct = 25;

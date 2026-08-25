@@ -24,7 +24,7 @@
 WorldPackets::Mail::MailAttachedItem::MailAttachedItem(::Item const* item, uint8 pos)
 {
     Position = pos;
-    AttachID = item->GetGUID().GetCounter();
+    AttachID = int32(item->GetGUID().GetCounter());
     Item.Initialize(item);
     Count = item->GetCount();
     Charges = item->GetSpellCharges();
@@ -246,11 +246,11 @@ WorldPackets::Mail::MailQueryNextTimeResult::MailNextTimeEntry::MailNextTimeEntr
         case MAIL_CREATURE:
         case MAIL_GAMEOBJECT:
         case MAIL_CALENDAR:
-            AltSenderID = mail->sender;
+            AltSenderID = int32(mail->sender);
             break;
     }
 
-    TimeLeft = mail->deliver_time - time(nullptr);
+    TimeLeft = float(mail->deliver_time - time(nullptr));
     AltSenderType = mail->messageType;
     StationeryID = mail->stationery;
 }

@@ -37,7 +37,7 @@ void WorldSession::HandleLfgListSearch(WorldPackets::LfgList::LfgListSearch& pac
     }
 
     auto list = sLFGListMgr->GetFilteredList(packet.CategoryID, packet.SearchTerms, packet.LanguageSearchFilter, GetPlayer());
-    results.AppicationsCount = list.size();
+    results.AppicationsCount = uint16(list.size());
 
     for (auto& lfgEntry : list)
     {
@@ -57,7 +57,7 @@ void WorldSession::HandleLfgListSearch(WorldPackets::LfgList::LfgListSearch& pac
         auto activityID = lfgEntry->GroupFinderActivityData->ID;
 
         result.ApplicationTicket.RequesterGuid = group->GetGUID();
-        result.ApplicationTicket.Id = group->GetGUID().GetCounter();
+        result.ApplicationTicket.Id = uint32(group->GetGUID().GetCounter());
         result.ApplicationTicket.Type = WorldPackets::LFG::RideType::LfgListApplication;
         result.ApplicationTicket.Time = lfgEntry->CreationTime;
         result.UnkGuid1 = group->GetLeaderGUID();
@@ -72,7 +72,7 @@ void WorldSession::HandleLfgListSearch(WorldPackets::LfgList::LfgListSearch& pac
 
         for (auto const& member : group->GetMemberSlots())
         {
-            uint8 role = member.roles >= 2 ? std::log2(member.roles) - 1 : member.roles;
+            uint8 role = uint8(member.roles >= 2 ? std::log2(member.roles) - 1 : member.roles);
             result.Members.emplace_back(member._class, role);
         }
         for (auto const& member : lfgEntry->ApplicationsContainer)

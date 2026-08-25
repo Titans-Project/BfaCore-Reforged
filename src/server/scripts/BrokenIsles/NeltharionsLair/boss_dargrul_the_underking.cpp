@@ -131,7 +131,7 @@ struct boss_dargrul : public BossAI
                         if (instance)
                         {
                             float manaRegenMod = 4;
-                            me->SetPower(POWER_MANA, me->GetPower(POWER_MANA)+(me->GetMaxPower(POWER_MANA)*manaRegenMod/100));
+                            me->SetPower(POWER_MANA, me->GetPower(POWER_MANA)+int32(me->GetMaxPower(POWER_MANA)*manaRegenMod/100));
 
                             if (me->GetPower(POWER_MANA) == me->GetMaxPower(POWER_MANA))
                             {

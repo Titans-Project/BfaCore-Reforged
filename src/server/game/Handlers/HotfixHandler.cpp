@@ -43,13 +43,13 @@ void WorldSession::HandleDBQueryBulk(WorldPackets::Hotfix::DBQueryBulk& dbQuery)
         if (store->HasRecord(record.RecordID))
         {
             dbReply.Allow = true;
-            dbReply.Timestamp = GameTime::GetGameTime();
+            dbReply.Timestamp = uint32(GameTime::GetGameTime());
             store->WriteRecord(record.RecordID, GetSessionDbcLocale(), dbReply.Data);
         }
         else
         {
             TC_LOG_TRACE("network", "CMSG_DB_QUERY_BULK: %s requested non-existing entry %u in datastore: %u", GetPlayerInfo().c_str(), record.RecordID, dbQuery.TableHash);
-            dbReply.Timestamp = time(nullptr);
+            dbReply.Timestamp = uint32(time(nullptr));
         }
 
         SendPacket(dbReply.Write());

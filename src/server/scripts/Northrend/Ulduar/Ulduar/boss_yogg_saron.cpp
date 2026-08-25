@@ -718,7 +718,7 @@ public:
         {
             if (damage >= me->GetHealth())
             {
-                damage = me->GetHealth() - 1;
+                damage = uint32(me->GetHealth() - 1);
 
                 if (_events.IsInPhase(PHASE_ONE))
                 {
@@ -1478,7 +1478,7 @@ public:
         void DamageTaken(Unit* /*attacker*/, uint32& damage) override
         {
             if (me->HealthBelowPctDamaged(1, damage))
-                damage = me->GetHealth() - me->CountPctFromMaxHealth(1);   // or set immune to damage? should be done here or in SPELL_WEAKENED spell script?
+                damage = uint32(me->GetHealth() - me->CountPctFromMaxHealth(1));   // or set immune to damage? should be done here or in SPELL_WEAKENED spell script?
         }
 
         void UpdateAI(uint32 diff) override
@@ -2506,7 +2506,7 @@ public:
             if (stack)
             {
                 target->RemoveAurasDueToSpell(SPELL_WEAKENED);
-                target->CastCustomSpell(SPELL_EMPOWERED_BUFF, SPELLVALUE_AURA_STACK, stack, target, TRIGGERED_FULL_MASK);
+                target->CastCustomSpell(SPELL_EMPOWERED_BUFF, SPELLVALUE_AURA_STACK, int32(stack), target, TRIGGERED_FULL_MASK);
             }
             else if (!target->HealthAbovePct(1) && !target->HasAura(SPELL_WEAKENED))
                 target->CastSpell(target, SPELL_WEAKENED, true);

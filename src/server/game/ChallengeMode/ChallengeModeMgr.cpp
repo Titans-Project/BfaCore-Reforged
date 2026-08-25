@@ -408,7 +408,7 @@ void ChallengeModeMgr::SaveChallengeToDB(ChallengeData const* challengeData)
     CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
 
     CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_INS_CHALLENGE);
-    stmt->setUInt32(0, challengeData->ID);
+    stmt->setUInt32(0, uint32(challengeData->ID));
     stmt->setUInt64(1, challengeData->GuildID);
     stmt->setUInt16(2, challengeData->MapID);
     stmt->setUInt32(3, challengeData->RecordTime);
@@ -426,7 +426,7 @@ void ChallengeModeMgr::SaveChallengeToDB(ChallengeData const* challengeData)
     for (auto const& v : challengeData->member)
     {
         stmt = CharacterDatabase.GetPreparedStatement(CHAR_INS_CHALLENGE_MEMBER);
-        stmt->setUInt32(0, challengeData->ID);
+        stmt->setUInt32(0, uint32(challengeData->ID));
         stmt->setUInt64(1, v.guid.GetCounter());
         stmt->setUInt16(2, v.specId);
         stmt->setUInt32(3, v.ChallengeLevel);

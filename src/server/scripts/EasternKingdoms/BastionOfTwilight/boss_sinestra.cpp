@@ -158,7 +158,7 @@ class boss_sinestra : public CreatureScript
 
                 // Sinestra begin fight with 60 % hp
                 phase = PHASE_ONE;
-                me->SetHealth(me->GetMaxHealth() * 0.60f);
+                me->SetHealth(uint64(me->GetMaxHealth() * 0.60f));
 
                 // Sinestra damage is reduced by 40% in first phase
                 me->AddAura(SPELL_DRAINED, me);
@@ -285,7 +285,7 @@ class boss_sinestra : public CreatureScript
                     switch (eventId)
                     {
                         case EVENT_WRACK:
-                            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0.0f, 100.0f, true, 0))
+                            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, 0))
                                 DoCast(target, SPELL_WRACK, true);
 
                             events.ScheduleEvent(EVENT_WRACK, urand(75000, 80000), phase);
@@ -297,7 +297,7 @@ class boss_sinestra : public CreatureScript
                         case EVENT_TWILIGHT_SLICER:
                             for (uint8 i = 0; i < 2; i++)
                             {
-                                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0.0f, 100.0f, true, -SPELL_PURPLE_BEAM))
+                                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, -SPELL_PURPLE_BEAM))
                                 {
                                     Position pos = target->GetPosition();
                                     float width = frand(5, 20);
@@ -360,7 +360,7 @@ class boss_sinestra : public CreatureScript
                         case EVENT_CHECK_MELEE:
                             if (me->GetDistance2d(me->GetVictim()) >= 5.0f)
                             {
-                                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0.0f, 100.0f, true, 0))
+                                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, 0))
                                     me->CastSpell(target, SPELL_SIN_TWILIGHT_BLAST, false);
                             }
                             events.ScheduleEvent(EVENT_CHECK_MELEE, 2000, phase);
@@ -736,10 +736,10 @@ class spell_sinestra_phyrric_focus : public SpellScriptLoader
                             }
                         }
                         caster->Yell("All is lost.... Forgive me, my Queen....", LANG_UNIVERSAL, 0);
-                        caster->DealDamage(caster, caster->GetMaxHealth() + 100);
+                        caster->DealDamage(caster, uint32(caster->GetMaxHealth() + 100));
                         return;
                     }
-                    caster->DealDamage(caster, caster->GetMaxHealth() * 0.01f);
+                    caster->DealDamage(caster, uint32(caster->GetMaxHealth() * 0.01f));
                 }
             }
 

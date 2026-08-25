@@ -2157,7 +2157,7 @@ class go_sha_of_pride_shadow_prison_trap : public GameObjectScript
                 Trinity::PlayerListSearcher<PlayerTrapActivatorCheckNew> searcher(go, players, check);
                 //go->VisitNearbyWorldObject(range, searcher);
                 Cell::VisitWorldObjects(go, searcher, range);
-                return players.size();
+                return uint32(players.size());
             }
 
         private:
@@ -2977,8 +2977,8 @@ class spell_sha_of_pride_self_reflection : public SpellScriptLoader
                     PrideOrderPred(bool ascending = true) : m_ascending(ascending) {}
                     bool operator() (const Unit* a, const Unit* b) const
                     {
-                        float rA = a->GetPower(POWER_ALTERNATE_POWER);
-                        float rB = b->GetPower(POWER_ALTERNATE_POWER);
+                        float rA = float(a->GetPower(POWER_ALTERNATE_POWER));
+                        float rB = float(b->GetPower(POWER_ALTERNATE_POWER));
                         return m_ascending ? rA < rB : rA > rB;
                     }
 

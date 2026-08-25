@@ -427,7 +427,7 @@ class mob_zao : public CreatureScript
                         {
                             if (!suns.empty())
                             {
-                                uint32 rand = urand(0, suns.size());
+                                uint32 rand = urand(0, uint32(suns.size()));
                                 ObjectGuid guid_target = ObjectGuid::Empty;
                                 Creature* target = nullptr;
                                 for (auto guid : suns)

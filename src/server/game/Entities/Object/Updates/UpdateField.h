@@ -145,7 +145,7 @@ namespace UF
     private:
         NewValueType AddValue()
         {
-            MarkChanged(_values.size());
+            MarkChanged(uint32(_values.size()));
             _values.emplace_back();
             T& value = _values.back();
             MarkNewValue(value, std::is_base_of<HasChangesMaskTag, T>{});
@@ -175,7 +175,7 @@ namespace UF
                 MarkNewValue(_values[i], std::is_base_of<HasChangesMaskTag, T>{});
             }
             if (_values.size() % 32)
-                _updateMask[UpdateMaskHelpers::GetBlockIndex(_values.size())] &= ~UpdateMaskHelpers::GetBlockFlag(_values.size());
+                _updateMask[UpdateMaskHelpers::GetBlockIndex(uint32(_values.size()))] &= ~UpdateMaskHelpers::GetBlockFlag(uint32(_values.size()));
             else
                 _updateMask.pop_back();
         }

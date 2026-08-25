@@ -251,7 +251,7 @@ bool Garrison::LoadFromDB()
 
             _workorderIds.insert(plotInstanceId);
             WorkOrder& workorder = _workorders[dbId];
-            workorder.DatabaseID = dbId;
+            workorder.DatabaseID = uint32(dbId);
             workorder.PlotInstanceID = plotInstanceId;
             workorder.ShipmentID = fields[2].GetUInt32();
             workorder.CreationTime = fields[3].GetUInt32();
@@ -313,8 +313,8 @@ void Garrison::SaveToDB(CharacterDatabaseTransaction& trans)
         stmt->setUInt64(index++, _owner->GetGUID().GetCounter());
         stmt->setUInt8(index++, _garrisonType);
         stmt->setUInt32(index++, mission.PacketInfo.MissionRecID);
-        stmt->setUInt32(index++, mission.PacketInfo.OfferTime);
-        stmt->setUInt32(index++, mission.PacketInfo.StartTime != time_t(2254525440) ? mission.PacketInfo.StartTime: 0);
+        stmt->setUInt32(index++, uint32(mission.PacketInfo.OfferTime));
+        stmt->setUInt32(index++, uint32(mission.PacketInfo.StartTime != time_t(2254525440) ? mission.PacketInfo.StartTime: 0));
         stmt->setUInt32(index++, mission.PacketInfo.MissionState);
         trans->Append(stmt);
 
@@ -482,10 +482,10 @@ Garrison::Follower* Garrison::GetFollower(uint64 dbId)
 
 uint32 Garrison::GetActiveFollowersCount() const
 {
-    return std::count_if(_followers.begin(), _followers.end(), [](auto followerItr)
+    return uint32(std::count_if(_followers.begin(), _followers.end(), [](auto followerItr)
     {
         return followerItr.second.PacketInfo.FollowerStatus != FOLLOWER_STATUS_INACTIVE;
-    });
+    }));
 }
 
 uint32 Garrison::GetAverageFollowerILevel() const
@@ -502,7 +502,7 @@ uint32 Garrison::GetAverageFollowerILevel() const
         }
     }
 
-    return ceil(float(followerIlevels) / float(activeFollowerCount));
+    return uint32(ceil(float(followerIlevels) / float(activeFollowerCount)));
 }
 
 uint32 Garrison::GetMaxFollowerLevel() const
@@ -539,7 +539,7 @@ void Garrison::ChangeFollowerActivationState(uint64 followerDBID, bool active)
             _owner->ModifyMoney(-GarrisonMisc::FollowerActivationCost);
 
             _followerActivationsRemainingToday--;
-            m_NumFollowerActivationRegenTimestamp = time(0);
+            m_NumFollowerActivationRegenTimestamp = uint32(time(0));
 
             follower->PacketInfo.FollowerStatus = follower->PacketInfo.FollowerStatus & ~FOLLOWER_STATUS_INACTIVE;
 
@@ -720,11 +720,11 @@ std::pair<std::vector<GarrMissionEntry const*>, std::vector<double>> Garrison::G
 
 void Garrison::GenerateMissions()
 {
-    uint32 maxMissionCount = ceil(GetActiveFollowersCount() * GARRISON_MISSION_DISTRIB_FOLLOWER_COEFF);
+    uint32 maxMissionCount = uint32(ceil(GetActiveFollowersCount() * GARRISON_MISSION_DISTRIB_FOLLOWER_COEFF));
     if (GetMissions().size() >= maxMissionCount)
         return;
 
-    uint32 missionToAddCount = urand(0, maxMissionCount - GetMissions().size());
+    uint32 missionToAddCount = urand(0, uint32(maxMissionCount - GetMissions().size()));
     if (!missionToAddCount)
         return;
 
@@ -912,7 +912,7 @@ void Garrison::RewardMission(Mission* mission, bool withOvermaxReward)
 
 Map* Garrison::FindMap() const
 {
-    return sMapMgr->FindMap(_siteLevel->MapID, _owner->GetGUID().GetCounter());
+    return sMapMgr->FindMap(_siteLevel->MapID, uint32(_owner->GetGUID().GetCounter()));
 }
 
 uint32 Garrison::Follower::GetItemLevel() const

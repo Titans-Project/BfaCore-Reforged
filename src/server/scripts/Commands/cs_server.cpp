@@ -289,7 +289,7 @@ public:
             if (!paramStr)
                 return false;
 
-            int32 limit = strlen(paramStr);
+            int32 limit = int32(strlen(paramStr));
 
             if (strncmp(paramStr, "player", limit) == 0)
                 sWorld->SetPlayerSecurityLimit(SEC_PLAYER);

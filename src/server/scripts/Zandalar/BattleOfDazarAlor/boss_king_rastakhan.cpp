@@ -92,7 +92,7 @@ private:
     {
         BossAI::Reset();
         //me->AddUnitState(UNIT_STAND_STATE_SIT_HIGH_CHAIR);
-        if (Creature* bwonsamdi = me->FindNearestCreature(100.0f, true))
+        if (Creature* bwonsamdi = me->FindNearestCreature(uint32(100.0f), true))
             bwonsamdi->ClearUnitState(UNIT_STAND_STATE_SIT_HIGH_CHAIR);
         me->SetReactState(REACT_DEFENSIVE);
         me->SetVisible(true);

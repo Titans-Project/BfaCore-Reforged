@@ -736,7 +736,7 @@ class boss_koragh : public CreatureScript
                     case EventExpelMagicFel:
                     {
                         me->CastSpell(me, eSpells::ExpelMagicFelDummy, true);
-                        m_Events.ScheduleEvent(eEvents::EventExpelMagicFel, 15.5 * TimeConstants::IN_MILLISECONDS);
+                        m_Events.ScheduleEvent(eEvents::EventExpelMagicFel, uint32(15.5 * TimeConstants::IN_MILLISECONDS));
                         break;
                     }
                     default:
@@ -1361,7 +1361,7 @@ class spell_highmaul_nullification_barrier : public SpellScriptLoader
                 {
                     if (AuraEffect* l_AbsorbAura = target->GetAuraEffect(GetSpellInfo()->Id, EFFECT_0, target->GetGUID()))
                     {
-                        int32 pct = ((float)l_AbsorbAura->GetAmount() / (float)m_AbsorbAmount) * 100.0f;
+                        int32 pct = int32(((float)l_AbsorbAura->GetAmount() / (float)m_AbsorbAmount) * 100.0f);
                         target->SetPower(Powers::POWER_ALTERNATE_POWER, pct);
                     }
                 }
@@ -1717,7 +1717,7 @@ class spell_highmaul_nullification_barrier_player : public SpellScriptLoader
                     /// The Nullification Barrier received by players can absorb up to 15000000 Magic damage.
                     int32 maxAbsorb = 15000000;
 
-                    int32 pct = ((float)aurEff->GetAmount() / (float)maxAbsorb) * 100.0f;
+                    int32 pct = int32(((float)aurEff->GetAmount() / (float)maxAbsorb) * 100.0f);
                     target->SetPower(Powers::POWER_ALTERNATE_POWER, pct);
                 }
             }
@@ -1776,7 +1776,7 @@ class spell_highmaul_expel_magic_frost_aura : public SpellScriptLoader
                             if (!maxAmount)
                                 return;
 
-                            int32 newAmount = maxAmount * (distance / maxDistance);
+                            int32 newAmount = int32(maxAmount * (distance / maxDistance));
                             speedEffect->ChangeAmount(newAmount);
                         }
                     }

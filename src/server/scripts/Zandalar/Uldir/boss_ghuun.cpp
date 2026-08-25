@@ -189,7 +189,7 @@ private:
             darkYoung->AI()->DoZoneInCombat(nullptr);
         }
         std::list<Creature*> cyc_li;
-        me->GetCreatureListWithEntryInGrid(cyc_li, 100.0f);
+        me->GetCreatureListWithEntryInGrid(cyc_li, uint32(100.0f));
         for (auto& cyclopeans : cyc_li)
         {
             if (cyclopeans->isDead())

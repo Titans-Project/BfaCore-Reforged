@@ -310,7 +310,7 @@ struct fallen_protectorAI : public BossAI
         {
             if (IsCastingLowHealth())
             {
-                damage = me->GetHealth() - 1;
+                damage = uint32(me->GetHealth() - 1);
             }
             else
             {
@@ -320,7 +320,7 @@ struct fallen_protectorAI : public BossAI
 
                     SetCastingLowHealth(true);
 
-                    damage = me->GetHealth() - 1;
+                    damage = uint32(me->GetHealth() - 1);
 
                     me->CastStop();
 

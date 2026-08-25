@@ -430,8 +430,8 @@ void BattlepayManager::SendProductList()
             continue;
 
         WorldPackets::BattlePay::ProductInfoStruct pInfo;
-        pInfo.NormalPriceFixedPoint = product.NormalPriceFixedPoint * g_CurrencyPrecision;
-        pInfo.CurrentPriceFixedPoint = product.CurrentPriceFixedPoint * g_CurrencyPrecision;
+        pInfo.NormalPriceFixedPoint = uint64(product.NormalPriceFixedPoint * g_CurrencyPrecision);
+        pInfo.CurrentPriceFixedPoint = uint64(product.CurrentPriceFixedPoint * g_CurrencyPrecision);
         pInfo.ProductID = product.ProductID;
         pInfo.ChoiceType = product.ChoiceType;
         pInfo.ProductIDs.emplace_back(product.ProductID);

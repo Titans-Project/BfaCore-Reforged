@@ -160,7 +160,7 @@ class spell_argaloth_meteor_slash : public SpellScriptLoader
 
             void CountTargets(std::list<WorldObject*>& targets)
             {
-                _targetCount = targets.size();
+                _targetCount = uint32(targets.size());
             }
 
             void SplitDamage()

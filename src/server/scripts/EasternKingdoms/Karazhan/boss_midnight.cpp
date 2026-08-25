@@ -126,7 +126,7 @@ public:
         {
             // Attumen does not die until he mounts Midnight, let health fall to 1 and prevent further damage.
             if (damage >= me->GetHealth() && _phase != PHASE_MOUNTED)
-                damage = me->GetHealth() - 1;
+                damage = uint32(me->GetHealth() - 1);
 
             if (_phase == PHASE_ATTUMEN_ENGAGES && me->HealthBelowPctDamaged(25, damage))
             {
@@ -308,7 +308,7 @@ public:
         {
             // Midnight never dies, let health fall to 1 and prevent further damage.
             if (damage >= me->GetHealth())
-                damage = me->GetHealth() - 1;
+                damage = uint32(me->GetHealth() - 1);
 
             if (_phase == PHASE_NONE && me->HealthBelowPctDamaged(95, damage))
             {

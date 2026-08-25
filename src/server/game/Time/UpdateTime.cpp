@@ -85,7 +85,7 @@ void UpdateTime::UpdateWithDiff(uint32 diff)
     }
 
     if (_updateTimeDataTable[_updateTimeDataTable.size() - 1])
-        _averageUpdateTime = _totalUpdateTime / _updateTimeDataTable.size();
+        _averageUpdateTime = uint32(_totalUpdateTime / _updateTimeDataTable.size());
     else if (_updateTimeTableIndex)
         _averageUpdateTime = _totalUpdateTime / _updateTimeTableIndex;
 }

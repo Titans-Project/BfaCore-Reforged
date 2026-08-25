@@ -840,7 +840,7 @@ void ObjectMgr::LoadScriptParams()
         {
             uint32 entry = (uint32)entryOrGuid;
 
-            if (!sObjectMgr->GetCreatureTemplate(entryOrGuid))
+            if (!sObjectMgr->GetCreatureTemplate(uint32(entryOrGuid)))
             {
                 TC_LOG_ERROR("sql.sql", "Creature template (Entry: " SI64FMTD ") does not exist but has a record in `script_params`", entryOrGuid);
                 continue;
@@ -952,7 +952,7 @@ void ObjectMgr::CheckCreatureTemplate(CreatureTemplate const* cInfo)
             continue;
         }
 
-        uint32 differenceMask = cInfo->npcflag ^ difficultyInfo->npcflag;
+        uint32 differenceMask = uint32(cInfo->npcflag ^ difficultyInfo->npcflag);
         if (cInfo->npcflag != difficultyInfo->npcflag)
         {
             TC_LOG_ERROR("sql.sql", "Creature (Entry: %u, `npcflag`: " UI64FMTD ") has different `npcflag` in difficulty %u mode (Entry: %u, `npcflag`: " UI64FMTD ").",
@@ -1416,8 +1416,8 @@ EquipmentInfo const* ObjectMgr::GetEquipmentInfo(uint32 entry, int8& id) const
     if (id == -1) // select a random element
     {
         EquipmentInfoContainerInternal::const_iterator ritr = itr->second.begin();
-        std::advance(ritr, urand(0u, itr->second.size() - 1));
-        id = std::distance(itr->second.begin(), ritr) + 1;
+        std::advance(ritr, urand(0u, uint32(itr->second.size() - 1)));
+        id = int8(std::distance(itr->second.begin(), ritr) + 1);
         return &ritr->second;
     }
     else
@@ -3696,7 +3696,7 @@ void ObjectMgr::LoadPlayerInfo()
                 }
 
                 if (PlayerInfo* info = _playerInfo[current_race][current_class])
-                    info->action.push_back(PlayerCreateInfoAction(fields[2].GetUInt16(), fields[3].GetUInt32(), fields[4].GetUInt16()));
+                    info->action.push_back(PlayerCreateInfoAction(uint8(fields[2].GetUInt16()), fields[3].GetUInt32(), uint8(fields[4].GetUInt16())));
 
                 ++count;
             }
@@ -3869,7 +3869,7 @@ void ObjectMgr::LoadPlayerInfo()
 
         // load the DBC's levels at first...
         for (uint32 level = 1; level < sXpGameTable.GetTableRowCount(); ++level)
-            _playerXPperLevel[level] = sXpGameTable.GetRow(level)->Total;
+            _playerXPperLevel[level] = uint32(sXpGameTable.GetRow(level)->Total);
 
         uint32 count = 0;
 
@@ -6055,8 +6055,8 @@ void ObjectMgr::ReturnOrDeleteOldMails(bool serverUp)
                 stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_MAIL_RETURNED);
                 stmt->setUInt64(0, m->receiver);
                 stmt->setUInt64(1, m->sender);
-                stmt->setUInt32(2, basetime + 30 * DAY);
-                stmt->setUInt32(3, basetime);
+                stmt->setUInt32(2, uint32(basetime + 30 * DAY));
+                stmt->setUInt32(3, uint32(basetime));
                 stmt->setUInt8 (4, uint8(MAIL_CHECK_MASK_RETURNED));
                 stmt->setUInt32(5, m->messageID);
                 CharacterDatabase.Execute(stmt);
@@ -6306,7 +6306,7 @@ void ObjectMgr::LoadAreaTriggerScripts()
 
 void ObjectMgr::AddAreaTriggerToGrid(ObjectGuid::LowType guid, AreaTriggerData const* data)
 {
-    uint32 mask = data->spawn_mask;
+    uint32 mask = uint32(data->spawn_mask);
     for (uint8 i = 0; mask != 0; i++, mask >>= 1)
     {
         if (mask & 1)
@@ -6320,7 +6320,7 @@ void ObjectMgr::AddAreaTriggerToGrid(ObjectGuid::LowType guid, AreaTriggerData c
 
 void ObjectMgr::RemoveAreaTriggerFromGrid(ObjectGuid::LowType guid, AreaTriggerData const* data)
 {
-    uint32 mask = data->spawn_mask;
+    uint32 mask = uint32(data->spawn_mask);
     for (uint8 i = 0; mask != 0; i++, mask >>= 1)
     {
         if (mask & 1)
@@ -7010,7 +7010,7 @@ AreaTriggerTeleportStruct const* ObjectMgr::GetGoBackTrigger(uint32 Map) const
     for (AreaTriggerTeleportContainer::const_iterator itr = _areaTriggerTeleportStore.begin(); itr != _areaTriggerTeleportStore.end(); ++itr)
         if ((!useParentDbValue && itr->second.target_mapId == entrance_map) || (useParentDbValue && itr->second.target_mapId == parentId))
         {
-            AreaTriggerEntry const* atEntry = sAreaTriggerStore.LookupEntry(itr->first);
+            AreaTriggerEntry const* atEntry = sAreaTriggerStore.LookupEntry(uint32(itr->first));
             if (atEntry && atEntry->ContinentID == int32(Map))
                 return &itr->second;
         }
@@ -7026,7 +7026,7 @@ AreaTriggerTeleportStruct const* ObjectMgr::GetMapEntranceTrigger(uint32 Map) co
     {
         if (itr->second.target_mapId == Map)
         {
-            AreaTriggerEntry const* atEntry = sAreaTriggerStore.LookupEntry(itr->first);
+            AreaTriggerEntry const* atEntry = sAreaTriggerStore.LookupEntry(uint32(itr->first));
             if (itr->first < 0 || atEntry)
                 return &itr->second;
         }
@@ -7655,7 +7655,7 @@ std::string ObjectMgr::GeneratePetName(uint32 entry)
             return cinfo->Name;
     }
 
-    return *(list0.begin()+urand(0, list0.size()-1)) + *(list1.begin()+urand(0, list1.size()-1));
+    return *(list0.begin()+urand(0, uint32(list0.size()-1))) + *(list1.begin()+urand(0, uint32(list1.size()-1)));
 }
 
 void ObjectMgr::LoadReputationRewardRate()
@@ -8115,7 +8115,7 @@ void ObjectMgr::LoadNPCSpellClickSpells()
             continue;
         }
 
-        uint8 userType = fields[3].GetUInt16();
+        uint8 userType = uint8(fields[3].GetUInt16());
         if (userType >= SPELL_CLICK_USER_MAX)
             TC_LOG_ERROR("sql.sql", "Table npc_spellclick_spells creature: %u  references unknown user type %u. Skipping entry.", npc_entry, uint32(userType));
 
@@ -9725,7 +9725,7 @@ uint32 ObjectMgr::GetScriptIdOrAdd(std::string const& name)
     if (itr == _scriptNamesStore.end() || *itr != name)
     {
         _scriptNamesStore.push_back(name);
-        return _scriptNamesStore.size() - 1;
+        return uint32(_scriptNamesStore.size() - 1);
     }
 
     return uint32(itr - _scriptNamesStore.begin());
@@ -9867,7 +9867,7 @@ void ObjectMgr::LoadCreatureClassLevelStats()
 
         for (uint8 i = 0; i < MAX_EXPANSIONS; ++i)
         {
-            stats.BaseHealth[i] = GetGameTableColumnForClass(sNpcTotalHpGameTable[i].GetRow(Level), Class);
+            stats.BaseHealth[i] = uint32(GetGameTableColumnForClass(sNpcTotalHpGameTable[i].GetRow(Level), Class));
             stats.BaseDamage[i] = GetGameTableColumnForClass(sNpcDamageByClassGameTable[i].GetRow(Level), Class);
             if (stats.BaseDamage[i] < 0.0f)
             {
@@ -9894,7 +9894,7 @@ void ObjectMgr::LoadCreatureClassLevelStats()
         std::pair<int16, int16> levels = itr->second.GetMinMaxLevel();
         for (int16 lvl = levels.first; lvl <= levels.second; ++lvl)
         {
-            if (_creatureBaseStatsStore.find(MAKE_PAIR16(lvl, itr->second.unit_class)) == _creatureBaseStatsStore.end())
+            if (_creatureBaseStatsStore.find(MAKE_PAIR16(uint8(lvl), itr->second.unit_class)) == _creatureBaseStatsStore.end())
                 TC_LOG_ERROR("sql.sql", "Missing base stats for creature class %u level %u", itr->second.unit_class, lvl);
         }
     }
@@ -10796,10 +10796,10 @@ void ObjectMgr::LoadQuestTasks()
             {
                 BonusQuestRectEntry rec;
                 rec.MapID = itr->MapID;
-                rec.MinX = 5000000.f;
-                rec.MinY = 5000000.f;
-                rec.MaxX = -5000000.f;
-                rec.MaxY = -5000000.f;
+                rec.MinX = int32(5000000.f);
+                rec.MinY = int32(5000000.f);
+                rec.MaxX = int32(-5000000.f);
+                rec.MaxY = int32(-5000000.f);
 
                 for (auto const& poi : itr->QuestPOIBlobPointStats)
                 {
@@ -10824,12 +10824,12 @@ void ObjectMgr::LoadQuestTasks()
                 else
                 {
                     int32 areaWidth = std::abs(rec.MaxX - rec.MinX);
-                    rec.MinX -= 0.175f * float(areaWidth);
-                    rec.MaxX += 0.175f * float(areaWidth);
+                    rec.MinX = int32(rec.MinX - 0.175f * float(areaWidth));
+                    rec.MaxX = int32(rec.MaxX + 0.175f * float(areaWidth));
 
                     int32 areaHeight = std::abs(rec.MaxY - rec.MinY);
-                    rec.MinY -= 0.175f * float(areaHeight);
-                    rec.MaxY += 0.175f * float(areaHeight);
+                    rec.MinY = int32(rec.MinY - 0.175f * float(areaHeight));
+                    rec.MaxY = int32(rec.MaxY + 0.175f * float(areaHeight));
                 }
 
                 BonusQuestsRects[quest_template->GetQuestId()].push_back(rec);

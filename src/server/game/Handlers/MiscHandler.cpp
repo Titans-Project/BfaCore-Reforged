@@ -588,7 +588,7 @@ void WorldSession::HandleUpdateAccountData(WorldPackets::ClientConfig::UserClien
     ByteBuffer dest(packet.Size, ByteBuffer::Resize{});
 
     uLongf realSize = packet.Size;
-    if (uncompress(dest.contents(), &realSize, packet.CompressedData.contents(), packet.CompressedData.size()) != Z_OK)
+    if (uncompress(dest.contents(), &realSize, packet.CompressedData.contents(), uLong(packet.CompressedData.size())) != Z_OK)
     {
         TC_LOG_ERROR("network", "UAD: Failed to decompress account data");
         return;
@@ -611,8 +611,8 @@ void WorldSession::HandleRequestAccountData(WorldPackets::ClientConfig::RequestA
 
     WorldPackets::ClientConfig::UpdateAccountData data;
     data.Player = _player ? _player->GetGUID() : ObjectGuid::Empty;
-    data.Time = adata->Time;
-    data.Size = adata->Data.size();
+    data.Time = uint32(adata->Time);
+    data.Size = uint32(adata->Data.size());
     data.DataType = request.DataType;
 
     uLongf destSize = compressBound(data.Size);
@@ -991,7 +991,7 @@ void WorldSession::HandleGuildSetFocusedAchievement(WorldPackets::Achievement::G
 void WorldSession::HandleServerTimeOffsetRequest(WorldPackets::Misc::ServerTimeOffsetRequest& /*request*/)
 {
     WorldPackets::Misc::ServerTimeOffset response;
-    response.Time = time(nullptr);
+    response.Time = uint32(time(nullptr));
     SendPacket(response.Write());
 }
 
@@ -1086,7 +1086,7 @@ void WorldSession::HandleSaveCUFProfiles(WorldPackets::Misc::SaveCUFProfiles& pa
     for (uint8 i = 0; i < packet.CUFProfiles.size(); ++i)
         GetPlayer()->SaveCUFProfile(i, std::move(packet.CUFProfiles[i]));
 
-    for (uint8 i = packet.CUFProfiles.size(); i < MAX_CUF_PROFILES; ++i)
+    for (uint8 i = uint8(packet.CUFProfiles.size()); i < MAX_CUF_PROFILES; ++i)
         GetPlayer()->SaveCUFProfile(i, nullptr);
 }
 

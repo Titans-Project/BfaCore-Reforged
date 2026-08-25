@@ -125,7 +125,7 @@ struct FallInitializer
     float start_elevation;
     inline int32 operator()(Spline<int32>& s, int32 i)
     {
-        return Movement::computeFallTime(start_elevation - s.getPoint(i+1).z, false) * 1000.f;
+        return int32(Movement::computeFallTime(start_elevation - s.getPoint(i+1).z, false) * 1000.f);
     }
 };
 
@@ -140,7 +140,7 @@ struct CommonInitializer
     int32 time;
     inline int32 operator()(Spline<int32>& s, int32 i)
     {
-        time += (s.SegLength(i) * velocityInv);
+        time += int32(s.SegLength(i) * velocityInv);
         return time;
     }
 };
@@ -154,11 +154,11 @@ void MoveSpline::init_spline(const MoveSplineInitArgs& args)
         // MoveSplineFlag::Enter_Cycle support dropped
         //if (splineflags & SPLINEFLAG_ENTER_CYCLE)
         //cyclic_point = 1;   // shouldn't be modified, came from client
-        spline.init_cyclic_spline(&args.path[0], args.path.size(), modes[args.flags.isSmooth()], cyclic_point);
+        spline.init_cyclic_spline(&args.path[0], Movement::SplineBase::index_type(args.path.size()), modes[args.flags.isSmooth()], cyclic_point);
     }
     else
     {
-        spline.init_spline(&args.path[0], args.path.size(), modes[args.flags.isSmooth()]);
+        spline.init_spline(&args.path[0], Movement::SplineBase::index_type(args.path.size()), modes[args.flags.isSmooth()]);
     }
 
     // init spline timestamps
@@ -209,7 +209,7 @@ void MoveSpline::Initialize(MoveSplineInitArgs const& args)
     // spline initialized, duration known and i able to compute parabolic acceleration
     if (args.flags & (MoveSplineFlag::Parabolic | MoveSplineFlag::Animation | MoveSplineFlag::FadeObject))
     {
-        effect_start_time = Duration() * args.time_perc;
+        effect_start_time = int32(Duration() * args.time_perc);
         if (args.flags.parabolic && effect_start_time < Duration())
         {
             float f_duration = MSToSec(Duration() - effect_start_time);

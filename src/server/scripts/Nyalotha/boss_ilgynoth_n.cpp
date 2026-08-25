@@ -178,7 +178,7 @@ private:
 		if (spellInfo->Id == SPELL_EYE_OF_NZOTH)
 		{
 			me->RemoveAura(SPELL_EYE_OF_NZOTH);
-			uint64 GetHit = 59147.63f;
+			uint64 GetHit = uint64(59147.63f);
 			me->SetHealth(me->GetHealth() + GetHit);
 		}
 	}
@@ -354,7 +354,7 @@ struct npc_organ_of_corruption : public ScriptedAI
 		{
 			ilgynoth->AI()->Talk(SAY_ORGAN_SLAIN);
 			std::list<Creature*> organsList;
-			ilgynoth->GetCreatureListWithEntryInGrid(organsList, 150.0f);
+			ilgynoth->GetCreatureListWithEntryInGrid(organsList, uint32(150.0f));
 			for (auto& organs : organsList)
 			{
 				if (organs->IsAlive())

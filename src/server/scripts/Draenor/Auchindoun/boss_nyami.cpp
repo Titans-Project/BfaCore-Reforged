@@ -176,7 +176,7 @@ struct boss_nyami : public BossAI
                 if (!l_ListCorpsesTriggers.empty())
                 {
                     std::list<Creature*>::const_iterator l_Itr = l_ListCorpsesTriggers.begin();
-                    std::advance(l_Itr, urand(0, l_ListCorpsesTriggers.size() - 1));
+                    std::advance(l_Itr, urand(0, uint32(l_ListCorpsesTriggers.size() - 1)));
 
                     if ((*l_Itr))
                     {
@@ -244,7 +244,7 @@ struct boss_nyami : public BossAI
             if (!l_ListCorpsesTriggers.empty())
             {
                 std::list<Creature*>::const_iterator l_Itr = l_ListCorpsesTriggers.begin();
-                std::advance(l_Itr, urand(0, l_ListCorpsesTriggers.size() - 1));
+                std::advance(l_Itr, urand(0, uint32(l_ListCorpsesTriggers.size() - 1)));
                 if ((*l_Itr))
                 {
                     me->SetReactState(ReactStates::REACT_PASSIVE);

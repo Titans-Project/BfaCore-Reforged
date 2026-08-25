@@ -146,7 +146,7 @@ struct ActiveWorldQuest
     int32 GetRemainingTime() const
     {
         if (WorldQuestTemplate const* worldQuestTemplate = GetTemplate())
-            return (StartTime + worldQuestTemplate->Duration) - time(nullptr);
+            return int32((StartTime + worldQuestTemplate->Duration) - time(nullptr));
 
         return 0;
     }

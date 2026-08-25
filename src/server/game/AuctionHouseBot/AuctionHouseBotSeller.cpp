@@ -673,8 +673,8 @@ void AuctionBotSeller::SetPricesOfItem(ItemTemplate const* itemProto, SellerConf
     uint32 qualityRatio = config.GetPriceRatioPerQuality(AuctionQuality(itemProto->GetQuality()));
     float priceRatio = (classRatio * qualityRatio) / 10000.0f;
 
-    float buyPrice = itemProto->GetBuyPrice();
-    float sellPrice = itemProto->GetSellPrice();
+    float buyPrice = float(itemProto->GetBuyPrice());
+    float sellPrice = float(itemProto->GetSellPrice());
 
     if (buyPrice == 0)
     {
@@ -916,10 +916,10 @@ void AuctionBotSeller::AddNewAuctions(SellerConfiguration& config)
         --items;
 
         // Select random position from missed items table
-        uint32 pos = urand(0, itemsToSell.size() - 1);
+        uint32 pos = urand(0, uint32(itemsToSell.size() - 1));
 
         // Set itemId with random item ID for selected categories and color, from _itemPool table
-        uint32 itemId = _itemPool[itemsToSell[pos].Color][itemsToSell[pos].Itemclass][urand(0, _itemPool[itemsToSell[pos].Color][itemsToSell[pos].Itemclass].size() - 1)];
+        uint32 itemId = _itemPool[itemsToSell[pos].Color][itemsToSell[pos].Itemclass][urand(0, uint32(_itemPool[itemsToSell[pos].Color][itemsToSell[pos].Itemclass].size() - 1))];
         ++allItems[itemsToSell[pos].Color][itemsToSell[pos].Itemclass]; // Helper table to avoid rescan from DB in this loop. (has we add item in random orders)
 
         if (!itemId)

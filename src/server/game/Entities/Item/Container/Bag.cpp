@@ -190,7 +190,7 @@ void Bag::BuildValuesCreate(ByteBuffer* data, Player const* target) const
     m_objectData->WriteCreate(*data, flags, this, target);
     m_itemData->WriteCreate(*data, flags, this, target);
     m_containerData->WriteCreate(*data, flags, this, target);
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void Bag::BuildValuesUpdate(ByteBuffer* data, Player const* target) const
@@ -209,7 +209,7 @@ void Bag::BuildValuesUpdate(ByteBuffer* data, Player const* target) const
     if (m_values.HasChanged(TYPEID_CONTAINER))
         m_containerData->WriteUpdate(*data, flags, this, target);
 
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void Bag::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::ObjectData::Mask const& requestedObjectMask,
@@ -242,7 +242,7 @@ void Bag::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::ObjectData::M
     if (valuesMask[TYPEID_CONTAINER])
         m_containerData->WriteUpdate(buffer, requestedContainerMask, true, this, target);
 
-    buffer.put<uint32>(sizePos, buffer.wpos() - sizePos - 4);
+    buffer.put<uint32>(sizePos, uint32(buffer.wpos() - sizePos - 4));
 
     data->AddUpdateBlock(buffer);
 }

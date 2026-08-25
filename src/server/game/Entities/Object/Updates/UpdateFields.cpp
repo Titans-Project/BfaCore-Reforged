@@ -136,7 +136,7 @@ namespace UF
     void SocketedGem::WriteCreate(ByteBuffer& data, Item const* owner, Player const* receiver) const
     {
         data << int32(ItemID);
-        for (std::size_t i = 0; i < 16; ++i)
+        for (uint32 i = 0; i < 16; ++i)
         {
             data << uint16(BonusListIDs[i]);
         }
@@ -167,7 +167,7 @@ namespace UF
         }
         if (changesMask[3])
         {
-            for (std::size_t i = 0; i < 16; ++i)
+            for (uint32 i = 0; i < 16; ++i)
             {
                 if (changesMask[4 + i])
                 {
@@ -188,7 +188,7 @@ namespace UF
     void ItemData::WriteCreate(ByteBuffer& data, EnumFlag<UpdateFieldFlag> fieldVisibilityFlags, Item const* owner, Player const* receiver) const
     {
         data << uint32(BonusListIDs->size());
-        for (std::size_t i = 0; i < BonusListIDs->size(); ++i)
+        for (uint32 i = 0; i < BonusListIDs->size(); ++i)
         {
             data << int32((*BonusListIDs)[i]);
         }
@@ -200,13 +200,13 @@ namespace UF
         {
             data << uint32(StackCount);
             data << uint32(Expiration);
-            for (std::size_t i = 0; i < 5; ++i)
+            for (uint32 i = 0; i < 5; ++i)
             {
                 data << int32(SpellCharges[i]);
             }
         }
         data << uint32(DynamicFlags);
-        for (std::size_t i = 0; i < 13; ++i)
+        for (uint32 i = 0; i < 13; ++i)
         {
             Enchantment[i].WriteCreate(data, owner, receiver);
         }
@@ -233,15 +233,15 @@ namespace UF
         {
             data << uint32(DynamicFlags2);
         }
-        for (std::size_t i = 0; i < Modifiers.size(); ++i)
+        for (uint32 i = 0; i < Modifiers.size(); ++i)
         {
             data << int32(Modifiers[i]);
         }
-        for (std::size_t i = 0; i < ArtifactPowers.size(); ++i)
+        for (uint32 i = 0; i < ArtifactPowers.size(); ++i)
         {
             ArtifactPowers[i].WriteCreate(data, owner, receiver);
         }
-        for (std::size_t i = 0; i < Gems.size(); ++i)
+        for (uint32 i = 0; i < Gems.size(); ++i)
         {
             Gems[i].WriteCreate(data, owner, receiver);
         }
@@ -269,7 +269,7 @@ namespace UF
     void ItemData::WriteUpdate(ByteBuffer& data, UpdateMask<40> const& changesMask, bool ignoreNestedChangesMask, Item const* owner, Player const* receiver) const
     {
         data.WriteBits(changesMask.GetBlocksMask(0), 2);
-        for (std::size_t i = 0; i < 2; ++i)
+        for (uint32 i = 0; i < 2; ++i)
             if (changesMask.GetBlock(i))
                 data.WriteBits(changesMask.GetBlock(i), 32);
 
@@ -278,7 +278,7 @@ namespace UF
             if (changesMask[1])
             {
                 data.WriteBits(BonusListIDs->size(), 32);
-                for (std::size_t i = 0; i < BonusListIDs->size(); ++i)
+                for (uint32 i = 0; i < BonusListIDs->size(); ++i)
                 {
                     data << int32((*BonusListIDs)[i]);
                 }
@@ -314,7 +314,7 @@ namespace UF
         {
             if (changesMask[2])
             {
-                for (std::size_t i = 0; i < Modifiers.size(); ++i)
+                for (uint32 i = 0; i < Modifiers.size(); ++i)
                 {
                     if (Modifiers.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -324,7 +324,7 @@ namespace UF
             }
             if (changesMask[3])
             {
-                for (std::size_t i = 0; i < ArtifactPowers.size(); ++i)
+                for (uint32 i = 0; i < ArtifactPowers.size(); ++i)
                 {
                     if (ArtifactPowers.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -334,7 +334,7 @@ namespace UF
             }
             if (changesMask[4])
             {
-                for (std::size_t i = 0; i < Gems.size(); ++i)
+                for (uint32 i = 0; i < Gems.size(); ++i)
                 {
                     if (Gems.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -405,7 +405,7 @@ namespace UF
         }
         if (changesMask[20])
         {
-            for (std::size_t i = 0; i < 5; ++i)
+            for (uint32 i = 0; i < 5; ++i)
             {
                 if (changesMask[21 + i])
                 {
@@ -415,7 +415,7 @@ namespace UF
         }
         if (changesMask[26])
         {
-            for (std::size_t i = 0; i < 13; ++i)
+            for (uint32 i = 0; i < 13; ++i)
             {
                 if (changesMask[27 + i])
                 {
@@ -454,7 +454,7 @@ namespace UF
 
     void ContainerData::WriteCreate(ByteBuffer& data, EnumFlag<UpdateFieldFlag> fieldVisibilityFlags, Bag const* owner, Player const* receiver) const
     {
-        for (std::size_t i = 0; i < 36; ++i)
+        for (uint32 i = 0; i < 36; ++i)
         {
             data << Slots[i];
         }
@@ -469,7 +469,7 @@ namespace UF
     void ContainerData::WriteUpdate(ByteBuffer& data, UpdateMask<39> const& changesMask, bool ignoreNestedChangesMask, Bag const* owner, Player const* receiver) const
     {
         data.WriteBits(changesMask.GetBlocksMask(0), 2);
-        for (std::size_t i = 0; i < 2; ++i)
+        for (uint32 i = 0; i < 2; ++i)
             if (changesMask.GetBlock(i))
                 data.WriteBits(changesMask.GetBlock(i), 32);
 
@@ -483,7 +483,7 @@ namespace UF
         }
         if (changesMask[2])
         {
-            for (std::size_t i = 0; i < 36; ++i)
+            for (uint32 i = 0; i < 36; ++i)
             {
                 if (changesMask[3 + i])
                 {
@@ -502,7 +502,7 @@ namespace UF
 
     void AzeriteEmpoweredItemData::WriteCreate(ByteBuffer& data, EnumFlag<UpdateFieldFlag> fieldVisibilityFlags, AzeriteEmpoweredItem const* owner, Player const* receiver) const
     {
-        for (std::size_t i = 0; i < 5; ++i)
+        for (uint32 i = 0; i < 5; ++i)
         {
             data << int32(Selections[i]);
         }
@@ -522,7 +522,7 @@ namespace UF
         data.FlushBits();
         if (changesMask[0])
         {
-            for (std::size_t i = 0; i < 5; ++i)
+            for (uint32 i = 0; i < 5; ++i)
             {
                 if (changesMask[1 + i])
                 {
@@ -552,7 +552,7 @@ namespace UF
 
     void SelectedAzeriteEssences::WriteCreate(ByteBuffer& data, AzeriteItem const* owner, Player const* receiver) const
     {
-        for (std::size_t i = 0; i < 4; ++i)
+        for (uint32 i = 0; i < 4; ++i)
         {
             data << uint32(AzeriteEssenceID[i]);
         }
@@ -585,7 +585,7 @@ namespace UF
         }
         if (changesMask[3])
         {
-            for (std::size_t i = 0; i < 4; ++i)
+            for (uint32 i = 0; i < 4; ++i)
             {
                 if (changesMask[4 + i])
                 {
@@ -617,15 +617,15 @@ namespace UF
         data << uint32(UnlockedEssences.size());
         data << uint32(SelectedEssences.size());
         data << uint32(UnlockedEssenceMilestones.size());
-        for (std::size_t i = 0; i < UnlockedEssences.size(); ++i)
+        for (uint32 i = 0; i < UnlockedEssences.size(); ++i)
         {
             UnlockedEssences[i].WriteCreate(data, owner, receiver);
         }
-        for (std::size_t i = 0; i < UnlockedEssenceMilestones.size(); ++i)
+        for (uint32 i = 0; i < UnlockedEssenceMilestones.size(); ++i)
         {
             data << uint32(UnlockedEssenceMilestones[i]);
         }
-        for (std::size_t i = 0; i < SelectedEssences.size(); ++i)
+        for (uint32 i = 0; i < SelectedEssences.size(); ++i)
         {
             SelectedEssences[i].WriteCreate(data, owner, receiver);
         }
@@ -684,7 +684,7 @@ namespace UF
         {
             if (changesMask[1])
             {
-                for (std::size_t i = 0; i < UnlockedEssences.size(); ++i)
+                for (uint32 i = 0; i < UnlockedEssences.size(); ++i)
                 {
                     if (UnlockedEssences.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -694,7 +694,7 @@ namespace UF
             }
             if (changesMask[3])
             {
-                for (std::size_t i = 0; i < UnlockedEssenceMilestones.size(); ++i)
+                for (uint32 i = 0; i < UnlockedEssenceMilestones.size(); ++i)
                 {
                     if (UnlockedEssenceMilestones.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -704,7 +704,7 @@ namespace UF
             }
             if (changesMask[2])
             {
-                for (std::size_t i = 0; i < SelectedEssences.size(); ++i)
+                for (uint32 i = 0; i < SelectedEssences.size(); ++i)
                 {
                     if (SelectedEssences.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -816,7 +816,7 @@ namespace UF
     void UnitData::WriteCreate(ByteBuffer& data, EnumFlag<UpdateFieldFlag> fieldVisibilityFlags, Unit const* owner, Player const* receiver) const
     {
         data << int32(ViewerDependentValue<DisplayIDTag>::GetValue(DisplayID, owner, receiver));
-        for (std::size_t i = 0; i < 2; ++i)
+        for (uint32 i = 0; i < 2; ++i)
         {
             data << uint32(ViewerDependentValue<NpcFlagsTag>::GetValue(NpcFlags[i], i, owner, receiver));
         }
@@ -825,7 +825,7 @@ namespace UF
         data << uint32(StateAnimKitID);
         data << uint32(StateWorldEffectIDs->size());
         data << uint32(StateWorldEffectsQuestObjectiveID);
-        for (std::size_t i = 0; i < StateWorldEffectIDs->size(); ++i)
+        for (uint32 i = 0; i < StateWorldEffectIDs->size(); ++i)
         {
             data << uint32((*StateWorldEffectIDs)[i]);
         }
@@ -852,14 +852,14 @@ namespace UF
         data << uint8(DisplayPower);
         data << uint32(OverrideDisplayPowerID);
         data << int64(Health);
-        for (std::size_t i = 0; i < 6; ++i)
+        for (uint32 i = 0; i < 6; ++i)
         {
             data << int32(Power[i]);
             data << int32(MaxPower[i]);
         }
         if (fieldVisibilityFlags.HasFlag(UpdateFieldFlag::Owner | UpdateFieldFlag::UnitAll))
         {
-            for (std::size_t i = 0; i < 6; ++i)
+            for (uint32 i = 0; i < 6; ++i)
             {
                 data << float(PowerRegenFlatModifier[i]);
                 data << float(PowerRegenInterruptedFlatModifier[i]);
@@ -876,7 +876,7 @@ namespace UF
         data << int32(ScalingHealthItemLevelCurveID);
         data << int32(ScalingDamageItemLevelCurveID);
         data << int32(ViewerDependentValue<FactionTemplateTag>::GetValue(FactionTemplate, owner, receiver));
-        for (std::size_t i = 0; i < 3; ++i)
+        for (uint32 i = 0; i < 3; ++i)
         {
             VirtualItems[i].WriteCreate(data, owner, receiver);
         }
@@ -884,7 +884,7 @@ namespace UF
         data << uint32(ViewerDependentValue<FlagsTag>::GetValue(Flags2, 1, owner, receiver));
         data << uint32(ViewerDependentValue<FlagsTag>::GetValue(Flags3, 2, owner, receiver));
         data << uint32(ViewerDependentValue<AuraStateTag>::GetValue(AuraState, owner, receiver));
-        for (std::size_t i = 0; i < 2; ++i)
+        for (uint32 i = 0; i < 2; ++i)
         {
             data << uint32(AttackRoundBaseTime[i]);
         }
@@ -924,7 +924,7 @@ namespace UF
         data << int32(EmoteState);
         if (fieldVisibilityFlags.HasFlag(UpdateFieldFlag::Owner))
         {
-            for (std::size_t i = 0; i < 4; ++i)
+            for (uint32 i = 0; i < 4; ++i)
             {
                 data << int32(Stats[i]);
                 data << int32(StatPosBuff[i]);
@@ -933,14 +933,14 @@ namespace UF
         }
         if (fieldVisibilityFlags.HasFlag(UpdateFieldFlag::Owner | UpdateFieldFlag::Empath))
         {
-            for (std::size_t i = 0; i < 7; ++i)
+            for (uint32 i = 0; i < 7; ++i)
             {
                 data << int32(Resistances[i]);
             }
         }
         if (fieldVisibilityFlags.HasFlag(UpdateFieldFlag::Owner))
         {
-            for (std::size_t i = 0; i < 7; ++i)
+            for (uint32 i = 0; i < 7; ++i)
             {
                 data << int32(BonusResistanceMods[i]);
                 data << int32(PowerCostModifier[i]);
@@ -995,15 +995,15 @@ namespace UF
         data << uint32(WorldEffects.size());
         data << uint32(ChannelObjects.size());
         data << SkinningOwnerGUID;
-        for (std::size_t i = 0; i < PassiveSpells.size(); ++i)
+        for (uint32 i = 0; i < PassiveSpells.size(); ++i)
         {
             PassiveSpells[i].WriteCreate(data, owner, receiver);
         }
-        for (std::size_t i = 0; i < WorldEffects.size(); ++i)
+        for (uint32 i = 0; i < WorldEffects.size(); ++i)
         {
             data << int32(WorldEffects[i]);
         }
-        for (std::size_t i = 0; i < ChannelObjects.size(); ++i)
+        for (uint32 i = 0; i < ChannelObjects.size(); ++i)
         {
             data << ChannelObjects[i];
         }
@@ -1039,7 +1039,7 @@ namespace UF
     void UnitData::WriteUpdate(ByteBuffer& data, UpdateMask<192> const& changesMask, bool ignoreNestedChangesMask, Unit const* owner, Player const* receiver) const
     {
         data.WriteBits(changesMask.GetBlocksMask(0), 6);
-        for (std::size_t i = 0; i < 6; ++i)
+        for (uint32 i = 0; i < 6; ++i)
             if (changesMask.GetBlock(i))
                 data.WriteBits(changesMask.GetBlock(i), 32);
 
@@ -1048,7 +1048,7 @@ namespace UF
             if (changesMask[1])
             {
                 data.WriteBits(StateWorldEffectIDs->size(), 32);
-                for (std::size_t i = 0; i < StateWorldEffectIDs->size(); ++i)
+                for (uint32 i = 0; i < StateWorldEffectIDs->size(); ++i)
                 {
                     data << uint32((*StateWorldEffectIDs)[i]);
                 }
@@ -1084,7 +1084,7 @@ namespace UF
         {
             if (changesMask[2])
             {
-                for (std::size_t i = 0; i < PassiveSpells.size(); ++i)
+                for (uint32 i = 0; i < PassiveSpells.size(); ++i)
                 {
                     if (PassiveSpells.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -1094,7 +1094,7 @@ namespace UF
             }
             if (changesMask[3])
             {
-                for (std::size_t i = 0; i < WorldEffects.size(); ++i)
+                for (uint32 i = 0; i < WorldEffects.size(); ++i)
                 {
                     if (WorldEffects.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -1104,7 +1104,7 @@ namespace UF
             }
             if (changesMask[4])
             {
-                for (std::size_t i = 0; i < ChannelObjects.size(); ++i)
+                for (uint32 i = 0; i < ChannelObjects.size(); ++i)
                 {
                     if (ChannelObjects.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -1552,7 +1552,7 @@ namespace UF
         }
         if (changesMask[115])
         {
-            for (std::size_t i = 0; i < 2; ++i)
+            for (uint32 i = 0; i < 2; ++i)
             {
                 if (changesMask[116 + i])
                 {
@@ -1562,7 +1562,7 @@ namespace UF
         }
         if (changesMask[118])
         {
-            for (std::size_t i = 0; i < 6; ++i)
+            for (uint32 i = 0; i < 6; ++i)
             {
                 if (changesMask[119 + i])
                 {
@@ -1584,7 +1584,7 @@ namespace UF
         }
         if (changesMask[143])
         {
-            for (std::size_t i = 0; i < 3; ++i)
+            for (uint32 i = 0; i < 3; ++i)
             {
                 if (changesMask[144 + i])
                 {
@@ -1594,7 +1594,7 @@ namespace UF
         }
         if (changesMask[147])
         {
-            for (std::size_t i = 0; i < 2; ++i)
+            for (uint32 i = 0; i < 2; ++i)
             {
                 if (changesMask[148 + i])
                 {
@@ -1604,7 +1604,7 @@ namespace UF
         }
         if (changesMask[150])
         {
-            for (std::size_t i = 0; i < 4; ++i)
+            for (uint32 i = 0; i < 4; ++i)
             {
                 if (changesMask[151 + i])
                 {
@@ -1622,7 +1622,7 @@ namespace UF
         }
         if (changesMask[163])
         {
-            for (std::size_t i = 0; i < 7; ++i)
+            for (uint32 i = 0; i < 7; ++i)
             {
                 if (changesMask[164 + i])
                 {
@@ -1781,7 +1781,7 @@ namespace UF
         data << uint32(EndTime);
         data << uint32(AcceptTime);
         data << uint32(Field_10);
-        for (std::size_t i = 0; i < 24; ++i)
+        for (uint32 i = 0; i < 24; ++i)
         {
             data << int16(ObjectiveProgress[i]);
         }
@@ -1823,7 +1823,7 @@ namespace UF
         }
         if (changesMask[6])
         {
-            for (std::size_t i = 0; i < 24; ++i)
+            for (uint32 i = 0; i < 24; ++i)
             {
                 if (changesMask[7 + i])
                 {
@@ -1923,7 +1923,7 @@ namespace UF
         data << uint8(FaceID);
         data << uint8(HairStyleID);
         data << uint8(HairColorID);
-        for (std::size_t i = 0; i < 3; ++i)
+        for (uint32 i = 0; i < 3; ++i)
         {
             data << uint8(CustomDisplayOption[i]);
         }
@@ -1937,13 +1937,13 @@ namespace UF
         data << int32(GuildTimeStamp);
         if (fieldVisibilityFlags.HasFlag(UpdateFieldFlag::PartyMember))
         {
-            for (std::size_t i = 0; i < 125; ++i)
+            for (uint32 i = 0; i < 125; ++i)
             {
                 QuestLog[i].WriteCreate(data, owner, receiver);
             }
             data << uint32(QuestSessionQuestLog.size());
         }
-        for (std::size_t i = 0; i < 19; ++i)
+        for (uint32 i = 0; i < 19; ++i)
         {
             VisibleItems[i].WriteCreate(data, owner, receiver);
         }
@@ -1952,7 +1952,7 @@ namespace UF
         data << uint32(VirtualPlayerRealm);
         data << uint32(CurrentSpecID);
         data << int32(TaxiMountAnimKitID);
-        for (std::size_t i = 0; i < 4; ++i)
+        for (uint32 i = 0; i < 4; ++i)
         {
             data << float(AvgItemLevel[i]);
         }
@@ -1965,12 +1965,12 @@ namespace UF
         data << int32(Field_108);
         if (fieldVisibilityFlags.HasFlag(UpdateFieldFlag::PartyMember))
         {
-            for (std::size_t i = 0; i < QuestSessionQuestLog.size(); ++i)
+            for (uint32 i = 0; i < QuestSessionQuestLog.size(); ++i)
             {
                 QuestSessionQuestLog[i].WriteCreate(data, owner, receiver);
             }
         }
-        for (std::size_t i = 0; i < ArenaCooldowns.size(); ++i)
+        for (uint32 i = 0; i < ArenaCooldowns.size(); ++i)
         {
             ArenaCooldowns[i].WriteCreate(data, owner, receiver);
         }
@@ -2004,7 +2004,7 @@ namespace UF
     void PlayerData::WriteUpdate(ByteBuffer& data, UpdateMask<192> const& changesMask, bool ignoreNestedChangesMask, Player const* owner, Player const* receiver) const
     {
         data.WriteBits(changesMask.GetBlocksMask(0), 6);
-        for (std::size_t i = 0; i < 6; ++i)
+        for (uint32 i = 0; i < 6; ++i)
             if (changesMask.GetBlock(i))
                 data.WriteBits(changesMask.GetBlock(i), 32);
 
@@ -2039,7 +2039,7 @@ namespace UF
         {
             if (changesMask[3])
             {
-                for (std::size_t i = 0; i < QuestSessionQuestLog.size(); ++i)
+                for (uint32 i = 0; i < QuestSessionQuestLog.size(); ++i)
                 {
                     if (QuestSessionQuestLog.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -2052,7 +2052,7 @@ namespace UF
             }
             if (changesMask[4])
             {
-                for (std::size_t i = 0; i < ArenaCooldowns.size(); ++i)
+                for (uint32 i = 0; i < ArenaCooldowns.size(); ++i)
                 {
                     if (ArenaCooldowns.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -2190,7 +2190,7 @@ namespace UF
         }
         if (changesMask[37])
         {
-            for (std::size_t i = 0; i < 3; ++i)
+            for (uint32 i = 0; i < 3; ++i)
             {
                 if (changesMask[38 + i])
                 {
@@ -2200,7 +2200,7 @@ namespace UF
         }
         if (changesMask[41])
         {
-            for (std::size_t i = 0; i < 125; ++i)
+            for (uint32 i = 0; i < 125; ++i)
             {
                 if (changesMask[42 + i])
                 {
@@ -2213,7 +2213,7 @@ namespace UF
         }
         if (changesMask[167])
         {
-            for (std::size_t i = 0; i < 19; ++i)
+            for (uint32 i = 0; i < 19; ++i)
             {
                 if (changesMask[168 + i])
                 {
@@ -2223,7 +2223,7 @@ namespace UF
         }
         if (changesMask[187])
         {
-            for (std::size_t i = 0; i < 4; ++i)
+            for (uint32 i = 0; i < 4; ++i)
             {
                 if (changesMask[188 + i])
                 {
@@ -2280,7 +2280,7 @@ namespace UF
 
     void SkillInfo::WriteCreate(ByteBuffer& data, Player const* owner, Player const* receiver) const
     {
-        for (std::size_t i = 0; i < 256; ++i)
+        for (uint32 i = 0; i < 256; ++i)
         {
             data << uint16(SkillLineID[i]);
             data << uint16(SkillStep[i]);
@@ -2298,17 +2298,17 @@ namespace UF
         if (ignoreChangesMask)
             changesMask.SetAll();
 
-        for (std::size_t i = 0; i < 1; ++i)
+        for (uint32 i = 0; i < 1; ++i)
             data << uint32(changesMask.GetBlocksMask(i));
         data.WriteBits(changesMask.GetBlocksMask(1), 25);
-        for (std::size_t i = 0; i < 57; ++i)
+        for (uint32 i = 0; i < 57; ++i)
             if (changesMask.GetBlock(i))
                 data.WriteBits(changesMask.GetBlock(i), 32);
 
         data.FlushBits();
         if (changesMask[0])
         {
-            for (std::size_t i = 0; i < 256; ++i)
+            for (uint32 i = 0; i < 256; ++i)
             {
                 if (changesMask[1 + i])
                 {
@@ -2562,7 +2562,7 @@ namespace UF
     void QuestSession::WriteCreate(ByteBuffer& data, Player const* owner, Player const* receiver) const
     {
         data << Owner;
-        for (std::size_t i = 0; i < 875; ++i)
+        for (uint32 i = 0; i < 875; ++i)
         {
             data << uint64(QuestCompleted[i]);
         }
@@ -2575,7 +2575,7 @@ namespace UF
             changesMask.SetAll();
 
         data.WriteBits(changesMask.GetBlocksMask(0), 28);
-        for (std::size_t i = 0; i < 28; ++i)
+        for (uint32 i = 0; i < 28; ++i)
             if (changesMask.GetBlock(i))
                 data.WriteBits(changesMask.GetBlock(i), 32);
 
@@ -2589,7 +2589,7 @@ namespace UF
         }
         if (changesMask[2])
         {
-            for (std::size_t i = 0; i < 875; ++i)
+            for (uint32 i = 0; i < 875; ++i)
             {
                 if (changesMask[3 + i])
                 {
@@ -2608,7 +2608,7 @@ namespace UF
 
     void ActivePlayerData::WriteCreate(ByteBuffer& data, EnumFlag<UpdateFieldFlag> fieldVisibilityFlags, Player const* owner, Player const* receiver) const
     {
-        for (std::size_t i = 0; i < 199; ++i)
+        for (uint32 i = 0; i < 199; ++i)
         {
             data << InvSlots[i];
         }
@@ -2623,7 +2623,7 @@ namespace UF
         data << int32(CharacterPoints);
         data << int32(MaxTalentTiers);
         data << int32(TrackCreatureMask);
-        for (std::size_t i = 0; i < 2; ++i)
+        for (uint32 i = 0; i < 2; ++i)
         {
             data << uint32(TrackResourceMask[i]);
         }
@@ -2650,15 +2650,15 @@ namespace UF
         data << float(VersatilityBonus);
         data << float(PvpPowerDamage);
         data << float(PvpPowerHealing);
-        for (std::size_t i = 0; i < 192; ++i)
+        for (uint32 i = 0; i < 192; ++i)
         {
             data << uint64(ExploredZones[i]);
         }
-        for (std::size_t i = 0; i < 2; ++i)
+        for (uint32 i = 0; i < 2; ++i)
         {
             RestInfo[i].WriteCreate(data, owner, receiver);
         }
-        for (std::size_t i = 0; i < 7; ++i)
+        for (uint32 i = 0; i < 7; ++i)
         {
             data << int32(ModDamageDonePos[i]);
             data << int32(ModDamageDoneNeg[i]);
@@ -2668,7 +2668,7 @@ namespace UF
         data << float(ModHealingPercent);
         data << float(ModHealingDonePercent);
         data << float(ModPeriodicHealingDonePercent);
-        for (std::size_t i = 0; i < 3; ++i)
+        for (uint32 i = 0; i < 3; ++i)
         {
             data << float(WeaponDmgMultipliers[i]);
             data << float(WeaponAtkSpeedMultipliers[i]);
@@ -2685,7 +2685,7 @@ namespace UF
         data << uint8(LifetimeMaxRank);
         data << uint8(NumRespecs);
         data << uint32(PvpMedals);
-        for (std::size_t i = 0; i < 12; ++i)
+        for (uint32 i = 0; i < 12; ++i)
         {
             data << uint32(BuybackPrice[i]);
             data << uint32(BuybackTimestamp[i]);
@@ -2694,19 +2694,19 @@ namespace UF
         data << uint16(YesterdayHonorableKills);
         data << uint32(LifetimeHonorableKills);
         data << int32(WatchedFactionIndex);
-        for (std::size_t i = 0; i < 32; ++i)
+        for (uint32 i = 0; i < 32; ++i)
         {
             data << int32(CombatRatings[i]);
         }
         data << int32(MaxLevel);
         data << int32(ScalingPlayerLevelDelta);
         data << int32(MaxCreatureScalingLevel);
-        for (std::size_t i = 0; i < 4; ++i)
+        for (uint32 i = 0; i < 4; ++i)
         {
             data << uint32(NoReagentCostMask[i]);
         }
         data << int32(PetSpellPower);
-        for (std::size_t i = 0; i < 2; ++i)
+        for (uint32 i = 0; i < 2; ++i)
         {
             data << int32(ProfessionSkillLine[i]);
         }
@@ -2721,15 +2721,15 @@ namespace UF
         data << int32(LfgBonusFactionID);
         data << uint16(LootSpecID);
         data << uint32(OverrideZonePVPType);
-        for (std::size_t i = 0; i < 4; ++i)
+        for (uint32 i = 0; i < 4; ++i)
         {
             data << uint32(BagSlotFlags[i]);
         }
-        for (std::size_t i = 0; i < 7; ++i)
+        for (uint32 i = 0; i < 7; ++i)
         {
             data << uint32(BankBagSlotFlags[i]);
         }
-        for (std::size_t i = 0; i < 875; ++i)
+        for (uint32 i = 0; i < 875; ++i)
         {
             data << uint64(QuestCompleted[i]);
         }
@@ -2755,81 +2755,81 @@ namespace UF
         data << uint32(CharacterRestrictions.size());
         data << uint32(SpellPctModByLabel.size());
         data << uint32(SpellFlatModByLabel.size());
-        for (std::size_t i = 0; i < 1; ++i)
+        for (uint32 i = 0; i < 1; ++i)
         {
             data << uint32(Research[i].size());
-            for (std::size_t j = 0; j < Research[i].size(); ++j)
+            for (uint32 j = 0; j < Research[i].size(); ++j)
             {
                 Research[i][j].WriteCreate(data, owner, receiver);
             }
         }
         data << uint32(ReplayedQuests.size());
         data << uint32(DisabledSpells.size());
-        for (std::size_t i = 0; i < KnownTitles.size(); ++i)
+        for (uint32 i = 0; i < KnownTitles.size(); ++i)
         {
             data << uint64(KnownTitles[i]);
         }
-        for (std::size_t i = 0; i < ResearchSites.size(); ++i)
+        for (uint32 i = 0; i < ResearchSites.size(); ++i)
         {
             data << uint16(ResearchSites[i]);
         }
-        for (std::size_t i = 0; i < ResearchSiteProgress.size(); ++i)
+        for (uint32 i = 0; i < ResearchSiteProgress.size(); ++i)
         {
             data << uint32(ResearchSiteProgress[i]);
         }
-        for (std::size_t i = 0; i < DailyQuestsCompleted.size(); ++i)
+        for (uint32 i = 0; i < DailyQuestsCompleted.size(); ++i)
         {
             data << int32(DailyQuestsCompleted[i]);
         }
-        for (std::size_t i = 0; i < AvailableQuestLineXQuestIDs.size(); ++i)
+        for (uint32 i = 0; i < AvailableQuestLineXQuestIDs.size(); ++i)
         {
             data << int32(AvailableQuestLineXQuestIDs[i]);
         }
-        for (std::size_t i = 0; i < Heirlooms.size(); ++i)
+        for (uint32 i = 0; i < Heirlooms.size(); ++i)
         {
             data << int32(Heirlooms[i]);
         }
-        for (std::size_t i = 0; i < HeirloomFlags.size(); ++i)
+        for (uint32 i = 0; i < HeirloomFlags.size(); ++i)
         {
             data << uint32(HeirloomFlags[i]);
         }
-        for (std::size_t i = 0; i < Toys.size(); ++i)
+        for (uint32 i = 0; i < Toys.size(); ++i)
         {
             data << int32(Toys[i]);
         }
-        for (std::size_t i = 0; i < ToyFlags.size(); ++i)
+        for (uint32 i = 0; i < ToyFlags.size(); ++i)
         {
             data << uint32(ToyFlags[i]);
         }
-        for (std::size_t i = 0; i < Transmog.size(); ++i)
+        for (uint32 i = 0; i < Transmog.size(); ++i)
         {
             data << uint32(Transmog[i]);
         }
-        for (std::size_t i = 0; i < ConditionalTransmog.size(); ++i)
+        for (uint32 i = 0; i < ConditionalTransmog.size(); ++i)
         {
             data << int32(ConditionalTransmog[i]);
         }
-        for (std::size_t i = 0; i < SelfResSpells.size(); ++i)
+        for (uint32 i = 0; i < SelfResSpells.size(); ++i)
         {
             data << int32(SelfResSpells[i]);
         }
-        for (std::size_t i = 0; i < SpellPctModByLabel.size(); ++i)
+        for (uint32 i = 0; i < SpellPctModByLabel.size(); ++i)
         {
             SpellPctModByLabel[i].WriteCreate(data, owner, receiver);
         }
-        for (std::size_t i = 0; i < SpellFlatModByLabel.size(); ++i)
+        for (uint32 i = 0; i < SpellFlatModByLabel.size(); ++i)
         {
             SpellFlatModByLabel[i].WriteCreate(data, owner, receiver);
         }
-        for (std::size_t i = 0; i < ReplayedQuests.size(); ++i)
+        for (uint32 i = 0; i < ReplayedQuests.size(); ++i)
         {
             ReplayedQuests[i].WriteCreate(data, owner, receiver);
         }
-        for (std::size_t i = 0; i < DisabledSpells.size(); ++i)
+        for (uint32 i = 0; i < DisabledSpells.size(); ++i)
         {
             data << int32(DisabledSpells[i]);
         }
-        for (std::size_t i = 0; i < 6; ++i)
+        for (uint32 i = 0; i < 6; ++i)
         {
             PvpInfo[i].WriteCreate(data, owner, receiver);
         }
@@ -2838,7 +2838,7 @@ namespace UF
         data.WriteBit(SortBagsRightToLeft);
         data.WriteBit(InsertItemsLeftToRight);
         data.WriteBit(QuestSession.is_initialized());
-        for (std::size_t i = 0; i < CharacterRestrictions.size(); ++i)
+        for (uint32 i = 0; i < CharacterRestrictions.size(); ++i)
         {
             CharacterRestrictions[i].WriteCreate(data, owner, receiver);
         }
@@ -2856,10 +2856,10 @@ namespace UF
 
     void ActivePlayerData::WriteUpdate(ByteBuffer& data, UpdateMask<1494> const& changesMask, bool ignoreNestedChangesMask, Player const* owner, Player const* receiver) const
     {
-        for (std::size_t i = 0; i < 1; ++i)
+        for (uint32 i = 0; i < 1; ++i)
             data << uint32(changesMask.GetBlocksMask(i));
         data.WriteBits(changesMask.GetBlocksMask(1), 15);
-        for (std::size_t i = 0; i < 47; ++i)
+        for (uint32 i = 0; i < 47; ++i)
             if (changesMask.GetBlock(i))
                 data.WriteBits(changesMask.GetBlock(i), 32);
 
@@ -2989,7 +2989,7 @@ namespace UF
         }
         if (changesMask[22])
         {
-            for (std::size_t i = 0; i < 1; ++i)
+            for (uint32 i = 0; i < 1; ++i)
             {
                 if (changesMask[23 + i])
                 {
@@ -3002,11 +3002,11 @@ namespace UF
         }
         if (changesMask[22])
         {
-            for (std::size_t i = 0; i < 1; ++i)
+            for (uint32 i = 0; i < 1; ++i)
             {
                 if (changesMask[23 + i])
                 {
-                    for (std::size_t j = 0; j < Research[i].size(); ++j)
+                    for (uint32 j = 0; j < Research[i].size(); ++j)
                     {
                         if (Research[i].HasChanged(j) || ignoreNestedChangesMask)
                         {
@@ -3039,7 +3039,7 @@ namespace UF
         {
             if (changesMask[5])
             {
-                for (std::size_t i = 0; i < KnownTitles.size(); ++i)
+                for (uint32 i = 0; i < KnownTitles.size(); ++i)
                 {
                     if (KnownTitles.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3049,7 +3049,7 @@ namespace UF
             }
             if (changesMask[6])
             {
-                for (std::size_t i = 0; i < ResearchSites.size(); ++i)
+                for (uint32 i = 0; i < ResearchSites.size(); ++i)
                 {
                     if (ResearchSites.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3059,7 +3059,7 @@ namespace UF
             }
             if (changesMask[7])
             {
-                for (std::size_t i = 0; i < ResearchSiteProgress.size(); ++i)
+                for (uint32 i = 0; i < ResearchSiteProgress.size(); ++i)
                 {
                     if (ResearchSiteProgress.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3069,7 +3069,7 @@ namespace UF
             }
             if (changesMask[8])
             {
-                for (std::size_t i = 0; i < DailyQuestsCompleted.size(); ++i)
+                for (uint32 i = 0; i < DailyQuestsCompleted.size(); ++i)
                 {
                     if (DailyQuestsCompleted.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3079,7 +3079,7 @@ namespace UF
             }
             if (changesMask[9])
             {
-                for (std::size_t i = 0; i < AvailableQuestLineXQuestIDs.size(); ++i)
+                for (uint32 i = 0; i < AvailableQuestLineXQuestIDs.size(); ++i)
                 {
                     if (AvailableQuestLineXQuestIDs.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3089,7 +3089,7 @@ namespace UF
             }
             if (changesMask[10])
             {
-                for (std::size_t i = 0; i < Heirlooms.size(); ++i)
+                for (uint32 i = 0; i < Heirlooms.size(); ++i)
                 {
                     if (Heirlooms.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3099,7 +3099,7 @@ namespace UF
             }
             if (changesMask[11])
             {
-                for (std::size_t i = 0; i < HeirloomFlags.size(); ++i)
+                for (uint32 i = 0; i < HeirloomFlags.size(); ++i)
                 {
                     if (HeirloomFlags.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3109,7 +3109,7 @@ namespace UF
             }
             if (changesMask[12])
             {
-                for (std::size_t i = 0; i < Toys.size(); ++i)
+                for (uint32 i = 0; i < Toys.size(); ++i)
                 {
                     if (Toys.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3119,7 +3119,7 @@ namespace UF
             }
             if (changesMask[13])
             {
-                for (std::size_t i = 0; i < ToyFlags.size(); ++i)
+                for (uint32 i = 0; i < ToyFlags.size(); ++i)
                 {
                     if (ToyFlags.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3129,7 +3129,7 @@ namespace UF
             }
             if (changesMask[14])
             {
-                for (std::size_t i = 0; i < Transmog.size(); ++i)
+                for (uint32 i = 0; i < Transmog.size(); ++i)
                 {
                     if (Transmog.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3139,7 +3139,7 @@ namespace UF
             }
             if (changesMask[15])
             {
-                for (std::size_t i = 0; i < ConditionalTransmog.size(); ++i)
+                for (uint32 i = 0; i < ConditionalTransmog.size(); ++i)
                 {
                     if (ConditionalTransmog.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3149,7 +3149,7 @@ namespace UF
             }
             if (changesMask[16])
             {
-                for (std::size_t i = 0; i < SelfResSpells.size(); ++i)
+                for (uint32 i = 0; i < SelfResSpells.size(); ++i)
                 {
                     if (SelfResSpells.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3159,7 +3159,7 @@ namespace UF
             }
             if (changesMask[18])
             {
-                for (std::size_t i = 0; i < SpellPctModByLabel.size(); ++i)
+                for (uint32 i = 0; i < SpellPctModByLabel.size(); ++i)
                 {
                     if (SpellPctModByLabel.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3169,7 +3169,7 @@ namespace UF
             }
             if (changesMask[19])
             {
-                for (std::size_t i = 0; i < SpellFlatModByLabel.size(); ++i)
+                for (uint32 i = 0; i < SpellFlatModByLabel.size(); ++i)
                 {
                     if (SpellFlatModByLabel.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3179,7 +3179,7 @@ namespace UF
             }
             if (changesMask[20])
             {
-                for (std::size_t i = 0; i < ReplayedQuests.size(); ++i)
+                for (uint32 i = 0; i < ReplayedQuests.size(); ++i)
                 {
                     if (ReplayedQuests.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3189,7 +3189,7 @@ namespace UF
             }
             if (changesMask[21])
             {
-                for (std::size_t i = 0; i < DisabledSpells.size(); ++i)
+                for (uint32 i = 0; i < DisabledSpells.size(); ++i)
                 {
                     if (DisabledSpells.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3199,7 +3199,7 @@ namespace UF
             }
             if (changesMask[17])
             {
-                for (std::size_t i = 0; i < CharacterRestrictions.size(); ++i)
+                for (uint32 i = 0; i < CharacterRestrictions.size(); ++i)
                 {
                     if (CharacterRestrictions.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -3535,7 +3535,7 @@ namespace UF
         }
         if (changesMask[104])
         {
-            for (std::size_t i = 0; i < 199; ++i)
+            for (uint32 i = 0; i < 199; ++i)
             {
                 if (changesMask[105 + i])
                 {
@@ -3545,7 +3545,7 @@ namespace UF
         }
         if (changesMask[304])
         {
-            for (std::size_t i = 0; i < 2; ++i)
+            for (uint32 i = 0; i < 2; ++i)
             {
                 if (changesMask[305 + i])
                 {
@@ -3555,7 +3555,7 @@ namespace UF
         }
         if (changesMask[307])
         {
-            for (std::size_t i = 0; i < 192; ++i)
+            for (uint32 i = 0; i < 192; ++i)
             {
                 if (changesMask[308 + i])
                 {
@@ -3565,7 +3565,7 @@ namespace UF
         }
         if (changesMask[500])
         {
-            for (std::size_t i = 0; i < 2; ++i)
+            for (uint32 i = 0; i < 2; ++i)
             {
                 if (changesMask[501 + i])
                 {
@@ -3575,7 +3575,7 @@ namespace UF
         }
         if (changesMask[503])
         {
-            for (std::size_t i = 0; i < 7; ++i)
+            for (uint32 i = 0; i < 7; ++i)
             {
                 if (changesMask[504 + i])
                 {
@@ -3593,7 +3593,7 @@ namespace UF
         }
         if (changesMask[525])
         {
-            for (std::size_t i = 0; i < 3; ++i)
+            for (uint32 i = 0; i < 3; ++i)
             {
                 if (changesMask[526 + i])
                 {
@@ -3607,7 +3607,7 @@ namespace UF
         }
         if (changesMask[532])
         {
-            for (std::size_t i = 0; i < 12; ++i)
+            for (uint32 i = 0; i < 12; ++i)
             {
                 if (changesMask[533 + i])
                 {
@@ -3621,7 +3621,7 @@ namespace UF
         }
         if (changesMask[557])
         {
-            for (std::size_t i = 0; i < 32; ++i)
+            for (uint32 i = 0; i < 32; ++i)
             {
                 if (changesMask[558 + i])
                 {
@@ -3631,7 +3631,7 @@ namespace UF
         }
         if (changesMask[597])
         {
-            for (std::size_t i = 0; i < 4; ++i)
+            for (uint32 i = 0; i < 4; ++i)
             {
                 if (changesMask[598 + i])
                 {
@@ -3641,7 +3641,7 @@ namespace UF
         }
         if (changesMask[602])
         {
-            for (std::size_t i = 0; i < 2; ++i)
+            for (uint32 i = 0; i < 2; ++i)
             {
                 if (changesMask[603 + i])
                 {
@@ -3651,7 +3651,7 @@ namespace UF
         }
         if (changesMask[605])
         {
-            for (std::size_t i = 0; i < 4; ++i)
+            for (uint32 i = 0; i < 4; ++i)
             {
                 if (changesMask[606 + i])
                 {
@@ -3661,7 +3661,7 @@ namespace UF
         }
         if (changesMask[610])
         {
-            for (std::size_t i = 0; i < 7; ++i)
+            for (uint32 i = 0; i < 7; ++i)
             {
                 if (changesMask[611 + i])
                 {
@@ -3671,7 +3671,7 @@ namespace UF
         }
         if (changesMask[618])
         {
-            for (std::size_t i = 0; i < 875; ++i)
+            for (uint32 i = 0; i < 875; ++i)
             {
                 if (changesMask[619 + i])
                 {
@@ -3681,7 +3681,7 @@ namespace UF
         }
         if (changesMask[590])
         {
-            for (std::size_t i = 0; i < 6; ++i)
+            for (uint32 i = 0; i < 6; ++i)
             {
                 if (changesMask[591 + i])
                 {
@@ -3823,7 +3823,7 @@ namespace UF
         data << uint32(SpawnTrackingStateAnimKitID);
         data << uint32(StateWorldEffectIDs->size());
         data << uint32(StateWorldEffectsQuestObjectiveID);
-        for (std::size_t i = 0; i < StateWorldEffectIDs->size(); ++i)
+        for (uint32 i = 0; i < StateWorldEffectIDs->size(); ++i)
         {
             data << uint32((*StateWorldEffectIDs)[i]);
         }
@@ -3842,7 +3842,7 @@ namespace UF
         data << uint32(ArtKit);
         data << uint32(EnableDoodadSets.size());
         data << uint32(CustomParam);
-        for (std::size_t i = 0; i < EnableDoodadSets.size(); ++i)
+        for (uint32 i = 0; i < EnableDoodadSets.size(); ++i)
         {
             data << int32(EnableDoodadSets[i]);
         }
@@ -3862,7 +3862,7 @@ namespace UF
             if (changesMask[1])
             {
                 data.WriteBits(StateWorldEffectIDs->size(), 32);
-                for (std::size_t i = 0; i < StateWorldEffectIDs->size(); ++i)
+                for (uint32 i = 0; i < StateWorldEffectIDs->size(); ++i)
                 {
                     data << uint32((*StateWorldEffectIDs)[i]);
                 }
@@ -3884,7 +3884,7 @@ namespace UF
         {
             if (changesMask[2])
             {
-                for (std::size_t i = 0; i < EnableDoodadSets.size(); ++i)
+                for (uint32 i = 0; i < EnableDoodadSets.size(); ++i)
                 {
                     if (EnableDoodadSets.HasChanged(i) || ignoreNestedChangesMask)
                     {
@@ -4057,7 +4057,7 @@ namespace UF
         data << PartyGUID;
         data << GuildGUID;
         data << uint32(DisplayID);
-        for (std::size_t i = 0; i < 19; ++i)
+        for (uint32 i = 0; i < 19; ++i)
         {
             data << uint32(Items[i]);
         }
@@ -4071,7 +4071,7 @@ namespace UF
         data << uint8(FacialHairStyleID);
         data << uint32(Flags);
         data << int32(FactionTemplate);
-        for (std::size_t i = 0; i < 3; ++i)
+        for (uint32 i = 0; i < 3; ++i)
         {
             data << uint8(CustomDisplayOption[i]);
         }
@@ -4085,7 +4085,7 @@ namespace UF
     void CorpseData::WriteUpdate(ByteBuffer& data, UpdateMask<40> const& changesMask, bool ignoreNestedChangesMask, Corpse const* owner, Player const* receiver) const
     {
         data.WriteBits(changesMask.GetBlocksMask(0), 2);
-        for (std::size_t i = 0; i < 2; ++i)
+        for (uint32 i = 0; i < 2; ++i)
             if (changesMask.GetBlock(i))
                 data.WriteBits(changesMask.GetBlock(i), 32);
 
@@ -4155,7 +4155,7 @@ namespace UF
         }
         if (changesMask[16])
         {
-            for (std::size_t i = 0; i < 19; ++i)
+            for (uint32 i = 0; i < 19; ++i)
             {
                 if (changesMask[17 + i])
                 {
@@ -4165,7 +4165,7 @@ namespace UF
         }
         if (changesMask[36])
         {
-            for (std::size_t i = 0; i < 3; ++i)
+            for (uint32 i = 0; i < 3; ++i)
             {
                 if (changesMask[37 + i])
                 {
@@ -4200,7 +4200,7 @@ namespace UF
     void ScaleCurve::WriteCreate(ByteBuffer& data, AreaTrigger const* owner, Player const* receiver) const
     {
         data << uint32(StartTimeOffset);
-        for (std::size_t i = 0; i < 2; ++i)
+        for (uint32 i = 0; i < 2; ++i)
         {
             data << Points[i];
         }
@@ -4238,7 +4238,7 @@ namespace UF
         }
         if (changesMask[4])
         {
-            for (std::size_t i = 0; i < 2; ++i)
+            for (uint32 i = 0; i < 2; ++i)
             {
                 if (changesMask[5 + i])
                 {
@@ -4451,12 +4451,12 @@ namespace UF
         data << uint32(Lines->size());
         data << int32(LastLineEndTime);
         data << uint32(Field_1C);
-        for (std::size_t i = 0; i < Lines->size(); ++i)
+        for (uint32 i = 0; i < Lines->size(); ++i)
         {
             (*Lines)[i].WriteCreate(data, owner, receiver);
         }
         data << uint32(Actors.size());
-        for (std::size_t i = 0; i < Actors.size(); ++i)
+        for (uint32 i = 0; i < Actors.size(); ++i)
         {
             Actors[i].WriteCreate(data, owner, receiver);
         }
@@ -4476,7 +4476,7 @@ namespace UF
             if (changesMask[1])
             {
                 data.WriteBits(Lines->size(), 32);
-                for (std::size_t i = 0; i < Lines->size(); ++i)
+                for (uint32 i = 0; i < Lines->size(); ++i)
                 {
                     (*Lines)[i].WriteUpdate(data, ignoreNestedChangesMask, owner, receiver);
                 }
@@ -4498,7 +4498,7 @@ namespace UF
         {
             if (changesMask[2])
             {
-                for (std::size_t i = 0; i < Actors.size(); ++i)
+                for (uint32 i = 0; i < Actors.size(); ++i)
                 {
                     if (Actors.HasChanged(i) || ignoreNestedChangesMask)
                     {

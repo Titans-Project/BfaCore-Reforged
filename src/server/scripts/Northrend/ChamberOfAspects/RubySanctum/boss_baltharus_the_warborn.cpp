@@ -81,7 +81,7 @@ class boss_baltharus_the_warborn : public CreatureScript
             {
                 _Reset();
                 events.SetPhase(PHASE_INTRO);
-                instance->SetData(DATA_BALTHARUS_SHARED_HEALTH, me->GetMaxHealth());
+                instance->SetData(DATA_BALTHARUS_SHARED_HEALTH, uint32(me->GetMaxHealth()));
                 if (Creature* channelTarget = ObjectAccessor::GetCreature(*me, instance->GetGuidData(DATA_CRYSTAL_CHANNEL_TARGET)))
                     DoCast(channelTarget, SPELL_BARRIER_CHANNEL);
                 _cloneCount = 0;
@@ -170,7 +170,7 @@ class boss_baltharus_the_warborn : public CreatureScript
                 }
 
                 if (me->GetHealth() > damage)
-                    instance->SetData(DATA_BALTHARUS_SHARED_HEALTH, me->GetHealth() - damage);
+                    instance->SetData(DATA_BALTHARUS_SHARED_HEALTH, uint32(me->GetHealth() - damage));
             }
 
             void EnterEvadeMode(EvadeReason /*why*/) override
@@ -273,7 +273,7 @@ class npc_baltharus_the_warborn_clone : public CreatureScript
             {
                 // Setting DATA_BALTHARUS_SHARED_HEALTH to 0 when killed would bug the boss.
                 if (me->GetHealth() > damage)
-                    instance->SetData(DATA_BALTHARUS_SHARED_HEALTH, me->GetHealth() - damage);
+                    instance->SetData(DATA_BALTHARUS_SHARED_HEALTH, uint32(me->GetHealth() - damage));
             }
 
             void JustDied(Unit* killer) override

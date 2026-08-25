@@ -510,7 +510,7 @@ public:
         {
             if (_turnTimer <= diff)
             {
-                me->SetFacingTo(me->GetOrientation() - M_PI / 150);
+                me->SetFacingTo(float(me->GetOrientation() - M_PI / 150));
                 _turnTimer = 100;
             } else
                 _turnTimer -= diff;

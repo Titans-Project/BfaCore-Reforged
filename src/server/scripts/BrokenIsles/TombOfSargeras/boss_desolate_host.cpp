@@ -1485,7 +1485,7 @@ class spell_tos_sundering_doom : public SpellScript
 
         if (!targets.empty())
         {
-            targetsCount = targets.size();
+            targetsCount = uint8(targets.size());
         }
         else
         {
@@ -1631,7 +1631,7 @@ class spell_tos_spear_of_anguish : public SpellScript
     void FilterTargets(std::list<WorldObject*>& targets)
     {
         if (!targetsCount)
-            targetsCount = targets.size();
+            targetsCount = uint8(targets.size());
 
         targets.remove_if([this](WorldObject* object) -> bool
         {

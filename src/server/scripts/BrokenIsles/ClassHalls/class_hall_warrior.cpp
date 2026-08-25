@@ -435,7 +435,7 @@ struct npc_feasting_valarjar : public ScriptedAI
         });
         _scheduler.Schedule(5min, 20min, [this](TaskContext /*context*/)
         {
-            float direction = me->GetOrientation() + M_PI;
+            float direction = float(me->GetOrientation() + M_PI);
             me->GetMotionMaster()->MovePoint(POINT_LEAVING, me->GetFirstCollisionPosition(5.0f, direction));
         });
     }
@@ -811,7 +811,7 @@ struct npc_spectating_valarjar : public ScriptedAI
         });
         _scheduler.Schedule(5min, 20min, [this](TaskContext /*context*/)
         {
-            float direction = me->GetOrientation() + M_PI;
+            float direction = float(me->GetOrientation() + M_PI);
             me->GetMotionMaster()->MovePoint(0, me->GetFirstCollisionPosition(5.0f, direction));
         });
     }

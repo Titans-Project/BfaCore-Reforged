@@ -296,7 +296,7 @@ void Object::BuildMovementUpdate(ByteBuffer* data, CreateObjectBits flags) const
         if (go->GetGoType() == GAMEOBJECT_TYPE_TRANSPORT)
         {
             PauseTimes = go->GetGOValue()->Transport.StopFrames;
-            PauseTimesCount = PauseTimes->size();
+            PauseTimesCount = uint32(PauseTimes->size());
         }
     }
 
@@ -774,7 +774,7 @@ void Object::BuildValuesUpdateWithFlag(ByteBuffer* data, UF::UpdateFieldFlag /*f
     *data << uint32(0);
     *data << uint32(0);
 
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void Object::AddToObjectUpdateIfNeeded()

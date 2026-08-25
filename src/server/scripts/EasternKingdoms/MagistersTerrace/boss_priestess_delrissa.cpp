@@ -276,7 +276,7 @@ public:
 
             if (HealTimer <= diff)
             {
-                uint32 health = me->GetHealth();
+                uint32 health = uint32(me->GetHealth());
                 Unit* target = me;
                 for (uint8 i = 0; i < MAX_ACTIVE_LACKEY; ++i)
                 {

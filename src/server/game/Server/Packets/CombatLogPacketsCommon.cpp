@@ -26,7 +26,7 @@
 void WorldPackets::Spells::SpellCastLogData::Initialize(Unit const* unit)
 {
     Health = unit->GetHealth();
-    AttackPower = unit->GetTotalAttackPowerValue(unit->getClass() == CLASS_HUNTER ? RANGED_ATTACK : BASE_ATTACK);
+    AttackPower = int32(unit->GetTotalAttackPowerValue(unit->getClass() == CLASS_HUNTER ? RANGED_ATTACK : BASE_ATTACK));
     SpellPower = unit->SpellBaseDamageBonusDone(SPELL_SCHOOL_MASK_SPELL);
     Armor = unit->GetArmor();
     PowerData.emplace_back(int32(unit->GetPowerType()), unit->GetPower(unit->GetPowerType()), int32(0));
@@ -35,7 +35,7 @@ void WorldPackets::Spells::SpellCastLogData::Initialize(Unit const* unit)
 void WorldPackets::Spells::SpellCastLogData::Initialize(Spell const* spell)
 {
     Health = spell->GetCaster()->GetHealth();
-    AttackPower = spell->GetCaster()->GetTotalAttackPowerValue(spell->GetCaster()->getClass() == CLASS_HUNTER ? RANGED_ATTACK : BASE_ATTACK);
+    AttackPower = int32(spell->GetCaster()->GetTotalAttackPowerValue(spell->GetCaster()->getClass() == CLASS_HUNTER ? RANGED_ATTACK : BASE_ATTACK));
     SpellPower = spell->GetCaster()->SpellBaseDamageBonusDone(SPELL_SCHOOL_MASK_SPELL);
     Armor = spell->GetCaster()->GetArmor();
     Powers primaryPowerType = spell->GetCaster()->GetPowerType();
@@ -69,7 +69,7 @@ namespace WorldPackets
 
             Type = TYPE_CREATURE_TO_PLAYER_DAMAGE;
             PlayerLevelDelta = target->m_activePlayerData->ScalingPlayerLevelDelta;
-            PlayerItemLevel = target->GetAverageItemLevelEquipped();
+            PlayerItemLevel = uint16(target->GetAverageItemLevelEquipped());
             TargetItemLevel = 0;
             ScalingHealthItemLevelCurveID = target->m_unitData->ScalingHealthItemLevelCurveID;
             TargetLevel = target->getLevel();
@@ -88,7 +88,7 @@ namespace WorldPackets
 
             Type = TYPE_PLAYER_TO_CREATURE_DAMAGE;
             PlayerLevelDelta = attacker->m_activePlayerData->ScalingPlayerLevelDelta;
-            PlayerItemLevel = attacker->GetAverageItemLevelEquipped();
+            PlayerItemLevel = uint16(attacker->GetAverageItemLevelEquipped());
             TargetItemLevel = 0;
             ScalingHealthItemLevelCurveID = target->m_unitData->ScalingHealthItemLevelCurveID;
             TargetLevel = target->getLevel();

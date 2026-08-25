@@ -159,7 +159,7 @@ static Position GetRandomPositionOnCircle(Position const& center, float radius)
     double relDistance = rand_norm() + rand_norm();
     if (relDistance > 1)
         relDistance = 1 - relDistance;
-    return Position(center.GetPositionX() + std::sin(angle)*relDistance*radius, center.GetPositionY() + std::cos(angle)*relDistance*radius, center.GetPositionZ());
+    return Position(float(center.GetPositionX() + std::sin(angle)*relDistance*radius), float(center.GetPositionY() + std::cos(angle)*relDistance*radius), center.GetPositionZ());
 }
 
 class KelThuzadCharmedPlayerAI : public SimpleCharmedPlayerAI
@@ -339,7 +339,7 @@ public:
                                     return;
                                 }
                                 std::list<Creature*>::iterator it = skeletons.begin();
-                                std::advance(it, urand(0, skeletons.size() - 1));
+                                std::advance(it, urand(0, uint32(skeletons.size() - 1)));
                                 (*it)->SetReactState(REACT_AGGRESSIVE);
                                 (*it)->AI()->DoZoneInCombat(); // will select a player on our threat list as we are the summoner
                             }

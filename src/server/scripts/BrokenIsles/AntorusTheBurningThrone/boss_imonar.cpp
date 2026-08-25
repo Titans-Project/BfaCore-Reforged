@@ -137,7 +137,7 @@ struct boss_imonar_the_soulhunter : public BossAI
         case SPELL_SLEEP_CANISTER:
         {
             GetTalkData(SPELL_SLEEP_CANISTER);
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_SLEEP_CANISTER, false);
             events.Repeat(12s);
             break;
@@ -148,9 +148,9 @@ struct boss_imonar_the_soulhunter : public BossAI
                 GetTalkData(SPELL_PULSE_GRENADE);
             DoCast(SPELL_PULSE_GRENADE);
 
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->SummonCreature(NPC_PULSE_GRENADE, target1->GetRandomNearPosition(10.0f), TEMPSUMMON_DEAD_DESPAWN, WEEK);
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->SummonCreature(NPC_PULSE_GRENADE, target1->GetRandomNearPosition(10.0f), TEMPSUMMON_DEAD_DESPAWN, WEEK);
             events.Repeat(17s);
             break;
@@ -171,7 +171,7 @@ struct boss_imonar_the_soulhunter : public BossAI
                 if (Creature* felcrush = me->SummonCreature(NPC_BOMBING_RUN, Position(pos1.GetPositionX(), pos1.GetPositionY(), 1878.13f, pos1.GetOrientation()), TEMPSUMMON_TIMED_DESPAWN, 10000))
                 {
                     felcrush->AddUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
-                    if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                    if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                         felcrush->CastSpell(target1, SPELL_CHARGED_BLASTS_DMG, false);
                 }
             });
@@ -180,7 +180,7 @@ struct boss_imonar_the_soulhunter : public BossAI
                 if (Creature* felcrush = me->SummonCreature(NPC_BOMBING_RUN, Position(pos2.GetPositionX(), pos2.GetPositionY(), 1878.13f, pos2.GetOrientation()), TEMPSUMMON_TIMED_DESPAWN, 10000))
                 {
                     felcrush->AddUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
-                    if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+                    if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                         felcrush->CastSpell(target1, SPELL_CHARGED_BLASTS_DMG, false);
                 }
             });
@@ -190,9 +190,9 @@ struct boss_imonar_the_soulhunter : public BossAI
         case SPELL_SHRAPNEL_BLAST:
         {
             DoCast(SPELL_SHRAPNEL_BLAST);
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_SHRAPNEL_BLAST_DMG1, false);
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_SHRAPNEL_BLAST_DMG1, false);
             events.Repeat(12s, 14s);
             break;
@@ -206,9 +206,9 @@ struct boss_imonar_the_soulhunter : public BossAI
         case SPELL_EMPOWERED_PULSE_GRENADE:
         {
             DoCast(SPELL_EMPOWERED_PULSE_GRENADE);
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->SummonCreature(NPC_PULSE_GRENADE, target1->GetRandomNearPosition(10.0f), TEMPSUMMON_DEAD_DESPAWN, WEEK);
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->SummonCreature(NPC_PULSE_GRENADE, target1->GetRandomNearPosition(10.0f), TEMPSUMMON_DEAD_DESPAWN, WEEK);
             events.Repeat(6s, 7s);
             break;
@@ -216,9 +216,9 @@ struct boss_imonar_the_soulhunter : public BossAI
         case SPELL_EMPOWERED_SHRAPNEL_BLAST:
         {
             DoCast(SPELL_EMPOWERED_SHRAPNEL_BLAST);
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_SHRAPNEL_BLAST_DMG1, false);
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_SHRAPNEL_BLAST_DMG1, false);
             events.Repeat(15s);
             break;

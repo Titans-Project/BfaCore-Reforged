@@ -564,7 +564,7 @@ public:
 
         void CheckTargets(std::list<WorldObject*>& targets)
         {
-            targetsPlayers = targets.size();
+            targetsPlayers = uint8(targets.size());
         }
 
         void RecalculateDamage(SpellEffIndex effIndex)

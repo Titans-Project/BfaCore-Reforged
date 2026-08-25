@@ -117,7 +117,7 @@ uint32 AuctionBotBuyer::GetItemInformation(BuyerConfiguration& config)
         // This can be used later to determine the prices and chances to bid
         if (entry->MinBid)
         {
-            uint32 itemBidPrice = entry->MinBid;
+            uint32 itemBidPrice = uint32(entry->MinBid);
             itemInfo.TotalBidPrice = itemInfo.TotalBidPrice + itemBidPrice;
             itemInfo.BidItemCount++;
 
@@ -133,7 +133,7 @@ uint32 AuctionBotBuyer::GetItemInformation(BuyerConfiguration& config)
         {
             // Update item entry's count and total buyout prices
             // This can be used later to determine the prices and chances to buyout
-            uint32 itemBuyPrice = entry->BuyoutOrUnitPrice;
+            uint32 itemBuyPrice = uint32(entry->BuyoutOrUnitPrice);
             itemInfo.TotalBuyPrice = itemInfo.TotalBuyPrice + itemBuyPrice;
             itemInfo.BuyItemCount++;
 
@@ -186,7 +186,7 @@ bool AuctionBotBuyer::RollBuyChance(BuyerItemInfo const* ahInfo, AuctionPosting 
 
     if (ahInfo)
     {
-        float avgBuyPrice = ahInfo->TotalBuyPrice / float(ahInfo->BuyItemCount);
+        float avgBuyPrice = float(ahInfo->TotalBuyPrice / float(ahInfo->BuyItemCount));
 
         TC_LOG_DEBUG("ahbot", "AHBot: buyout average: %.1f items with buyout: %u", avgBuyPrice, ahInfo->BuyItemCount);
 
@@ -227,7 +227,7 @@ bool AuctionBotBuyer::RollBidChance(BuyerItemInfo const* ahInfo, AuctionPosting 
 
     if (ahInfo)
     {
-        float avgBidPrice = ahInfo->TotalBidPrice / float(ahInfo->BidItemCount);
+        float avgBidPrice = float(ahInfo->TotalBidPrice / float(ahInfo->BidItemCount));
 
         TC_LOG_DEBUG("ahbot", "AHBot: Bid average: %.1f biddable item count: %u", avgBidPrice, ahInfo->BidItemCount);
 
@@ -326,7 +326,7 @@ void AuctionBotBuyer::BuyAndBidItems(BuyerConfiguration& config)
 
         // Roll buy and bid chances
         bool successBuy = RollBuyChance(ahInfo, auction);
-        bool successBid = RollBidChance(ahInfo, auction, bidPrice);
+        bool successBid = RollBidChance(ahInfo, auction, uint32(bidPrice));
 
         // If roll bidding succesfully and bid price is above buyout -> buyout
         // If roll for buying was successful but not for bid, buyout directly
@@ -337,7 +337,7 @@ void AuctionBotBuyer::BuyAndBidItems(BuyerConfiguration& config)
             (successBuy && (!successBid || urand(1, 5) == 1)))
             BuyEntry(auction, auctionHouse); // buyout
         else if (successBid)
-            PlaceBidToEntry(auction, auctionHouse, bidPrice); // bid
+            PlaceBidToEntry(auction, auctionHouse, uint32(bidPrice)); // bid
 
         itr->second.LastChecked = now;
         --cycles;
@@ -442,7 +442,7 @@ void AuctionBotBuyer::PlaceBidToEntry(AuctionPosting* auction, AuctionHouseObjec
     // Update auction to DB
     CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_AUCTION_BID);
     stmt->setUInt64(0, auction->Bidder.GetCounter());
-    stmt->setUInt32(1, auction->BidAmount);
+    stmt->setUInt32(1, uint32(auction->BidAmount));
     stmt->setUInt32(2, auction->Id);
     trans->Append(stmt);
 

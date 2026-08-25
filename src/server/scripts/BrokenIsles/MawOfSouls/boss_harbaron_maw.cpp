@@ -694,7 +694,7 @@ public:
         Aura* snap = GetCaster()->GetAura(SPELL_VOID_SNAP);
 
         if (snap)
-            SetHitDamage(GetEffectInfo(EFFECT_0)->BasePoints * (1.0f + (snap->GetStackAmount() * 0.15f)));
+            SetHitDamage(int32(GetEffectInfo(EFFECT_0)->BasePoints * (1.0f + (snap->GetStackAmount() * 0.15f))));
     }
 
     void Register()

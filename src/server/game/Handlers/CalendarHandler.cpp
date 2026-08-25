@@ -535,7 +535,7 @@ void WorldSession::SendCalendarRaidLockoutUpdated(InstanceSave const* save)
     packet.DifficultyID = save->GetDifficultyID();
     packet.MapID = save->GetMapId();
     packet.NewTimeRemaining = 0; // FIXME
-    packet.OldTimeRemaining = save->GetResetTime() - currTime;
+    packet.OldTimeRemaining = int32(save->GetResetTime() - currTime);
 
     SendPacket(packet.Write());
 }

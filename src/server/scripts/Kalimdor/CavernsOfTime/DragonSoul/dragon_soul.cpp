@@ -1080,7 +1080,7 @@ class npc_dragon_soul_claw_of_gorath : public CreatureScript
                             if (pTarget != playerVehicle)
                                 me->CastSpell(pTarget, SPELL_TENTACLE_TOSS_SUMMON, true);
                             else
-                                me->SummonCreature(NPC_TENTACLE_TOSS_STALKER, me->GetPositionX() + urand(10.0f, 40.0f), me->GetPositionY() + urand(10.0f, 40.0f), me->GetPositionZ(), me->GetOrientation(), TEMPSUMMON_TIMED_DESPAWN, 10000);
+                                me->SummonCreature(NPC_TENTACLE_TOSS_STALKER, me->GetPositionX() + urand(uint32(10.0f), uint32(40.0f)), me->GetPositionY() + urand(uint32(10.0f), uint32(40.0f)), me->GetPositionZ(), me->GetOrientation(), TEMPSUMMON_TIMED_DESPAWN, 10000);
                         }
                         events.ScheduleEvent(EVENT_TENTACLE_TOSS_LAUNCH, 1600);
                         break;

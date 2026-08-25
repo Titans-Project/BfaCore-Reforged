@@ -254,7 +254,7 @@ void DynamicObject::BuildValuesCreate(ByteBuffer* data, Player const* target) co
     *data << uint8(flags);
     m_objectData->WriteCreate(*data, flags, this, target);
     m_dynamicObjectData->WriteCreate(*data, flags, this, target);
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void DynamicObject::BuildValuesUpdate(ByteBuffer* data, Player const* target) const
@@ -270,7 +270,7 @@ void DynamicObject::BuildValuesUpdate(ByteBuffer* data, Player const* target) co
     if (m_values.HasChanged(TYPEID_DYNAMICOBJECT))
         m_dynamicObjectData->WriteUpdate(*data, flags, this, target);
 
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void DynamicObject::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::ObjectData::Mask const& requestedObjectMask,
@@ -294,7 +294,7 @@ void DynamicObject::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::Obj
     if (valuesMask[TYPEID_DYNAMICOBJECT])
         m_dynamicObjectData->WriteUpdate(buffer, requestedDynamicObjectMask, true, this, target);
 
-    buffer.put<uint32>(sizePos, buffer.wpos() - sizePos - 4);
+    buffer.put<uint32>(sizePos, uint32(buffer.wpos() - sizePos - 4));
 
     data->AddUpdateBlock(buffer);
 }

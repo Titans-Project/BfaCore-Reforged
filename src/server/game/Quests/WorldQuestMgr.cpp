@@ -284,7 +284,7 @@ void WorldQuestMgr::ActivateQuest(WorldQuestTemplate* worldQuestTemplate)
 
     uint32 questId      = worldQuestTemplate->QuestId;
     uint32 rewardId     = GetRandomRewardForQuestType(quest->GetQuestInfoID());
-    uint32 startTime    = time(nullptr);
+    uint32 startTime    = uint32(time(nullptr));
 
     uint8 questTeamId = GetQuestTeamId(quest);
     if (questTeamId == TEAM_NEUTRAL)
@@ -392,7 +392,7 @@ void WorldQuestMgr::RewardQuestForPlayer(Player* player, uint32 questId)
             }
             case WORLD_QUEST_REWARD_GOLD:
             {
-                uint64 moneyRew = worldQuestReward->RewardCount * sWorld->getRate(RATE_MONEY_QUEST);
+                uint64 moneyRew = uint64(worldQuestReward->RewardCount * sWorld->getRate(RATE_MONEY_QUEST));
                 player->ModifyMoney(moneyRew);
 
                 if (moneyRew > 0)
@@ -455,15 +455,15 @@ ActiveWorldQuest* WorldQuestMgr::GetActiveWorldQuest(uint32 questId)
 
 uint8 WorldQuestMgr::GetActiveEmissaryQuestsCount(uint8 expansion, uint8 teamId)
 {
-    return std::count_if(_activeWorldQuests[expansion][teamId].begin(), _activeWorldQuests[expansion][teamId].end(), [](auto pair) -> bool
+    return uint8(std::count_if(_activeWorldQuests[expansion][teamId].begin(), _activeWorldQuests[expansion][teamId].end(), [](auto pair) -> bool
     {
         return pair.second->IsEmissaryQuest();
-    });
+    }));
 }
 
 uint32 WorldQuestMgr::GetActiveQuestsCount(uint8 expansion, uint8 teamId)
 {
-    return _activeWorldQuests[expansion][teamId].size();
+    return uint32(_activeWorldQuests[expansion][teamId].size());
 }
 
 uint32 WorldQuestMgr::GetRandomRewardForQuestType(uint32 questType)

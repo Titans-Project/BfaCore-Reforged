@@ -335,7 +335,7 @@ struct npc_ataldazar_reanimation_totem : public ScriptedAI
         {
             if (IsHeroic() || IsMythic())
             {
-                damage = me->GetHealth() - 1;
+                damage = uint32(me->GetHealth() - 1);
                 if (!me->HasUnitState(UNIT_STATE_CASTING))
                 {
                     me->CastSpell(me, SPELL_REANIMATION_TOTEM_HEAL);

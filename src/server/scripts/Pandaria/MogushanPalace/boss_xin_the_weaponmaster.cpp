@@ -258,8 +258,8 @@ class mob_animated_staff : public CreatureScript
                                 return;
                             }
 
-                            float x = _x + 5.0f * cos(point * M_PI / 5);
-                            float y = _y + 5.0f * sin(point * M_PI / 5);
+                            float x = float(_x + 5.0f * cos(point * M_PI / 5));
+                            float y = float(_y + 5.0f * sin(point * M_PI / 5));
                             me->SummonCreature(CREATURE_RING_OF_FIRE, x, y, me->GetMap()->GetHeight(me->GetPhaseShift(), x, y, me->GetPositionZ()), 0.0f, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 10000);
                             ++point;
                             events.ScheduleEvent(EVENT_SUMMON_RING_TRIGGER, 400);

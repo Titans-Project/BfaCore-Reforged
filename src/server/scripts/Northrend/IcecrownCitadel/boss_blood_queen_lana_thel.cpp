@@ -685,7 +685,7 @@ class spell_blood_queen_bloodbolt : public SpellScriptLoader
 
             void FilterTargets(std::list<WorldObject*>& targets)
             {
-                uint32 targetCount = (targets.size() + 2) / 3;
+                uint32 targetCount = uint32((targets.size() + 2) / 3);
                 targets.remove_if(BloodboltHitCheck(static_cast<LanaThelAI*>(GetCaster()->GetAI())));
                 Trinity::Containers::RandomResize(targets, targetCount);
                 // mark targets now, effect hook has missile travel time delay (might cast next in that time)

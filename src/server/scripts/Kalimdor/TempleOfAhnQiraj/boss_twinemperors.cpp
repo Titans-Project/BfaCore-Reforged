@@ -120,7 +120,7 @@ struct boss_twinemperorsAI : public ScriptedAI
         {
             float dPercent = ((float)damage) / ((float)me->GetMaxHealth());
             int odmg = (int)(dPercent * ((float)pOtherBoss->GetMaxHealth()));
-            int ohealth = pOtherBoss->GetHealth()-odmg;
+            int ohealth = int(pOtherBoss->GetHealth())-odmg;
             pOtherBoss->SetHealth(ohealth > 0 ? ohealth : 0);
             if (ohealth <= 0)
             {
@@ -177,7 +177,7 @@ struct boss_twinemperorsAI : public ScriptedAI
             return;
 
         // add health so we keep same percentage for both brothers
-        uint32 mytotal = me->GetMaxHealth(), histotal = pOtherBoss->GetMaxHealth();
+        uint32 mytotal = uint32(me->GetMaxHealth()), histotal = uint32(pOtherBoss->GetMaxHealth());
         float mult = ((float)mytotal) / ((float)histotal);
         if (mult < 1)
             mult = 1.0f/mult;
@@ -186,12 +186,12 @@ struct boss_twinemperorsAI : public ScriptedAI
 
         if (mytotal > histotal)
         {
-            uint32 h = me->GetHealth()+largerAmount;
+            uint32 h = uint32(me->GetHealth())+largerAmount;
             me->SetHealth(std::min(mytotal, h));
         }
         else
         {
-            uint32 h = pOtherBoss->GetHealth()+largerAmount;
+            uint32 h = uint32(pOtherBoss->GetHealth())+largerAmount;
             pOtherBoss->SetHealth(std::min(histotal, h));
         }
     }

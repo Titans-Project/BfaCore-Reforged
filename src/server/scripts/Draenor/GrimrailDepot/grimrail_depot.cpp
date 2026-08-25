@@ -164,7 +164,7 @@ class grimrail_depot_mob_grimrail_bombadier : public CreatureScript
                             continue;
 
                         std::list<Creature*>::const_iterator l_It = l_ListBlackrockBombsTriggers.begin();
-                        std::advance(l_It, urand(0, l_ListBlackrockBombsTriggers.size() - 1));
+                        std::advance(l_It, urand(0, uint32(l_ListBlackrockBombsTriggers.size() - 1)));
 
                         me->CastSpell((*l_It), eGrimrailBombadierSpells::SpellBlackrockBombTriggerMissile);
                     }
@@ -608,7 +608,7 @@ class grimrail_depot_mob_grimrail_technician : public CreatureScript
                 if (!l_ListCreatureStar.empty())
                 {
                     std::list<Creature*>::const_iterator l_It = l_ListCreatureStar.begin();
-                    std::advance(l_It, urand(0, l_ListCreatureStar.size() - 1));
+                    std::advance(l_It, urand(0, uint32(l_ListCreatureStar.size() - 1)));
                     l_TargetGuid = (*l_It)->GetGUID();
 
                     AddTimedDelayedOperation(3 * TimeConstants::IN_MILLISECONDS, [this]() -> void

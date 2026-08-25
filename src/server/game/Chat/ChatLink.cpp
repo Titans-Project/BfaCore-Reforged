@@ -498,12 +498,12 @@ bool SpellChatLink::ValidateName(char* buffer, char const* context)
 
         for (uint8 i = 0; i < TOTAL_LOCALES; ++i)
         {
-            uint32 skillLineNameLength = strlen(skillLine->DisplayName->Str[i]);
+            uint32 skillLineNameLength = uint32(strlen(skillLine->DisplayName->Str[i]));
             if (skillLineNameLength > 0 && strncmp(skillLine->DisplayName->Str[i], buffer, skillLineNameLength) == 0)
             {
                 // found the prefix, remove it to perform spellname validation below
                 // -2 = strlen(": ")
-                uint32 spellNameLength = strlen(buffer) - skillLineNameLength - 2;
+                uint32 spellNameLength = uint32(strlen(buffer) - skillLineNameLength - 2);
                 memmove(buffer, buffer + skillLineNameLength + 2, spellNameLength + 1);
                 break;
             }

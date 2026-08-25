@@ -302,8 +302,8 @@ public:
                     {
                         float windOrientation = wind->GetOrientation();
                         float orientationDiff = GetCaster()->GetOrientation();
-                        float left_limit = windOrientation - M_PI / 2;
-                        float right_limit = windOrientation + M_PI / 2;
+                        float left_limit = float(windOrientation - M_PI / 2);
+                        float right_limit = float(windOrientation + M_PI / 2);
                         if (orientationDiff >= left_limit && orientationDiff <= right_limit)
                         {
                             if (GetCaster()->HasAura(SPELL_UPWIND_OF_ALTAIRUS))

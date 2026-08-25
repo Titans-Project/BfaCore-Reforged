@@ -412,7 +412,7 @@ class spell_ulduar_stone_grip_cast_target : public SpellScriptLoader
                 while (maxTargets < unitList.size())
                 {
                     std::list<WorldObject*>::iterator itr = unitList.begin();
-                    advance(itr, urand(0, unitList.size()-1));
+                    advance(itr, urand(0, uint32(unitList.size()-1)));
                     unitList.erase(itr);
                 }
 

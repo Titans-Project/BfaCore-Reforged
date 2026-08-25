@@ -1595,7 +1595,7 @@ void Aura::HandleAuraSpecificPeriodics(AuraApplication const* aurApp, Unit* cast
                 sScriptMgr->ModifyPeriodicDamageAurasTick(target, caster, damage);
 
                 effect->SetDonePct(caster->SpellDamagePctDone(target, m_spellInfo, DOT)); // Calculate done percentage first!
-                effect->SetDamage(caster->SpellDamageBonusDone(target, m_spellInfo, damage, DOT, effect->GetSpellEffectInfo(), GetStackAmount()) * effect->GetDonePct());
+                effect->SetDamage(int32(caster->SpellDamageBonusDone(target, m_spellInfo, damage, DOT, effect->GetSpellEffectInfo(), GetStackAmount()) * effect->GetDonePct()));
                 effect->SetCritChance(caster->GetUnitSpellCriticalChance(target, nullptr, effect, m_spellInfo->GetSchoolMask()));
                 break;
             }
@@ -1609,7 +1609,7 @@ void Aura::HandleAuraSpecificPeriodics(AuraApplication const* aurApp, Unit* cast
                 sScriptMgr->ModifyPeriodicDamageAurasTick(target, caster, damage);
 
                 effect->SetDonePct(caster->SpellHealingPctDone(target, m_spellInfo)); // Calculate done percentage first!
-                effect->SetDamage(caster->SpellHealingBonusDone(target, m_spellInfo, damage, DOT, effect->GetSpellEffectInfo(), GetStackAmount()) * effect->GetDonePct());
+                effect->SetDamage(int32(caster->SpellHealingBonusDone(target, m_spellInfo, damage, DOT, effect->GetSpellEffectInfo(), GetStackAmount()) * effect->GetDonePct()));
                 effect->SetCritChance(caster->GetUnitSpellCriticalChance(target, nullptr, effect, m_spellInfo->GetSchoolMask()));
                 break;
             }

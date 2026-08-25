@@ -991,7 +991,7 @@ class boss_twin_ogron_phemos : public CreatureScript
             uint32 GetData(uint32 id) const override
             {
                 if (id == eMiscs::EnfeeblingCounter)
-                    return m_EnfeeblingRoarTargets.size();
+                    return uint32(m_EnfeeblingRoarTargets.size());
 
                 return 0;
             }

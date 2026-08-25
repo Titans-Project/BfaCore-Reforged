@@ -64,7 +64,7 @@ template<typename length_type> SplineBase::index_type Spline<length_type>::compu
 template<typename length_type> void Spline<length_type>::computeIndex(float t, index_type& index, float& u) const
 {
     ASSERT(t >= 0.f && t <= 1.f);
-    length_type length_ = t * length();
+    length_type length_ = length_type(t * length());
     index = computeIndexInBounds(length_);
     ASSERT(index < index_hi);
     u = (length_ - length(index)) / (float)length(index, index+1);
@@ -83,7 +83,7 @@ template<typename length_type> void Spline<length_type>::initLengths()
     lengths.resize(index_hi+1);
     while (i < index_hi)
     {
-        length += SegLength(i);
+        length = length_type(length + SegLength(i));
         lengths[++i] = length;
     }
 }

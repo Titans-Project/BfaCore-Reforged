@@ -148,7 +148,7 @@ class boss_apothecary_hummel : public CreatureScript
                 if (damage >= me->GetHealth())
                     if (_deadCount < 2)
                     {
-                        damage = me->GetHealth() - 1;
+                        damage = uint32(me->GetHealth() - 1);
                         if (!_isDead)
                         {
                             _isDead = true;

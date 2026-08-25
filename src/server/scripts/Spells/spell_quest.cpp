@@ -838,7 +838,7 @@ class spell_symbol_of_life_dummy : public SpellScriptLoader
                         target->AddDynamicFlag(0);
                         target->SetUnitFlags2(UnitFlags2(0));
                         target->SetHealth(target->GetMaxHealth() / 2);
-                        target->SetPower(POWER_MANA, target->GetMaxPower(POWER_MANA) * 0.75f);
+                        target->SetPower(POWER_MANA, int32(target->GetMaxPower(POWER_MANA) * 0.75f));
                     }
                 }
             }

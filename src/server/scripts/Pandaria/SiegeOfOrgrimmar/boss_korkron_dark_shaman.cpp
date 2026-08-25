@@ -540,7 +540,7 @@ private:
 
             if (pOtherShaman && pOtherShaman->IsAlive())
             {
-                uint32 otherHealth = pOtherShaman->GetHealth();
+                uint32 otherHealth = uint32(pOtherShaman->GetHealth());
                 if (me->GetHealth() > otherHealth)
                     me->SetHealth(otherHealth);
                 //me->SetHealth(std::min(me->GetHealth(), otherHealth));
@@ -725,7 +725,8 @@ class boss_earthbreaker_haromm : public CreatureScript
                         break;
                     case EVENT_FOUL_STREAM:
                     {
-                        Unit* target = SelectTarget(SELECT_TARGET_RANDOM, -20.0f, 0.0f, true, -SPELL_TOXIC_MIST);
+                        float streamDist = -20.0f;
+                        Unit* target = SelectTarget(SELECT_TARGET_RANDOM, uint32(streamDist), 0.0f, true, -SPELL_TOXIC_MIST);
                         if (!target)
                             target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0f, true, -SPELL_TOXIC_MIST);
                         if (!target)
@@ -1430,7 +1431,7 @@ class spell_korkron_dark_shaman_ashen_wall : public SpellScriptLoader
 
                 for (uint8 i = 0; i < 8; ++i)
                 {
-                    Position summonPos = GetHitUnit()->GetNearPosition(-20.0f + (5.0f * i), GetHitUnit()->GetRelativeAngle(GetCaster()) + (M_PI / 2));;
+                    Position summonPos = GetHitUnit()->GetNearPosition(-20.0f + (5.0f * i), float(GetHitUnit()->GetRelativeAngle(GetCaster()) + (M_PI / 2)));;
                     summonPos.SetOrientation(GetCaster()->GetOrientation());
                     GetCaster()->CastSpell(summonPos, SPELL_ASHEN_WALL_SUMMON, true);
                 }

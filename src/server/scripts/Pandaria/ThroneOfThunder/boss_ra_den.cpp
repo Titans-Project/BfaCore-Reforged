@@ -1811,7 +1811,7 @@ public:
 
         void CheckTargets(std::list<WorldObject*>& targets)
         {
-            targetsPlayers = targets.size();
+            targetsPlayers = uint8(targets.size());
         }
 
         void RecalculateDamage(SpellEffIndex effIndex)
@@ -1889,7 +1889,7 @@ public:
             Unit* target = GetCaster()->GetVictim();
             if (!target)
                 return;
-            amount += target->GetHealth();
+            amount += int32(target->GetHealth());
         }
 
         void Register()

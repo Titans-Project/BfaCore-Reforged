@@ -433,14 +433,14 @@ struct boss_argus_the_unmaker : public BossAI
         }
         case SPELL_CONE_OF_DEATH:
         {
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_CONE_OF_DEATH, false);
             events.Repeat(19s, 24s);
             break;
         }
         case SPELL_SOULBLIGHT_ORB:
         {
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 me->CastSpell(target1, SPELL_SOULBLIGHT_ORB, false);
             events.Repeat(22s);
             break;
@@ -449,7 +449,7 @@ struct boss_argus_the_unmaker : public BossAI
         {
             if (Creature* target = me->FindNearestCreature(NPC_GOLGANNETH, 150.0f, true))
                 target->AI()->DoAction(1);
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
             {
                 me->CastSpell(target1, SPELL_STRENGTH_OF_THE_SEA_MARK, false);
                 AddTimedDelayedOperation(4000, [this, target1]() -> void
@@ -459,7 +459,7 @@ struct boss_argus_the_unmaker : public BossAI
                 });
             }
 
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
             {
                 me->CastSpell(target1, SPELL_STRENGTH_OF_THE_SKY_MARK, false);
                 AddTimedDelayedOperation(4000, [this, target1]() -> void
@@ -497,7 +497,7 @@ struct boss_argus_the_unmaker : public BossAI
         }
         case SPELL_AVTAR_OF_AGGRAMAR:
         {
-            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0.0, 0.0, true))
+            if (Unit* target1 = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0, true))
                 target1->CastSpell(target1, SPELL_AVTAR_OF_AGGRAMAR, true);
             events.Repeat(60s);
             break;

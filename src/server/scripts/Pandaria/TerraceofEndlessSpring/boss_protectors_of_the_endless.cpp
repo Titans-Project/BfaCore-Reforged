@@ -140,15 +140,15 @@ uint8 ProtectorsAlive(InstanceScript* instance, Creature* me)
     if (!instance || !me)
         return count;
 
-    Creature* asani = instance->GetCreature(instance->GetData64(NPC_ANCIENT_ASANI));
+    Creature* asani = instance->GetCreature(uint32(instance->GetData64(NPC_ANCIENT_ASANI)));
     if (asani && asani->IsAlive())
         ++count;
 
-    Creature* regail = instance->GetCreature(instance->GetData64(NPC_ANCIENT_REGAIL));
+    Creature* regail = instance->GetCreature(uint32(instance->GetData64(NPC_ANCIENT_REGAIL)));
     if (regail && regail->IsAlive())
         ++count;
 
-    Creature* kaolan = instance->GetCreature(instance->GetData64(NPC_PROTECTOR_KAOLAN));
+    Creature* kaolan = instance->GetCreature(uint32(instance->GetData64(NPC_PROTECTOR_KAOLAN)));
     if (kaolan && kaolan->IsAlive())
         ++count;
 
@@ -160,21 +160,21 @@ void RespawnProtectors(InstanceScript* instance, Creature* me)
     if (!instance || !me)
         return;
 
-    Creature* asani = instance->GetCreature(instance->GetData64(NPC_ANCIENT_ASANI));
+    Creature* asani = instance->GetCreature(uint32(instance->GetData64(NPC_ANCIENT_ASANI)));
     if (asani)
     {
         asani->Respawn();
         asani->GetMotionMaster()->MoveTargetedHome();
     }
 
-    Creature* regail = instance->GetCreature(instance->GetData64(NPC_ANCIENT_REGAIL));
+    Creature* regail = instance->GetCreature(uint32(instance->GetData64(NPC_ANCIENT_REGAIL)));
     if (regail)
     {
         regail->Respawn();
         regail->GetMotionMaster()->MoveTargetedHome();
     }
 
-    Creature* kaolan = instance->GetCreature(instance->GetData64(NPC_PROTECTOR_KAOLAN));
+    Creature* kaolan = instance->GetCreature(uint32(instance->GetData64(NPC_PROTECTOR_KAOLAN)));
     if (kaolan)
     {
         kaolan->Respawn();
@@ -192,15 +192,15 @@ void StartProtectors(InstanceScript* instance, Creature* /*me*/, Unit* /*target*
 
     instance->SetBossState(DATA_PROTECTORS, IN_PROGRESS);
 
-    Creature* asani = instance->GetCreature(instance->GetData64(NPC_ANCIENT_ASANI));
+    Creature* asani = instance->GetCreature(uint32(instance->GetData64(NPC_ANCIENT_ASANI)));
     if (asani)
         asani->SetInCombatWithZone();
 
-    Creature* regail = instance->GetCreature(instance->GetData64(NPC_ANCIENT_REGAIL));
+    Creature* regail = instance->GetCreature(uint32(instance->GetData64(NPC_ANCIENT_REGAIL)));
     if (regail)
         regail->SetInCombatWithZone();
 
-    Creature* kaolan = instance->GetCreature(instance->GetData64(NPC_PROTECTOR_KAOLAN));
+    Creature* kaolan = instance->GetCreature(uint32(instance->GetData64(NPC_PROTECTOR_KAOLAN)));
     if (kaolan)
         kaolan->SetInCombatWithZone();
 }
@@ -520,7 +520,7 @@ public:
                 break;
             case EVENT_CHECK_WIPE:
             {
-                if (Creature* asani = instance->GetCreature(pInstance->GetData64(NPC_ANCIENT_ASANI)))
+                if (Creature* asani = instance->GetCreature(uint32(pInstance->GetData64(NPC_ANCIENT_ASANI))))
                     if (!asani->IsInCombat() && asani->IsAlive())
                     {
                         Map::PlayerList const& playerList = me->GetMap()->GetPlayers();
@@ -530,7 +530,7 @@ public:
                                     asani->Kill(player);
                     }
 
-                if (Creature* kaolan = instance->GetCreature(pInstance->GetData64(NPC_PROTECTOR_KAOLAN)))
+                if (Creature* kaolan = instance->GetCreature(uint32(pInstance->GetData64(NPC_PROTECTOR_KAOLAN))))
                     if (!kaolan->IsInCombat() && kaolan->IsAlive())
                     {
                         Map::PlayerList const& playerList = me->GetMap()->GetPlayers();
@@ -660,8 +660,8 @@ public:
             {
                 pInstance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
 
-                Creature* regail = instance->GetCreature(pInstance->GetData64(NPC_ANCIENT_REGAIL));
-                Creature* kaolan = instance->GetCreature(pInstance->GetData64(NPC_PROTECTOR_KAOLAN));
+                Creature* regail = instance->GetCreature(uint32(pInstance->GetData64(NPC_ANCIENT_REGAIL)));
+                Creature* kaolan = instance->GetCreature(uint32(pInstance->GetData64(NPC_PROTECTOR_KAOLAN)));
 
                 switch (ProtectorsAlive(pInstance, me))
                 {
@@ -710,7 +710,7 @@ public:
                     pInstance->DoRemoveAurasDueToSpellOnPlayers(SPELL_LIGHTNING_PRISON_STUN);
                     _JustDied();
 
-                    if (Creature* minionController = instance->GetCreature(pInstance->GetData64(NPC_MINION_OF_FEAR_CONTROLLER)))
+                    if (Creature* minionController = instance->GetCreature(uint32(pInstance->GetData64(NPC_MINION_OF_FEAR_CONTROLLER))))
                     {
                         minionController->AI()->DoAction(ACTION_EVENT_DONE);
                         minionController->AI()->DoAction(ACTION_RESET_MINION_CONTROLLER);
@@ -755,9 +755,9 @@ public:
                 me->SetFacingTo(ENTRANCE_ORIENTATION);
                 me->SetReactState(REACT_AGGRESSIVE);
 
-                if (GameObject* vortex = instance->GetGameObject(pInstance->GetData64(GOB_COUNCILS_VORTEX)))
+                if (GameObject* vortex = instance->GetGameObject(uint32(pInstance->GetData64(GOB_COUNCILS_VORTEX))))
                     vortex->SetGoState(GO_STATE_ACTIVE);
-                if (GameObject* wall = instance->GetGameObject(pInstance->GetData64(GOB_WALL_OF_COUNCILS_VORTEX)))
+                if (GameObject* wall = instance->GetGameObject(uint32(pInstance->GetData64(GOB_WALL_OF_COUNCILS_VORTEX))))
                     wall->SetGoState(GO_STATE_ACTIVE);
 
                 break;
@@ -782,13 +782,13 @@ public:
                 me->SetReactState(REACT_PASSIVE);
                 //me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_LOOTING);
 
-                if (GameObject* vortex = instance->GetGameObject(pInstance->GetData64(GOB_COUNCILS_VORTEX)))
+                if (GameObject* vortex = instance->GetGameObject(uint32(pInstance->GetData64(GOB_COUNCILS_VORTEX))))
                 {
                     me->SetFacingToObject(vortex);
                     vortex->SetGoState(GO_STATE_READY);
                 }
 
-                if (GameObject* wall = instance->GetGameObject(pInstance->GetData64(GOB_WALL_OF_COUNCILS_VORTEX)))
+                if (GameObject* wall = instance->GetGameObject(uint32(pInstance->GetData64(GOB_WALL_OF_COUNCILS_VORTEX))))
                     wall->SetGoState(GO_STATE_READY);
             }
 
@@ -834,7 +834,7 @@ public:
                 break;
             case EVENT_CHECK_WIPE:
             {
-                if (Creature* regail = instance->GetCreature(pInstance->GetData64(NPC_ANCIENT_REGAIL)))
+                if (Creature* regail = instance->GetCreature(uint32(pInstance->GetData64(NPC_ANCIENT_REGAIL))))
                     if (!regail->IsInCombat() && regail->IsAlive())
                     {
                         Map::PlayerList const& playerList = me->GetMap()->GetPlayers();
@@ -844,7 +844,7 @@ public:
                                     regail->Kill(player);
                     }
 
-                if (Creature* kaolan = instance->GetCreature(pInstance->GetData64(NPC_PROTECTOR_KAOLAN)))
+                if (Creature* kaolan = instance->GetCreature(uint32(pInstance->GetData64(NPC_PROTECTOR_KAOLAN))))
                     if (!kaolan->IsInCombat() && kaolan->IsAlive())
                     {
                         Map::PlayerList const& playerList = me->GetMap()->GetPlayers();
@@ -992,8 +992,8 @@ public:
             {
                 pInstance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
 
-                Creature* regail = instance->GetCreature(pInstance->GetData64(NPC_ANCIENT_REGAIL));
-                Creature* asani = instance->GetCreature(pInstance->GetData64(NPC_ANCIENT_ASANI));
+                Creature* regail = instance->GetCreature(uint32(pInstance->GetData64(NPC_ANCIENT_REGAIL)));
+                Creature* asani = instance->GetCreature(uint32(pInstance->GetData64(NPC_ANCIENT_ASANI)));
 
                 switch (ProtectorsAlive(pInstance, me))
                 {
@@ -1040,7 +1040,7 @@ public:
                     pInstance->DoRemoveAurasDueToSpellOnPlayers(SPELL_LIGHTNING_PRISON_STUN);
                     _JustDied();
 
-                    if (Creature* minionController = instance->GetCreature(pInstance->GetData64(NPC_MINION_OF_FEAR_CONTROLLER)))
+                    if (Creature* minionController = instance->GetCreature(uint32(pInstance->GetData64(NPC_MINION_OF_FEAR_CONTROLLER))))
                     {
                         minionController->AI()->DoAction(ACTION_EVENT_DONE);
                         minionController->AI()->DoAction(ACTION_RESET_MINION_CONTROLLER);
@@ -1085,9 +1085,9 @@ public:
                 me->SetFacingTo(ENTRANCE_ORIENTATION);
                 me->SetReactState(REACT_AGGRESSIVE);
 
-                if (GameObject* vortex = instance->GetGameObject(pInstance->GetData64(GOB_COUNCILS_VORTEX)))
+                if (GameObject* vortex = instance->GetGameObject(uint32(pInstance->GetData64(GOB_COUNCILS_VORTEX))))
                     vortex->SetGoState(GO_STATE_ACTIVE);
-                if (GameObject* wall = instance->GetGameObject(pInstance->GetData64(GOB_WALL_OF_COUNCILS_VORTEX)))
+                if (GameObject* wall = instance->GetGameObject(uint32(pInstance->GetData64(GOB_WALL_OF_COUNCILS_VORTEX))))
                     wall->SetGoState(GO_STATE_ACTIVE);
 
                 break;
@@ -1106,13 +1106,13 @@ public:
                 me->SetReactState(REACT_PASSIVE);
                 //me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_LOOTING);
 
-                if (GameObject* vortex = instance->GetGameObject(pInstance->GetData64(GOB_COUNCILS_VORTEX)))
+                if (GameObject* vortex = instance->GetGameObject(uint32(pInstance->GetData64(GOB_COUNCILS_VORTEX))))
                 {
                     me->SetFacingToObject(vortex);
                     vortex->SetGoState(GO_STATE_READY);
                 }
 
-                if (GameObject* wall = instance->GetGameObject(pInstance->GetData64(GOB_WALL_OF_COUNCILS_VORTEX)))
+                if (GameObject* wall = instance->GetGameObject(uint32(pInstance->GetData64(GOB_WALL_OF_COUNCILS_VORTEX))))
                     wall->SetGoState(GO_STATE_READY);
             }
 
@@ -1157,7 +1157,7 @@ public:
                 break;
             case EVENT_CHECK_WIPE:
             {
-                if (Creature* regail = instance->GetCreature(pInstance->GetData64(NPC_ANCIENT_REGAIL)))
+                if (Creature* regail = instance->GetCreature(uint32(pInstance->GetData64(NPC_ANCIENT_REGAIL))))
                     if (!regail->IsInCombat() && regail->IsAlive())
                     {
                         Map::PlayerList const& playerList = me->GetMap()->GetPlayers();
@@ -1167,7 +1167,7 @@ public:
                                     regail->Kill(player);
                     }
 
-                if (Creature* asani = instance->GetCreature(pInstance->GetData64(NPC_ANCIENT_ASANI)))
+                if (Creature* asani = instance->GetCreature(uint32(pInstance->GetData64(NPC_ANCIENT_ASANI))))
                     if (!asani->IsInCombat() && asani->IsAlive())
                     {
                         Map::PlayerList const& playerList = me->GetMap()->GetPlayers();
@@ -1353,13 +1353,13 @@ public:
             {
                 std::list<Creature*> targets;
 
-                if (Creature* asani = instance->GetCreature(pInstance->GetData64(NPC_ANCIENT_ASANI)))
+                if (Creature* asani = instance->GetCreature(uint32(pInstance->GetData64(NPC_ANCIENT_ASANI))))
                     if (asani->IsAlive())
                         targets.push_back(asani);
-                if (Creature* kaolan = instance->GetCreature(pInstance->GetData64(NPC_PROTECTOR_KAOLAN)))
+                if (Creature* kaolan = instance->GetCreature(uint32(pInstance->GetData64(NPC_PROTECTOR_KAOLAN))))
                     if (kaolan->IsAlive())
                         targets.push_back(kaolan);
-                if (Creature* regail = instance->GetCreature(pInstance->GetData64(NPC_ANCIENT_REGAIL)))
+                if (Creature* regail = instance->GetCreature(uint32(pInstance->GetData64(NPC_ANCIENT_REGAIL))))
                     if (regail->IsAlive())
                         targets.push_back(regail);
 
@@ -1575,7 +1575,7 @@ public:
 
             float distance = caster->GetExactDist2d(target);
 
-            SetHitDamage(GetHitDamage() * (1 - (distance / 30.0f)));
+            SetHitDamage(int32(GetHitDamage() * (1 - (distance / 30.0f))));
         }
 
         void Register()

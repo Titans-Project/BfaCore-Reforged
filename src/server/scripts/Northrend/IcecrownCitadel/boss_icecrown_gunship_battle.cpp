@@ -684,7 +684,7 @@ class npc_gunship : public CreatureScript
                 if (damage >= me->GetHealth())
                 {
                     JustDied(nullptr);
-                    damage = me->GetHealth() - 1;
+                    damage = uint32(me->GetHealth() - 1);
                     return;
                 }
 
@@ -917,7 +917,7 @@ class npc_high_overlord_saurfang_igb : public CreatureScript
                 {
                     time_t now = time(nullptr);
                     if (_firstMageCooldown > now)
-                        _events.ScheduleEvent(EVENT_SUMMON_MAGE, (_firstMageCooldown - now) * IN_MILLISECONDS);
+                        _events.ScheduleEvent(EVENT_SUMMON_MAGE, uint32((_firstMageCooldown - now) * IN_MILLISECONDS));
                     else
                         _events.ScheduleEvent(EVENT_SUMMON_MAGE, 1);
                 }
@@ -980,7 +980,7 @@ class npc_high_overlord_saurfang_igb : public CreatureScript
                     DoCast(me, SPELL_TASTE_OF_BLOOD, true);
 
                 if (damage >= me->GetHealth())
-                    damage = me->GetHealth() - 1;
+                    damage = uint32(me->GetHealth() - 1);
             }
 
             void UpdateAI(uint32 diff) override
@@ -1185,7 +1185,7 @@ class npc_muradin_bronzebeard_igb : public CreatureScript
                 {
                     time_t now = time(nullptr);
                     if (_firstMageCooldown > now)
-                        _events.ScheduleEvent(EVENT_SUMMON_MAGE, (_firstMageCooldown - now) * IN_MILLISECONDS);
+                        _events.ScheduleEvent(EVENT_SUMMON_MAGE, uint32((_firstMageCooldown - now) * IN_MILLISECONDS));
                     else
                         _events.ScheduleEvent(EVENT_SUMMON_MAGE, 1);
                 }
@@ -1249,7 +1249,7 @@ class npc_muradin_bronzebeard_igb : public CreatureScript
                     DoCast(me, SPELL_TASTE_OF_BLOOD, true);
 
                 if (damage >= me->GetHealth())
-                    damage = me->GetHealth() - 1;
+                    damage = uint32(me->GetHealth() - 1);
             }
 
             void UpdateAI(uint32 diff) override
@@ -2396,7 +2396,7 @@ class spell_igb_check_for_players : public SpellScriptLoader
 
             void CountTargets(std::list<WorldObject*>& targets)
             {
-                _playerCount = targets.size();
+                _playerCount = uint32(targets.size());
             }
 
             void TriggerWipe()

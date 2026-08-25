@@ -338,7 +338,7 @@ class npc_eye_of_the_goddess : public CreatureScript
 
             void FillCirclePath(Position const& centerPos, float radius, float z, Movement::PointsArray& path, bool clockwise)
             {
-                float step = clockwise ? -M_PI / 8.0f : M_PI / 8.0f;
+                float step = float(clockwise ? -M_PI / 8.0f : M_PI / 8.0f);
                 float angle = centerPos.GetAngle(me->GetPositionX(), me->GetPositionY());
 
                 for (uint8 i = 0; i < 16; angle += step, ++i)

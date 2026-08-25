@@ -80,7 +80,7 @@ void WorldSession::HandleBattlePetNameQuery(WorldPackets::BattlePet::Query& pack
 
 void WorldSession::HandleBattlePetModifyName(WorldPackets::BattlePet::ModifyName& packet)
 {
-    uint32 timeStamp = packet.Name.empty() ? 0 : time(nullptr);
+    uint32 timeStamp = packet.Name.empty() ? 0 : uint32(time(nullptr));
 
     if (auto battlePet = _player->GetBattlePet(packet.BattlePetGUID))
     {
@@ -286,7 +286,7 @@ void WorldSession::HandlePetBattleRequestWild(WorldPackets::BattlePet::RequestWi
 
         playerPets[playerPetCount] = std::make_shared<BattlePetInstance>();
         playerPets[playerPetCount]->CloneFrom(petSlots[i]);
-        playerPets[playerPetCount]->Slot = playerPetCount;
+        playerPets[playerPetCount]->Slot = int32(playerPetCount);
         playerPets[playerPetCount]->OriginalBattlePet = petSlots[i];
 
         ++playerPetCount;
@@ -411,7 +411,7 @@ void WorldSession::HandlePetBattleRequestUpdate(WorldPackets::BattlePet::Request
 
             playerPets[playerPetCount] = std::make_shared<BattlePetInstance>();
             playerPets[playerPetCount]->CloneFrom(petSlots[i]);
-            playerPets[playerPetCount]->Slot = playerPetCount;
+            playerPets[playerPetCount]->Slot = int32(playerPetCount);
             playerPets[playerPetCount]->OriginalBattlePet = petSlots[i];
 
             ++playerPetCount;
@@ -429,7 +429,7 @@ void WorldSession::HandlePetBattleRequestUpdate(WorldPackets::BattlePet::Request
 
             playerOpposantPets[playerOpposantPetCount] = std::make_shared<BattlePetInstance>();
             playerOpposantPets[playerOpposantPetCount]->CloneFrom(petOpposantSlots[i]);
-            playerOpposantPets[playerOpposantPetCount]->Slot = playerOpposantPetCount;
+            playerOpposantPets[playerOpposantPetCount]->Slot = int32(playerOpposantPetCount);
             playerOpposantPets[playerOpposantPetCount]->OriginalBattlePet = petOpposantSlots[i];
 
             ++playerOpposantPetCount;
@@ -669,7 +669,7 @@ void WorldSession::HandleJoinPetBattleQueue(WorldPackets::BattlePet::NullCmsg& /
 
         playerPets[playerPetCount] = std::make_shared<BattlePetInstance>();
         playerPets[playerPetCount]->CloneFrom(petSlots[i]);
-        playerPets[playerPetCount]->Slot = playerPetCount;
+        playerPets[playerPetCount]->Slot = int32(playerPetCount);
         playerPets[playerPetCount]->OriginalBattlePet = petSlots[i];
 
         ++playerPetCount;

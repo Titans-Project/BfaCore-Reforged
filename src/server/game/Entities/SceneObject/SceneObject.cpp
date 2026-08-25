@@ -92,7 +92,7 @@ void SceneObject::BuildValuesCreate(ByteBuffer* data, Player const* target) cons
     *data << uint8(flags);
     m_objectData->WriteCreate(*data, flags, this, target);
     m_sceneObjectData->WriteCreate(*data, flags, this, target);
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void SceneObject::BuildValuesUpdate(ByteBuffer* data, Player const* target) const
@@ -108,7 +108,7 @@ void SceneObject::BuildValuesUpdate(ByteBuffer* data, Player const* target) cons
     if (m_values.HasChanged(TYPEID_CORPSE))
         m_sceneObjectData->WriteUpdate(*data, flags, this, target);
 
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void SceneObject::ClearUpdateMask(bool remove)

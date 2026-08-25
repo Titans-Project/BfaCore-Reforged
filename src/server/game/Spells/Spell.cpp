@@ -1771,7 +1771,7 @@ void Spell::SelectImplicitTrajTargets(SpellEffIndex effIndex, SpellImplicitTarge
         const float dz = (*itr)->GetPositionZ() - srcPos.m_positionZ;
 
         const float horizontalDistToTraj = std::fabs(objDist2d * std::sin(srcPos.GetRelativeAngle(*itr)));
-        const float sizeFactor = std::cos((horizontalDistToTraj / size) * (M_PI / 2.0f));
+        const float sizeFactor = float(std::cos((horizontalDistToTraj / size) * (M_PI / 2.0f)));
         const float distToHitPoint = std::max(objDist2d * std::cos(srcPos.GetRelativeAngle(*itr)) - size * sizeFactor, 0.0f);
         const float height = distToHitPoint * (a * distToHitPoint + b);
 
@@ -2037,7 +2037,7 @@ void Spell::SearchChainTargets(std::list<WorldObject*>& targets, uint32 chainTar
             {
                 if (Unit* unit = (*itr)->ToUnit())
                 {
-                    uint32 deficit = unit->GetMaxHealth() - unit->GetHealth();
+                    uint32 deficit = uint32(unit->GetMaxHealth() - unit->GetHealth());
                     if ((deficit > maxHPDeficit || foundItr == tempTargets.end()) && target->IsWithinDist(unit, jumpRadius) && target->IsWithinLOSInMap(unit, VMAP::ModelIgnoreFlags::M2))
                     {
                         foundItr = itr;
@@ -3113,7 +3113,7 @@ bool Spell::prepare(SpellCastTargets const* targets, AuraEffect const* triggered
 
     CallScriptOnCalcCastTimeHandlers();
 
-    m_casttime *= m_caster->GetTotalAuraMultiplier(SPELL_AURA_MOD_CASTING_SPEED);
+    m_casttime = int32(m_casttime * m_caster->GetTotalAuraMultiplier(SPELL_AURA_MOD_CASTING_SPEED));
 
     if (m_caster->GetTypeId() == TYPEID_UNIT && !m_caster->HasUnitFlag(UNIT_FLAG_PLAYER_CONTROLLED)) // _UNIT actually means creature. for some reason.
         if (!(m_spellInfo->IsNextMeleeSwingSpell() || IsAutoRepeat() || (_triggeredCastFlags & TRIGGERED_IGNORE_SET_FACING)))
@@ -4224,7 +4224,7 @@ void Spell::SendSpellStart()
             {
                 // float casts ensure the division is performed on floats as we need float result
                 float baseCd = float(player->GetRuneBaseCooldown());
-                castData.RemainingRunes->Cooldowns.push_back((baseCd - float(player->GetRuneCooldown(i))) / baseCd * 255); // rune cooldown passed
+                castData.RemainingRunes->Cooldowns.push_back(uint8((baseCd - float(player->GetRuneCooldown(i))) / baseCd * 255)); // rune cooldown passed
             }
         }
         else
@@ -4342,7 +4342,7 @@ void Spell::SendSpellGo()
             {
                 // float casts ensure the division is performed on floats as we need float result
                 float baseCd = float(player->GetRuneBaseCooldown());
-                castData.RemainingRunes->Cooldowns.push_back((baseCd - float(player->GetRuneCooldown(i))) / baseCd * 255); // rune cooldown passed
+                castData.RemainingRunes->Cooldowns.push_back(uint8((baseCd - float(player->GetRuneCooldown(i))) / baseCd * 255)); // rune cooldown passed
             }
         }
         else
@@ -4356,7 +4356,7 @@ void Spell::SendSpellGo()
 
     if (castFlags & CAST_FLAG_ADJUST_MISSILE)
     {
-        castData.MissileTrajectory.TravelTime = m_delayMoment;
+        castData.MissileTrajectory.TravelTime = uint32(m_delayMoment);
         castData.MissileTrajectory.Pitch = m_targets.GetPitch();
     }
 
@@ -7541,7 +7541,7 @@ void Spell::DoAllEffectOnLaunchTarget(TargetInfo& targetInfo, float* multiplier)
 
                     if (m_caster->GetTypeId() == TYPEID_PLAYER)
                     {
-                        uint32 targetAmount = m_UniqueTargetInfo.size();
+                        uint32 targetAmount = uint32(m_UniqueTargetInfo.size());
                         if (targetAmount > 20)
                             m_damage = m_damage * 20/targetAmount;
                     }

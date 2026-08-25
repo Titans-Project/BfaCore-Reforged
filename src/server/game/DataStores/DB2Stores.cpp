@@ -1579,7 +1579,7 @@ void DB2Manager::LoadHotfixBlob()
 
 uint32 DB2Manager::GetHotfixCount() const
 {
-    return _hotfixData.size();
+    return uint32(_hotfixData.size());
 }
 
 DB2Manager::HotfixContainer const& DB2Manager::GetHotfixData() const
@@ -3283,8 +3283,8 @@ static DBCPosition2D CalculateGlobalUiMapPosition(int32 uiMapID, DBCPosition2D u
         if (!bounds || !bounds->IsUiAssignment)
             break;
 
-        uiPosition.X = ((1.0 - uiPosition.X) * bounds->Bounds[1]) + (bounds->Bounds[3] * uiPosition.X);
-        uiPosition.Y = ((1.0 - uiPosition.Y) * bounds->Bounds[0]) + (bounds->Bounds[2] * uiPosition.Y);
+        uiPosition.X = float(((1.0 - uiPosition.X) * bounds->Bounds[1]) + (bounds->Bounds[3] * uiPosition.X));
+        uiPosition.Y = float(((1.0 - uiPosition.Y) * bounds->Bounds[0]) + (bounds->Bounds[2] * uiPosition.Y));
 
         uiMap = sUiMapStore.LookupEntry(uiMap->ParentUiMapID);
     }
@@ -3345,10 +3345,10 @@ void DB2Manager::Zone2MapCoordinates(uint32 areaId, float& x, float& y) const
         if (assignment.second->MapID >= 0 && assignment.second->MapID != areaEntry->ContinentID)
             continue;
 
-        float tmpY = 1.0 - ((y - assignment.second->UiMin.Y) / (assignment.second->UiMax.Y - assignment.second->UiMin.Y));
-        float tmpX = 1.0 - ((x - assignment.second->UiMin.X) / (assignment.second->UiMax.X - assignment.second->UiMin.X));
-        y = ((1.0 - tmpY) * assignment.second->Region[0].X) + (tmpY * assignment.second->Region[1].X);
-        x = ((1.0 - tmpX) * assignment.second->Region[0].Y) + (tmpX * assignment.second->Region[1].Y);
+        float tmpY = float(1.0 - ((y - assignment.second->UiMin.Y) / (assignment.second->UiMax.Y - assignment.second->UiMin.Y)));
+        float tmpX = float(1.0 - ((x - assignment.second->UiMin.X) / (assignment.second->UiMax.X - assignment.second->UiMin.X)));
+        y = float(((1.0 - tmpY) * assignment.second->Region[0].X) + (tmpY * assignment.second->Region[1].X));
+        x = float(((1.0 - tmpX) * assignment.second->Region[0].Y) + (tmpX * assignment.second->Region[1].Y));
         break;
     }
 }

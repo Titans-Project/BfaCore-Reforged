@@ -24,7 +24,7 @@
 
 uint32 SplineChainMovementGenerator::SendPathSpline(Unit* me, Movement::PointsArray const& wp) const
 {
-    uint32 numWp = wp.size();
+    uint32 numWp = uint32(wp.size());
     ASSERT(numWp > 1 && "Every path must have source & destination");
     Movement::MoveSplineInit init(me);
     if (numWp > 2)
@@ -65,7 +65,7 @@ void SplineChainMovementGenerator::Initialize(Unit* me)
             if (_nextFirstWP >= thisLink.Points.size())
             {
                 TC_LOG_ERROR("movement.splinechain", "%s: Attempted to resume spline chain from invalid resume state (%u, %u).", me->GetGUID().ToString().c_str(), _nextIndex, _nextFirstWP);
-                _nextFirstWP = thisLink.Points.size()-1;
+                _nextFirstWP = uint8(thisLink.Points.size()-1);
             }
             Movement::PointsArray partial(thisLink.Points.begin() + (_nextFirstWP-1), thisLink.Points.end());
             SendPathSpline(me, partial);

@@ -238,7 +238,7 @@ class aura_dru_thrash_bear : public AuraScript
             {
                 if (AuraEffect* aurEff = GetAura()->GetEffect(EFFECT_0))
                 {
-                    int32 dmg = player->m_unitData->AttackPower * 0.605f;
+                    int32 dmg = int32(player->m_unitData->AttackPower * 0.605f);
                     dmg = (dmg * GetStackAmount()) / 5;
                     aurEff->SetDamage(dmg);
                 }
@@ -1555,7 +1555,7 @@ class spell_dru_ysera_gift : public AuraScript
         int64 amount = CalculatePct(caster->GetMaxHealth(), aurEff->GetBaseAmount());
         CustomSpellValues values;
         values.AddSpellMod(SPELLVALUE_MAX_TARGETS, 1);
-        values.AddSpellMod(SPELLVALUE_BASE_POINT0, amount);
+        values.AddSpellMod(SPELLVALUE_BASE_POINT0, int32(amount));
 
         if (caster->IsFullHealth())
             caster->CastCustomSpell(SPELL_DRUID_YSERA_GIFT_RAID_HEAL, values, caster, TRIGGERED_FULL_MASK);

@@ -294,7 +294,7 @@ bool GameObject::Create(uint32 entry, Map* map, Position const& pos, QuaternionD
         guid = ObjectGuid::Create<HighGuid::GameObject>(map->GetId(), goInfo->entry, map->GenerateLowGuid<HighGuid::GameObject>());
     else
     {
-        guid = ObjectGuid::Create<HighGuid::Transport>(map->GenerateLowGuid<HighGuid::Transport>());
+        guid = ObjectGuid::Create<HighGuid::Transport>(uint32(map->GenerateLowGuid<HighGuid::Transport>()));
         m_updateFlag.ServerTime = true;
     }
 
@@ -2624,7 +2624,7 @@ void GameObject::BuildValuesCreate(ByteBuffer* data, Player const* target) const
     *data << uint8(flags);
     m_objectData->WriteCreate(*data, flags, this, target);
     m_gameObjectData->WriteCreate(*data, flags, this, target);
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void GameObject::BuildValuesUpdate(ByteBuffer* data, Player const* target) const
@@ -2640,7 +2640,7 @@ void GameObject::BuildValuesUpdate(ByteBuffer* data, Player const* target) const
     if (m_values.HasChanged(TYPEID_GAMEOBJECT))
         m_gameObjectData->WriteUpdate(*data, flags, this, target);
 
-    data->put<uint32>(sizePos, data->wpos() - sizePos - 4);
+    data->put<uint32>(sizePos, uint32(data->wpos() - sizePos - 4));
 }
 
 void GameObject::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::ObjectData::Mask const& requestedObjectMask,
@@ -2664,7 +2664,7 @@ void GameObject::BuildValuesUpdateForPlayerWithMask(UpdateData* data, UF::Object
     if (valuesMask[TYPEID_GAMEOBJECT])
         m_gameObjectData->WriteUpdate(buffer, requestedGameObjectMask, true, this, target);
 
-    buffer.put<uint32>(sizePos, buffer.wpos() - sizePos - 4);
+    buffer.put<uint32>(sizePos, uint32(buffer.wpos() - sizePos - 4));
 
     data->AddUpdateBlock(buffer);
 }

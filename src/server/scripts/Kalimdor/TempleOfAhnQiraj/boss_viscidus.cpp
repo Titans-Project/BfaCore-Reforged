@@ -129,7 +129,7 @@ class boss_viscidus : public CreatureScript
                     me->RemoveAura(SPELL_TOXIN);
                     me->RemoveAura(SPELL_VISCIDUS_FREEZE);
 
-                    uint8 NumGlobes = me->GetHealthPct() / 5.0f;
+                    uint8 NumGlobes = uint8(me->GetHealthPct() / 5.0f);
                     for (uint8 i = 0; i < NumGlobes; ++i)
                     {
                         float Angle = i * 2 * float(M_PI) / NumGlobes;

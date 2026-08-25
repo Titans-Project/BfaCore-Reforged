@@ -79,7 +79,7 @@ struct instance_end_time : public InstanceScript
             case NPC_INFINITE_SUPPRESSOR:
             case NPC_INFINITE_WARDEN:
             {
-                MurozondTrash.erase(creature->GetSpawnId());
+                MurozondTrash.erase(uint32(creature->GetSpawnId()));
                 if (MurozondTrash.empty() && bossCount > 1)
                     if (Creature* murozond = instance->GetCreature(MurozondGUID))
                         murozond->AI()->DoAction(ACTION_MUROZOND_START);
@@ -135,7 +135,7 @@ struct instance_end_time : public InstanceScript
             case SECOND_BOSS:
                 return secondBoss;
             case DATA_MUROZOND_TRASH:
-                return MurozondTrash.size();
+                return uint32(MurozondTrash.size());
             case DATA_MUROZOND_STARTED:
                 return murozondStarted;
             case DATA_BOSS_COUNT:

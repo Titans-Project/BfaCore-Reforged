@@ -445,8 +445,8 @@ class mob_risen_ghoul : public CreatureScript
                         float nearbyGhoulX = (*iter)->GetPositionX();
                         float nearbyGhoulY = (*iter)->GetPositionY();
 
-                        float squareAB = sqrt(pow((meX - sylvanasX), 2) + pow((meY - sylvanasY), 2));
-                        float squareBC = sqrt(pow((sylvanasX - nearbyGhoulX), 2) + pow((sylvanasY - nearbyGhoulY), 2));
+                        float squareAB = float(sqrt(pow((meX - sylvanasX), 2) + pow((meY - sylvanasY), 2)));
+                        float squareBC = float(sqrt(pow((sylvanasX - nearbyGhoulX), 2) + pow((sylvanasY - nearbyGhoulY), 2)));
 
                         float cosAngle = ((meX - sylvanasX) * (nearbyGhoulX - sylvanasX) + (meY - sylvanasY) * (nearbyGhoulY - sylvanasY)) / (squareAB * squareBC);
 

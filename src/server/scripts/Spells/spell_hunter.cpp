@@ -760,7 +760,7 @@ public:
 
             player->CalculateMinMaxDamage(RANGED_ATTACK, true, true, minDamage, maxDamage);
 
-            int32 dmg = (minDamage + maxDamage) / 2 * 0.8f;
+            int32 dmg = int32((minDamage + maxDamage) / 2 * 0.8f);
 
             if (!target->HasAura(SPELL_HUNTER_BARRAGE, player->GetGUID()))
                 dmg /= 2;
@@ -1072,13 +1072,13 @@ public:
             Unit* target = GetExplTargetUnit();
 
             // (1.5 * (rap * 3) * bmMastery * lowNerf * (1 + versability))
-            int32 dmg = 4.5f * owner->m_unitData->RangedAttackPower;
+            int32 dmg = int32(4.5f * owner->m_unitData->RangedAttackPower);
             float lowNerf = float(std::min(int32(owner->getLevel()), 20) * 0.05f);
 
             if (Player const* ownerPlayer = owner->ToPlayer())
                 dmg = AddPct(dmg, ownerPlayer->m_activePlayerData->Mastery);
 
-            dmg *= lowNerf;
+            dmg = int32(dmg * lowNerf);
 
             dmg = caster->SpellDamageBonusDone(target, GetSpellInfo(), dmg, SPELL_DIRECT_DAMAGE, GetEffectInfo(EFFECT_0));
             dmg = target->SpellDamageBonusTaken(caster, GetSpellInfo(), dmg, SPELL_DIRECT_DAMAGE, GetEffectInfo(EFFECT_0));
@@ -1411,7 +1411,7 @@ public:
 
         void HandleEffectApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
-            health = GetTarget()->GetHealth();
+            health = int32(GetTarget()->GetHealth());
             focus = GetTarget()->GetPower(POWER_FOCUS);
         }
 
@@ -1990,7 +1990,7 @@ public:
                     {
                         pet->ToCreature()->AI()->AttackStart(target);
                         pet->CastSpell(target, SPELL_HUNTER_FLANKING_STRIKE_PROC, true);
-                        dmg *= 1.5f;
+                        dmg = int32(dmg * 1.5f);
                     }
                     else
                     {
@@ -2067,8 +2067,8 @@ public:
                 return;
 
             // (3.652 * (rap) * lowNerf * (1 + versability))
-            int32 dmg = 3.652f * owner->m_unitData->RangedAttackPower;
-            int32 lowNerf = std::min(int32(owner->getLevel()), 20) * 0.05f;
+            int32 dmg = int32(3.652f * owner->m_unitData->RangedAttackPower);
+            int32 lowNerf = int32(std::min(int32(owner->getLevel()), 20) * 0.05f);
             dmg *= lowNerf;
 
             dmg = caster->SpellDamageBonusDone(target, GetSpellInfo(), dmg, SPELL_DIRECT_DAMAGE, GetEffectInfo(EFFECT_0));
@@ -2114,10 +2114,10 @@ public:
                 return;
 
             // (3.652 * (rap) * lowNerf * (1 + versability))
-            int32 dmg = 3.652f * owner->m_unitData->RangedAttackPower;
-            int32 lowNerf = std::min(int32(owner->getLevel()), 20) * 0.05f;
+            int32 dmg = int32(3.652f * owner->m_unitData->RangedAttackPower);
+            int32 lowNerf = int32(std::min(int32(owner->getLevel()), 20) * 0.05f);
             dmg *= lowNerf;
-            dmg *= 1.5f;
+            dmg = int32(dmg * 1.5f);
 
             dmg = caster->SpellDamageBonusDone(target, GetSpellInfo(), dmg, SPELL_DIRECT_DAMAGE, GetEffectInfo(EFFECT_0));
             dmg = target->SpellDamageBonusTaken(caster, GetSpellInfo(), dmg, SPELL_DIRECT_DAMAGE, GetEffectInfo(EFFECT_0));
@@ -2531,7 +2531,7 @@ public:
                         return;
 
                     // (1.5 * 1 * 1 * (Ranged attack power * 0.333) * (1 + $versadmg))
-                    int32 dmg = (owner->m_unitData->RangedAttackPower * 0.333f);
+                    int32 dmg = int32(owner->m_unitData->RangedAttackPower * 0.333f);
 
                     SpellInfo const* CostModifier = sSpellMgr->GetSpellInfo(SPELL_HUNTER_BASIC_ATTACK_COST_MODIFIER);
                     SpellInfo const* SpikedCollar = sSpellMgr->GetSpellInfo(SPELL_HUNTER_SPIKED_COLLAR);
@@ -2548,7 +2548,7 @@ public:
                         pet->EnergizeBySpell(pet, GetSpellInfo()->Id, -25, POWER_FOCUS);
                     }
 
-                    dmg *= pet->GetModifierValue(UNIT_MOD_DAMAGE_MAINHAND, TOTAL_PCT);
+                    dmg = int32(dmg * pet->GetModifierValue(UNIT_MOD_DAMAGE_MAINHAND, TOTAL_PCT));
 
                     dmg = pet->SpellDamageBonusDone(target, GetSpellInfo(), dmg, SPELL_DIRECT_DAMAGE, GetEffectInfo(EFFECT_0));
                     dmg = target->SpellDamageBonusTaken(pet, GetSpellInfo(), dmg, SPELL_DIRECT_DAMAGE, GetEffectInfo(EFFECT_0));
@@ -2596,7 +2596,7 @@ public:
                 return;
 
             // (1 + AP * 0,2)
-            int32 dmg = 1 + owner->m_unitData->RangedAttackPower * 0.2f;
+            int32 dmg = 1 + int32(owner->m_unitData->RangedAttackPower * 0.2f);
 
             dmg = caster->SpellDamageBonusDone(target, GetSpellInfo(), dmg, SPELL_DIRECT_DAMAGE, GetEffectInfo(EFFECT_0));
             dmg = target->SpellDamageBonusTaken(caster, GetSpellInfo(), dmg, SPELL_DIRECT_DAMAGE, GetEffectInfo(EFFECT_0));

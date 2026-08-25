@@ -466,7 +466,7 @@ public:
             tanksList.remove_if(noFrostauracheck());
             if (!tanksList.empty())
             {
-                totalSizeList = tanksList.size();
+                totalSizeList = uint32(tanksList.size());
                 tanksList.resize(totalSizeList / 2);
                 for (std::list<Player*>::const_iterator itr = tanksList.begin(); itr != tanksList.end(); ++itr)
                 {
@@ -494,7 +494,7 @@ public:
             healList.remove_if(noFrostauracheck());
             if (!healList.empty())
             {
-                totalSizeList = healList.size();
+                totalSizeList = uint32(healList.size());
                 healList.resize(totalSizeList / 2);
 
                 for (std::list<Player*>::const_iterator itr = healList.begin(); itr != healList.end(); ++itr)
@@ -523,7 +523,7 @@ public:
             dpsList.remove_if(noFrostauracheck());
             if (!dpsList.empty())
             {
-                totalSizeList = dpsList.size();
+                totalSizeList = uint32(dpsList.size());
                 dpsList.resize(totalSizeList / 2);
 
                 for (std::list<Player*>::const_iterator itr = dpsList.begin(); itr != dpsList.end(); ++itr)
@@ -552,7 +552,7 @@ public:
             tanksList.remove_if(noToxicauracheck());
             if (!tanksList.empty())
             {
-                totalSizeList = tanksList.size();
+                totalSizeList = uint32(tanksList.size());
                 tanksList.resize(totalSizeList / 2);
                 for (std::list<Player*>::const_iterator itr = tanksList.begin(); itr != tanksList.end(); ++itr)
                 {
@@ -724,7 +724,7 @@ public:
 
         void CheckTargets(std::list<WorldObject*>& targets)
         {
-            targetList = targets.size();
+            targetList = uint32(targets.size());
         }
 
         void RecalculateDamage(SpellEffIndex index)
@@ -1526,7 +1526,7 @@ public:
 
         void CheckTargets(std::list<WorldObject*>& targets)
         {
-            targetList = targets.size();
+            targetList = uint32(targets.size());
         }
 
         void RecalculateDamage(SpellEffIndex index)
@@ -1574,8 +1574,8 @@ public:
             if (!caster || !target)
                 return;
 
-            float x = caster->GetPositionX() + 5.0f * cos(point * M_PI / 5);
-            float y = caster->GetPositionY() + 5.0f * sin(point * M_PI / 5);
+            float x = float(caster->GetPositionX() + 5.0f * cos(point * M_PI / 5));
+            float y = float(caster->GetPositionY() + 5.0f * sin(point * M_PI / 5));
 
             if (point > 8)
             {
@@ -1622,8 +1622,8 @@ public:
             G3D::Vector3 src = { at->GetPositionX(), at->GetPositionY(), at->GetPositionZ() };
             G3D::Vector3 tgt;
 
-            tgt.x = src.x + (dist * cosf(at->GetOrientation() * M_PI / 2));
-            tgt.y = src.y + (dist * sinf(-at->GetOrientation() * M_PI / 2));
+            tgt.x = src.x + (dist * cosf(float(at->GetOrientation() * M_PI / 2)));
+            tgt.y = src.y + (dist * sinf(float(-at->GetOrientation() * M_PI / 2)));
             tgt.z = src.z;
 
             float dx = (tgt.x - src.x);

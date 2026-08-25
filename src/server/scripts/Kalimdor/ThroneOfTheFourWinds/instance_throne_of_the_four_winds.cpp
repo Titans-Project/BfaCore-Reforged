@@ -267,7 +267,7 @@ public:
                                     if (achievementReadytoGet == true)
                                         Anshal->CastSpell(Anshal, SPELL_STAY_CHILL_ACHIEVEMENT_CREDIT, true);
                                     if (Player* pPlayer = Anshal->SelectNearestPlayer(1000))
-                                        pPlayer->DealDamage(Anshal, Anshal->GetHealth());
+                                        pPlayer->DealDamage(Anshal, uint32(Anshal->GetHealth()));
                                 }
                             }
                             if (Creature* Nezir = instance->GetCreature(uiNezir))
@@ -279,7 +279,7 @@ public:
                                     if (achievementReadytoGet == true)
                                         Nezir->CastSpell(Nezir, SPELL_STAY_CHILL_ACHIEVEMENT_CREDIT, true);
                                     if (Player* pPlayer = Nezir->SelectNearestPlayer(1000))
-                                        pPlayer->DealDamage(Nezir, Nezir->GetHealth());
+                                        pPlayer->DealDamage(Nezir, uint32(Nezir->GetHealth()));
                                 }
                             }
                             if (Creature* Rohash = instance->GetCreature(uiRohash))
@@ -291,7 +291,7 @@ public:
                                     if (achievementReadytoGet == true)
                                         Rohash->CastSpell(Rohash, SPELL_STAY_CHILL_ACHIEVEMENT_CREDIT, true);
                                     if (Player* pPlayer = Rohash->SelectNearestPlayer(1000))
-                                        pPlayer->DealDamage(Rohash, Rohash->GetHealth());
+                                        pPlayer->DealDamage(Rohash, uint32(Rohash->GetHealth()));
                                 }
                             }
                             SummonSplistreamAlakir();
@@ -507,7 +507,7 @@ class AreaTrigger_at_return_wind : public AreaTriggerScript
 
                         player->CastSpell(player, SPELL_RELENTLESS_STORM_VISUAL, true);
                         float speedFly = (210.0f - player->GetPositionZ()) / 15;
-                        player->GetMotionMaster()->MoveJump(player->GetPositionX(), player->GetPositionY(), 220.0f, speedFly, speedFly);
+                        player->GetMotionMaster()->MoveJump(player->GetPositionX(), player->GetPositionY(), 220.0f, uint32(speedFly), speedFly);
                     }
                 }
             }

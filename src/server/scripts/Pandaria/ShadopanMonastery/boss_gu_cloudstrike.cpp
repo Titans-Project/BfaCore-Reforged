@@ -430,7 +430,7 @@ class spell_overcharged_soul_damage: public SpellScriptLoader
             void ChangeDamage(SpellEffIndex /*effIndex*/)
             {
                 if (Unit* caster = GetCaster())
-                    SetHitDamage(25000 / caster->GetHealthPct());
+                    SetHitDamage(int32(25000 / caster->GetHealthPct()));
             }
 
             void Register() override

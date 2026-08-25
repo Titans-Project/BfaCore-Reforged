@@ -574,7 +574,7 @@ class at_arc_shadow_slash : public AreaTriggerEntityScript
                     points.push_back(src);
                 }
 
-                at->InitSplines(points, at->GetDuration() * 0.8f);
+                at->InitSplines(points, uint32(at->GetDuration() * 0.8f));
             }
 
             void OnInitialize() override

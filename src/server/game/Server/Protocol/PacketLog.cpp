@@ -100,7 +100,7 @@ void PacketLog::Initialize()
             header.Build = realm.Build;
             header.Locale[0] = 'e'; header.Locale[1] = 'n'; header.Locale[2] = 'U'; header.Locale[3] = 'S';
             std::memset(header.SessionKey, 0, sizeof(header.SessionKey));
-            header.SniffStartUnixtime = time(nullptr);
+            header.SniffStartUnixtime = uint32(time(nullptr));
             header.SniffStartTicks = getMSTime();
             header.OptionalDataSize = 0;
 
@@ -136,7 +136,7 @@ void PacketLog::LogPacket(WorldPacket const& packet, Direction direction, boost:
     if (direction == CLIENT_TO_SERVER)
         size -= 2;
 
-    header.Length = size + sizeof(header.Opcode);
+    header.Length = uint32(size + sizeof(header.Opcode));
     header.Opcode = packet.GetOpcode();
 
     fwrite(&header, sizeof(header), 1, _file);

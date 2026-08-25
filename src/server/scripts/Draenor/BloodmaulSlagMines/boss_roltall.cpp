@@ -387,8 +387,8 @@ namespace Instances { namespace Bloodmaul
                     {
                         if (id == eMoves::FirstMove)  ///< Only in Heroic
                         {
-                            float l_X = me->GetPositionX() + ((65.0f) * cos(me->GetOrientation() + M_PI));
-                            float l_Y = me->GetPositionY() + ((65.0f) * sin(me->GetOrientation() + M_PI));
+                            float l_X = float(me->GetPositionX() + ((65.0f) * cos(me->GetOrientation() + M_PI)));
+                            float l_Y = float(me->GetPositionY() + ((65.0f) * sin(me->GetOrientation() + M_PI)));
 
                             me->GetMotionMaster()->Clear();
                             me->GetMotionMaster()->MovePoint(eMoves::SecondMove, l_X, l_Y, s_PositionZ);

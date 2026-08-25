@@ -316,7 +316,7 @@ void Player::UpdateMaxHealth()
     {
         float hp_mod = sConfigMgr->GetFloatDefault("SinglePlayer.HPMOD", 1.0f);
 
-        SetMaxHealth((uint32)value * hp_mod);
+        SetMaxHealth(uint64((uint32)value * hp_mod));
     }
     else
     {
@@ -545,7 +545,7 @@ void Player::UpdateCritPercentage(WeaponAttackType attType)
 
 void Player::UpdateLeechPercentage()
 {
-    float value = GetTotalAuraModifier(SPELL_AURA_MOD_LEECH);
+    float value = float(GetTotalAuraModifier(SPELL_AURA_MOD_LEECH));
     value += GetRatingBonusValue(CR_LIFESTEAL);
     SetUpdateFieldValue(m_values.ModifyValue(&Player::m_unitData).ModifyValue(&UF::UnitData::Lifesteal), value);
 }
@@ -571,7 +571,7 @@ void Player::UpdateMastery()
         return;
     }
 
-    float value = GetTotalAuraModifier(SPELL_AURA_MASTERY);
+    float value = float(GetTotalAuraModifier(SPELL_AURA_MASTERY));
     value += GetRatingBonusValue(CR_MASTERY);
     SetUpdateFieldValue(m_values.ModifyValue(&Player::m_activePlayerData).ModifyValue(&UF::ActivePlayerData::Mastery), value);
 
@@ -802,10 +802,10 @@ void Player::UpdateExpertise(WeaponAttackType attack)
     switch (attack)
     {
         case BASE_ATTACK:
-            SetUpdateFieldValue(m_values.ModifyValue(&Player::m_activePlayerData).ModifyValue(&UF::ActivePlayerData::MainhandExpertise), expertise);
+            SetUpdateFieldValue(m_values.ModifyValue(&Player::m_activePlayerData).ModifyValue(&UF::ActivePlayerData::MainhandExpertise), float(expertise));
             break;
         case OFF_ATTACK:
-            SetUpdateFieldValue(m_values.ModifyValue(&Player::m_activePlayerData).ModifyValue(&UF::ActivePlayerData::OffhandExpertise), expertise);
+            SetUpdateFieldValue(m_values.ModifyValue(&Player::m_activePlayerData).ModifyValue(&UF::ActivePlayerData::OffhandExpertise), float(expertise));
             break;
         default:
             break;
@@ -1079,7 +1079,7 @@ void Guardian::UpdateArmor()
     float baseValue = 0.0f;
     UnitMods unitMod = UNIT_MOD_ARMOR;
 
-    float armor = GetArmor();
+    float armor = float(GetArmor());
     float value = 0.0f;
     float pctFromOwnerArmor = 0.0f;
 
@@ -1120,7 +1120,7 @@ void Guardian::UpdateArmor()
     }
 
     if (pctFromOwnerArmor)
-        armor = CalculatePct(m_owner->GetArmor(), pctFromOwnerArmor);
+        armor = float(CalculatePct(m_owner->GetArmor(), pctFromOwnerArmor));
     else
         TC_LOG_ERROR("entities.pet", "Pet (%s, entry %d) has no pctFromOwnerArmor defined. Armor set to 1.",
             GetGUID().ToString().c_str(), GetEntry());
@@ -1202,7 +1202,7 @@ void Guardian::UpdateMaxHealth()
 
     // Pets do not have static base values
     if (!(GetModifierValue(unitMod, BASE_VALUE) == health))
-        SetModifierValue(unitMod, BASE_VALUE, health);
+        SetModifierValue(unitMod, BASE_VALUE, float(health));
 
     value += GetModifierValue(unitMod, BASE_VALUE);
     value *= GetModifierValue(unitMod, BASE_PCT);

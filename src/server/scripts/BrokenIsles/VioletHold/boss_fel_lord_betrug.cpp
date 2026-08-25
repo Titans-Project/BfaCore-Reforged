@@ -545,7 +545,7 @@ class at_vha_wake_of_destruction : public AreaTriggerEntityScript
                     points.push_back(src);
                 }
 
-                at->InitSplines(points, at->GetDuration()/1.8);
+                at->InitSplines(points, uint32(at->GetDuration()/1.8));
             }
 
             void OnInitialize() override

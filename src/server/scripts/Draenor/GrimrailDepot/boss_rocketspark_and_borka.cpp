@@ -490,7 +490,7 @@ public:
                 if (!l_ListCreatureStar.empty())
                 {
                     l_It = l_ListCreatureStar.begin();
-                    std::advance(l_It, urand(0, l_ListCreatureStar.size() - 1));
+                    std::advance(l_It, urand(0, uint32(l_ListCreatureStar.size() - 1)));
 
                     me->CastSpell((*l_It), eRocketsparkSpells::SpellBetterPositionJump, true);
                     me->GetMotionMaster()->MoveJump(*(*l_It), 20.0f, 20.0f, eRocksparkAndBorkaMovementInformed::MovementHigherPlatform);
@@ -527,7 +527,7 @@ public:
                         }
 
                         l_It = l_ListCreatureStar.begin();
-                        std::advance(l_It, urand(0, l_ListCreatureStar.size() - 1));
+                        std::advance(l_It, urand(0, uint32(l_ListCreatureStar.size() - 1)));
 
                         me->CastSpell((*l_It), eRocketsparkSpells::SpellBetterPositionJump, true);
                         me->GetMotionMaster()->MoveJump(*(*l_It), 20.0f, 20.0f, eRocksparkAndBorkaMovementInformed::MovementInformBetterPosition);
@@ -552,7 +552,7 @@ public:
                         }
 
                         l_It = l_ListCreatureStar.begin();
-                        std::advance(l_It, urand(0, l_ListCreatureStar.size() - 1));
+                        std::advance(l_It, urand(0, uint32(l_ListCreatureStar.size() - 1)));
 
                         me->CastSpell((*l_It), eRocketsparkSpells::SpellBetterPositionJump, true);
                         me->GetMotionMaster()->MoveJump(*(*l_It), 20.0f, 20.0f, eRocksparkAndBorkaMovementInformed::MovementInformBetterPosition);

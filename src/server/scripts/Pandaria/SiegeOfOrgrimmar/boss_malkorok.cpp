@@ -594,7 +594,7 @@ class boss_malkorok : public CreatureScript
                 firstImplodingPosition.SetOrientation(0.f);
                 positions.push_back(firstImplodingPosition);
 
-                float angleDiff = 2 * M_PI / (count + 1);
+                float angleDiff = float(2 * M_PI / (count + 1));
 
                 for (uint8 i = 1; i < count; ++i)
                 {
@@ -1188,7 +1188,7 @@ class spell_malkorok_ancient_miasma_heal_absorb : public SpellScriptLoader
                     //uint32 newAmount = std::min(GetUnitOwner()->GetMaxHealth(), oldAmount + absorbAmount);
                     uint32 newAmount;
                     if (GetUnitOwner()->GetMaxHealth() < oldAmount + absorbAmount)
-                        newAmount = GetUnitOwner()->GetMaxHealth();
+                        newAmount = uint32(GetUnitOwner()->GetMaxHealth());
                     else if (oldAmount + absorbAmount < GetUnitOwner()->GetMaxHealth())
                         newAmount = oldAmount + absorbAmount;
 
@@ -1202,7 +1202,7 @@ class spell_malkorok_ancient_miasma_heal_absorb : public SpellScriptLoader
                     //int32 basePoints = std::min(GetUnitOwner()->GetMaxHealth(), absorbAmount);
                     int32 basePoints;
                     if (GetUnitOwner()->GetMaxHealth() < absorbAmount)
-                        basePoints = GetUnitOwner()->GetMaxHealth();
+                        basePoints = int32(GetUnitOwner()->GetMaxHealth());
                     else if (absorbAmount < GetUnitOwner()->GetMaxHealth())
                         basePoints = absorbAmount;
 
@@ -1250,7 +1250,7 @@ class spell_malkorok_ancient_barrier : public SpellScriptLoader
                 if (!GetUnitOwner())
                     return;
 
-                uint32 maxBarrierAmount = GetUnitOwner()->GetMaxHealth();
+                uint32 maxBarrierAmount = uint32(GetUnitOwner()->GetMaxHealth());
                 if (maxBarrierAmount == 0)
                     return;
 

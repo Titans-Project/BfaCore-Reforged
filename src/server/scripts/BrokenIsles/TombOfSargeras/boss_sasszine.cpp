@@ -431,7 +431,7 @@ struct boss_mistress_sasszine : BossAI
             float x, y;
             float dist = 2.5f;
             float angle = 4.71f;
-            float orientation = centrPos.GetAngle(target) - M_PI;
+            float orientation = float(centrPos.GetAngle(target) - M_PI);
 
             for (uint8 i = 0; i < 12; ++i)
             {
@@ -962,7 +962,7 @@ class spell_sasszine_hydra_shot_filter : public SpellScript
     void FilterTargets(std::list<WorldObject*>& targets)
     {
         if (!targets.empty())
-            targetsSize = targets.size();
+            targetsSize = uint32(targets.size());
     }
 
     void HandleDamage(SpellEffIndex /*effectIndex*/)
@@ -1006,7 +1006,7 @@ class spell_sasszine_burden_of_pain : public AuraScript
 
         if (dmgInfo.GetSchoolMask() == SPELL_SCHOOL_MASK_NORMAL)
         {
-            float damage = dmgInfo.GetDamage();
+            float damage = float(dmgInfo.GetDamage());
            // target->CastCustomSpell(target, SPELL_BURDEN_OF_PAIN_SHARE_DMG, &damage, NULL, NULL, true);
         }
     }

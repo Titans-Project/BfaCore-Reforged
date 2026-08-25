@@ -522,7 +522,7 @@ class npc_ember_of_alar : public CreatureScript
 
                 if (toDie)
                 {
-                    me->DealDamage(me, me->GetHealth(), nullptr, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
+                    me->DealDamage(me, uint32(me->GetHealth()), nullptr, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
                     //me->SetVisibility(VISIBILITY_OFF);
                 }
 

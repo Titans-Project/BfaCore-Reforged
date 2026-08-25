@@ -286,7 +286,7 @@ uint32 Quest::XPValue(Player const* player) const
         else if (diffFactor > 10)
             diffFactor = 10;
 
-        uint32 xp = diffFactor * questXp->Difficulty[RewardXPDifficulty] * RewardXPMultiplier / 10 * multiplier;
+        uint32 xp = uint32(diffFactor * questXp->Difficulty[RewardXPDifficulty] * RewardXPMultiplier / 10 * multiplier);
         if (xp <= 100)
             xp = 5 * ((xp + 2) / 5);
         else if (xp <= 500)
@@ -305,7 +305,7 @@ uint32 Quest::XPValue(Player const* player) const
 uint32 Quest::MoneyValue(Player const* player) const
 {
     if (QuestMoneyRewardEntry const* money = sQuestMoneyRewardStore.LookupEntry(player->GetQuestLevel(this)))
-        return money->Difficulty[GetRewMoneyDifficulty()] * GetMoneyMultiplier();
+        return uint32(money->Difficulty[GetRewMoneyDifficulty()] * GetMoneyMultiplier());
     else
         return 0;
 }
@@ -535,7 +535,7 @@ WorldPacket Quest::BuildQueryData(LocaleConstant loc) const
     response.Info.RewardSpell = GetRewSpell();
 
     response.Info.RewardHonor = GetRewHonor();
-    response.Info.RewardKillHonor = GetRewKillHonor();
+    response.Info.RewardKillHonor = float(GetRewKillHonor());
 
     response.Info.RewardArtifactXPDifficulty = GetArtifactXPDifficulty();
     response.Info.RewardArtifactXPMultiplier = GetArtifactXPMultiplier();

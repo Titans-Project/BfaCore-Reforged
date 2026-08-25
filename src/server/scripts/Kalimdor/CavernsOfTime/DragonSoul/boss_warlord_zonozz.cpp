@@ -934,7 +934,7 @@ public:
 
         void CountTargets(std::list<WorldObject*>& targets)
         {
-            _targetCount = targets.size();
+            _targetCount = uint32(targets.size());
         }
 
         void HandleDummy(SpellEffIndex /*effIndex*/)

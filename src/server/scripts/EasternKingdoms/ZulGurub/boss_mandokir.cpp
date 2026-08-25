@@ -501,7 +501,7 @@ class spell_mandokir_bloodletting : public SpellScriptLoader
                 if (!caster)
                     return;
 
-                int32 damage = std::max<int32>(7500, target->CountPctFromCurHealth(aurEff->GetAmount()));
+                int32 damage = std::max<int32>(7500, int32(target->CountPctFromCurHealth(aurEff->GetAmount())));
 
                 caster->CastCustomSpell(target, SPELL_BLOODLETTING_DAMAGE, &damage, nullptr, nullptr, true);
                 target->CastCustomSpell(caster, SPELL_BLOODLETTING_HEAL, &damage, nullptr, nullptr, true);

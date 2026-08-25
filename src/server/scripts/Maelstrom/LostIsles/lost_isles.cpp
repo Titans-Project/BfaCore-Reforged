@@ -1176,7 +1176,7 @@ public:
                         if (Creature *naga = player->SummonCreature(44589, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation(), TEMPSUMMON_CORPSE_TIMED_DESPAWN, 40*IN_MILLISECONDS))
                         {
                             naga->CastSpell(naga, 71917, true);
-                            naga->GetMotionMaster()->MoveFollow(player, urand (urand(urand(1, 2), urand(3, 4)), urand(5, 6)),  urand(urand(urand(1, 2), urand(3, 4)), urand(5, 6)));
+                            naga->GetMotionMaster()->MoveFollow(player, float(urand (urand(urand(1, 2), urand(3, 4)), urand(5, 6))),  float(urand(urand(urand(1, 2), urand(3, 4)), urand(5, 6))));
                             player->KilledMonsterCredit(38413);
                         }
                         me->DespawnOrUnsummon();

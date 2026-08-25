@@ -640,7 +640,7 @@ namespace Instances { namespace Bloodmaul
 
                     if (m_DeathTimer <= 0)
                     {
-                        me->DealDamage(me, me->GetHealth(), NULL, NODAMAGE, SPELL_SCHOOL_MASK_NORMAL, NULL, false);
+                        me->DealDamage(me, uint32(me->GetHealth()), NULL, NODAMAGE, SPELL_SCHOOL_MASK_NORMAL, NULL, false);
                         me->DespawnOrUnsummon(0);
                     }
                     else
@@ -935,7 +935,7 @@ namespace Instances { namespace Bloodmaul
 
                 void HandleScript(SpellEffIndex)
                 {
-                    SetHitDamage((float)GetHitDamage() * (30.f - std::min((float)GetHitDest()->GetExactDist(GetHitUnit()), 30.f)) / 30.f);
+                    SetHitDamage(int32((float)GetHitDamage() * (30.f - std::min((float)GetHitDest()->GetExactDist(GetHitUnit()), 30.f)) / 30.f));
                 }
 
                 void Register() override

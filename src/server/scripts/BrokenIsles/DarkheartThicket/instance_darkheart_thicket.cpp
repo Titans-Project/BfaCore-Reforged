@@ -71,9 +71,9 @@ struct instance_darkheart_thicket : public InstanceScript
         InstanceScript::OnCreatureCreate(creature);
 
         if (instance->IsHeroic())
-            creature->SetBaseHealth(creature->GetMaxHealth() * 2.f);
+            creature->SetBaseHealth(uint64(creature->GetMaxHealth() * 2.f));
         if (instance->IsMythic())
-            creature->SetBaseHealth(creature->GetMaxHealth() * 1.33f);
+            creature->SetBaseHealth(uint64(creature->GetMaxHealth() * 1.33f));
     }
 
     bool SetBossState(uint32 type, EncounterState state) override

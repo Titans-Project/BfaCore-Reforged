@@ -108,7 +108,7 @@ private:
 						lady->AI()->Talk(SAY_VITALITY_TRANSFER);
 						lady->AI()->DoCast(VITALITY_TRANSFER_DUMMY);		
 						float ladyPct = (float)(this->transfer * 30) / 100;
-						uint64 ladyHealth = (lady->GetMaxHealth() - (lady->GetMaxHealth() * ladyPct));
+						uint64 ladyHealth = uint64((lady->GetMaxHealth() - (lady->GetMaxHealth() * ladyPct)));
 						lady->SetHealth(ladyHealth);				
 						me->AddAura(PUTRID_VITALITY, me);
 					}

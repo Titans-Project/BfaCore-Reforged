@@ -206,7 +206,7 @@ float Position::NormalizePitch(float o)
     if (o > -M_PI && o < M_PI)
         return o;
 
-    o = NormalizeOrientation(o + M_PI) - M_PI;
+    o = float(NormalizeOrientation(float(o + M_PI)) - M_PI);
 
     return o;
 }

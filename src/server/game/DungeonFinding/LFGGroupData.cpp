@@ -105,7 +105,7 @@ GuidSet const& LfgGroupData::GetPlayers() const
 
 uint8 LfgGroupData::GetPlayerCount() const
 {
-    return m_Players.size();
+    return uint8(m_Players.size());
 }
 
 ObjectGuid LfgGroupData::GetLeader() const

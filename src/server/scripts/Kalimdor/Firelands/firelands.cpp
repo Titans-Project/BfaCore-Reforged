@@ -2288,7 +2288,7 @@ public:
         void DamageTaken(Unit* /*done_by*/, uint32& damage) override
         {
             if (damage > me->GetHealth())
-                damage = me->GetHealth() - 1;
+                damage = uint32(me->GetHealth() - 1);
         }
 
         void JustReachedHome() override

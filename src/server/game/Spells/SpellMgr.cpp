@@ -1620,7 +1620,7 @@ void SpellMgr::LoadSpellProcs()
             procEntry.AttributesMask |= PROC_ATTR_TRIGGERED_CAN_PROC;
 
         procEntry.ProcsPerMinute  = 0;
-        procEntry.Chance          = spellInfo->ProcChance;
+        procEntry.Chance          = float(spellInfo->ProcChance);
         procEntry.Cooldown        = Milliseconds(spellInfo->ProcCooldown);
         procEntry.Charges         = spellInfo->ProcCharges;
 

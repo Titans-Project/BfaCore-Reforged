@@ -2909,7 +2909,7 @@ class spell_foundry_deafening_roar : public SpellScriptLoader
                 if (l_Caster == nullptr)
                     return;
 
-                float l_Angle = 2 * M_PI / 360 * l_Restriction->ConeDegrees;
+                float l_Angle = float(2 * M_PI / 360 * l_Restriction->ConeDegrees);
                 p_Targets.remove_if([l_Caster, l_Angle](WorldObject* p_Object) -> bool
                 {
                     if (p_Object == nullptr)
